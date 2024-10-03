@@ -1,0 +1,23 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+'skinparam linetype ortho
+'left to right direction
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+class costumer {
+    name
+    birthdate
+    admissionDate
+    address
+    mobile number
+    email
+    password
+    idDocumentType
+    idDocumentNumber
+    taxPayerNumber
+}
+@enduml
