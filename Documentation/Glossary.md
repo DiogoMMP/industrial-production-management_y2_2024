@@ -49,7 +49,7 @@
 | **Encompasses**                           |                                           |
 | **Enhance**                               |                                           |
 | **Equipment Preventive Maintenance**      |                                           |
-| **ESINF**                                 | Acronym for "Estruturas de Informação"    |
+| **documents**                                 | Acronym for "Estruturas de Informação"    |
 | **Evolution**                             |                                           |
 | **Extraction**                            |                                           |
 | **Facility**                              |                                           |
