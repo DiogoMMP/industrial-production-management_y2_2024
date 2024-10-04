@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     timeout-minutes: 2
@@ -31,8 +30,8 @@ jobs:
       - name: Run Tests
         run: mvn test
 
-      - name: Publish Test Results
-        uses: actions/upload-artifact@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
           name: test-results
           path: target/surefire-reports/
@@ -46,11 +45,9 @@ jobs:
       - name: Get Commit Author
         run: echo "The commit author is ${{ github.actor }}"
 
-      - name: Create an issue
-        uses: peter-evans/create-issue-from-file@v2
+      - name: Create issue from file
+        uses: peter-evans/create-issue-from-file@v3
         with:
           title: CI Failure on Main Branch
           assignees: ${{ github.actor }}
-          body: |
-            The CI process failed due to compilation or test errors.
-            Please provide a justification for this failure in the documentation area of the repository.
+          content-filepath: .github/issue-content.txt
