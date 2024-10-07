@@ -2,325 +2,335 @@
 
 **TEA -> Terms, Expressions, and Acronyms**
 
-| **_TEA_ (EN)**                             | **_Description_ (EN)**                                                                                             |
-|:-------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
-| **Abstract**                               | A brief summary of a document or project.                                                                          |
-| **AC**                                     | Acronym for "Acceptance Criteria".                                                                                 |
-| **Acceptance Criteria**                    | Specific conditions a solution must meet to be accepted.                                                           |
-| **Activities**                             | Tasks or actions carried out in a project or process.                                                              |
-| **Actuators**                              | Devices responsible for moving or controlling a system or mechanism.                                               |
-| **Address**                                | Location details or a unique identifier in a system.                                                               |
-| **Administrator**                          | A person responsible for managing systems or networks.                                                             |
-| **Aggregated Needs**                       | A summary of total requirements or demands, such as customer orders.                                               |
-| **Analyse**                                | The process of studying or examining data in detail.                                                               |
-| **Application**                            | A software program or system designed to perform tasks.                                                            |
-| **Architecture**                           | The design and structure of a system or solution.                                                                  |
-| **ARQCP**                                  | Acronym for "Arquitetura de Computadores".                                                                         |
-| **Article**                                | A written composition on a subject, or a distinct item.                                                            |
-| **Ascending Order**                        | An arrangement from smallest to largest, or lowest to highest.                                                     |
-| **Aspects**                                | Features or parts of a whole.                                                                                      |
-| **Assembly**                               | The act of putting together components, or a program written in assembly language.                                 |
-| **Assembly Language**                      | A low-level programming language.                                                                                  |
-| **Assembly Operations**                    | Operations related to the assembly of products or systems.                                                         |
-| **Assignment**                             | A task or piece of work assigned to someone.                                                                       |
-| **Automated Machines**                     | Machines that operate automatically with minimal human intervention.                                               |
-| **Automatically Generated**                | Created by a system without manual input.                                                                          |
-| **Average Execution Time**                 | The average time taken to execute a process or task.                                                               |
-| **Backlog**                                | A list of tasks or orders yet to be completed.                                                                     |
-| **Basic Model**                            | A simplified representation of a system.                                                                           |
-| **BDDAD**                                  | Acronym for "Base de Dados".                                                                                       |
-| **BOM**                                    | Acronym for "Bill of Materials".                                                                                   |
-| **Bill of Materials**                      | A comprehensive list of materials, components, and assemblies required to create a product.                        |
-| **Bottleneck**                             | A point of congestion or limitation that slows down a process.                                                     |
-| **Branches**                               | Subdivisions or different paths in a structure or system.                                                          |
-| **Business**                               | An organization or economic activity.                                                                              |
-| **Business Rules**                         | Policies or conditions that govern business operations.                                                            |
-| **C**                                      | A programming language.                                                                                            |
-| **CamelCase**                              | A naming convention where each word within a compound word starts with a capital letter.                           |
-| **Carried Out**                            | Completed or performed.                                                                                            |
-| **Centralized Change Management**          | A structured process for managing changes in a centralized system.                                                 |
-| **Chair**                                  | A piece of furniture for sitting.                                                                                  |
-| **Chair Legs**                             | The supporting parts of a chair.                                                                                   |
-| **Classification**                         | The process of categorizing items based on shared characteristics.                                                 |
-| **Class Structure**                        | The organization of a class in object-oriented programming.                                                        |
-| **Coding Standards**                       | Guidelines for writing code to ensure consistency and quality.                                                     |
-| **Colours**                                | Visual attributes resulting from the way objects reflect or emit light.                                            |
-| **Company**                                | A business or organization.                                                                                        |
-| **Component**                              | A part or element of a larger system.                                                                              |
-| **Computer-Based Solution**                | A solution implemented using a computer system.                                                                    |
-| **Common**                                 | Shared or widely used across different contexts.                                                                   |
-| **Common Operations**                      | Frequently performed tasks or actions.                                                                             |
-| **Conceptual Level**                       | An abstract or high-level view of a system.                                                                        |
-| **Conceptual Model**                       | A representation of a system at a conceptual level.                                                                |
-| **Conception**                             | The creation or formulation of an idea.                                                                            |
-| **Concerns**                               | Issues or matters that require attention.                                                                          |
-| **Connection**                             | A link or relationship between two entities.                                                                       |
-| **Constraint**                             | A limitation or restriction.                                                                                       |
-| **Contact Details**                        | Information used to get in touch with someone.                                                                     |
-| **Cork**                                   | A material used for stoppers, insulation, and other products.                                                      |
-| **Course**                                 | A unit of study.                                                                                                   |
-| **Course Unit**                            | A specific segment of a broader course or subject.                                                                 |
-| **Criteria**                               | Standards or principles by which something is judged or assessed.                                                  |
-| **Critical Paths**                         | The sequence of stages determining the minimum time needed for an operation.                                       |
-| **CSV Files**                              | Files formatted as Comma-Separated Values.                                                                         |
-| **Customer**                               | A person or organization that purchases goods or services.                                                         |
-| **Customer Orders**                        | Requests made by customers for goods or services.                                                                  |
-| **Customer's Identification**              | Information used to uniquely identify a customer.                                                                  |
-| **Cutlery**                                | Tools used for eating, such as knives, forks, and spoons.                                                          |
-| **Cutting**                                | The process of dividing materials into parts using tools or machines.                                              |
-| **Database**                               | A structured collection of data.                                                                                   |
-| **Database Management System**             | A software system used to manage databases.                                                                        |
-| **Data Integrity**                         | The accuracy and consistency of stored data.                                                                       |
-| **Data Registration**                      | The process of entering data into a system.                                                                        |
-| **Data Structure**                         | A particular way of organizing data in a computer.                                                                 |
-| **Data Updating**                          | The process of modifying or refreshing data.                                                                       |
-| **Date**                                   | A specific day or time.                                                                                            |
-| **DBMS**                                   | Acronym for "Database Management System".                                                                          |
-| **Dependency**                             | A relationship between two entities where one relies on the other.                                                 |
-| **Design**                                 | The process of creating a plan or solution.                                                                        |
-| **Diagram**                                | A graphical representation of a system or process.                                                                 |
-| **Distribute**                             | To spread or share across multiple locations or people.                                                            |
-| **Distinct Item**                          | A unique or individual item.                                                                                       |
-| **Domain Model**                           | A conceptual model of a system’s domain that represents the entities and their relationships.                      |
-| **Drilling**                               | The process of making holes in materials using a drill.                                                            |
-| **Dynamic Document**                       | A document that can be updated or modified dynamically.                                                            |
-| **Economic**                               | Related to the economy or the management of resources.                                                             |
-| **Economic Feasibility**                   | The viability of a project or solution from a financial perspective.                                               |
-| **Efficiency**                             | The ability to accomplish a task using minimal resources.                                                          |
-| **Efficiency Concerns**                    | Issues related to optimizing the use of resources.                                                                 |
-| **Element**                                | A basic or essential part of something.                                                                            |
-| **Encompasses**                            | To include or cover comprehensively.                                                                               |
-| **Enhance**                                | To improve or augment something.                                                                                   |
-| **Equipment Preventive Maintenance**       | Maintenance performed on equipment to prevent breakdowns.                                                          |
-| **ESINF**                                  | Acronym for "Estruturas de Informação".                                                                            |
-| **Estimate**                               | An approximate calculation or judgment of a value.                                                                 |
-| **Evaluated**                              | Assessed or judged based on criteria.                                                                              |
-| **Evolution**                              | Gradual development or change over time.                                                                           |
-| **Excel**                                  | A spreadsheet program developed by Microsoft.                                                                      |
-| **Excel Formula**                          | A formula used in Microsoft Excel to perform calculations.                                                         |
-| **Execution Time**                         | The amount of time taken to complete a task or process.                                                            |
-| **Expected Level**                         | The standard or quality anticipated for a task or solution.                                                        |
-| **Exporting**                              | The act of sending data, goods, or services to another location.                                                   |
-| **Extraction**                             | The process of removing or obtaining something, often from a larger system.                                        |
-| **Facility**                               | A place, amenity, or piece of equipment provided for a specific purpose.                                           |
-| **Factory**                                | A building or group of buildings where goods are manufactured.                                                     |
-| **Factory Plant**                          | A building or group of buildings where products are manufactured.                                                  |
-| **Figure**                                 | A visual representation like a diagram or image.                                                                   |
-| **File**                                   | A collection of data or information saved in a storage device.                                                     |
-| **Final Product**                          | The completed item ready for delivery or sale.                                                                     |
-| **Finished Product**                       | A product that has completed all stages of production.                                                             |
-| **Flexibility**                            | The ability to adapt to different conditions or changes.                                                           |
-| **Flexible Industrial Unit**               | A manufacturing facility designed to adapt to different production types.                                          |
-| **Flow Dependency**                        | A relationship where the completion of one process depends on another.                                             |
-| **Flow-Shops**                             | A type of manufacturing process where workstations are arranged in a linear sequence.                              |
-| **Footwear**                               | Products such as shoes, boots, or sandals.                                                                         |
-| **FSIAP**                                  | Acronym for "Física Aplicada" (Applied Physics).                                                                   |
-| **Functionalities**                        | Features or capabilities provided by a system or software.                                                         |
-| **Functional Requirements**                | Specifications describing what a system should do.                                                                 |
-| **Furniture**                              | Large movable objects intended to support various human activities, like tables or chairs.                         |
-| **Generating Customer Orders**             | The process of creating orders based on customer requests.                                                         |
-| **GitHub**                                 | A web-based platform for version control and collaborative software development.                                   |
-| **Gluing**                                 | A process in manufacturing where items are joined together using adhesive substances.                              |
-| **Graphical**                              | Related to or depicted by images, charts, or diagrams.                                                             |
-| **Hence**                                  | As a result or consequence.                                                                                        |
-| **High**                                   | A term referring to a greater degree, level, or rank.                                                              |
-| **High Flexibility**                       | The ability to quickly adapt to changing production or business requirements.                                      |
-| **Human Operator**                         | A person responsible for controlling or managing a machine.                                                        |
-| **IKEA**                                   | A global furniture retailer known for flat-pack furniture.                                                         |
-| **IKEA-type**                              | Referring to products or business models similar to IKEA’s concept of ready-to-assemble furniture.                 |
-| **Image**                                  | A visual representation of an object or concept.                                                                   |
-| **Implement**                              | To put into action or execute a plan or program.                                                                   |
-| **Import Data**                            | The process of transferring data into a system from an external source.                                            |
-| **Importing**                              | Bringing in goods or data from another system, company, or country.                                                |
-| **Incremental**                            | A process or development done in small, manageable steps or stages.                                                |
-| **Identifying**                            | The process of recognizing or verifying the identity of something or someone.                                      |
-| **Individual**                             | A single person or object, distinct from a group.                                                                  |
-| **Industrial Facility**                    | A physical location designed for manufacturing or production activities.                                           |
-| **Input Code**                             | Code that allows a system to accept or process user input.                                                         |
-| **Input Script**                           | A script or file that provides input data to a program or system.                                                  |
-| **Inspection**                             | The process of reviewing or examining something for quality or errors.                                             |
-| **Instantiated**                           | The creation of an instance or specific implementation of a concept or class.                                      |
-| **Integrative Project**                    | A project combining multiple disciplines or subjects to solve a comprehensive problem.                             |
-| **Intermediate Nodes**                     | Elements in a hierarchical structure that are between the root and leaf nodes.                                     |
-| **Internally**                             | Within an organization or system, as opposed to external.                                                          |
-| **Interoperability**                       | The ability of systems or components to work together seamlessly.                                                  |
-| **Item**                                   | An individual object, article, or unit.                                                                            |
-| **Iterative**                              | A process of repeating cycles of operations to gradually improve or refine something.                              |
-| **Java**                                   | A high-level programming language used for developing applications.                                                |
-| **Javadoc**                                | A tool for generating API documentation in HTML format from Java source code.                                      |
-| **JobShops**                               | A type of production system where small batches of a variety of products are made.                                 |
-| **KeepItSimple Solutions**                 | A company name, possibly fictional, specialized in developing simple and effective software solutions.             |
-| **Kick-off**                               | The start of a project or process.                                                                                 |
-| **KS**                                     | Acronym for "KeepItSimple Solutions".                                                                              |
-| **Labelling**                              | The act of marking or tagging products for identification.                                                         |
-| **Layouts**                                | The arrangement or design of elements in a system, such as equipment on a factory floor.                           |
-| **LAPR3**                                  | Acronym for "Laboratório-Projeto 3" (Lab Project 3).                                                               |
-| **Leaf Nodes**                             | The end nodes in a tree structure that have no children, representing final elements.                              |
-| **Legacy System**                          | An old or outdated system still in use.                                                                            |
-| **Limitations**                            | Restrictions or constraints that affect performance or capabilities.                                               |
-| **List of Operations**                     | A series of tasks or steps necessary for production or manufacturing.                                              |
-| **List of Products**                       | A compilation of items available for manufacturing or sale.                                                        |
-| **Load**                                   | The demand placed on a system or resource, or the process of adding work to a system.                              |
-| **Long Lead Times**                        | The extended period between the initiation of a process and its completion.                                        |
-| **Low**                                    | A term indicating a smaller degree, rank, or level.                                                                |
-| **Machine**                                | A device or system used to perform work or process materials.                                                      |
-| **Machine Sensor**                         | A device that detects or measures changes in a machine's condition or environment.                                 |
-| **Machine Utilization**                    | The measurement of how effectively a machine is used during production.                                            |
-| **Main Product**                           | The primary item produced in a manufacturing process.                                                              |
-| **Maintainability**                        | The ease with which a system can be maintained or updated.                                                         |
-| **Maintenance**                            | The process of keeping equipment or systems in working condition.                                                  |
-| **Management**                             | The process of overseeing and controlling operations, systems, or people.                                          |
-| **Manual Creation**                        | The process of creating something without automation or tools, by hand.                                            |
-| **Manufacturing**                          | The process of producing goods from raw materials.                                                                 |
-| **Manufacturing Operations**               | The activities involved in producing goods, such as assembly or machining.                                         |
-| **Manufacturing Plant**                    | A facility where products are produced through industrial processes.                                               |
-| **Manufacturing Process**                  | The series of steps taken to create a product.                                                                     |
-| **Manufacturing Unit**                     | A specific division within a factory responsible for producing a certain product or part.                          |
-| **Market Demand**                          | The desire for a product or service from consumers.                                                                |
-| **Marketing Model**                        | A framework or strategy for promoting and selling products or services.                                            |
-| **Material**                               | Any substance used in the creation of a product, such as raw materials or components.                              |
-| **Metalworking**                           | The process of shaping and forming metal materials into products.                                                  |
-| **Minimum Expected Requirement**           | The lowest acceptable standard or performance for a system or process.                                             |
-| **Minimum Requirement Above the Expected** | A higher-than-expected standard or performance for a system or process.                                            |
-| **Minimum Viable Product**                 | The simplest version of a product that can be released to market with basic functionality.                         |
-| **Model**                                  | A representation or simulation of a system, product, or process.                                                   |
-| **Module**                                 | A distinct part of a system or project, often with specific functionality.                                         |
-| **Monitor**                                | To observe and check the progress or quality of something.                                                         |
-| **MVP**                                    | Acronym for "Minimum Viable Product".                                                                              |
-| **Name**                                   | A label used to identify a person, product, or item.                                                               |
-| **NIF**                                    | Acronym for "Tax Identification Number".                                                                           |
-| **Node**                                   | A point in a network or data structure, like a tree or graph.                                                      |
-| **Non-functional Requirements**            | Requirements that define the quality attributes of a system, such as performance or security.                      |
-| **Normal**                                 | A standard or typical condition.                                                                                   |
-| **Object Oriented**                        | A programming paradigm based on the concept of objects.                                                            |
-| **Object-Oriented Programming**            | A programming methodology based on objects, classes, and inheritance.                                              |
-| **ODBC**                                   | Acronym for "Open Database Connectivity".                                                                          |
-| **OO**                                     | Acronym for "Object-Oriented".                                                                                     |
-| **OOP**                                    | Acronym for "Object-Oriented Programming".                                                                         |
-| **OO Software**                            | Software that follows object-oriented programming principles.                                                      |
-| **Operation**                              | A task or process performed in a system or manufacturing context.                                                  |
-| **Operational Details**                    | Specific information related to the functioning or execution of operations.                                        |
-| **Operational Ranges**                     | The limits within which a machine or process can function effectively.                                             |
-| **Operation Time**                         | The amount of time required to complete a particular operation.                                                    |
-| **Optimization**                           | The process of making something as effective or efficient as possible.                                             |
-| **Oracle**                                 | A widely used database management system.                                                                          |
-| **Oracle LiveSQL**                         | A cloud-based platform for practicing and running SQL queries on Oracle databases.                                 |
-| **Order**                                  | A request made for products or services.                                                                           |
-| **Organic**                                | Naturally evolving without predefined structure, or related to organic materials.                                  |
-| **Organic Evolution**                      | The natural development or progression of a system over time.                                                      |
-| **Overall System Configuration**           | The complete setup and arrangement of a system's components.                                                       |
-| **Packaging**                              | The process of enclosing products for distribution or sale.                                                        |
-| **Painting**                               | The application of color or coating to a surface for protection or decoration.                                     |
-| **PI**                                     | Acronym for "Projeto Integrador" (Integrative Project).                                                            |
-| **Planning**                               | The process of organizing tasks and resources to achieve a goal.                                                   |
-| **Planning Module**                        | A component or section of a system dedicated to planning activities.                                               |
-| **Plant-Floor**                            | The physical area in a factory where manufacturing takes place.                                                    |
-| **Plant Floor Manager**                    | The person responsible for overseeing the operations on the factory floor.                                         |
-| **Percentage**                             | A fraction or ratio expressed as a part of 100.                                                                    |
-| **Performing**                             | The act of carrying out a task or operation.                                                                       |
-| **Polishing**                              | Smoothing or refining the surface of an object through friction.                                                   |
-| **Preliminary Queue**                      | The initial list of items waiting to be processed.                                                                 |
-| **Priority**                               | The importance or urgency assigned to a task or operation.                                                         |
-| **Process**                                | A series of actions taken to achieve a particular outcome.                                                         |
-| **Processed Items**                        | Items that have undergone a particular process or transformation.                                                  |
-| **Process Industry**                       | Industries focused on continuous production, such as chemical or food industries.                                  |
-| **Processing**                             | The act of performing operations on data or materials.                                                             |
-| **Processing Availability**                | The readiness of a system or machine to handle tasks or operations.                                                |
-| **Processing Customer Order**              | The act of handling and fulfilling a customer’s request for goods or services.                                     |
-| **Processing Order**                       | The sequence of steps required to complete a production task.                                                      |
-| **Product**                                | A manufactured or refined item that is made available for sale.                                                    |
-| **Product Engineering**                    | The process of designing, developing, and producing a product.                                                     |
-| **Product Engineering Process**            | The steps involved in the creation and development of a product.                                                   |
-| **Product Family**                         | A group of products that share common features or are variations of the same design.                               |
-| **Product Planning**                       | The process of determining the strategies for producing and marketing a product.                                   |
-| **Product Structure**                      | The organization of a product’s components, often displayed as a tree-like structure.                              |
-| **Product Tree**                           | A hierarchical diagram showing a product's components and relationships, also known as a Bill of Materials (BOM).  |
-| **Production**                             | The process of manufacturing goods or services.                                                                    |
-| **Production Control**                     | The monitoring and management of manufacturing operations.                                                         |
-| **Production Cost**                        | The total expenses involved in manufacturing a product.                                                            |
-| **Production Flow**                        | The movement and sequence of processes through which products pass during manufacturing.                           |
-| **Production Management**                  | The act of planning, coordinating, and controlling production activities.                                          |
-| **Production Manager**                     | The person responsible for overseeing and managing the production process.                                         |
-| **Production Plan**                        | A detailed schedule of the manufacturing activities needed to fulfill orders.                                      |
-| **Production Order**                       | A document or instruction to start manufacturing a specific product.                                               |
-| **Production Scenario**                    | A hypothetical or planned production setup for simulating outcomes.                                                |
-| **Project**                                | A temporary endeavor undertaken to create a unique product, service, or result.                                    |
-| **Project-and-JobShop-Oriented Facility**  | A facility focused on producing customized products and small production runs.                                     |
-| **Project-based Manufacturing**            | A production strategy where each product is treated as a unique project.                                           |
-| **Proof-of-Concept**                       | A demonstration or prototype used to validate that an idea or concept is feasible.                                 |
-| **PL**                                     | Short for "Programming Language".                                                                                  |
-| **PlantUML**                               | A tool used to create diagrams from plain text descriptions, often used for software modeling.                     |
-| **Quantity**                               | The amount or number of a material or product.                                                                     |
-| **Raspberry PI**                           | A low-cost, credit-card-sized computer used for programming and hardware projects.                                 |
-| **Raw Materials**                          | Basic materials used in manufacturing, such as wood, metal, or plastic.                                            |
-| **Refining**                               | The process of purifying or improving raw materials.                                                               |
-| **Relational Model**                       | A data model that represents the relationships between different data sets, typically used in databases.           |
-| **Repository**                             | A central location for storing data, often used for code or documents.                                             |
-| **Requirement**                            | A condition or capability that must be met or possessed by a system.                                               |
-| **Robotic**                                | Related to robots or automated machines.                                                                           |
-| **Robots**                                 | Machines capable of carrying out a series of actions automatically.                                                |
-| **Root**                                   | The top node in a tree structure, representing the primary element in hierarchical data.                           |
-| **Safety Issues**                          | Concerns related to the prevention of accidents or harm in a system or environment.                                |
-| **Script**                                 | A file containing instructions written in a programming or scripting language.                                     |
-| **SCRUM**                                  | An agile framework for managing and completing complex projects, commonly used in software development.            |
-| **Sectors**                                | Distinct areas of industry or economy, such as healthcare, finance, or manufacturing.                              |
-| **Semester**                               | A half-year term in an academic setting, typically lasting 15-18 weeks.                                            |
-| **Sequence**                               | The specific order in which tasks or steps must be performed.                                                      |
-| **Sequential Production Process**          | A production process where tasks are performed in a set order, one after the other.                                |
-| **Set of Orders**                          | A collection of requests or instructions for manufacturing items.                                                  |
-| **Short-Run Production**                   | Manufacturing limited quantities of products, often customized or based on demand.                                 |
-| **Simulation Tool**                        | Software used to model and test production processes or other systems.                                             |
-| **Simulator**                              | A system that mimics real-world operations for training, analysis, or prediction.                                  |
-| **Size**                                   | The physical dimensions or magnitude of something.                                                                 |
-| **Software**                               | Computer programs or applications that perform specific tasks.                                                     |
-| **Software Development**                   | The process of designing, coding, testing, and maintaining software applications.                                  |
-| **Space**                                  | The physical area available in a location or system.                                                               |
-| **Space Limitations**                      | Restrictions related to the amount of available physical or virtual space.                                         |
-| **Specialized**                            | Designed or developed for a specific purpose or area of expertise.                                                 |
-| **Specificities**                          | The unique details or characteristics of a particular system, process, or product.                                 |
-| **Specific Time**                          | A particular moment or duration.                                                                                   |
-| **Specified Queue**                        | A predefined list of items waiting for processing.                                                                 |
-| **Spreadsheet**                            | A digital document used to organize and analyze data in rows and columns.                                          |
-| **Sprint**                                 | A time-boxed period in which a team completes a specific set of work, typically used in agile project management.  |
-| **SQL**                                    | Structured Query Language, used for managing and querying databases.                                               |
-| **Stakeholder**                            | A person or group with an interest in the outcome of a project or process.                                         |
-| **Station**                                | A designated area where specific tasks or operations are performed.                                                |
-| **Statistical**                            | Related to the analysis or presentation of numerical data.                                                         |
-| **Statistical Measures**                   | Calculations used to summarize or describe data, such as averages or percentages.                                  |
-| **Subject**                                | A synonym for "Course Unit", a specific area of study in an academic course.                                       |
-| **Subjected**                              | Exposed to or undergoing a particular process or action.                                                           |
-| **Suited**                                 | Appropriate or fitting for a particular purpose.                                                                   |
-| **Supervising Machine Operation**          | Overseeing the function and performance of machines in production.                                                 |
-| **Supervising Machine Scheduling**         | Managing the time and sequence in which machines operate.                                                          |
-| **SVG**                                    | Scalable Vector Graphics, a file format used for images and diagrams.                                              |
-| **Tabletops**                              | Flat surfaces used in the manufacturing of tables or similar products.                                             |
-| **Task**                                   | A specific piece of work or duty to be completed.                                                                  |
-| **Tax Identification Number**              | A unique number assigned to individuals or businesses for tax purposes.                                            |
-| **TDD**                                    | Acronym for "Test-Driven Development", a software development process where tests are written before code.         |
-| **Team Management**                        | The coordination and organization of a group working toward a common goal.                                         |
-| **Team Member**                            | A person who is part of a group working on a project or task.                                                      |
-| **Technical**                              | Related to the practical, mechanical, or scientific aspects of a system or process.                                |
-| **Technical Feasibility**                  | The likelihood that a project or system can be successfully developed or implemented based on technical factors.   |
-| **Test-Driven Development**                | A software development approach where tests are created before the corresponding functionality is implemented.     |
-| **Text**                                   | A written or printed work, or the content of written communication.                                                |
-| **Text-Based Interface**                   | An interface that uses text as the primary method of user interaction, as opposed to graphics.                     |
-| **Text Files**                             | Files that contain text data, often in a plain or formatted format.                                                |
-| **Time Frame**                             | A specified period during which an activity or task must be completed.                                             |
-| **Total Time**                             | The entire duration of a task, process, or sequence.                                                               |
-| **Tree**                                   | A hierarchical data structure with a root element and connected nodes.                                             |
-| **Tree-Like Structure**                    | A model or diagram resembling a tree, with branches representing different paths or relationships.                 |
-| **UI**                                     | Acronym for "User Interface".                                                                                      |
-| **Units**                                  | Distinct parts or elements of a whole, often referring to products or sections.                                    |
-| **Underutilized**                          | Not fully used or exploited.                                                                                       |
-| **Underutilized Resources**                | Assets, materials, or systems that are not used to their full potential.                                           |
-| **US**                                     | Acronym for "User Story".                                                                                          |
-| **User-Friendly**                          | Easy to use or understand.                                                                                         |
-| **User Interface**                         | The point of interaction between a user and a system, typically involving visual elements.                         |
-| **User Story**                             | A brief description of a feature from the perspective of the end-user, often used in agile development.            |
-| **Variants**                               | Different forms or versions of a product or item.                                                                  |
-| **Varnishing**                             | The application of a protective or decorative finish to a surface.                                                 |
-| **Version History**                        | A record of changes or updates made to a system or document.                                                       |
-| **Visual Paradigm**                        | A software tool used for modeling and diagramming processes or systems.                                            |
-| **Waiting Time**                           | The period during which a task, operation, or process is delayed.                                                  |
-| **Warehouse**                              | A facility used for storing goods or materials.                                                                    |
-| **WorkStation**                            | A specific area or desk where tasks or operations are performed, often equipped with necessary tools or equipment. |
+| **_TEA_ (EN)**                             | **_Description_ (EN)**                                                                                                                                                                 |
+|:-------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Abstract**                               | A brief summary of a document or project.                                                                                                                                              |
+| **AC**                                     | Acronym for "Acceptance Criteria".                                                                                                                                                     |
+| **Acceptance Criteria**                    | Specific conditions a solution must meet to be accepted.                                                                                                                               |
+| **Activities**                             | Tasks or actions carried out in a project or process.                                                                                                                                  |
+| **Actuators**                              | Devices responsible for moving or controlling a system or mechanism.                                                                                                                   |
+| **Address**                                | Location details or a unique identifier in a system.                                                                                                                                   |
+| **Administrator**                          | A person responsible for managing systems or networks.                                                                                                                                 |
+| **Aggregated Needs**                       | A summary of total requirements or demands, such as customer orders.                                                                                                                   |
+| **Analyse**                                | The process of studying or examining data in detail.                                                                                                                                   |
+| **Application**                            | A software program or system designed to perform tasks.                                                                                                                                |
+| **Architecture**                           | The design and structure of a system or solution.                                                                                                                                      |
+| **ARQCP**                                  | Acronym for "Arquitetura de Computadores".                                                                                                                                             |
+| **Article**                                | A written composition on a subject, or a distinct item.                                                                                                                                |
+| **Ascending Order**                        | An arrangement from smallest to largest, or lowest to highest.                                                                                                                         |
+| **Aspects**                                | Features or parts of a whole.                                                                                                                                                          |
+| **Assembly**                               | The act of putting together components, or a program written in assembly language.                                                                                                     |
+| **Assembly Language**                      | A low-level programming language.                                                                                                                                                      |
+| **Assembly Operations**                    | Operations related to the assembly of products or systems.                                                                                                                             |
+| **Assignment**                             | A task or piece of work assigned to someone.                                                                                                                                           |
+| **Automated Machines**                     | Machines that operate automatically with minimal human intervention.                                                                                                                   |
+| **Automatically Generated**                | Created by a system without manual input.                                                                                                                                              |
+| **Average Execution Time**                 | The average time taken to execute a process or task.                                                                                                                                   |
+| **Backlog**                                | A list of tasks or orders yet to be completed.                                                                                                                                         |
+| **Basic Model**                            | A simplified representation of a system.                                                                                                                                               |
+| **BDDAD**                                  | Acronym for "Base de Dados".                                                                                                                                                           |
+| **Bicycle**                                | A two-wheeled vehicle powered by pedals.                                                                                                                                               |
+| **Bill of Materials**                      | A comprehensive list of materials, components, and assemblies required to create a product.                                                                                            |
+| **Bill of Operations**                     | A detailed list of the manufacturing steps or processes required to produce a product, including the sequence of operations and the resources involved.                                |
+| **BOM**                                    | Acronym for "Bill of Materials".                                                                                                                                                       |
+| **BOO**                                    | Acronym for "Bill of Operations"                                                                                                                                                       |
+| **Bottleneck**                             | A point of congestion or limitation that slows down a process.                                                                                                                         |
+| **Branches**                               | Subdivisions or different paths in a structure or system.                                                                                                                              |
+| **Business**                               | An organization or economic activity.                                                                                                                                                  |
+| **Business Rules**                         | Policies or conditions that govern business operations.                                                                                                                                |
+| **C**                                      | A programming language.                                                                                                                                                                |
+| **CamelCase**                              | A naming convention where each word within a compound word starts with a capital letter.                                                                                               |
+| **Carried Out**                            | Completed or performed.                                                                                                                                                                |
+| **Centralized Change Management**          | A structured process for managing changes in a centralized system.                                                                                                                     |
+| **Chair**                                  | A piece of furniture for sitting.                                                                                                                                                      |
+| **Chair Legs**                             | The supporting parts of a chair.                                                                                                                                                       |
+| **Classification**                         | The process of categorizing items based on shared characteristics.                                                                                                                     |
+| **Class Structure**                        | The organization of a class in object-oriented programming.                                                                                                                            |
+| **Coding Standards**                       | Guidelines for writing code to ensure consistency and quality.                                                                                                                         |
+| **Colours**                                | Visual attributes resulting from the way objects reflect or emit light.                                                                                                                |
+| **Company**                                | A business or organization.                                                                                                                                                            |
+| **Component**                              | A part or element of a larger system.                                                                                                                                                  |
+| **Computer-Based Solution**                | A solution implemented using a computer system.                                                                                                                                        |
+| **Common**                                 | Shared or widely used across different contexts.                                                                                                                                       |
+| **Common Operations**                      | Frequently performed tasks or actions.                                                                                                                                                 |
+| **Conceptual Level**                       | An abstract or high-level view of a system.                                                                                                                                            |
+| **Conceptual Model**                       | A representation of a system at a conceptual level.                                                                                                                                    |
+| **Conception**                             | The creation or formulation of an idea.                                                                                                                                                |
+| **Concerns**                               | Issues or matters that require attention.                                                                                                                                              |
+| **Connection**                             | A link or relationship between two entities.                                                                                                                                           |
+| **Constraint**                             | A limitation or restriction.                                                                                                                                                           |
+| **Contact Details**                        | Information used to get in touch with someone.                                                                                                                                         |
+| **Cork**                                   | A material used for stoppers, insulation, and other products.                                                                                                                          |
+| **Course**                                 | A unit of study.                                                                                                                                                                       |
+| **Course Unit**                            | A specific segment of a broader course or subject.                                                                                                                                     |
+| **Criteria**                               | Standards or principles by which something is judged or assessed.                                                                                                                      |
+| **Critical Paths**                         | The sequence of stages determining the minimum time needed for an operation.                                                                                                           |
+| **CSV Files**                              | Files formatted as Comma-Separated Values.                                                                                                                                             |
+| **Customer**                               | A person or organization that purchases goods or services.                                                                                                                             |
+| **Customer Orders**                        | Requests made by customers for goods or services.                                                                                                                                      |
+| **Customer's Identification**              | Information used to uniquely identify a customer.                                                                                                                                      |
+| **Customer's Name**                        | The full name of the individual or company placing an order.                                                                                                                           |
+| **Cutlery**                                | Tools used for eating, such as knives, forks, and spoons.                                                                                                                              |
+| **Cutting**                                | The process of dividing materials into parts using tools or machines.                                                                                                                  |
+| **Database**                               | A structured collection of data.                                                                                                                                                       |
+| **Database Management System**             | A software system used to manage databases.                                                                                                                                            |
+| **Data Integrity**                         | The accuracy and consistency of stored data.                                                                                                                                           |
+| **Data Registration**                      | The process of entering data into a system.                                                                                                                                            |
+| **Data Structure**                         | A particular way of organizing data in a computer.                                                                                                                                     |
+| **Data Updating**                          | The process of modifying or refreshing data.                                                                                                                                           |
+| **Date**                                   | A specific day or time.                                                                                                                                                                |
+| **DBMS**                                   | Acronym for "Database Management System".                                                                                                                                              |
+| **Dependency**                             | A relationship between two entities where one relies on the other.                                                                                                                     |
+| **Design**                                 | The process of creating a plan or solution.                                                                                                                                            |
+| **Diagram**                                | A graphical representation of a system or process.                                                                                                                                     |
+| **Distribute**                             | To spread or share across multiple locations or people.                                                                                                                                |
+| **Distinct Item**                          | A unique or individual item.                                                                                                                                                           |
+| **Domain Model**                           | A conceptual model of a system’s domain that represents the entities and their relationships.                                                                                          |
+| **Drilling**                               | The process of making holes in materials using a drill.                                                                                                                                |
+| **Dynamic Document**                       | A document that can be updated or modified dynamically.                                                                                                                                |
+| **Economic**                               | Related to the economy or the management of resources.                                                                                                                                 |
+| **Economic Feasibility**                   | The viability of a project or solution from a financial perspective.                                                                                                                   |
+| **Efficiency**                             | The ability to accomplish a task using minimal resources.                                                                                                                              |
+| **Efficiency Concerns**                    | Issues related to optimizing the use of resources.                                                                                                                                     |
+| **Element**                                | A basic or essential part of something.                                                                                                                                                |
+| **Encompasses**                            | To include or cover comprehensively.                                                                                                                                                   |
+| **Enhance**                                | To improve or augment something.                                                                                                                                                       |
+| **Equipment Preventive Maintenance**       | Maintenance performed on equipment to prevent breakdowns.                                                                                                                              |
+| **ESINF**                                  | Acronym for "Estruturas de Informação".                                                                                                                                                |
+| **Estimate**                               | An approximate calculation or judgment of a value.                                                                                                                                     |
+| **Evaluated**                              | Assessed or judged based on criteria.                                                                                                                                                  |
+| **Evolution**                              | Gradual development or change over time.                                                                                                                                               |
+| **Excel**                                  | A spreadsheet program developed by Microsoft.                                                                                                                                          |
+| **Excel Formula**                          | A formula used in Microsoft Excel to perform calculations.                                                                                                                             |
+| **Execution Time**                         | The amount of time taken to complete a task or process.                                                                                                                                |
+| **Expected Delivery Date**                 | The scheduled date when a product or order is planned to be delivered.                                                                                                                 |
+| **Expected Delivery Location**             | The specific place where the product or order is planned to be delivered.                                                                                                              |
+| **Expected Level**                         | The standard or quality anticipated for a task or solution.                                                                                                                            |
+| **Exporting**                              | The act of sending data, goods, or services to another location.                                                                                                                       |
+| **Extraction**                             | The process of removing or obtaining something, often from a larger system.                                                                                                            |
+| **Facility**                               | A place, amenity, or piece of equipment provided for a specific purpose.                                                                                                               |
+| **Factory**                                | A building or group of buildings where goods are manufactured.                                                                                                                         |
+| **Factory Plant**                          | A building or group of buildings where products are manufactured.                                                                                                                      |
+| **Figure**                                 | A visual representation like a diagram or image.                                                                                                                                       |
+| **File**                                   | A collection of data or information saved in a storage device.                                                                                                                         |
+| **Final Product**                          | The completed item ready for delivery or sale.                                                                                                                                         |
+| **Finished Product**                       | A product that has completed all stages of production.                                                                                                                                 |
+| **Flexibility**                            | The ability to adapt to different conditions or changes.                                                                                                                               |
+| **Flexible Industrial Unit**               | A manufacturing facility designed to adapt to different production types.                                                                                                              |
+| **Flow Dependency**                        | A relationship where the completion of one process depends on another.                                                                                                                 |
+| **Flow-Shops**                             | A type of manufacturing process where workstations are arranged in a linear sequence.                                                                                                  |
+| **Footwear**                               | Products such as shoes, boots, or sandals.                                                                                                                                             |
+| **FSIAP**                                  | Acronym for "Física Aplicada" (Applied Physics).                                                                                                                                       |
+| **Functionalities**                        | Features or capabilities provided by a system or software.                                                                                                                             |
+| **Functional Requirements**                | Specifications describing what a system should do.                                                                                                                                     |
+| **Furniture**                              | Large movable objects intended to support various human activities, like tables or chairs.                                                                                             |
+| **Generating Customer Orders**             | The process of creating orders based on customer requests.                                                                                                                             |
+| **GitHub**                                 | A web-based platform for version control and collaborative software development.                                                                                                       |
+| **Gluing**                                 | A process in manufacturing where items are joined together using adhesive substances.                                                                                                  |
+| **Graphical**                              | Related to or depicted by images, charts, or diagrams.                                                                                                                                 |
+| **Hence**                                  | As a result or consequence.                                                                                                                                                            |
+| **High**                                   | A term referring to a greater degree, level, or rank.                                                                                                                                  |
+| **High Flexibility**                       | The ability to quickly adapt to changing production or business requirements.                                                                                                          |
+| **Human Operator**                         | A person responsible for controlling or managing a machine.                                                                                                                            |
+| **IKEA**                                   | A global furniture retailer known for flat-pack furniture.                                                                                                                             |
+| **IKEA-type**                              | Referring to products or business models similar to IKEA’s concept of ready-to-assemble furniture.                                                                                     |
+| **Image**                                  | A visual representation of an object or concept.                                                                                                                                       |
+| **Implement**                              | To put into action or execute a plan or program.                                                                                                                                       |
+| **Import Data**                            | The process of transferring data into a system from an external source.                                                                                                                |
+| **Importing**                              | Bringing in goods or data from another system, company, or country.                                                                                                                    |
+| **Incremental**                            | A process or development done in small, manageable steps or stages.                                                                                                                    |
+| **Identifying**                            | The process of recognizing or verifying the identity of something or someone.                                                                                                          |
+| **Individual**                             | A single person or object, distinct from a group.                                                                                                                                      |
+| **Industrial Facility**                    | A physical location designed for manufacturing or production activities.                                                                                                               |
+| **Input Code**                             | Code that allows a system to accept or process user input.                                                                                                                             |
+| **Input Script**                           | A script or file that provides input data to a program or system.                                                                                                                      |
+| **Inspection**                             | The process of reviewing or examining something for quality or errors.                                                                                                                 |
+| **Instantiated**                           | The creation of an instance or specific implementation of a concept or class.                                                                                                          |
+| **Integrative Project**                    | A project combining multiple disciplines or subjects to solve a comprehensive problem.                                                                                                 |
+| **Intermediate Nodes**                     | Elements in a hierarchical structure that are between the root and leaf nodes.                                                                                                         |
+| **Internally**                             | Within an organization or system, as opposed to external.                                                                                                                              |
+| **Interoperability**                       | The ability of systems or components to work together seamlessly.                                                                                                                      |
+| **Item**                                   | An individual object, article, or unit.                                                                                                                                                |
+| **Iterative**                              | A process of repeating cycles of operations to gradually improve or refine something.                                                                                                  |
+| **Java**                                   | A high-level programming language used for developing applications.                                                                                                                    |
+| **Javadoc**                                | A tool for generating API documentation in HTML format from Java source code.                                                                                                          |
+| **JobShops**                               | A type of production system where small batches of a variety of products are made.                                                                                                     |
+| **KeepItSimple Solutions**                 | A company name, possibly fictional, specialized in developing simple and effective software solutions.                                                                                 |
+| **Kick-off**                               | The start of a project or process.                                                                                                                                                     |
+| **KS**                                     | Acronym for "KeepItSimple Solutions".                                                                                                                                                  |
+| **Labelling**                              | The act of marking or tagging products for identification.                                                                                                                             |
+| **Layouts**                                | The arrangement or design of elements in a system, such as equipment on a factory floor.                                                                                               |
+| **LAPR3**                                  | Acronym for "Laboratório-Projeto 3" (Lab Project 3).                                                                                                                                   |
+| **Leaf Nodes**                             | The end nodes in a tree structure that have no children, representing final elements.                                                                                                  |
+| **Legacy System**                          | An old or outdated system still in use.                                                                                                                                                |
+| **Limitations**                            | Restrictions or constraints that affect performance or capabilities.                                                                                                                   |
+| **List of Operations**                     | A series of tasks or steps necessary for production or manufacturing.                                                                                                                  |
+| **List of Products**                       | A compilation of items available for manufacturing or sale.                                                                                                                            |
+| **Load**                                   | The demand placed on a system or resource, or the process of adding work to a system.                                                                                                  |
+| **Long Lead Times**                        | The extended period between the initiation of a process and its completion.                                                                                                            |
+| **Low**                                    | A term indicating a smaller degree, rank, or level.                                                                                                                                    |
+| **Machine**                                | A device or system used to perform work or process materials.                                                                                                                          |
+| **Machine Sensor**                         | A device that detects or measures changes in a machine's condition or environment.                                                                                                     |
+| **Machine Utilization**                    | The measurement of how effectively a machine is used during production.                                                                                                                |
+| **Main Product**                           | The primary item produced in a manufacturing process.                                                                                                                                  |
+| **Maintainability**                        | The ease with which a system can be maintained or updated.                                                                                                                             |
+| **Maintenance**                            | The process of keeping equipment or systems in working condition.                                                                                                                      |
+| **Management**                             | The process of overseeing and controlling operations, systems, or people.                                                                                                              |
+| **Manual Creation**                        | The process of creating something without automation or tools, by hand.                                                                                                                |
+| **Manufacturing**                          | The process of producing goods from raw materials.                                                                                                                                     |
+| **Manufacturing Operations**               | The activities involved in producing goods, such as assembly or machining.                                                                                                             |
+| **Manufacturing Plant**                    | A facility where products are produced through industrial processes.                                                                                                                   |
+| **Manufacturing Process**                  | The series of steps taken to create a product.                                                                                                                                         |
+| **Manufacturing Unit**                     | A specific division within a factory responsible for producing a certain product or part.                                                                                              |
+| **Market Demand**                          | The desire for a product or service from consumers.                                                                                                                                    |
+| **Marketing Model**                        | A framework or strategy for promoting and selling products or services.                                                                                                                |
+| **Material**                               | Any substance used in the creation of a product, such as raw materials or components.                                                                                                  |
+| **Metalworking**                           | The process of shaping and forming metal materials into products.                                                                                                                      |
+| **Minimum Expected Requirement**           | The lowest acceptable standard or performance for a system or process.                                                                                                                 |
+| **Minimum Requirement Above the Expected** | A higher-than-expected standard or performance for a system or process.                                                                                                                |
+| **Minimum Viable Product**                 | The simplest version of a product that can be released to market with basic functionality.                                                                                             |
+| **Model**                                  | A representation or simulation of a system, product, or process.                                                                                                                       |
+| **Module**                                 | A distinct part of a system or project, often with specific functionality.                                                                                                             |
+| **Monitor**                                | To observe and check the progress or quality of something.                                                                                                                             |
+| **MVP**                                    | Acronym for "Minimum Viable Product".                                                                                                                                                  |
+| **Name**                                   | A label used to identify a person, product, or item.                                                                                                                                   |
+| **NIF**                                    | Acronym for "Tax Identification Number".                                                                                                                                               |
+| **Node**                                   | A point in a network or data structure, like a tree or graph.                                                                                                                          |
+| **Non-functional Requirements**            | Requirements that define the quality attributes of a system, such as performance or security.                                                                                          |
+| **Normal**                                 | A standard or typical condition.                                                                                                                                                       |
+| **Object Oriented**                        | A programming paradigm based on the concept of objects.                                                                                                                                |
+| **Object-Oriented Programming**            | A programming methodology based on objects, classes, and inheritance.                                                                                                                  |
+| **ODBC**                                   | Acronym for "Open Database Connectivity".                                                                                                                                              |
+| **OO**                                     | Acronym for "Object-Oriented".                                                                                                                                                         |
+| **OOP**                                    | Acronym for "Object-Oriented Programming".                                                                                                                                             |
+| **OO Software**                            | Software that follows object-oriented programming principles.                                                                                                                          |
+| **Operation**                              | A task or process performed in a system or manufacturing context.                                                                                                                      |
+| **Operational Details**                    | Specific information related to the functioning or execution of operations.                                                                                                            |
+| **Operational Ranges**                     | The limits within which a machine or process can function effectively.                                                                                                                 |
+| **Operation Time**                         | The amount of time required to complete a particular operation.                                                                                                                        |
+| **Optimization**                           | The process of making something as effective or efficient as possible.                                                                                                                 |
+| **Oracle**                                 | A widely used database management system.                                                                                                                                              |
+| **Oracle LiveSQL**                         | A cloud-based platform for practicing and running SQL queries on Oracle databases.                                                                                                     |
+| **Order**                                  | A request made for products or services.                                                                                                                                               |
+| **Organic**                                | Naturally evolving without predefined structure, or related to organic materials.                                                                                                      |
+| **Organic Evolution**                      | The natural development or progression of a system over time.                                                                                                                          |
+| **Overall System Configuration**           | The complete setup and arrangement of a system's components.                                                                                                                           |
+| **Packaging**                              | The process of enclosing products for distribution or sale.                                                                                                                            |
+| **Painting**                               | The application of color or coating to a surface for protection or decoration.                                                                                                         |
+| **Physical Model**                         | A representation of a database structure that defines how data is stored in the database system.                                                                                       |
+| **PI**                                     | Acronym for "Projeto Integrador" (Integrative Project).                                                                                                                                |
+| **Planning**                               | The process of organizing tasks and resources to achieve a goal.                                                                                                                       |
+| **Planning Module**                        | A component or section of a system dedicated to planning activities.                                                                                                                   |
+| **Plant-Floor**                            | The physical area in a factory where manufacturing takes place.                                                                                                                        |
+| **Plant Floor Manager**                    | The person responsible for overseeing the operations on the factory floor.                                                                                                             |
+| **Percentage**                             | A fraction or ratio expressed as a part of 100.                                                                                                                                        |
+| **Performing**                             | The act of carrying out a task or operation.                                                                                                                                           |
+| **Polishing**                              | Smoothing or refining the surface of an object through friction.                                                                                                                       |
+| **Preliminary Queue**                      | The initial list of items waiting to be processed.                                                                                                                                     |
+| **Priority**                               | The importance or urgency assigned to a task or operation.                                                                                                                             |
+| **Process**                                | A series of actions taken to achieve a particular outcome.                                                                                                                             |
+| **Processed Items**                        | Items that have undergone a particular process or transformation.                                                                                                                      |
+| **Process Industry**                       | Industries focused on continuous production, such as chemical or food industries.                                                                                                      |
+| **Processing**                             | The act of performing operations on data or materials.                                                                                                                                 |
+| **Processing Availability**                | The readiness of a system or machine to handle tasks or operations.                                                                                                                    |
+| **Processing Customer Order**              | The act of handling and fulfilling a customer’s request for goods or services.                                                                                                         |
+| **Processing Order**                       | The sequence of steps required to complete a production task.                                                                                                                          |
+| **Product**                                | A manufactured or refined item that is made available for sale.                                                                                                                        |
+| **Product Engineering**                    | The process of designing, developing, and producing a product.                                                                                                                         |
+| **Product Engineering Process**            | The steps involved in the creation and development of a product.                                                                                                                       |
+| **Product Family**                         | A group of products that share common features or are variations of the same design.                                                                                                   |
+| **Product Owner**                          | The individual responsible for defining the vision of a product, managing the product backlog, and ensuring that the development team delivers value to the business and stakeholders. |
+| **Product Planning**                       | The process of determining the strategies for producing and marketing a product.                                                                                                       |
+| **Product Structure**                      | The organization of a product’s components, often displayed as a tree-like structure.                                                                                                  |
+| **Product Tree**                           | A hierarchical diagram showing a product's components and relationships, also known as a Bill of Materials (BOM).                                                                      |
+| **Production**                             | The process of manufacturing goods or services.                                                                                                                                        |
+| **Production Control**                     | The monitoring and management of manufacturing operations.                                                                                                                             |
+| **Production Cost**                        | The total expenses involved in manufacturing a product.                                                                                                                                |
+| **Production Flow**                        | The movement and sequence of processes through which products pass during manufacturing.                                                                                               |
+| **Production Management**                  | The act of planning, coordinating, and controlling production activities.                                                                                                              |
+| **Production Manager**                     | The person responsible for overseeing and managing the production process.                                                                                                             |
+| **Production Plan**                        | A detailed schedule of the manufacturing activities needed to fulfill orders.                                                                                                          |
+| **Production Order**                       | A document or instruction to start manufacturing a specific product.                                                                                                                   |
+| **Production Scenario**                    | A hypothetical or planned production setup for simulating outcomes.                                                                                                                    |
+| **Project**                                | A temporary endeavor undertaken to create a unique product, service, or result.                                                                                                        |
+| **Project-and-JobShop-Oriented Facility**  | A facility focused on producing customized products and small production runs.                                                                                                         |
+| **Project-based Manufacturing**            | A production strategy where each product is treated as a unique project.                                                                                                               |
+| **Proof-of-Concept**                       | A demonstration or prototype used to validate that an idea or concept is feasible.                                                                                                     |
+| **PL**                                     | Short for "Programming Language".                                                                                                                                                      |
+| **PlantUML**                               | A tool used to create diagrams from plain text descriptions, often used for software modeling.                                                                                         |
+| **Quantity**                               | The amount or number of a material or product.                                                                                                                                         |
+| **Raspberry PI**                           | A low-cost, credit-card-sized computer used for programming and hardware projects.                                                                                                     |
+| **Raw Materials**                          | Basic materials used in manufacturing, such as wood, metal, or plastic.                                                                                                                |
+| **Refining**                               | The process of purifying or improving raw materials.                                                                                                                                   |
+| **Relational Model**                       | A data model that represents the relationships between different data sets, typically used in databases.                                                                               |
+| **Repository**                             | A central location for storing data, often used for code or documents.                                                                                                                 |
+| **Requirement**                            | A condition or capability that must be met or possessed by a system.                                                                                                                   |
+| **Robotic**                                | Related to robots or automated machines.                                                                                                                                               |
+| **Robots**                                 | Machines capable of carrying out a series of actions automatically.                                                                                                                    |
+| **Root**                                   | The top node in a tree structure, representing the primary element in hierarchical data.                                                                                               |
+| **Safety Issues**                          | Concerns related to the prevention of accidents or harm in a system or environment.                                                                                                    |
+| **Script**                                 | A file containing instructions written in a programming or scripting language.                                                                                                         |
+| **SCRUM**                                  | An agile framework for managing and completing complex projects, commonly used in software development.                                                                                |
+| **Sectors**                                | Distinct areas of industry or economy, such as healthcare, finance, or manufacturing.                                                                                                  |
+| **Semester**                               | A half-year term in an academic setting, typically lasting 15-18 weeks.                                                                                                                |
+| **Sequence**                               | The specific order in which tasks or steps must be performed.                                                                                                                          |
+| **Sequential Production Process**          | A production process where tasks are performed in a set order, one after the other.                                                                                                    |
+| **Set of Orders**                          | A collection of requests or instructions for manufacturing items.                                                                                                                      |
+| **Set of Stations**                        | A group of work areas or machines organized to perform specific operations in a production process.                                                                                    |
+| **Short-Run Production**                   | Manufacturing limited quantities of products, often customized or based on demand.                                                                                                     |
+| **Simulation Tool**                        | Software used to model and test production processes or other systems.                                                                                                                 |
+| **Simulator**                              | A system that mimics real-world operations for training, analysis, or prediction.                                                                                                      |
+| **Size**                                   | The physical dimensions or magnitude of something.                                                                                                                                     |
+| **Software**                               | Computer programs or applications that perform specific tasks.                                                                                                                         |
+| **Software Development**                   | The process of designing, coding, testing, and maintaining software applications.                                                                                                      |
+| **Space**                                  | The physical area available in a location or system.                                                                                                                                   |
+| **Space Limitations**                      | Restrictions related to the amount of available physical or virtual space.                                                                                                             |
+| **Specialized**                            | Designed or developed for a specific purpose or area of expertise.                                                                                                                     |
+| **Specificities**                          | The unique details or characteristics of a particular system, process, or product.                                                                                                     |
+| **Specific Time**                          | A particular moment or duration.                                                                                                                                                       |
+| **Specified Queue**                        | A predefined list of items waiting for processing.                                                                                                                                     |
+| **Spreadsheet**                            | A digital document used to organize and analyze data in rows and columns.                                                                                                              |
+| **Sprint**                                 | A time-boxed period in which a team completes a specific set of work, typically used in agile project management.                                                                      |
+| **SQL**                                    | Structured Query Language, used for managing and querying databases.                                                                                                                   |
+| **Stakeholder**                            | A person or group with an interest in the outcome of a project or process.                                                                                                             |
+| **Station**                                | A designated area where specific tasks or operations are performed.                                                                                                                    |
+| **Statistical**                            | Related to the analysis or presentation of numerical data.                                                                                                                             |
+| **Statistical Measures**                   | Calculations used to summarize or describe data, such as averages or percentages.                                                                                                      |
+| **Subject**                                | A synonym for "Course Unit", a specific area of study in an academic course.                                                                                                           |
+| **Subjected**                              | Exposed to or undergoing a particular process or action.                                                                                                                               |
+| **Suited**                                 | Appropriate or fitting for a particular purpose.                                                                                                                                       |
+| **Supervising Machine Operation**          | Overseeing the function and performance of machines in production.                                                                                                                     |
+| **Supervising Machine Scheduling**         | Managing the time and sequence in which machines operate.                                                                                                                              |
+| **SVG**                                    | Scalable Vector Graphics, a file format used for images and diagrams.                                                                                                                  |
+| **Tabletops**                              | Flat surfaces used in the manufacturing of tables or similar products.                                                                                                                 |
+| **Task**                                   | A specific piece of work or duty to be completed.                                                                                                                                      |
+| **Tax Identification Number**              | A unique number assigned to individuals or businesses for tax purposes.                                                                                                                |
+| **TDD**                                    | Acronym for "Test-Driven Development", a software development process where tests are written before code.                                                                             |
+| **Team**                                   | A group of individuals working collaboratively towards a common goal or objective in a project or organization.                                                                        |
+| **Team Management**                        | The coordination and organization of a group working toward a common goal.                                                                                                             |
+| **Team Member**                            | A person who is part of a group working on a project or task.                                                                                                                          |
+| **Technical**                              | Related to the practical, mechanical, or scientific aspects of a system or process.                                                                                                    |
+| **Technical Feasibility**                  | The likelihood that a project or system can be successfully developed or implemented based on technical factors.                                                                       |
+| **Test-Driven Development**                | A software development approach where tests are created before the corresponding functionality is implemented.                                                                         |
+| **Text**                                   | A written or printed work, or the content of written communication.                                                                                                                    |
+| **Text-Based Interface**                   | An interface that uses text as the primary method of user interaction, as opposed to graphics.                                                                                         |
+| **Text Files**                             | Files that contain text data, often in a plain or formatted format.                                                                                                                    |
+| **Time Frame**                             | A specified period during which an activity or task must be completed.                                                                                                                 |
+| **Total Time**                             | The entire duration of a task, process, or sequence.                                                                                                                                   |
+| **Tree**                                   | A hierarchical data structure with a root element and connected nodes.                                                                                                                 |
+| **Tree-Like Structure**                    | A model or diagram resembling a tree, with branches representing different paths or relationships.                                                                                     |
+| **UI**                                     | Acronym for "User Interface".                                                                                                                                                          |
+| **Units**                                  | Distinct parts or elements of a whole, often referring to products or sections.                                                                                                        |
+| **Underutilized**                          | Not fully used or exploited.                                                                                                                                                           |
+| **Underutilized Resources**                | Assets, materials, or systems that are not used to their full potential.                                                                                                               |
+| **US**                                     | Acronym for "User Story".                                                                                                                                                              |
+| **User-Friendly**                          | Easy to use or understand.                                                                                                                                                             |
+| **User Interface**                         | The point of interaction between a user and a system, typically involving visual elements.                                                                                             |
+| **User Story**                             | A brief description of a feature from the perspective of the end-user, often used in agile development.                                                                                |
+| **Variants**                               | Different forms or versions of a product or item.                                                                                                                                      |
+| **Varnishing**                             | The application of a protective or decorative finish to a surface.                                                                                                                     |
+| **Version History**                        | A record of changes or updates made to a system or document.                                                                                                                           |
+| **Visual Paradigm**                        | A software tool used for modeling and diagramming processes or systems.                                                                                                                |
+| **Waiting Time**                           | The period during which a task, operation, or process is delayed.                                                                                                                      |
+| **Warehouse**                              | A facility used for storing goods or materials.                                                                                                                                        |
+| **WorkStation**                            | A specific area or desk where tasks or operations are performed, often equipped with necessary tools or equipment.                                                                     |
