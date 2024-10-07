@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="project-template" options="-Xlint:all" />
+      <module name="project-template" options="-Xlint:all --add-exports java.net.http/jdk.internal.net.http.common=ALL-UNNAMED" />
       <module name="sem3-pi-2024-g094" options="-Xlint:all" />
     </option>
   </component>
