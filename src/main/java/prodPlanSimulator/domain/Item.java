@@ -1,6 +1,6 @@
-package domain;
+package prodPlanSimulator.domain;
 
-import enums.Priority;
+import prodPlanSimulator.enums.Priority;
 
 import java.util.List;
 

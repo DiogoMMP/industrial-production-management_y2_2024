@@ -1,6 +1,6 @@
-import domain.Item;
-import domain.Machine;
-import enums.Priority;
+import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.domain.Machine;
+import prodPlanSimulator.enums.Priority;
 
 import java.io.*;
 import java.util.*;

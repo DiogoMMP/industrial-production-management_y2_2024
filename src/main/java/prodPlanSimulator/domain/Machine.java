@@ -1,4 +1,4 @@
-package domain;
+package prodPlanSimulator.domain;
 
 public class Machine {
     private String id;
