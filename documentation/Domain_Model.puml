@@ -2,22 +2,99 @@
 skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
-'skinparam linetype ortho
-'left to right direction
+
 skinparam classAttributeIconSize 0
 hide circle
 hide methods
 
-class costumer {
-    name
-    birthdate
-    admissionDate
-    address
-    mobile number
-    email
-    password
-    idDocumentType
-    idDocumentNumber
-    taxPayerNumber
+class Customer{
+    NIF: int
+    name: string
+    address: string
+    phone: int
+    email: string
+    orders: Set<Order>
 }
+
+class Product{
+
+}
+
+class Product_Variant{
+    size : int
+    colour: string
+}
+
+class Factory{
+    type_of_factory: string
+    safety: string
+    efficiency: string
+    space: int
+}
+
+class Factory_Type{
+    name: string
+}
+
+class Raw_Material{
+
+}
+
+class Plant_Floor{
+    stations: ArrayList<Station>
+}
+
+class Station{
+    type_of_station: string
+    type_of_industry: string
+}
+
+class Station_Type{
+    stations_type: ArrayList<String>
+}
+
+class Industry_Type{
+    industry_types: ArrayList<String>
+    operations: ArrayList<Operation>
+}
+
+class Operation{
+    Operations_names: ArrayList<String>
+}
+
+class Production_Plan{
+    orders: Set<Order>
+    begin_date: Date
+    end_date: Date
+}
+
+class Order{
+    delivery_date: Date
+    quantity: int
+    customer_ID: int
+    location: string
+}
+
+class type_Customer{
+    types: ArrayList<String>
+}
+
+class Production_Order{
+
+}
+
+
+Factory "1" - "1" Factory_Type
+Station "1" -- "1" Station_Type
+Factory "1" -- "1..*" Plant_Floor
+Plant_Floor "1" -- "1..*" Station
+Station "1" -- "1" Industry_Type
+Industry_Type "1" -- "1..*" Operation
+Product "1" -- "1..*" Operation
+Production_Plan "1" -- "1..*" Order
+Customer "1" -- "1..*" Order
+Product "1" -- "1..*" Product_Variant
+Order "1" -- "1..*" Production_Order
+Production_Order "1" -- "1..*" Product
+
 @enduml
