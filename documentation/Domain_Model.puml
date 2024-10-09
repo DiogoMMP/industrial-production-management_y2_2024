@@ -8,12 +8,13 @@ hide circle
 hide methods
 
 class Customer{
-    NIF: int
-    name: string
-    address: string
-    phone: int
-    email: string
-    orders: Set<Order>
+    NIF
+    name
+    address
+    phone
+    email
+    category
+    orders
 }
 
 class Product{
@@ -21,19 +22,19 @@ class Product{
 }
 
 class Product_Variant{
-    size : int
-    colour: string
+    size
+    colour
 }
 
 class Factory{
-    type_of_factory: string
-    safety: string
-    efficiency: string
-    space: int
+    type_of_factory
+    safety
+    efficiency
+    space
 }
 
 class Factory_Type{
-    name: string
+    type
 }
 
 class Raw_Material{
@@ -41,42 +42,43 @@ class Raw_Material{
 }
 
 class Plant_Floor{
-    stations: ArrayList<Station>
+    stations
 }
 
 class Station{
-    type_of_station: string
-    type_of_industry: string
+    type_of_station
+    type_of_industry
 }
 
 class Station_Type{
-    stations_type: ArrayList<String>
+    type
 }
 
 class Industry_Type{
-    industry_types: ArrayList<String>
-    operations: ArrayList<Operation>
+    industry_types
+    operations
 }
 
 class Operation{
-    Operations_names: ArrayList<String>
+    Operations_names
 }
 
 class Production_Plan{
-    orders: Set<Order>
-    begin_date: Date
-    end_date: Date
+    orders
+    begin_date
+    end_date
 }
 
 class Order{
-    delivery_date: Date
-    quantity: int
-    customer_ID: int
-    location: string
+    order_ID
+    customer_ID
+    products
+    delivery_date
+    location
 }
 
-class type_Customer{
-    types: ArrayList<String>
+class Category_Customer{
+    category
 }
 
 class Production_Order{
@@ -93,6 +95,7 @@ Industry_Type "1" -- "1..*" Operation
 Product "1" -- "1..*" Operation
 Production_Plan "1" -- "1..*" Order
 Customer "1" -- "1..*" Order
+Category_Customer "1" -- "1..*" Customer
 Product "1" -- "1..*" Product_Variant
 Order "1" -- "1..*" Production_Order
 Production_Order "1" -- "1..*" Product
