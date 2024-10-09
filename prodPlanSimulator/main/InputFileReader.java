@@ -1,9 +1,12 @@
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine;
-import prodPlanSimulator.enums.Priority;
+package main;
+
+import main.domain.Item;
+import main.domain.Machine;
+import main.enums.Priority;
 
 import java.io.*;
 import java.util.*;
+
 
 import static jdk.internal.net.http.common.Log.logError;
 

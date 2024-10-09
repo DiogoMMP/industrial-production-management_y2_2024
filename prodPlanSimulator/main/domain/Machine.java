@@ -1,6 +1,5 @@
-package prodPlanSimulator.domain;
+package main.domain;
 
-import prodPlanSimulator.interfaces.Simulator;
 
 public class Machine {
     private String id;

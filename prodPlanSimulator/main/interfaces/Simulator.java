@@ -1,4 +1,4 @@
-package prodPlanSimulator.interfaces;
+package main.interfaces;
 
 public interface Simulator {
     void simulateProcess();

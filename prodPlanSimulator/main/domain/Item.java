@@ -1,7 +1,7 @@
-package prodPlanSimulator.domain;
+package main.domain;
 
-import prodPlanSimulator.enums.Priority;
-import prodPlanSimulator.interfaces.Simulator;
+import main.enums.Priority;
+import main.interfaces.Simulator;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ public class Item implements Simulator {
     private Priority priority;
     private List<String> operations;
     private int currentOperationIndex;
+
+
 
     /**
      * Item Builder
@@ -101,7 +103,7 @@ public class Item implements Simulator {
     }
 
     /**
-     * Simulates the process of all the items
+     * Simulates the process of all the items present in the system
      */
     @Override
     public void simulateProcess() {
