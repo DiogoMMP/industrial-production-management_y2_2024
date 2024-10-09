@@ -1,5 +1,7 @@
 package prodPlanSimulator.domain;
 
+import prodPlanSimulator.interfaces.Simulator;
+
 public class Machine {
     private String id;
     private String operation;
@@ -75,4 +77,6 @@ public class Machine {
     public void setTime(int time) {
         this.time = time;
     }
+
+
 }

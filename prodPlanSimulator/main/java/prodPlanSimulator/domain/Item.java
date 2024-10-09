@@ -1,10 +1,11 @@
 package prodPlanSimulator.domain;
 
 import prodPlanSimulator.enums.Priority;
+import prodPlanSimulator.interfaces.Simulator;
 
 import java.util.List;
 
-public class Item {
+public class Item implements Simulator {
     private int id;
     private Priority priority;
     private List<String> operations;
@@ -97,6 +98,18 @@ public class Item {
      */
     public void setCurrentOperationIndex(int currentOperationIndex) {
         this.currentOperationIndex = currentOperationIndex;
+    }
+
+    /**
+     * Simulates the process of all the items
+     */
+    @Override
+    public void simulateProcess() {
+
+        System.out.println("Simulating process of item " + this.id);
+        System.out.println("Priority: " + this.priority);
+        System.out.println("Operations: " + this.operations);
+        System.out.println("Current Operation Index: " + this.currentOperationIndex);
     }
 }
 
