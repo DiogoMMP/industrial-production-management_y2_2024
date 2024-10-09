@@ -7,7 +7,7 @@ skinparam classAttributeIconSize 0
 hide circle
 hide methods
 
-class Customer{
+class Customer {
     NIF
     name
     address
@@ -17,59 +17,62 @@ class Customer{
     orders
 }
 
-class Product{
-
+class Product {
+    product_ID
+    name
 }
 
-class Product_Variant{
+class Product_Variant {
     size
     colour
 }
 
-class Factory{
+class Factory {
     type_of_factory
     safety
     efficiency
     space
+    production_orders
 }
 
-class Factory_Type{
+class Factory_Type {
     type
 }
 
-class Raw_Material{
-
+class Raw_Material {
+    material_ID
+    name
 }
 
-class Plant_Floor{
+class Plant_Floor {
     stations
 }
 
-class Station{
+class Station {
     type_of_station
     type_of_industry
 }
 
-class Station_Type{
+class Station_Type {
     type
 }
 
-class Industry_Type{
+class Industry_Type {
     industry_types
     operations
 }
 
-class Operation{
-    Operations_names
+class Operation {
+    operation_name
 }
 
-class Production_Plan{
+class Production_Plan {
     orders
     begin_date
     end_date
 }
 
-class Order{
+class Order {
     order_ID
     customer_ID
     products
@@ -77,14 +80,19 @@ class Order{
     location
 }
 
-class Category_Customer{
+class Category_Customer {
     category
 }
 
-class Production_Order{
-
+class Category_Product {
+    category
 }
 
+class Production_Order {
+    order_ID
+    product_ID
+    quantity
+}
 
 Factory "1" - "1" Factory_Type
 Station "1" -- "1" Station_Type
@@ -96,8 +104,10 @@ Product "1" -- "1..*" Operation
 Production_Plan "1" -- "1..*" Order
 Customer "1" -- "1..*" Order
 Category_Customer "1" -- "1..*" Customer
+Category_Product "1" -- "1..*" Product
 Product "1" -- "1..*" Product_Variant
 Order "1" -- "1..*" Production_Order
-Production_Order "1" -- "1..*" Product
+Production_Order "1" -- "1" Product
+Production_Order "1" -- "1..*" Raw_Material
 
 @enduml
