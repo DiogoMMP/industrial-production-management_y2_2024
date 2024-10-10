@@ -5,6 +5,7 @@ public class Machine {
     private String id;
     private String operation;
     private int time;
+    private Item item;
 
     /**
      * Machine Builder
@@ -77,5 +78,20 @@ public class Machine {
         this.time = time;
     }
 
+    /**
+     * Gets the item of the machine
+     * @return item of the machine
+     */
 
+    public Item getItem() {
+        return item;
+    }
+
+    /**
+     * Sets the item of the machine
+     * @param item new item of the machine
+     */
+    public void setItem(Item item) {
+        this.item = item;
+    }
 }
