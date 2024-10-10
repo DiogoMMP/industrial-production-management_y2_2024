@@ -28,4 +28,19 @@ public class HashMap_Items_Machines {
     public HashMap<Item, Machine> getProdPlan() {
         return ProdPlan;
     }
+
+    public int calcOpTime(String operation) throws Exception {
+        HashMap<Item, Machine> op = getProdPlan();
+        if(op.isEmpty()) {
+            throw new Exception("Operation not found");
+        }
+        for (Map.Entry<Item, Machine> item : op.entrySet()) {
+            if (item.getValue().getOperation().equals(operation)) {
+                return item.getValue().getTime();
+            }else {
+                throw new Exception("Operation not found");
+            }
+        }
+        return 0;
+    }
 }
