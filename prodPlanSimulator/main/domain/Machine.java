@@ -94,4 +94,11 @@ public class Machine {
     public void setItem(Item item) {
         this.item = item;
     }
+
+    /**
+     * Clear the item of the machine
+     */
+    public void clearUpMachine() {
+        this.item = null;
+    }
 }

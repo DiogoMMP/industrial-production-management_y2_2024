@@ -117,20 +117,29 @@ public class Item implements Simulator {
      * Simulates the process of all the items present in the system
      */
     @Override
-    public void simulateProcess() {
+    public HashMap<String, Double> simulateProcess() {
         HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
         HashMap<String, Queue<Item>> operationsQueue = new HashMap<>();
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
         machines.sort(Comparator.comparing(Machine::getTime));
-        // AC01 - Create the operationsQueue with the list of the items for each operation
+
+        // AC1 - Create the operationsQueue with the list of the items for each operation
         fillOperationsQueue(ProdPlan, operationsQueue);
 
-        // AC02 - Assign the items to the machines
-        // Importante temos de ver se é a melhor maneira de fazer isto
-        fillUpMachines(operationsQueue, machines);
+        // AC2 - Assign the items to the machines
+        HashMap<String, Double> timeOperations = new HashMap<>();
+        fillUpMachines(operationsQueue, machines, timeOperations);
+        return timeOperations;
     }
 
-    private static void fillUpMachines(HashMap<String, Queue<Item>> operationsQueue, ArrayList<Machine> machines) {
+    /**
+     * Fills the machines with the items
+     *
+     * @param operationsQueue HashMap with the operations and the list of items
+     * @param machines        List of machines
+     */
+    private static void fillUpMachines(HashMap<String, Queue<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations) {
+        int quantMachines = machines.size();
         for (String operation : operationsQueue.keySet()) {
             Queue<Item> items = operationsQueue.get(operation);
             for (Item item : items) {
@@ -139,10 +148,20 @@ public class Item implements Simulator {
                         break;
                     }
                     if (machine.getOperation().equalsIgnoreCase(operation) && machine.getItem() == null) {
+                        if (quantMachines == 0) {
+                            for (Machine machine1 : machines) {
+                                machine1.clearUpMachine();
+                            }
+                            quantMachines = machines.size();
+                        }
                         machine.setItem(item);
                         item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                        quantMachines--;
+                        String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
+                        timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
                         break;
                     }
+
                 }
             }
         }

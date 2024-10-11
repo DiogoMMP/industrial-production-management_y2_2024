@@ -1,5 +1,8 @@
 package main.interfaces;
 
+import java.util.Date;
+import java.util.HashMap;
+
 public interface Simulator {
-    void simulateProcess();
+    HashMap<String, Double> simulateProcess();
 }
