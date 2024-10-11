@@ -119,7 +119,7 @@ public class Item implements Simulator {
     @Override
     public HashMap<String, Double> simulateProcess() {
         HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
-        HashMap<String, Queue<Item>> operationsQueue = new HashMap<>();
+        HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
         machines.sort(Comparator.comparing(Machine::getTime));
 
@@ -138,7 +138,7 @@ public class Item implements Simulator {
      * @param operationsQueue HashMap with the operations and the list of items
      * @param machines        List of machines
      */
-    private static void fillUpMachines(HashMap<String, Queue<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations) {
+    private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations) {
         int quantMachines = machines.size();
         for (String operation : operationsQueue.keySet()) {
             Queue<Item> items = operationsQueue.get(operation);
@@ -173,7 +173,7 @@ public class Item implements Simulator {
      * @param ProdPlan        HashMap with the items and the machines
      * @param operationsQueue HashMap with the operations and the list of items
      */
-    private static void fillOperationsQueue(HashMap<Item, Machine> ProdPlan, HashMap<String, Queue<Item>> operationsQueue) {
+    private static void fillOperationsQueue(HashMap<Item, Machine> ProdPlan, HashMap<String, LinkedList<Item>> operationsQueue) {
         for (Item item : ProdPlan.keySet()) {
             ArrayList<String> operations = (ArrayList<String>) item.getOperations();
             for (String operation : operations) {
@@ -186,6 +186,11 @@ public class Item implements Simulator {
             }
         }
     }
+
+    /**
+     * Sort all the items that have a certain operation by their priority
+     * @param items list of items
+     */
 
     private static void sortByPriority(Queue<Item> items) {
         List<Item> itemsList = new ArrayList<>(items);
