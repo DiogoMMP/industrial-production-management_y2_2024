@@ -12,8 +12,8 @@ import static jdk.internal.net.http.common.Log.logError;
 
 public class InputFileReader {
 
-    public static final String FILE_PATH_ITEMS = "src/main/resources/artigos.csv";
-    public static final String FILE_PATH_MACHINES = "src/main/resources/maquinas.csv";
+    public static final String FILE_PATH_ITEMS = "prodPlanSimulator/main/resources/artigos.csv";
+    public static final String FILE_PATH_MACHINES = "prodPlanSimulator/main/resources/maquinas.csv";
 
     public static Map<Integer, Item> readItems() {
         Map<Integer, Item> items = new HashMap<>();

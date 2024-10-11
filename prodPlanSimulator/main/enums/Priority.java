@@ -16,9 +16,8 @@ public enum Priority {
         return null;
     }
 
-    public static String toString(Priority priority) {
-        return priority.toString();
+    @Override
+    public String toString() {
+        return name().toLowerCase();
     }
-
-
 }

@@ -187,6 +187,13 @@ public class Item implements Simulator {
         }
     }
 
+    private static void sortByPriority(Queue<Item> items) {
+        List<Item> itemsList = new ArrayList<>(items);
+        itemsList.sort(Comparator.comparing(Item::getPriority));
+        items.clear();
+        items.addAll(itemsList);
+    }
+
     /**
      * Calculates the total production time per item
      *
