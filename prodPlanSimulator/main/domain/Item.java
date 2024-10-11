@@ -186,5 +186,33 @@ public class Item implements Simulator {
             }
         }
     }
+
+    /**
+     * Calculates the total production time per item
+     *
+     * @return HashMap with the total production time per item
+     */
+    public HashMap<Item, Double> calculateTotalProductionTimePerItem() {
+        double totalProductionTime = 0.0;
+        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
+
+        for (Map.Entry<Item, Machine> entry : HashMap_Items_Machines.getProdPlan().entrySet()) {
+            Item item = entry.getKey();
+            Machine machine = entry.getValue();
+
+            for (String operation : item.getOperations()) {
+
+                if (machine.getOperation().equals(operation)) {
+                    totalProductionTime += machine.getTime();
+                }
+            }
+            totalProductionTimePerItem.put(item, totalProductionTime);
+            totalProductionTime = 0.0;
+
+        }
+
+        return totalProductionTimePerItem;
+    }
+
 }
 
