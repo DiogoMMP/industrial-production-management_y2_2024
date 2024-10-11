@@ -1,0 +1,139 @@
+-- Inserir dados nas tabelas pais antes das tabelas dependentes
+
+-- Factory_Plant
+INSERT INTO Factory_Plant (Factory_Plant_ID, Factory_Type_ID, Safety, Eficiency, Space)
+VALUES (1, 1, 9, 8, 5000);
+
+INSERT INTO Factory_Plant (Factory_Plant_ID, Factory_Type_ID, Safety, Eficiency, Space)
+VALUES (2, 2, 7, 6, 4000);
+
+-- Production_Plan
+INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date)
+VALUES (1, TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_DATE('2024-10-10', 'YYYY-MM-DD'));
+
+INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date)
+VALUES (2, TO_DATE('2024-10-11', 'YYYY-MM-DD'), TO_DATE('2024-10-20', 'YYYY-MM-DD'));
+
+-- Raw_Materials
+INSERT INTO Raw_Materials (Raw_Material_ID, Raw_Material_Name, Raw_Material_Quantity)
+VALUES (1, 'Plástico', 1000);
+
+INSERT INTO Raw_Materials (Raw_Material_ID, Raw_Material_Name, Raw_Material_Quantity)
+VALUES (2, 'Metal', 500);
+
+-- Type
+INSERT INTO type (ID, Name)
+VALUES (1, 'Cliente');
+
+INSERT INTO type (ID, Name)
+VALUES (2, 'Premium');
+
+-- Manufacturing_Operations
+INSERT INTO Manufacturing_Operations (Manufacturing_Operations_ID, Operations_Name)
+VALUES (1, 'Montagem');
+
+INSERT INTO Manufacturing_Operations (Manufacturing_Operations_ID, Operations_Name)
+VALUES (2, 'Soldadura');
+
+-- Type_Industry
+INSERT INTO Type_Industry (Type_Industry_ID, Manufacturing_Operations_ID, Type_Industry, Type_Stations_ID)
+VALUES (1, 1, 'Eletrónica', 1);
+
+INSERT INTO Type_Industry (Type_Industry_ID, Manufacturing_Operations_ID, Type_Industry, Type_Stations_ID)
+VALUES (2, 2, 'Automóvel', 2);
+
+-- Process
+INSERT INTO Process (Process_ID, Component_ID, Raw_Material_ID, Operation)
+VALUES (1, 1, 1, 'Montagem');
+
+INSERT INTO Process (Process_ID, Component_ID, Raw_Material_ID, Operation)
+VALUES (2, 2, 2, 'Soldadura');
+
+-- Component
+INSERT INTO Component (Component_ID, Product_ID, Component_Name, Component_Quantity)
+VALUES (1, 1, 'Placa Mãe', 2);
+
+INSERT INTO Component (Component_ID, Product_ID, Component_Name, Component_Quantity)
+VALUES (2, 1, 'Processador', 1);
+
+INSERT INTO Component (Component_ID, Product_ID, Component_Name, Component_Quantity)
+VALUES (3, 2, 'Bateria', 3);
+
+INSERT INTO Component (Component_ID, Product_ID, Component_Name, Component_Quantity)
+VALUES (4, 2, 'Ecrã', 2);
+
+INSERT INTO Component (Component_ID, Product_ID, Component_Name, Component_Quantity)
+VALUES (5, 3, 'Carcaça', 5);
+
+-- Customer
+INSERT INTO Customer (NIF, Name, Address, Mobile_number, Email, typeID)
+VALUES (123456789, 'João Silva', 'Rua A, Porto', 912345678, 'joao.silva@example.com', 1);
+
+INSERT INTO Customer (NIF, Name, Address, Mobile_number, Email, typeID)
+VALUES (987654321, 'Maria Santos', 'Rua B, Lisboa', 919876543, 'maria.santos@example.com', 2);
+
+INSERT INTO Customer (NIF, Name, Address, Mobile_number, Email, typeID)
+VALUES (456789123, 'Carlos Ferreira', 'Rua C, Braga', 911234567, 'carlos.ferreira@example.com', 1);
+
+
+
+
+
+-- Plant_Floor
+INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID)
+VALUES (1, 1);
+
+INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID)
+VALUES (2, 2);
+
+
+-- Product_Variants
+INSERT INTO Product_Variants (Product_Variant_ID, Product_ID, Product_Color, Product_Size)
+VALUES (1, 1, 'Preto', 15);
+
+INSERT INTO Product_Variants (Product_Variant_ID, Product_ID, Product_Color, Product_Size)
+VALUES (2, 2, 'Branco', 12);
+
+-- Production_Order
+INSERT INTO Production_Order (Order_ID, Product_Planing_ID, Product_Variant_ID, Order_Date, Customer_Order_ID)
+VALUES (1, 1, 1, TO_DATE('2024-10-05', 'YYYY-MM-DD'), 1);
+
+INSERT INTO Production_Order (Order_ID, Product_Planing_ID, Product_Variant_ID, Order_Date, Customer_Order_ID)
+VALUES (2, 2, 2, TO_DATE('2024-10-10', 'YYYY-MM-DD'), 2);
+
+-- Stations
+INSERT INTO Stations (Stations_ID, Plant_Floor_ID)
+VALUES (1, 1);
+
+INSERT INTO Stations (Stations_ID, Plant_Floor_ID)
+VALUES (2, 2);
+
+-- Type_Stations
+INSERT INTO Type_Stations (Type_Stations_ID, Type_Stations, Stations_ID)
+VALUES (1, 3, 1);
+
+INSERT INTO Type_Stations (Type_Stations_ID, Type_Stations, Stations_ID)
+VALUES (2, 4, 2);
+
+
+
+
+-- Customer_Order
+INSERT INTO Customer_Order (Customer_Order_ID, Delivery_Date, Location, CustomerNIF)
+VALUES (1, TO_DATE('2024-10-15', 'YYYY-MM-DD'), 'Porto', 123456789);
+
+INSERT INTO Customer_Order (Customer_Order_ID, Delivery_Date, Location, CustomerNIF)
+VALUES (2, TO_DATE('2024-10-20', 'YYYY-MM-DD'), 'Lisboa', 987654321);
+
+INSERT INTO Customer_Order (Customer_Order_ID, Delivery_Date, Location, CustomerNIF)
+VALUES (3, TO_DATE('2024-10-25', 'YYYY-MM-DD'), 'Braga', 456789123);
+
+-- Products
+INSERT INTO Products (Product_ID, Factory_Plant_ID, Order_ID, Market_Demand, Optimization, Production_Costs, Flexibility, Customer_Order_ID)
+VALUES (1, 1, NULL, 100, 80, 500, 70, NULL);
+
+INSERT INTO Products (Product_ID, Factory_Plant_ID, Order_ID, Market_Demand, Optimization, Production_Costs, Flexibility, Customer_Order_ID)
+VALUES (2, 2, NULL, 150, 75, 700, 65, NULL);
+
+INSERT INTO Products (Product_ID, Factory_Plant_ID, Order_ID, Market_Demand, Optimization, Production_Costs, Flexibility, Customer_Order_ID)
+VALUES (3, 1, NULL, 200, 60, 400, 80, NULL);
