@@ -141,7 +141,8 @@ public class Item implements Simulator {
     private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations) {
         int quantMachines = machines.size();
         for (String operation : operationsQueue.keySet()) {
-            Queue<Item> items = operationsQueue.get(operation);
+            LinkedList<Item> items = operationsQueue.get(operation);
+            sortByPriority(items);
             for (Item item : items) {
                 for (Machine machine : machines) {
                     if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
@@ -161,7 +162,6 @@ public class Item implements Simulator {
                         timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
                         break;
                     }
-
                 }
             }
         }
@@ -179,20 +179,18 @@ public class Item implements Simulator {
             for (String operation : operations) {
                 if (!operationsQueue.containsKey(operation)) {
                     operationsQueue.put(operation, new LinkedList<>());
-                    operationsQueue.get(operation).add(item);
-                } else if (!operationsQueue.get(operation).contains(item)) {
-                    operationsQueue.get(operation).add(item);
                 }
+                operationsQueue.get(operation).add(item);
             }
         }
     }
 
     /**
-     * Sort all the items that have a certain operation by their priority
-     * @param items list of items
+     * Sorts items by their priority (high, normal, low)
+     *
+     * @param items Queue of items to be sorted
      */
-
-    private static void sortByPriority(Queue<Item> items) {
+    private static void sortByPriority(LinkedList<Item> items) {
         List<Item> itemsList = new ArrayList<>(items);
         itemsList.sort(Comparator.comparing(Item::getPriority));
         items.clear();
