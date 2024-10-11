@@ -119,7 +119,7 @@ public class Item implements Simulator {
     @Override
     public HashMap<String, Double> simulateProcess() {
         HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
-        HashMap<String, Queue<Item>> operationsQueue = new HashMap<>();
+        HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
         machines.sort(Comparator.comparing(Machine::getTime));
 
@@ -138,10 +138,11 @@ public class Item implements Simulator {
      * @param operationsQueue HashMap with the operations and the list of items
      * @param machines        List of machines
      */
-    private static void fillUpMachines(HashMap<String, Queue<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations) {
+    private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations) {
         int quantMachines = machines.size();
         for (String operation : operationsQueue.keySet()) {
-            Queue<Item> items = operationsQueue.get(operation);
+            LinkedList<Item> items = operationsQueue.get(operation);
+            sortByPriority(items);
             for (Item item : items) {
                 for (Machine machine : machines) {
                     if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
@@ -161,7 +162,6 @@ public class Item implements Simulator {
                         timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
                         break;
                     }
-
                 }
             }
         }
@@ -173,21 +173,24 @@ public class Item implements Simulator {
      * @param ProdPlan        HashMap with the items and the machines
      * @param operationsQueue HashMap with the operations and the list of items
      */
-    private static void fillOperationsQueue(HashMap<Item, Machine> ProdPlan, HashMap<String, Queue<Item>> operationsQueue) {
+    private static void fillOperationsQueue(HashMap<Item, Machine> ProdPlan, HashMap<String, LinkedList<Item>> operationsQueue) {
         for (Item item : ProdPlan.keySet()) {
             ArrayList<String> operations = (ArrayList<String>) item.getOperations();
             for (String operation : operations) {
                 if (!operationsQueue.containsKey(operation)) {
                     operationsQueue.put(operation, new LinkedList<>());
-                    operationsQueue.get(operation).add(item);
-                } else if (!operationsQueue.get(operation).contains(item)) {
-                    operationsQueue.get(operation).add(item);
                 }
+                operationsQueue.get(operation).add(item);
             }
         }
     }
 
-    private static void sortByPriority(Queue<Item> items) {
+    /**
+     * Sorts items by their priority (high, normal, low)
+     *
+     * @param items Queue of items to be sorted
+     */
+    private static void sortByPriority(LinkedList<Item> items) {
         List<Item> itemsList = new ArrayList<>(items);
         itemsList.sort(Comparator.comparing(Item::getPriority));
         items.clear();
