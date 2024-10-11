@@ -1,4 +1,4 @@
-# sem3-p2-2024_25_G094
+# sem3-pi-2024_25_G094
 
 ## Project Overview
 This prodPlanSimulator.repository contains the code and resources for the Semester 3 Integrative Project, developed by Group G094. The project involves building a comprehensive solution for production management in industrial facilities, using various technologies such as PL/SQL, Java, C, and Assembly.
