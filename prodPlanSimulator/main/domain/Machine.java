@@ -1,21 +1,24 @@
 package main.domain;
 
 
+import java.util.Collections;
+import java.util.List;
+
 public class Machine {
     private String id;
-    private String operation;
+    private List<String> operations;
     private int time;
-    private Item item;
+    private Boolean hasItem = false;
 
     /**
      * Machine Builder
      * @param id Machine ID
-     * @param operation Machine operation
+     * @param operations Machine operation
      * @param time Machine time
      */
-    public Machine(String id, String operation, int time) {
+    public Machine(String id, List<String> operations, int time) {
         this.id = id;
-        this.operation = operation;
+        this.operations = operations;
         this.time = time;
     }
 
@@ -24,7 +27,7 @@ public class Machine {
      */
     public Machine() {
         this.id = "";
-        this.operation = "";
+        this.operations = null;
         this.time = 0;
     }
 
@@ -48,18 +51,19 @@ public class Machine {
 
     /**
      * Gets the operation of the machine
+     *
      * @return operation of the machine
      */
-    public String getOperation() {
-        return operation;
+    public List<String> getOperations() {
+        return operations;
     }
 
     /**
      * Sets the operation of the machine
-     * @param operation new operation of the machine
+     * @param operations new operation of the machine
      */
-    public void setOperation(String operation) {
-        this.operation = operation;
+    public void setOperations(List<String> operations) {
+        this.operations = operations;
     }
 
     /**
@@ -83,22 +87,22 @@ public class Machine {
      * @return item of the machine
      */
 
-    public Item getItem() {
-        return item;
+    public Boolean getHasItem() {
+        return hasItem;
     }
 
     /**
      * Sets the item of the machine
-     * @param item new item of the machine
+     * @param hasItem new item of the machine
      */
-    public void setItem(Item item) {
-        this.item = item;
+    public void setHasItem(Boolean hasItem) {
+        this.hasItem = hasItem;
     }
 
     /**
      * Clear the item of the machine
      */
     public void clearUpMachine() {
-        this.item = null;
+        this.hasItem = false;
     }
 }

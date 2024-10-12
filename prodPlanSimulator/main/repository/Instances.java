@@ -6,6 +6,7 @@ public class Instances {
 
     public Instances() {
         HashMap_Items_Machines = new HashMap_Items_Machines();
+        HashMap_Items_Machines.addAll();
     }
 
     public static Instances getInstance() {

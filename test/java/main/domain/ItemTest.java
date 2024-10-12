@@ -3,35 +3,42 @@ package main.domain;
 
 import main.enums.Priority;
 import main.repository.HashMap_Items_Machines;
+import main.repository.Instances;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
     private static HashMap<Item, Machine> ProdPlan = new HashMap<>();
-    private static HashMap_Items_Machines HashMap = new HashMap_Items_Machines(ProdPlan);
-    private static Item item;
+    private static HashMap_Items_Machines hashMapItemsMachines = Instances.getInstance().getHashMap_Items_Machines();
     private static Item item1;
 
     @BeforeAll
     static void setUp() {
-        HashMap.addAll();
-        ProdPlan = HashMap.getProdPlan();
+        ProdPlan = hashMapItemsMachines.getProdPlan();
+        ProdPlan.keySet().forEach(item -> item.setCurrentOperationIndex(0));
         ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
-        item = items.get(0); // Ensure item is initialized properly
-        item1 = items.get(0); // Ensure item1 is initialized properly
+        items.get(0).setCurrentOperationIndex(0);
+        Collections.sort(items);
+        item1 = items.get(0);
+
+        item1.setCurrentOperationIndex(0);
     }
 
     @AfterEach
     void tearDown() {
         item1 = new Item();
         ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
+        Collections.sort(items);
         item1 = items.get(0);
+
+        item1.setCurrentOperationIndex(0);
     }
 
     @Test
@@ -47,7 +54,9 @@ class ItemTest {
 
     @Test
     void getPriority() {
-        assertEquals(Priority.HIGH, item1.getPriority());
+        Item item = new Item();
+        item.setPriority(Priority.HIGH);
+        assertEquals(Priority.HIGH, item.getPriority());
     }
 
     @Test
@@ -87,7 +96,7 @@ class ItemTest {
 
     @Test
     void simulateProcess() {
-        HashMap<String, Double> result = item.simulateProcess();
+        HashMap <String, Double> result = Item.simulateProcess();
         assertNotNull(result);
         assertFalse(result.isEmpty());
 

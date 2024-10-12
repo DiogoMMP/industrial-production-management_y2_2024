@@ -1,18 +1,17 @@
 package main.domain;
 
 import main.enums.Priority;
-import main.interfaces.Simulator;
 import main.repository.HashMap_Items_Machines;
 import main.repository.Instances;
 
 import java.util.*;
 
-public class Item implements Simulator {
+public class Item implements  Comparable<Item> {
     private int id;
     private Priority priority;
     private List<String> operations;
     private int currentOperationIndex;
-    private HashMap_Items_Machines HashMap_Items_Machines = Instances.getInstance().getHashMap_Items_Machines();
+    private static HashMap_Items_Machines HashMap_Items_Machines = Instances.getInstance().getHashMap_Items_Machines();
 
 
     /**
@@ -116,20 +115,41 @@ public class Item implements Simulator {
     /**
      * Simulates the process of all the items present in the system
      */
-    @Override
-    public HashMap<String, Double> simulateProcess() {
+
+    public static HashMap<String, Double> simulateProcess() {
         HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
         HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
+        removeNullMachines(machines);
+        removeNullItems(ProdPlan);
         machines.sort(Comparator.comparing(Machine::getTime));
 
         // AC1 - Create the operationsQueue with the list of the items for each operation
         fillOperationsQueue(ProdPlan, operationsQueue);
-
         // AC2 - Assign the items to the machines
         HashMap<String, Double> timeOperations = new HashMap<>();
         fillUpMachines(operationsQueue, machines, timeOperations);
+
         return timeOperations;
+    }
+
+    /**
+     * Removes the null machines from the list of machines
+     *
+     * @param machines List of machines
+     */
+    private static void removeNullMachines(ArrayList<Machine> machines) {
+        machines.removeIf(machine -> machine.getId().equalsIgnoreCase(""));
+    }
+
+    /**
+     * Removes the null items from the list of items
+     *
+     * @param ProdPlan HashMap with the items and the machines
+     */
+
+    private static void removeNullItems(HashMap<Item, Machine> ProdPlan) {
+        ProdPlan.entrySet().removeIf(entry -> entry.getKey().getId() == 0);
     }
 
     /**
@@ -148,23 +168,30 @@ public class Item implements Simulator {
                     if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
                         break;
                     }
-                    if (machine.getOperation().equalsIgnoreCase(operation) && machine.getItem() == null) {
-                        if (quantMachines == 0) {
-                            for (Machine machine1 : machines) {
-                                machine1.clearUpMachine();
-                            }
-                            quantMachines = machines.size();
+                    for (String operationMachine : machine.getOperations()) {
+                        if (operationMachine.equalsIgnoreCase(operation) && !machine.getHasItem()) {
+                            quantMachines = checkMachines(machines, quantMachines);
+                            machine.setHasItem(false);
+                            item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                            quantMachines--;
+                            String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
+                            timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
+                            break;
                         }
-                        machine.setItem(item);
-                        item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
-                        quantMachines--;
-                        String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
-                        timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
-                        break;
                     }
                 }
             }
         }
+    }
+
+    private static int checkMachines(ArrayList<Machine> machines, int quantMachines) {
+        if (quantMachines == 0) {
+            for (Machine machine1 : machines) {
+                machine1.clearUpMachine();
+            }
+            quantMachines = machines.size();
+        }
+        return quantMachines;
     }
 
     /**
@@ -212,7 +239,7 @@ public class Item implements Simulator {
 
             for (String operation : item.getOperations()) {
 
-                if (machine.getOperation().equals(operation)) {
+                if (machine.getOperations().equals(operation)) {
                     totalProductionTime += machine.getTime();
                 }
             }
@@ -224,5 +251,9 @@ public class Item implements Simulator {
         return totalProductionTimePerItem;
     }
 
+    @Override
+    public int compareTo(Item o) {
+        return Integer.compare(this.id, o.id);
+    }
 }
 

@@ -2,7 +2,7 @@ package main.enums;
 
 public enum Priority {
     HIGH,
-    MEDIUM,
+    NORMAL,
     LOW;
 
     public static Priority fromString(String priority) {
