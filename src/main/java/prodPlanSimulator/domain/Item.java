@@ -194,6 +194,101 @@ public class Item implements  Comparable<Item> {
         return quantMachines;
     }
 
+    public  void calculateAverageTimes() {
+        HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<String, Double> totalTimesPerOperation = new HashMap<>();
+        HashMap<String, Integer> operationCount = new HashMap<>();
+        HashMap<String, Double> waitingTimesPerOperation = new HashMap<>();
+
+        // Simulating the process
+        HashMap<String, Double> timeOperations = simulateProcess();
+
+        // Calculate total execution times and count for average
+        for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+            String operation = entry.getKey().split(" - ")[0];  // Extracting operation name
+            totalTimesPerOperation.put(operation, totalTimesPerOperation.getOrDefault(operation, 0.0) + entry.getValue());
+            operationCount.put(operation, operationCount.getOrDefault(operation, 0) + 1);
+        }
+
+        // Calculate average execution time per operation
+        System.out.println("Average Execution Times:");
+        for (String operation : totalTimesPerOperation.keySet()) {
+            double totalExecutionTime = totalTimesPerOperation.get(operation);
+            int count = operationCount.get(operation);
+            double averageTime = totalExecutionTime / count;
+            System.out.println(operation + " : Average Time = " + averageTime);
+        }
+
+        // Simulating machine availability to calculate waiting times
+        for (Machine machine : ProdPlan.values()) {
+            double totalWaitingTime = 0.0;
+            for (Item item : ProdPlan.keySet()) {
+                // If machine is busy, increase waiting time
+                if (machine.getHasItem()) {
+                    totalWaitingTime += machine.getTime();
+                }
+            }
+            // Add waiting time for the current machine's operation
+            String machineOperation = machine.getOperations().get(0);
+            waitingTimesPerOperation.put(machineOperation, waitingTimesPerOperation.getOrDefault(machineOperation, 0.0) + totalWaitingTime);
+        }
+
+        // Print waiting times per operation
+        System.out.println("Average Waiting Times:");
+        for (String operation : waitingTimesPerOperation.keySet()) {
+            double totalWaitingTime = waitingTimesPerOperation.get(operation);
+            int count = operationCount.get(operation); // Use the same count as execution
+            double averageWaitingTime = totalWaitingTime / count;
+            System.out.println(operation + " : Average Waiting Time = " + averageWaitingTime);
+        }
+    }
+
+
+
+    public void generateMachineFlowReport() {
+        HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
+        Map<String, Map<String, Integer>> machineFlow = new HashMap<>();
+
+        // Iterate over the ProdPlan to build the flow between machines
+        for (Item item : ProdPlan.keySet()) {
+            List<String> operations = item.getOperations();
+            Machine lastMachine = null;
+
+            // Simulate processing of each item and track its flow between machines
+            for (String operation : operations) {
+                Machine currentMachine = ProdPlan.get(item);  // Get current machine handling the item
+
+                if (lastMachine != null) {
+                    String lastMachineId = lastMachine.getId();
+                    String currentMachineId = currentMachine.getId();
+
+                    // Update the flow map
+                    machineFlow.putIfAbsent(lastMachineId, new HashMap<>());
+                    Map<String, Integer> transitions = machineFlow.get(lastMachineId);
+                    transitions.put(currentMachineId, transitions.getOrDefault(currentMachineId, 0) + 1);
+                }
+
+                lastMachine = currentMachine;  // Move to next machine
+            }
+        }
+
+        // Print the machine flow report in descending order of processed items
+        System.out.println("Machine Flow Report:");
+        for (String machine : machineFlow.keySet()) {
+            System.out.print(machine + " : ");
+            Map<String, Integer> flows = machineFlow.get(machine);
+
+            // Sort the flows by number of items processed
+            flows.entrySet().stream()
+                    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                    .forEach(entry -> {
+                        System.out.print("(" + entry.getKey() + "," + entry.getValue() + ") ");
+                    });
+            System.out.println();
+        }
+    }
+
+
     /**
      * Fills the operationsQueue with the list of the items for each operation
      *
