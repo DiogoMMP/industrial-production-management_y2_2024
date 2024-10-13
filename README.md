@@ -1,7 +1,7 @@
 # sem3-pi-2024_25_G094
 
 ## Project Overview
-This prodPlanSimulator.repository contains the code and resources for the Semester 3 Integrative Project, developed by Group G094. The project involves building a comprehensive solution for production management in industrial facilities, using various technologies such as PL/SQL, Java, C, and Assembly.
+This prodPlanSimulator.prodPlanSimulator.repository contains the code and prodPlanSimulator.resources for the Semester 3 Integrative Project, developed by Group G094. The project involves building a comprehensive solution for production management in industrial facilities, using various technologies such as PL/SQL, Java, C, and Assembly.
 
 ## Project Structure
 The project is divided into several key modules, each focusing on different aspects of production management:
@@ -19,7 +19,7 @@ The project is divided into several key modules, each focusing on different aspe
 ## Setup Instructions
 Follow these steps to set up and run each module of the project:
 
-1. **Clone the prodPlanSimulator.repository**:
+1. **Clone the prodPlanSimulator.prodPlanSimulator.repository**:
    ```bash
    git clone https://github.com/Departamento-de-Engenharia-Informatica/sem3-pi-2024-g094.git
    cd integrative-project
@@ -49,7 +49,7 @@ The project is divided into 3 sprints:
 - **Sprint 3**: Weeks 11 to 14 – from 25/November to 11/January
 
 ## Contributing
-1. Fork the prodPlanSimulator.repository.
+1. Fork the prodPlanSimulator.prodPlanSimulator.repository.
 2. Create your feature branch:
    ```bash
    git checkout -b feature/YourFeature

@@ -1,7 +1,6 @@
-package main.domain;
+package prodPlanSimulator.domain;
 
 
-import java.util.Collections;
 import java.util.List;
 
 public class Machine {

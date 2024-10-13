@@ -1,8 +1,8 @@
-package main;
+package prodPlanSimulator;
 
-import main.domain.Item;
-import main.domain.Machine;
-import main.enums.Priority;
+import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.domain.Machine;
+import prodPlanSimulator.enums.Priority;
 
 import java.io.*;
 import java.util.*;
@@ -11,8 +11,8 @@ import static jdk.internal.net.http.common.Log.logError;
 
 public class InputFileReader {
 
-    public static final String FILE_PATH_ITEMS = "prodPlanSimulator/main/resources/artigos.csv";
-    public static final String FILE_PATH_MACHINES = "prodPlanSimulator/main/resources/maquinas.csv";
+    public static final String FILE_PATH_ITEMS = "src/main/java/prodPlanSimulator/resources/artigos.csv";
+    public static final String FILE_PATH_MACHINES = "src/main/java/prodPlanSimulator/resources/maquinas.csv";
 
     public static Map<Integer, Item> readItems() {
         Map<Integer, Item> items = new HashMap<>();

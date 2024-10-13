@@ -1,4 +1,4 @@
-package main.enums;
+package prodPlanSimulator.enums;
 
 public enum Priority {
     HIGH,

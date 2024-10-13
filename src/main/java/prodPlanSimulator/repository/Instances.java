@@ -1,4 +1,4 @@
-package main.repository;
+package prodPlanSimulator.repository;
 
 public class Instances {
     private HashMap_Items_Machines HashMap_Items_Machines;

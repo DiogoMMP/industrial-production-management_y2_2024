@@ -1,8 +1,8 @@
-package main.domain;
+package prodPlanSimulator.domain;
 
-import main.enums.Priority;
-import main.repository.HashMap_Items_Machines;
-import main.repository.Instances;
+import prodPlanSimulator.enums.Priority;
+import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.HashMap_Items_Machines;
 
 import java.util.*;
 

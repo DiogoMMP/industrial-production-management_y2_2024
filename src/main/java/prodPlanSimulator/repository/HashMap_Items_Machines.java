@@ -1,15 +1,13 @@
-package main.repository;
+package prodPlanSimulator.repository;
 
-import main.InputFileReader;
-import main.domain.Item;
-import main.domain.Machine;
+import prodPlanSimulator.InputFileReader ;
+import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.domain.Machine;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 public class HashMap_Items_Machines {

@@ -1,9 +1,4 @@
-package main;/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+package prodPlanSimulator;
 
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -17,7 +12,7 @@ import java.util.ConcurrentModificationException;
  */
 public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
 
-    // instance variables of the main.DoublyLinkedList
+    // instance variables of the main.prodPlanSimulator.DoublyLinkedList
     private final Node<E> header;     // header sentinel
     private final Node<E> trailer;    // trailer sentinel
     private int size = 0;       // number of elements in the list
@@ -188,7 +183,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        // Step 1: Create a new instance of main.DoublyLinkedList using super.clone()
+        // Step 1: Create a new instance of main.prodPlanSimulator.DoublyLinkedList using super.clone()
         DoublyLinkedList<E> other = (DoublyLinkedList<E>) super.clone();
 
         // Step 2: Initialize size and modification count for the new list

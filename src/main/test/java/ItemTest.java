@@ -1,9 +1,9 @@
-
-package main.domain;
-
-import main.enums.Priority;
-import main.repository.HashMap_Items_Machines;
-import main.repository.Instances;
+import prodPlanSimulator.enums.Priority;
+import prodPlanSimulator.repository.HashMap_Items_Machines;
+import org.junit.jupiter.api.Assertions;
+import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.domain.Machine ;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ItemTest {
     private static HashMap<Item, Machine> ProdPlan = new HashMap<>();
@@ -67,7 +67,7 @@ class ItemTest {
 
     @Test
     void getOperations() {
-        assertNotNull(item1.getOperations()); // Ensure getOperations does not return null
+        Assertions.assertNotNull(item1.getOperations()); // Ensure getOperations does not return null
         assertEquals(4, item1.getOperations().size());
     }
 
@@ -97,19 +97,19 @@ class ItemTest {
     @Test
     void simulateProcess() {
         HashMap <String, Double> result = Item.simulateProcess();
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isEmpty());
 
         // Check if the result contains expected operations
         for (String key : result.keySet()) {
-            assertTrue(key.contains("Operation:"));
-            assertTrue(key.contains("Machine:"));
-            assertTrue(key.contains("Item:"));
-            assertTrue(key.contains("Time:"));
+            Assertions.assertTrue(key.contains("Operation:"));
+            Assertions.assertTrue(key.contains("Machine:"));
+            Assertions.assertTrue(key.contains("Item:"));
+            Assertions.assertTrue(key.contains("Time:"));
         }
 
         // Check if the times are correctly calculated
         double totalTime = result.values().stream().mapToDouble(Double::doubleValue).sum();
-        assertTrue(totalTime > 0);
+        Assertions.assertTrue(totalTime > 0);
     }
 }
