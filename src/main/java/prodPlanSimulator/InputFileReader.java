@@ -11,13 +11,13 @@ import static jdk.internal.net.http.common.Log.logError;
 
 public class InputFileReader {
 
-    public static final String FILE_PATH_ITEMS = "src/main/java/prodPlanSimulator/resources/articles.csv";
-    public static final String FILE_PATH_MACHINES = "src/main/java/prodPlanSimulator/resources/workstations.csv";
+    public static final String FILE_PATH_ITEMS = "src/main/java/prodPlanSimulator/resources/";
+    public static final String FILE_PATH_MACHINES = "src/main/java/prodPlanSimulator/resources/";
 
-    public static Map<Integer, Item> readItems() {
+    public static Map<Integer, Item> readItems(String fileName) {
         Map<Integer, Item> items = new HashMap<>();
         try {
-            Scanner scanner = new Scanner(new File(FILE_PATH_ITEMS));
+            Scanner scanner = new Scanner(new File(FILE_PATH_ITEMS + fileName));
             scanner.nextLine();
             while (scanner.hasNextLine()) {
                 String[] data = scanner.nextLine().split(";");
@@ -39,10 +39,10 @@ public class InputFileReader {
         return items;
     }
 
-    public static Map<String, Machine> readMachines() {
+    public static Map<String, Machine> readMachines(String fileName) {
         Map<String, Machine> machines = new HashMap<>();
         try {
-            Scanner scanner = new Scanner(new File(FILE_PATH_MACHINES));
+            Scanner scanner = new Scanner(new File(FILE_PATH_MACHINES + fileName));
             scanner.nextLine();
             while (scanner.hasNextLine()) {
                 String[] data = scanner.nextLine().split(";");

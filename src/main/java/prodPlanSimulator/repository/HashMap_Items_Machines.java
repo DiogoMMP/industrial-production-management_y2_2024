@@ -22,8 +22,8 @@ public class HashMap_Items_Machines {
     }
 
     public void addAll() {
-        Map<Integer, Item> items = InputFileReader.readItems();
-        Map<String, Machine> machines = InputFileReader.readMachines();
+        Map<Integer, Item> items = InputFileReader.readItems("articles.csv");
+        Map<String, Machine> machines = InputFileReader.readMachines("workstations.csv");
         try {
             if (items.isEmpty() || machines.isEmpty()) {
                 throw new Exception("Items or Machines not found");

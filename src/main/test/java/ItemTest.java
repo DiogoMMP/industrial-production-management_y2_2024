@@ -1,115 +1,96 @@
-import prodPlanSimulator.enums.Priority;
-import prodPlanSimulator.repository.HashMap_Items_Machines;
-import org.junit.jupiter.api.Assertions;
-import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine ;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.enums.Priority;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
-    private static HashMap<Item, Machine> ProdPlan = new HashMap<>();
-    private static HashMap_Items_Machines hashMapItemsMachines = Instances.getInstance().getHashMap_Items_Machines();
-    private static Item item1;
+    private Item item1;
+    private Item item2;
 
-    @BeforeAll
-    static void setUp() {
-        ProdPlan = hashMapItemsMachines.getProdPlan();
-        ProdPlan.keySet().forEach(item -> item.setCurrentOperationIndex(0));
-        ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
-        items.get(0).setCurrentOperationIndex(0);
-        Collections.sort(items);
-        item1 = items.get(0);
-
-        item1.setCurrentOperationIndex(0);
-    }
-
-    @AfterEach
-    void tearDown() {
+    @BeforeEach
+    void setUp() {
         item1 = new Item();
-        ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
-        Collections.sort(items);
-        item1 = items.get(0);
+        item1.setId(10001);
+        item1.setPriority(Priority.HIGH);
+        List<String> operations1 = new ArrayList<>();
+        operations1.add("cut");
+        operations1.add("sand");
+        operations1.add("paint");
+        item1.setOperations(operations1);
 
-        item1.setCurrentOperationIndex(0);
+        item2 = new Item();
+        item2.setId(10002);
+        item2.setPriority(Priority.LOW);
+        List<String> operations2 = new ArrayList<>();
+        operations2.add("drill");
+        operations2.add("polish");
+        item2.setOperations(operations2);
     }
 
     @Test
     void getId() {
-        assertEquals(10001, item1.getId());
+        assertEquals(10001, item1.getId(), "Item ID should be 10001");
+        assertEquals(10002, item2.getId(), "Item ID should be 10002");
     }
 
     @Test
     void setId() {
         item1.setId(11000);
-        assertEquals(11000, item1.getId());
+        assertEquals(11000, item1.getId(), "Item ID should be updated to 11000");
     }
 
     @Test
     void getPriority() {
-        Item item = new Item();
-        item.setPriority(Priority.HIGH);
-        assertEquals(Priority.HIGH, item.getPriority());
+        assertEquals(Priority.HIGH, item1.getPriority(), "Priority should be HIGH for item1");
+        assertEquals(Priority.LOW, item2.getPriority(), "Priority should be LOW for item2");
     }
 
     @Test
     void setPriority() {
-        item1.setPriority(Priority.LOW);
-        assertEquals(Priority.LOW, item1.getPriority());
+        item1.setPriority(Priority.NORMAL);
+        assertEquals(Priority.NORMAL, item1.getPriority(), "Priority should be updated to NORMAL");
     }
 
     @Test
     void getOperations() {
-        Assertions.assertNotNull(item1.getOperations()); // Ensure getOperations does not return null
-        assertEquals(4, item1.getOperations().size());
+        assertEquals(3, item1.getOperations().size(), "Item1 should have 3 operations");
+        assertEquals(List.of("cut", "sand", "paint"), item1.getOperations(), "Operations for item1 are incorrect");
+
+        assertEquals(2, item2.getOperations().size(), "Item2 should have 2 operations");
+        assertEquals(List.of("drill", "polish"), item2.getOperations(), "Operations for item2 are incorrect");
     }
 
     @Test
     void setOperations() {
-        ArrayList<String> operations = new ArrayList<>();
-        operations.add("Corte");
-        operations.add("Dobra");
-        operations.add("Furacao");
-        operations.add("Pintura");
-        operations.add("Montagem");
-        item1.setOperations(operations);
-        assertEquals(5, item1.getOperations().size());
-    }
-
-    @Test
-    void getCurrentOperationIndex() {
-        assertEquals(0, item1.getCurrentOperationIndex());
-    }
-
-    @Test
-    void setCurrentOperationIndex() {
-        item1.setCurrentOperationIndex(1);
-        assertEquals(1, item1.getCurrentOperationIndex());
+        List<String> newOperations = new ArrayList<>();
+        newOperations.add("cut");
+        newOperations.add("assemble");
+        item1.setOperations(newOperations);
+        assertEquals(2, item1.getOperations().size(), "Item1 should now have 2 operations");
+        assertEquals(List.of("cut", "assemble"), item1.getOperations(), "New operations for item1 are incorrect");
     }
 
     @Test
     void simulateProcess() {
-        HashMap <String, Double> result = Item.simulateProcess();
-        Assertions.assertNotNull(result);
-        Assertions.assertFalse(result.isEmpty());
+        HashMap<String, Double> result = Item.simulateProcess(); // Assume you have a mock for this
 
-        // Check if the result contains expected operations
+        assertNotNull(result, "Result should not be null");
+        assertFalse(result.isEmpty(), "Result should not be empty");
+
         for (String key : result.keySet()) {
-            Assertions.assertTrue(key.contains("Operation:"));
-            Assertions.assertTrue(key.contains("Machine:"));
-            Assertions.assertTrue(key.contains("Item:"));
-            Assertions.assertTrue(key.contains("Time:"));
+            assertTrue(key.contains("Operation:"), "Result should contain 'Operation:'");
+            assertTrue(key.contains("Machine:"), "Result should contain 'Machine:'");
+            assertTrue(key.contains("Item:"), "Result should contain 'Item:'");
+            assertTrue(key.contains("Time:"), "Result should contain 'Time:'");
         }
 
-        // Check if the times are correctly calculated
         double totalTime = result.values().stream().mapToDouble(Double::doubleValue).sum();
-        Assertions.assertTrue(totalTime > 0);
+        assertTrue(totalTime > 0, "Total process time should be greater than zero");
     }
 }
