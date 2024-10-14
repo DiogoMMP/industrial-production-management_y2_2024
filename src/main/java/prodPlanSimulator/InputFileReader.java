@@ -11,8 +11,8 @@ import static jdk.internal.net.http.common.Log.logError;
 
 public class InputFileReader {
 
-    public static final String FILE_PATH_ITEMS = "src/main/java/prodPlanSimulator/resources/artigos.csv";
-    public static final String FILE_PATH_MACHINES = "src/main/java/prodPlanSimulator/resources/maquinas.csv";
+    public static final String FILE_PATH_ITEMS = "src/main/java/prodPlanSimulator/resources/articles.csv";
+    public static final String FILE_PATH_MACHINES = "src/main/java/prodPlanSimulator/resources/workstations.csv";
 
     public static Map<Integer, Item> readItems() {
         Map<Integer, Item> items = new HashMap<>();
@@ -20,7 +20,7 @@ public class InputFileReader {
             Scanner scanner = new Scanner(new File(FILE_PATH_ITEMS));
             scanner.nextLine();
             while (scanner.hasNextLine()) {
-                String[] data = scanner.nextLine().split(",");
+                String[] data = scanner.nextLine().split(";");
                 Item item = new Item();
                 item.setId(Integer.parseInt(data[0]));
                 String priorityStr = data[1].trim();
@@ -45,7 +45,7 @@ public class InputFileReader {
             Scanner scanner = new Scanner(new File(FILE_PATH_MACHINES));
             scanner.nextLine();
             while (scanner.hasNextLine()) {
-                String[] data = scanner.nextLine().split(",");
+                String[] data = scanner.nextLine().split(";");
                 String id = data[0];
                 String operation = data[1];
                 int time = Integer.parseInt(data[2]);
