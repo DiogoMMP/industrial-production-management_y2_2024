@@ -7,6 +7,7 @@ import prodPlanSimulator.domain.Machine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -87,6 +88,12 @@ public class HashMap_Items_Machines {
         return ProdPlan;
     }
 
+    /**
+     * Calculate the time of a specific operation
+     * @param operation
+     * @return time of the operation
+     * @throws Exception
+     */
     public int calcOpTime(String operation) throws Exception {
         HashMap<Item, Machine> op = getProdPlan();
         if (op.isEmpty()) {
@@ -100,5 +107,40 @@ public class HashMap_Items_Machines {
             }
         }
         return 0;
+    }
+
+    public void listWorkstationsByAscOrder() {
+        HashMap<Item, Machine> op = getProdPlan();
+        int totalExecutionTime = 0;
+
+        // Calculate total execution time
+        for (Map.Entry<Item, Machine> entry : op.entrySet()) {
+            Machine machine = entry.getValue();
+            for (String operation : machine.getOperations()) {
+                totalExecutionTime += machine.getTime();
+            }
+        }
+
+        // Store workstations with total time and percentage
+        List<Map.Entry<Machine, Double>> workstations = new ArrayList<>();
+        for (Map.Entry<Item, Machine> entry : op.entrySet()) {
+            Machine machine = entry.getValue();
+            int totalTime = 0;
+            for (String operation : machine.getOperations()) {
+                totalTime += machine.getTime();
+            }
+            double percentage = (double) totalTime / totalExecutionTime * 100;
+            workstations.add(Map.entry(machine, percentage));
+        }
+
+        // Sort workstations by percentage in ascending order
+        workstations.sort(Map.Entry.comparingByValue());
+
+        // Print sorted workstations with total time and percentage
+        for (Map.Entry<Machine, Double> entry : workstations) {
+            Machine machine = entry.getKey();
+            double percentage = entry.getValue();
+            System.out.println("Workstation ID: " + machine.getId() + ", Total Time: " + machine.getTime() + ", Percentage: " + String.format("%.2f", percentage) + "%");
+        }
     }
 }
