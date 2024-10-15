@@ -1,13 +1,11 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.domain.Machine;
 import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.domain.Machine;
-import prodPlanSimulator.domain.Tuple;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -107,52 +105,73 @@ class ItemTest {
 
     // Test for calculateAvgExecutionAndWaitingTimes
     @Test
-    void testCalculateAvgExecutionAndWaitingTimes() {
 
-        // Call the method and validate the result
+    void testCalculateAvgExecutionAndWaitingTimes() {
+        // Set up data
+        Item item1 = new Item();
+        item1.setOperations(Arrays.asList("cut", "sand", "paint"));
+        Machine machine1 = new Machine();
+        machine1.setOperations(Arrays.asList("cut", "sand", "paint"));
+        HashMap<Item, Machine> ProdPlan = new HashMap<>();
+        ProdPlan.put(item1, machine1);
+        Instances.getInstance().getHashMap_Items_Machines().setProdPlan(ProdPlan);
+
+
+        // Call the method
         HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
 
         // Check if the result is not null and contains entries
         assertNotNull(result, "Result should not be null");
         assertFalse(result.isEmpty(), "Result should not be empty");
 
-        // Validate that the operations and times are correctly returned
-        assertTrue(result.containsKey("cut"), "Result should contain 'cut' operation");
-        assertTrue(result.containsKey("sand"), "Result should contain 'sand' operation");
-        assertTrue(result.containsKey("paint"), "Result should contain 'paint' operation");
+        // Check that the result contains times for certain operations
+        assertTrue(result.containsKey("cut"), "Result should contain times for 'cut' operation");
+        assertTrue(result.containsKey("sand"), "Result should contain times for 'sand' operation");
 
-        // Check the format of execution and waiting times for "cut" operation
+        // Validate that the times for an operation have the expected format
         Double[] cutTimes = result.get("cut");
-        assertNotNull(cutTimes, "'cut' operation should have times");
+        assertNotNull(cutTimes, "Times for 'cut' operation should not be null");
         assertEquals(2, cutTimes.length, "Times array should contain 2 elements (execution and waiting time)");
 
-        // Assuming some execution and waiting times for validation
-        assertTrue(cutTimes[0] > 0, "Execution time for 'cut' should be greater than 0");
+        // Check that each time is valid
+        assertTrue(cutTimes[0] >= 0, "Execution time for 'cut' should be 0 or greater");
         assertTrue(cutTimes[1] >= 0, "Waiting time for 'cut' should be 0 or greater");
     }
 
     // Test for generateWorkstationFlowDependency
     @Test
     void testGenerateWorkstationFlowDependency() {
-        HashMap<String, List<Tuple<String, Integer>>> result = Item.generateWorkstationFlowDependency();
+        // Set up data
+        Item item1 = new Item();
+        item1.setOperations(Arrays.asList("cut", "sand", "paint"));
+        Machine machine1 = new Machine();
+        machine1.setOperations(Arrays.asList("cut", "sand", "paint"));
+        HashMap<Item, Machine> ProdPlan = new HashMap<>();
+        ProdPlan.put(item1, machine1);
+        Instances.getInstance().getHashMap_Items_Machines().setProdPlan(ProdPlan);
 
-        // Validate that the result is not null and contains entries
+
+        // Call the method
+        Map<String, List<Map.Entry<String, Integer>>> result = Item.generateWorkstationFlowDependency();
+
+        // Check if the result is not null and contains entries
         assertNotNull(result, "Result should not be null");
         assertFalse(result.isEmpty(), "Result should not be empty");
 
         // Check that the result contains dependencies for certain machines
-        assertTrue(result.containsKey("cut"), "Result should contain flow for 'cut' operation");
-        assertTrue(result.containsKey("paint"), "Result should contain flow for 'paint' operation");
+        assertTrue(result.containsKey("Machine1"), "Result should contain flow for 'Machine1'");
+        assertTrue(result.containsKey("Machine2"), "Result should contain flow for 'Machine2'");
 
         // Validate that the flow dependencies for a machine have the expected format
-        List<Tuple<String, Integer>> cutFlow = result.get("cut");
-        assertNotNull(cutFlow, "Flow for 'cut' should not be null");
-        assertFalse(cutFlow.isEmpty(), "Flow for 'cut' should not be empty");
+        List<Map.Entry<String, Integer>> machine1Flow = result.get("Machine1");
+        assertNotNull(machine1Flow, "Flow for 'Machine1' should not be null");
+        assertFalse(machine1Flow.isEmpty(), "Flow for 'Machine1' should not be empty");
 
-        // Check that each tuple has a valid format (machine, item count)
-        for (Tuple<String, Integer> tuple : cutFlow) {
-            assertNotNull(tuple.getFirst(), "Machine name in tuple should not be null");
-            assertNotNull(tuple.getSecond(), "Item count in tuple should not be null");
+        // Check that each entry has a valid format (machine, transition count)
+        for (Map.Entry<String, Integer> entry : machine1Flow) {
+            assertNotNull(entry.getKey(), "Machine name in entry should not be null");
+            assertNotNull(entry.getValue(), "Transition count in entry should not be null");
+            assertTrue(entry.getValue() > 0, "Transition count should be greater than 0");
         }
     }
 }

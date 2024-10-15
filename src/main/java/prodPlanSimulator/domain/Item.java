@@ -167,14 +167,19 @@ public class Item implements Comparable<Item> {
      * @return HashMap<String, Double [ ]> where String is the operation and Double[] holds:
      * [average execution time, average waiting time]
      */
+    /**
+     * US6: Present average execution times per operation and corresponding waiting times.
+     *
+     * @return HashMap<String, Double[]> where String is the operation and Double[] holds:
+     * [average execution time, average waiting time]
+     */
     public static HashMap<String, Double[]> calculateAvgExecutionAndWaitingTimes() {
-
         HashMap<String, Double[]> operationTimes = new HashMap<>();
-        HashMap<String, Double[]> waitingTimes = new HashMap<>();
-        HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<Item, Machine> ProdPlan = Instances.getInstance().getHashMap_Items_Machines().getProdPlan();
         HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
-
+        removeNullMachines(machines);
+        removeNullItems(ProdPlan);
         // Fill the operationsQueue with items waiting for each operation
         fillOperationsQueue(ProdPlan, operationsQueue);
 
@@ -183,26 +188,22 @@ public class Item implements Comparable<Item> {
             LinkedList<Item> items = operationsQueue.get(operation);
             double totalExecutionTime = 0.0;
             double totalWaitingTime = 0.0;
+            int itemCount = 0;
 
             for (Item item : items) {
-                double executionTime = 0.0;
-                double waitingTime = 0.0;
-
                 for (Machine machine : machines) {
                     if (machine.getOperations().contains(operation)) {
-                        executionTime = machine.getTime();
-                        totalExecutionTime += executionTime;
-
-                        // Assuming waiting time is calculated as the time an item spent in the queue before being processed
-                        waitingTime = machine.getTime();  // Assume each machine tracks its own waiting time
-                        totalWaitingTime += waitingTime;
+                        totalExecutionTime += machine.getTime();
+                        // Assuming waiting time is the sum of execution times of items ahead in the queue
+                        totalWaitingTime += totalExecutionTime - machine.getTime();
+                        itemCount++;
+                        break;
                     }
                 }
             }
 
-            int numItems = items.size();
-            double avgExecutionTime = numItems == 0 ? 0 : totalExecutionTime / numItems;
-            double avgWaitingTime = numItems == 0 ? 0 : totalWaitingTime / numItems;
+            double avgExecutionTime = itemCount == 0 ? 0 : totalExecutionTime / itemCount;
+            double avgWaitingTime = itemCount == 0 ? 0 : totalWaitingTime / itemCount;
 
             operationTimes.put(operation, new Double[]{avgExecutionTime, avgWaitingTime});
         }
@@ -248,60 +249,49 @@ public class Item implements Comparable<Item> {
      * @return HashMap<String, List < Tuple < String, Integer>>> where String is the current workstation,
      * and the List holds tuples of the next workstation and the number of transitions.
      */
-    public static HashMap<String, List<Tuple<String, Integer>>> generateWorkstationFlowDependency() {
-        HashMap<String, List<Tuple<String, Integer>>> flowDependency = new HashMap<>();
-        HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
-        HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
-        ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
-
-        // Create a map to track transitions between machines
+    /**
+     * US7: Produce a listing representing the flow dependency between workstations.
+     *
+     * @return HashMap<String, List<Map.Entry<String, Integer>>> where String is the current workstation,
+     * and the List holds entries of the next workstation and the number of transitions.
+     */
+    public static HashMap<String, List<Map.Entry<String, Integer>>> generateWorkstationFlowDependency() {
+        HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = new HashMap<>();
+        HashMap<Item, Machine> ProdPlan = Instances.getInstance().getHashMap_Items_Machines().getProdPlan();
+        removeNullItems(ProdPlan);
         for (Item item : ProdPlan.keySet()) {
             List<String> operations = item.getOperations();
-            Machine prevMachine = null;
+            for (int i = 0; i < operations.size() - 1; i++) {
+                String currentOperation = operations.get(i);
+                String nextOperation = operations.get(i + 1);
 
-            for (int i = 0; i < operations.size(); i++) {
-                String operation = operations.get(i);
-                Machine currMachine = null;
+                Machine currentMachine = findMachineForOperation(ProdPlan, currentOperation);
+                Machine nextMachine = findMachineForOperation(ProdPlan, nextOperation);
 
-                // Find the machine that performs the current operation
-                for (Machine machine : machines) {
-                    if (machine.getOperations().contains(operation)) {
-                        currMachine = machine;
-                        break;
-                    }
+                if (currentMachine != null && nextMachine != null) {
+                    String currentMachineId = currentMachine.getId();
+                    String nextMachineId = nextMachine.getId();
+
+                    flowDependency.computeIfAbsent(currentMachineId, k -> new ArrayList<>());
+                    List<Map.Entry<String, Integer>> transitions = flowDependency.get(currentMachineId);
+
+                    updateTransitionCount(transitions, nextMachineId);
                 }
-
-                // If there's a previous machine, record the transition
-                if (prevMachine != null && currMachine != null) {
-                    String prevMachineId = prevMachine.getId();
-                    String currMachineId = currMachine.getId();
-
-                    if (!flowDependency.containsKey(prevMachineId)) {
-                        flowDependency.put(prevMachineId, new ArrayList<>());
-                    }
-
-                    List<Tuple<String, Integer>> transitions = flowDependency.get(prevMachineId);
-                    boolean found = false;
-                    for (Tuple<String, Integer> transition : transitions) {
-                        if (transition.getFirst().equals(currMachineId)) {
-                            transition.setSecond(transition.getSecond() + 1);
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found) {
-                        transitions.add(new Tuple<>(currMachineId, 1));
-                    }
-                }
-
-                prevMachine = currMachine;  // Move to the next machine
             }
         }
 
-        return flowDependency;
+        // Sort the flow dependency by the number of processed items in descending order
+        return sortFlowDependency(flowDependency);
     }
 
+    private static Machine findMachineForOperation(HashMap<Item, Machine> ProdPlan, String operation) {
+        for (Machine machine : ProdPlan.values()) {
+            if (machine.getOperations().contains(operation)) {
+                return machine;
+            }
+        }
+        return null;
+    }
     private static int checkMachines(ArrayList<Machine> machines, int quantMachines) {
         if (quantMachines == 0) {
             for (Machine machine1 : machines) {
@@ -310,6 +300,29 @@ public class Item implements Comparable<Item> {
             quantMachines = machines.size();
         }
         return quantMachines;
+    }
+
+    private static void updateTransitionCount(List<Map.Entry<String, Integer>> transitions, String nextMachineId) {
+        for (Map.Entry<String, Integer> entry : transitions) {
+            if (entry.getKey().equals(nextMachineId)) {
+                entry.setValue(entry.getValue() + 1);
+                return;
+            }
+        }
+        transitions.add(new AbstractMap.SimpleEntry<>(nextMachineId, 1));
+    }
+
+    private static HashMap<String, List<Map.Entry<String, Integer>>> sortFlowDependency(
+            HashMap<String, List<Map.Entry<String, Integer>>> flowDependency) {
+        LinkedHashMap<String, List<Map.Entry<String, Integer>>> sortedFlowDependency = new LinkedHashMap<>();
+
+        flowDependency.entrySet().stream()
+                .sorted((e1, e2) -> Integer.compare(
+                        e2.getValue().stream().mapToInt(Map.Entry::getValue).sum(),
+                        e1.getValue().stream().mapToInt(Map.Entry::getValue).sum()))
+                .forEachOrdered(entry -> sortedFlowDependency.put(entry.getKey(), entry.getValue()));
+
+        return sortedFlowDependency;
     }
 
 

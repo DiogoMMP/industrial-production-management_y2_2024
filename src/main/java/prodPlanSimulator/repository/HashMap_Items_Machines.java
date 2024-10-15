@@ -143,4 +143,8 @@ public class HashMap_Items_Machines {
             System.out.println("Workstation ID: " + machine.getId() + ", Total Time: " + machine.getTime() + ", Percentage: " + String.format("%.2f", percentage) + "%");
         }
     }
+
+    public void setProdPlan(HashMap<Item, Machine> prodPlan) {
+        this.ProdPlan = prodPlan;
+    }
 }
