@@ -17,21 +17,21 @@ public class InputFileReader {
     public static Map<Integer, Item> readItems(String fileName) {
         Map<Integer, Item> items = new HashMap<>();
         try {
+            int increment = 1;
             Scanner scanner = new Scanner(new File(FILE_PATH_ITEMS + fileName));
-            scanner.nextLine();
+            scanner.nextLine(); // Skip header line
             while (scanner.hasNextLine()) {
                 String[] data = scanner.nextLine().split(";");
-                Item item = new Item();
-                item.setId(Integer.parseInt(data[0]));
+                int id = Integer.parseInt(data[0]);
                 String priorityStr = data[1].trim();
-                item.setPriority(Priority.fromString(priorityStr));
-
+                Priority priority = Priority.fromString(priorityStr);
                 List<String> operations = new ArrayList<>(Arrays.asList(data).subList(2, data.length));
-                item.setOperations(operations);
-                items.put(item.getId(), item);
+                Item item = new Item(id, priority, new ArrayList<>());
+                item.getOperations().addAll(operations);
+                items.put(increment, item);
+                increment++;
             }
             scanner.close();
-
         } catch (FileNotFoundException e) {
             System.err.println("Error: File not found. Please check the file path.");
             logError(e);

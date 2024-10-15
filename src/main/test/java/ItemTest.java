@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ItemTest {
     private Item item1;
     private Item item2;
+    private static final String FILE_PATH_ITEMS = "test_files/articles.csv";
+    private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
 
     @BeforeEach
     void setUp() {
@@ -88,12 +90,19 @@ class ItemTest {
         for (String key : result.keySet()) {
             assertTrue(key.contains("Operation:"), "Result should contain 'Operation:'");
             assertTrue(key.contains("Machine:"), "Result should contain 'Machine:'");
+            assertTrue(key.contains("Priority:"), "Result should contain 'Item:'");
             assertTrue(key.contains("Item:"), "Result should contain 'Item:'");
             assertTrue(key.contains("Time:"), "Result should contain 'Time:'");
         }
 
-        double totalTime = result.values().stream().mapToDouble(Double::doubleValue).sum();
-        assertTrue(totalTime > 0, "Total process time should be greater than zero");
+        for (Double value : result.values()) {
+            assertTrue(value > 0, "Time should be greater than 0");
+        }
+
+        for (String key : result.keySet()) {
+            System.out.println(key);
+        }
+
     }
 
     // Test for calculateAvgExecutionAndWaitingTimes

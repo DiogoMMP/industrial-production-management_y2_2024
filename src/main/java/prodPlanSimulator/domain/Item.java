@@ -6,7 +6,7 @@ import prodPlanSimulator.repository.HashMap_Items_Machines;
 
 import java.util.*;
 
-public class Item implements  Comparable<Item> {
+public class Item implements Comparable<Item> {
     private int id;
     private Priority priority;
     private List<String> operations;
@@ -122,8 +122,7 @@ public class Item implements  Comparable<Item> {
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
         removeNullMachines(machines);
         removeNullItems(ProdPlan);
-        machines.sort(Comparator.comparing(Machine::getTime));
-
+        sortByTime(machines);
         // AC1 - Create the operationsQueue with the list of the items for each operation
         fillOperationsQueue(ProdPlan, operationsQueue);
         // AC2 - Assign the items to the machines
@@ -131,6 +130,16 @@ public class Item implements  Comparable<Item> {
         fillUpMachines(operationsQueue, machines, timeOperations);
 
         return timeOperations;
+    }
+
+    private static void sortByTime(ArrayList<Machine> machines) {
+        for (int i = 0; i < machines.size() - 1; i++) {
+            if (machines.get(i).getTime() > machines.get(i + 1).getTime()) {
+                Machine temp = machines.get(i);
+                machines.set(i, machines.get(i + 1));
+                machines.set(i + 1, temp);
+            }
+        }
     }
 
     /**
@@ -155,8 +164,8 @@ public class Item implements  Comparable<Item> {
     /**
      * US6: Present average execution times per operation and corresponding waiting times.
      *
-     * @return HashMap<String, Double[]> where String is the operation and Double[] holds:
-     *         [average execution time, average waiting time]
+     * @return HashMap<String, Double [ ]> where String is the operation and Double[] holds:
+     * [average execution time, average waiting time]
      */
     public static HashMap<String, Double[]> calculateAvgExecutionAndWaitingTimes() {
 
@@ -223,7 +232,7 @@ public class Item implements  Comparable<Item> {
                             machine.setHasItem(false);
                             item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
                             quantMachines--;
-                            String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
+                            String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
                             timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
                             break;
                         }
@@ -236,8 +245,8 @@ public class Item implements  Comparable<Item> {
     /**
      * US7: Produce a listing representing the flow dependency between workstations.
      *
-     * @return HashMap<String, List<Tuple<String, Integer>>> where String is the current workstation,
-     *         and the List holds tuples of the next workstation and the number of transitions.
+     * @return HashMap<String, List < Tuple < String, Integer>>> where String is the current workstation,
+     * and the List holds tuples of the next workstation and the number of transitions.
      */
     public static HashMap<String, List<Tuple<String, Integer>>> generateWorkstationFlowDependency() {
         HashMap<String, List<Tuple<String, Integer>>> flowDependency = new HashMap<>();
@@ -304,8 +313,6 @@ public class Item implements  Comparable<Item> {
     }
 
 
-
-
     /**
      * Fills the operationsQueue with the list of the items for each operation
      *
@@ -330,11 +337,38 @@ public class Item implements  Comparable<Item> {
      * @param items Queue of items to be sorted
      */
     private static void sortByPriority(LinkedList<Item> items) {
-        List<Item> itemsList = new ArrayList<>(items);
-        itemsList.sort(Comparator.comparing(Item::getPriority));
+        ArrayList<Item> itemsList = new ArrayList<>(items);
+        sortHigh(itemsList, items);
+        sortNormal(itemsList, items);
+        sortLow(itemsList, items);
         items.clear();
         items.addAll(itemsList);
     }
+
+    private static void sortHigh(ArrayList<Item> itemsList, LinkedList<Item> items) {
+        for (Item item : items) {
+            if (item.getPriority().toString().equalsIgnoreCase("HIGH")) {
+                itemsList.add(item);
+            }
+        }
+    }
+
+    private static void sortNormal(ArrayList<Item> items, LinkedList<Item> itemsList) {
+        for (Item item : items) {
+            if (item.getPriority().toString().equalsIgnoreCase("NORMAL")) {
+                itemsList.add(item);
+            }
+        }
+    }
+
+    private static void sortLow(ArrayList<Item> items, LinkedList<Item> itemsList) {
+        for (Item item : items) {
+            if (item.getPriority().toString().equalsIgnoreCase("LOW")) {
+                itemsList.add(item);
+            }
+        }
+    }
+
 
     /**
      * Calculates the total production time per item
@@ -367,5 +401,6 @@ public class Item implements  Comparable<Item> {
     public int compareTo(Item o) {
         return Integer.compare(this.id, o.id);
     }
+
 }
 
