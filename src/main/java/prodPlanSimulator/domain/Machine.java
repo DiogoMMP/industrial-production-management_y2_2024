@@ -6,19 +6,19 @@ import java.util.List;
 
 public class Machine {
     private String id;
-    private List<String> operations;
+    private String operation;
     private int time;
     private Boolean hasItem = false;
 
     /**
      * Machine Builder
      * @param id Machine ID
-     * @param operations Machine operation
+     * @param operation Machine operation
      * @param time Machine time
      */
-    public Machine(String id, List<String> operations, int time) {
+    public Machine(String id, String operation, int time) {
         this.id = id;
-        this.operations = operations;
+        this.operation = operation;
         this.time = time;
     }
 
@@ -27,7 +27,7 @@ public class Machine {
      */
     public Machine() {
         this.id = "";
-        this.operations = new ArrayList<>();
+        this.operation = "";
         this.time = 0;
     }
 
@@ -55,16 +55,16 @@ public class Machine {
      *
      * @return operation of the machine
      */
-    public List<String> getOperations() {
-        return operations;
+    public String getOperation() {
+        return operation;
     }
 
     /**
      * Sets the operation of the machine
-     * @param operations new operation of the machine
+     * @param operation new operation of the machine
      */
-    public void setOperations(List<String> operations) {
-        this.operations = operations;
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     /**

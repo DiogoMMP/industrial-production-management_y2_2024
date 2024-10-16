@@ -111,7 +111,7 @@ class ItemTest {
         Item item1 = new Item();
         item1.setOperations(Arrays.asList("cut", "sand", "paint"));
         Machine machine1 = new Machine();
-        machine1.setOperations(Arrays.asList("cut", "sand", "paint"));
+        machine1.setOperation(Arrays.asList("cut", "sand", "paint"));
         HashMap<Item, Machine> ProdPlan = new HashMap<>();
         ProdPlan.put(item1, machine1);
         Instances.getInstance().getHashMap_Items_Machines().setProdPlan(ProdPlan);
@@ -145,7 +145,7 @@ class ItemTest {
         Item item1 = new Item();
         item1.setOperations(Arrays.asList("cut", "sand", "paint"));
         Machine machine1 = new Machine();
-        machine1.setOperations(Arrays.asList("cut", "sand", "paint"));
+        machine1.setOperation(Arrays.asList("cut", "sand", "paint"));
         HashMap<Item, Machine> ProdPlan = new HashMap<>();
         ProdPlan.put(item1, machine1);
         Instances.getInstance().getHashMap_Items_Machines().setProdPlan(ProdPlan);

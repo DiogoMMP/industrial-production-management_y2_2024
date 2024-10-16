@@ -167,7 +167,7 @@ public class Item implements Comparable<Item> {
     /**
      * US6: Present average execution times per operation and corresponding waiting times.
      *
-     * @return HashMap<String, Double[]> where String is the operation and Double[] holds:
+     * @return HashMap<String, Double [ ]> where String is the operation and Double[] holds:
      * [average execution time, average waiting time]
      */
     public static HashMap<String, Double[]> calculateAvgExecutionAndWaitingTimes() {
@@ -189,7 +189,7 @@ public class Item implements Comparable<Item> {
 
             for (Item item : items) {
                 for (Machine machine : machines) {
-                    if (machine.getOperations().contains(operation)) {
+                    if (machine.getOperation().contains(operation)) {
                         totalExecutionTime += machine.getTime();
                         // Assuming waiting time is the sum of execution times of items ahead in the queue
                         totalWaitingTime += totalExecutionTime - machine.getTime();
@@ -222,17 +222,15 @@ public class Item implements Comparable<Item> {
                 if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
                     break;
                 }
-                for (String operation : machine.getOperations()) {
-                    quantMachines = checkIfMach(machines, quantMachines, operation);
-                    if (operationsQueue.get(operation).contains(item) && (!machine.getHasItem())) {
-                        quantMachines = checkMachines(machines, quantMachines);
-                        machine.setHasItem(true);
-                        item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
-                        quantMachines--;
-                        String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
-                        timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
-                        break;
-                    }
+                quantMachines = checkIfMach(machines, quantMachines, machine.getOperation());
+                if (operationsQueue.get(machine.getOperation()).contains(item) && (!machine.getHasItem())) {
+                    quantMachines = checkMachines(machines, quantMachines);
+                    machine.setHasItem(true);
+                    item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                    quantMachines--;
+                    String operation1 = "Operation: " + machine.getOperation() + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
+                    timeOperations.put(operation1, timeOperations.getOrDefault(machine.getOperation(), 0.0) + machine.getTime());
+                    break;
                 }
             }
         }
@@ -243,10 +241,10 @@ public class Item implements Comparable<Item> {
         int quant = 0;
         ArrayList<Machine> Tempmachines = new ArrayList<>();
         for (Machine machine : machines) {
-            if (machine.getOperations().contains(operation) && machine.getHasItem()) {
+            if (machine.getOperation().contains(operation) && machine.getHasItem()) {
                 quant++;
                 Tempmachines.add(machine);
-            } else if (machine.getOperations().contains(operation) && !machine.getHasItem()) {
+            } else if (machine.getOperation().contains(operation) && !machine.getHasItem()) {
                 free = false;
             }
         }
@@ -263,7 +261,7 @@ public class Item implements Comparable<Item> {
     /**
      * US7: Produce a listing representing the flow dependency between workstations.
      *
-     * @return HashMap<String, List<Map.Entry<String, Integer>>> where String is the current workstation,
+     * @return HashMap<String, List < Map.Entry < String, Integer>>> where String is the current workstation,
      * and the List holds entries of the next workstation and the number of transitions.
      */
     public static HashMap<String, List<Map.Entry<String, Integer>>> generateWorkstationFlowDependency() {
@@ -297,12 +295,13 @@ public class Item implements Comparable<Item> {
 
     private static Machine findMachineForOperation(HashMap<Item, Machine> ProdPlan, String operation) {
         for (Machine machine : ProdPlan.values()) {
-            if (machine.getOperations().contains(operation)) {
+            if (machine.getOperation().contains(operation)) {
                 return machine;
             }
         }
         return null;
     }
+
     private static int checkMachines(ArrayList<Machine> machines, int quantMachines) {
         if (quantMachines == 0) {
             for (Machine machine1 : machines) {
@@ -385,7 +384,7 @@ public class Item implements Comparable<Item> {
 
             for (String operation : item.getOperations()) {
 
-                if (machine.getOperations().equals(operation)) {
+                if (machine.getOperation().equals(operation)) {
                     totalProductionTime += machine.getTime();
                 }
             }

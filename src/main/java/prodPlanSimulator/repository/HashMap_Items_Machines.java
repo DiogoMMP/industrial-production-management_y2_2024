@@ -1,6 +1,6 @@
 package prodPlanSimulator.repository;
 
-import prodPlanSimulator.InputFileReader ;
+import prodPlanSimulator.InputFileReader;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Machine;
 
@@ -90,6 +90,7 @@ public class HashMap_Items_Machines {
 
     /**
      * Calculate the time of a specific operation
+     *
      * @param operation
      * @return time of the operation
      * @throws Exception
@@ -100,7 +101,7 @@ public class HashMap_Items_Machines {
             throw new Exception("Operation not found");
         }
         for (Map.Entry<Item, Machine> item : op.entrySet()) {
-            if (item.getValue().getOperations().equals(operation)) {
+            if (item.getValue().getOperation().equals(operation)) {
                 return item.getValue().getTime();
             } else {
                 throw new Exception("Operation not found");
@@ -116,9 +117,9 @@ public class HashMap_Items_Machines {
         // Calculate total execution time
         for (Map.Entry<Item, Machine> entry : op.entrySet()) {
             Machine machine = entry.getValue();
-            for (String operation : machine.getOperations()) {
-                totalExecutionTime += machine.getTime();
-            }
+
+            totalExecutionTime += machine.getTime();
+
         }
 
         // Store workstations with total time and percentage
@@ -126,9 +127,7 @@ public class HashMap_Items_Machines {
         for (Map.Entry<Item, Machine> entry : op.entrySet()) {
             Machine machine = entry.getValue();
             int totalTime = 0;
-            for (String operation : machine.getOperations()) {
-                totalTime += machine.getTime();
-            }
+            totalTime += machine.getTime();
             double percentage = (double) totalTime / totalExecutionTime * 100;
             workstations.add(Map.entry(machine, percentage));
         }

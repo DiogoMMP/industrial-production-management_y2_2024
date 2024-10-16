@@ -50,9 +50,10 @@ public class InputFileReader {
                 String operation = data[1];
                 int time = Integer.parseInt(data[2]);
 
-                Machine machine = machines.getOrDefault(id, new Machine(id, new ArrayList<>(), 0));
-                machine.getOperations().add(operation);
-                machine.setTime(machine.getTime() + time);
+                Machine machine = machines.getOrDefault(id, new Machine());
+                machine.setId(id);
+                machine.setOperation(operation);
+                machine.setTime(time);
                 machines.put(id, machine);
             }
             scanner.close();

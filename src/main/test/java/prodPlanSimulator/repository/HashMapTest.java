@@ -30,7 +30,7 @@ class HashMapTest {
         item.setId(10001);
         Machine machine = new Machine();
         machine.setId("1");
-        machine.setOperations(null);
+        machine.setOperation(null);
         ProdPlan.put(item, machine);
         assertEquals(21, hashMapItemsMachines.calcOpTime("cut"));
     }
