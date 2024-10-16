@@ -21,6 +21,8 @@ public class Item implements Comparable<Item> {
      * @param priority   Item priority
      * @param operations Item operations
      */
+
+
     public Item(int id, Priority priority, List<String> operations) {
         this.id = id;
         this.priority = priority;
@@ -126,20 +128,15 @@ public class Item implements Comparable<Item> {
         // AC1 - Create the operationsQueue with the list of the items for each operation
         fillOperationsQueue(ProdPlan, operationsQueue);
         // AC2 - Assign the items to the machines
+        ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
         HashMap<String, Double> timeOperations = new HashMap<>();
-        fillUpMachines(operationsQueue, machines, timeOperations);
+        fillUpMachines(operationsQueue, machines, timeOperations, items);
 
         return timeOperations;
     }
 
     private static void sortByTime(ArrayList<Machine> machines) {
-        for (int i = 0; i < machines.size() - 1; i++) {
-            if (machines.get(i).getTime() > machines.get(i + 1).getTime()) {
-                Machine temp = machines.get(i);
-                machines.set(i, machines.get(i + 1));
-                machines.set(i + 1, temp);
-            }
-        }
+        machines.sort(Comparator.comparingInt(Machine::getTime));
     }
 
     /**
@@ -217,38 +214,52 @@ public class Item implements Comparable<Item> {
      * @param operationsQueue HashMap with the operations and the list of items
      * @param machines        List of machines
      */
-    private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations) {
+    private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations, ArrayList<Item> items) {
         int quantMachines = machines.size();
-        for (String operation : operationsQueue.keySet()) {
-            LinkedList<Item> items = operationsQueue.get(operation);
-            sortByPriority(items);
-            for (Item item : items) {
-                for (Machine machine : machines) {
-                    if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
+        sortByPriority(items);
+        for (Item item : items) {
+            for (Machine machine : machines) {
+                if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
+                    break;
+                }
+                for (String operation : machine.getOperations()) {
+                    quantMachines = checkIfMach(machines, quantMachines, operation);
+                    if (operationsQueue.get(operation).contains(item) && (!machine.getHasItem())) {
+                        quantMachines = checkMachines(machines, quantMachines);
+                        machine.setHasItem(true);
+                        item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                        quantMachines--;
+                        String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
+                        timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
                         break;
-                    }
-                    for (String operationMachine : machine.getOperations()) {
-                        if (operationMachine.equalsIgnoreCase(operation) && !machine.getHasItem()) {
-                            quantMachines = checkMachines(machines, quantMachines);
-                            machine.setHasItem(false);
-                            item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
-                            quantMachines--;
-                            String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
-                            timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
-                            break;
-                        }
                     }
                 }
             }
         }
     }
 
-    /**
-     * US7: Produce a listing representing the flow dependency between workstations.
-     *
-     * @return HashMap<String, List < Tuple < String, Integer>>> where String is the current workstation,
-     * and the List holds tuples of the next workstation and the number of transitions.
-     */
+    private static int checkIfMach(ArrayList<Machine> machines, int quantMachines, String operation) {
+        boolean free = true;
+        int quant = 0;
+        ArrayList<Machine> Tempmachines = new ArrayList<>();
+        for (Machine machine : machines) {
+            if (machine.getOperations().contains(operation) && machine.getHasItem()) {
+                quant++;
+                Tempmachines.add(machine);
+            } else if (machine.getOperations().contains(operation) && !machine.getHasItem()) {
+                free = false;
+            }
+        }
+        if (quant >= 1 && free) {
+            for (Machine machine : Tempmachines) {
+                machine.setHasItem(false);
+            }
+            quantMachines = quantMachines + quant;
+        }
+        return quantMachines;
+    }
+
+
     /**
      * US7: Produce a listing representing the flow dependency between workstations.
      *
@@ -349,37 +360,13 @@ public class Item implements Comparable<Item> {
      *
      * @param items Queue of items to be sorted
      */
-    private static void sortByPriority(LinkedList<Item> items) {
-        ArrayList<Item> itemsList = new ArrayList<>(items);
-        sortHigh(itemsList, items);
-        sortNormal(itemsList, items);
-        sortLow(itemsList, items);
-        items.clear();
-        items.addAll(itemsList);
-    }
-
-    private static void sortHigh(ArrayList<Item> itemsList, LinkedList<Item> items) {
-        for (Item item : items) {
-            if (item.getPriority().toString().equalsIgnoreCase("HIGH")) {
-                itemsList.add(item);
+    private static void sortByPriority(ArrayList<Item> items) {
+        items.sort(new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return o1.getPriority().compareTo(o2.getPriority());
             }
-        }
-    }
-
-    private static void sortNormal(ArrayList<Item> items, LinkedList<Item> itemsList) {
-        for (Item item : items) {
-            if (item.getPriority().toString().equalsIgnoreCase("NORMAL")) {
-                itemsList.add(item);
-            }
-        }
-    }
-
-    private static void sortLow(ArrayList<Item> items, LinkedList<Item> itemsList) {
-        for (Item item : items) {
-            if (item.getPriority().toString().equalsIgnoreCase("LOW")) {
-                itemsList.add(item);
-            }
-        }
+        });
     }
 
 

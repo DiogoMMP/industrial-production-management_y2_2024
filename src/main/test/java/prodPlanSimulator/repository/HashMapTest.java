@@ -1,6 +1,5 @@
 package prodPlanSimulator.repository;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.domain.Item;
@@ -32,7 +31,6 @@ class HashMapTest {
         Machine machine = new Machine();
         machine.setId("1");
         machine.setOperations(null);
-        machine.setTime(10);
         ProdPlan.put(item, machine);
         assertEquals(21, hashMapItemsMachines.calcOpTime("cut"));
     }

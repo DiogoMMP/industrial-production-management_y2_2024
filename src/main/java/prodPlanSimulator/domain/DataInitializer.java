@@ -36,6 +36,7 @@ public class DataInitializer {
     public void runItemMethods() {
         // Assuming that the Item class has a method named 'calculateAvgExecutionAndWaitingTimes'
         HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
+        HashMap<String, Double> result2 = Item.simulateProcess();
 
         for (Map.Entry<String, Double[]> entry : result.entrySet()) {
             System.out.println("Item: " + entry.getKey());
@@ -52,6 +53,11 @@ public class DataInitializer {
             for (Map.Entry<String, Integer> transition : entry.getValue()) {
                 System.out.println("Next Workstation: " + transition.getKey() + ", Transitions: " + transition.getValue());
             }
+        }
+
+        // Print the simulation results
+        for (Map.Entry<String, Double> entry : result2.entrySet()) {
+            System.out.println("Item: " + entry.getKey());
         }
     }
 
