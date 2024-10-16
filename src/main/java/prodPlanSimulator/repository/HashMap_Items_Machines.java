@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class HashMap_Items_Machines {
     private HashMap<Item, Machine> ProdPlan;
-
     public HashMap_Items_Machines() {
         this.ProdPlan = new HashMap<>();
     }
@@ -22,14 +21,15 @@ public class HashMap_Items_Machines {
         this.ProdPlan = ProdPlan;
     }
 
-    public void addAll() {
-        Map<Integer, Item> items = InputFileReader.readItems("articles.csv");
-        Map<String, Machine> machines = InputFileReader.readMachines("workstations.csv");
+    public void addAll(String itemsPath, String machinesPath) {
+        Map<Integer, Item> items = InputFileReader.readItems(itemsPath);
+        Map<String, Machine> machines = InputFileReader.readMachines(machinesPath);
         try {
             if (items.isEmpty() || machines.isEmpty()) {
                 throw new Exception("Items or Machines not found");
             }
             verifySize(items, machines);
+
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

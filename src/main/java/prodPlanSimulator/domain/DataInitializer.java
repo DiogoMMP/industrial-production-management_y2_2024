@@ -3,6 +3,7 @@ import prodPlanSimulator.InputFileReader;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Machine;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
+import prodPlanSimulator.repository.Instances;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,26 +12,13 @@ import java.util.Map;
 public class DataInitializer {
 
     private HashMap_Items_Machines hashMapItemsMachines;
-
     public DataInitializer() {
-        this.hashMapItemsMachines = new HashMap_Items_Machines();
+        this.hashMapItemsMachines = Instances.getInstance().getHashMapItemsMachines();
     }
 
     public void initializeData() {
         // Use InputFileReader to read Items and Machines
-        Map<Integer, Item> items = InputFileReader.readItems("articles.csv");
-        Map<String, Machine> machines = InputFileReader.readMachines("workstations.csv");
-
-        // Add them to ProdPlan
-        HashMap<Item, Machine> ProdPlan = new HashMap<>();
-        for (Map.Entry<Integer, Item> itemEntry : items.entrySet()) {
-            Machine machine = machines.get(itemEntry.getKey().toString());
-            if (machine != null) {
-                ProdPlan.put(itemEntry.getValue(), machine);
-            }
-        }
-
-        hashMapItemsMachines.setProdPlan(ProdPlan);
+        hashMapItemsMachines.addAll("articles.csv", "workstations.csv");
     }
 
     public void runItemMethods() {

@@ -1,12 +1,11 @@
 package prodPlanSimulator.repository;
 
 public class Instances {
-    private HashMap_Items_Machines HashMap_Items_Machines;
-    private static Instances instance;
+    private HashMap_Items_Machines hashMapItemsMachines;
+    private static volatile Instances instance;
 
-    public Instances() {
-        HashMap_Items_Machines = new HashMap_Items_Machines();
-        HashMap_Items_Machines.addAll();
+    private Instances() {
+        hashMapItemsMachines = new HashMap_Items_Machines();
     }
 
     public static Instances getInstance() {
@@ -20,10 +19,7 @@ public class Instances {
         return instance;
     }
 
-
-    public HashMap_Items_Machines getHashMap_Items_Machines() {
-        return HashMap_Items_Machines;
+    public HashMap_Items_Machines getHashMapItemsMachines() {
+        return hashMapItemsMachines;
     }
-
-
 }

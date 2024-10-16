@@ -20,7 +20,6 @@ class HashMapTest {
     void setUp() {
         hashMapItemsMachines = new HashMap_Items_Machines();
         System.setOut(new PrintStream(outContent));
-        hashMapItemsMachines.addAll();
     }
 
     @Test

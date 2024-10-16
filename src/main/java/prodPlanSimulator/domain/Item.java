@@ -11,7 +11,7 @@ public class Item implements Comparable<Item> {
     private Priority priority;
     private List<String> operations;
     private int currentOperationIndex;
-    private static HashMap_Items_Machines HashMap_Items_Machines = Instances.getInstance().getHashMap_Items_Machines();
+    private static HashMap_Items_Machines HashMap_Items_Machines = Instances.getInstance().getHashMapItemsMachines();
 
 
     /**
@@ -171,7 +171,7 @@ public class Item implements Comparable<Item> {
      */
     public static HashMap<String, Double[]> calculateAvgExecutionAndWaitingTimes() {
         HashMap<String, Double[]> operationTimes = new HashMap<>();
-        HashMap<Item, Machine> ProdPlan = Instances.getInstance().getHashMap_Items_Machines().getProdPlan();
+        HashMap<Item, Machine> ProdPlan = Instances.getInstance().getHashMapItemsMachines().getProdPlan();
         HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
         removeNullMachines(machines);
@@ -279,7 +279,7 @@ public class Item implements Comparable<Item> {
      */
     public static HashMap<String, List<Map.Entry<String, Integer>>> generateWorkstationFlowDependency() {
         HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = new HashMap<>();
-        HashMap<Item, Machine> ProdPlan = Instances.getInstance().getHashMap_Items_Machines().getProdPlan();
+        HashMap<Item, Machine> ProdPlan = Instances.getInstance().getHashMapItemsMachines().getProdPlan();
         removeNullItems(ProdPlan);
         for (Item item : ProdPlan.keySet()) {
             List<String> operations = item.getOperations();
