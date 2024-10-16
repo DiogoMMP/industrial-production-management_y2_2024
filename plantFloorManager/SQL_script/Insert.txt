@@ -127,3 +127,19 @@ VALUES (1, 1, 1, 'Montagem');
 
 INSERT INTO Process (Process_ID, Component_ID, Raw_Material_ID, Operation)
 VALUES (2, 2, 2, 'Soldadura');
+
+-- Inventory
+INSERT INTO Inventory (Component_ID, Quantity_In_Stock)
+VALUES (1, 50);  -- Placa Mãe
+
+INSERT INTO Inventory (Component_ID, Quantity_In_Stock)
+VALUES (2, 30);  -- Processador
+
+INSERT INTO Inventory (Component_ID, Quantity_In_Stock)
+VALUES (3, 100);  -- Bateria
+
+INSERT INTO Inventory (Component_ID, Quantity_In_Stock)
+VALUES (4, 60);  -- Ecrã
+
+INSERT INTO Inventory (Component_ID, Quantity_In_Stock)
+VALUES (5, 20);  -- Carcaça
