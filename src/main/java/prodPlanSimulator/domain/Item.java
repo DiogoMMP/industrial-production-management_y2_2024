@@ -124,20 +124,19 @@ public class Item implements Comparable<Item> {
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
         removeNullMachines(machines);
         removeNullItems(ProdPlan);
-        sortByTime(machines);
+
         // AC1 - Create the operationsQueue with the list of the items for each operation
         fillOperationsQueue(ProdPlan, operationsQueue);
+
         // AC2 - Assign the items to the machines
         ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
+
         HashMap<String, Double> timeOperations = new HashMap<>();
         fillUpMachines(operationsQueue, machines, timeOperations, items);
 
         return timeOperations;
     }
 
-    private static void sortByTime(ArrayList<Machine> machines) {
-        machines.sort(Comparator.comparingInt(Machine::getTime));
-    }
 
     /**
      * Removes the null machines from the list of machines
@@ -208,29 +207,43 @@ public class Item implements Comparable<Item> {
         return operationTimes;
     }
 
+
+    private static void sortItemsByPriority(ArrayList<Item> items) {
+        items.sort(Comparator.comparing(Item::getPriority));
+    }
+
+    private static void sortMachinesByTime(ArrayList<Machine> machines) {
+        machines.sort(Comparator.comparingInt(Machine::getTime));
+    }
+
     /**
-     * Fills the machines with the items
+     * Assigns the items to the machines
      *
      * @param operationsQueue HashMap with the operations and the list of items
      * @param machines        List of machines
+     * @param timeOperations  HashMap with the time of each operation
+     * @param items           List of items
      */
     private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, HashMap<String, Double> timeOperations, ArrayList<Item> items) {
         int quantMachines = machines.size();
-        sortByPriority(items);
+        sortItemsByPriority(items);
+        sortMachinesByTime(machines);
         for (Item item : items) {
-            for (Machine machine : machines) {
-                if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
-                    break;
-                }
-                quantMachines = checkIfMach(machines, quantMachines, machine.getOperation());
-                if (operationsQueue.get(machine.getOperation()).contains(item) && (!machine.getHasItem())) {
-                    quantMachines = checkMachines(machines, quantMachines);
-                    machine.setHasItem(true);
-                    item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
-                    quantMachines--;
-                    String operation1 = "Operation: " + machine.getOperation() + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
-                    timeOperations.put(operation1, timeOperations.getOrDefault(machine.getOperation(), 0.0) + machine.getTime());
-                    break;
+            for (String operation : item.getOperations()) {
+                for (Machine machine : machines) {
+                    if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
+                        break;
+                    }
+                    quantMachines = checkIfMach(machines, quantMachines, machine.getOperation());
+                    if ((operationsQueue.get(machine.getOperation()).contains(item) && machine.getOperation().equalsIgnoreCase(operation)) && (!machine.getHasItem())) {
+                        quantMachines = checkMachines(machines, quantMachines);
+                        machine.setHasItem(true);
+                        item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                        quantMachines--;
+                        String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
+                        timeOperations.put(operation1, timeOperations.getOrDefault(machine.getOperation(), 0.0) + machine.getTime());
+                        break;
+                    }
                 }
             }
         }
@@ -352,20 +365,6 @@ public class Item implements Comparable<Item> {
                 operationsQueue.get(operation).add(item);
             }
         }
-    }
-
-    /**
-     * Sorts items by their priority (high, normal, low)
-     *
-     * @param items Queue of items to be sorted
-     */
-    private static void sortByPriority(ArrayList<Item> items) {
-        items.sort(new Comparator<Item>() {
-            @Override
-            public int compare(Item o1, Item o2) {
-                return o1.getPriority().compareTo(o2.getPriority());
-            }
-        });
     }
 
 
