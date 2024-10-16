@@ -1,6 +1,7 @@
 package prodPlanSimulator.domain;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Machine {
@@ -26,11 +27,12 @@ public class Machine {
      */
     public Machine() {
         this.id = "";
-        this.operations = null;
+        this.operations = new ArrayList<>();
         this.time = 0;
     }
 
     // Getters e Setters
+
 
     /**
      * Gets the ID of the machine
