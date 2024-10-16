@@ -2,11 +2,12 @@ CREATE TABLE Component (Component_ID number(10) NOT NULL, Product_ID number(10) 
 CREATE TABLE Customer (NIF number(9) NOT NULL, Name varchar2(255), Address varchar2(255), Mobile_number number(9), Email varchar2(255), typeID number(10) NOT NULL, PRIMARY KEY (NIF));
 CREATE TABLE Customer_Order (Customer_Order_ID number(10) NOT NULL, Delivery_Date date, Location varchar2(255), CustomerNIF number(9) NOT NULL, PRIMARY KEY (Customer_Order_ID));
 CREATE TABLE Factory_Plant (Factory_Plant_ID number(10) NOT NULL, Factory_Type_ID number(10) NOT NULL, Safety number(10), Eficiency number(10), Space number(10), PRIMARY KEY (Factory_Plant_ID));
+CREATE TABLE Inventory (Component_ID number(10) NOT NULL, Quantity_In_Stock number(10), PRIMARY KEY (Component_ID));
 CREATE TABLE Manufacturing_Operations (Manufacturing_Operations_ID number(10) NOT NULL, Operations_Name varchar2(255), PRIMARY KEY (Manufacturing_Operations_ID));
 CREATE TABLE Plant_Floor (Plant_Floor_ID number(10) NOT NULL, Factory_Plant_ID number(10) NOT NULL, PRIMARY KEY (Plant_Floor_ID));
 CREATE TABLE Process (Process_ID number(10) NOT NULL, Component_ID number(10) NOT NULL, Raw_Material_ID number(10) NOT NULL, Operation varchar2(255), PRIMARY KEY (Process_ID));
 CREATE TABLE Product_Variants (Product_Variant_ID number(10) NOT NULL, Product_ID number(10) NOT NULL, Product_Color varchar2(10), Product_Size number(10), PRIMARY KEY (Product_Variant_ID));
-CREATE TABLE Production_Order (Order_ID number(10) NOT NULL, Product_Planing_ID number(10) NOT NULL, Order_Date date, Customer_Order_ID number(10) NOT NULL, PRIMARY KEY (Order_ID));
+CREATE TABLE Production_Order (Order_ID number(10) NOT NULL, Order_Date date, Product_Planing_ID number(10) NOT NULL, Customer_Order_ID number(10) NOT NULL, Quantity_Ordered number(10), PRIMARY KEY (Order_ID));
 CREATE TABLE Production_Plan (Product_Planing_ID number(10) NOT NULL, Product_Plan_Start_Date date, Product_Plan_End_Date date, PRIMARY KEY (Product_Planing_ID));
 CREATE TABLE Products (Product_ID number(10) NOT NULL, Factory_Plant_ID number(10) NOT NULL, Order_ID number(10) NOT NULL, Market_Demand number(10), Optimization number(10), Production_Costs number(10), Flexibility number(10), Customer_Order_ID number(10) NOT NULL, PRIMARY KEY (Product_ID));
 CREATE TABLE Raw_Materials (Raw_Material_ID number(10) NOT NULL, Raw_Material_Name varchar2(255), Raw_Material_Quantity number(10), PRIMARY KEY (Raw_Material_ID));
@@ -30,3 +31,4 @@ ALTER TABLE Production_Order ADD CONSTRAINT FKProduction709873 FOREIGN KEY (Cust
 ALTER TABLE Customer_Order ADD CONSTRAINT FKCustomer_O677512 FOREIGN KEY (CustomerNIF) REFERENCES Customer (NIF);
 ALTER TABLE Customer ADD CONSTRAINT FKCustomer406672 FOREIGN KEY (typeID) REFERENCES type (ID);
 ALTER TABLE Products ADD CONSTRAINT FKProducts212277 FOREIGN KEY (Customer_Order_ID) REFERENCES Customer_Order (Customer_Order_ID);
+ALTER TABLE Inventory ADD CONSTRAINT FKInventory197183 FOREIGN KEY (Component_ID) REFERENCES Component (Component_ID);

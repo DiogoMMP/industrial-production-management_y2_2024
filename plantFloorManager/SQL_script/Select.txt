@@ -1,0 +1,20 @@
+
+USBD07
+
+SELECT
+    c.Component_Name,
+    c.Component_Quantity AS Required_Quantity,
+    i.Quantity_In_Stock AS Available_Stock,
+    (c.Component_Quantity - i.Quantity_In_Stock) AS Quantity_To_Order
+FROM
+    Production_Order po
+JOIN
+    Products p ON po.Order_ID = p.Order_ID
+JOIN
+    Component c ON p.Product_ID = c.Product_ID
+LEFT JOIN
+    Inventory i ON c.Component_ID = i.Component_ID
+WHERE
+    po.Order_ID = 2
+AND
+    i.Quantity_In_Stock < c.Component_Quantity;
