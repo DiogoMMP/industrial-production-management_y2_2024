@@ -39,9 +39,10 @@ public class InputFileReader {
         return items;
     }
 
-    public static Map<String, Machine> readMachines(String fileName) {
-        Map<String, Machine> machines = new HashMap<>();
+    public static Map<Integer, Machine> readMachines(String fileName) {
+        Map<Integer, Machine> machines = new HashMap<>();
         try {
+            int increment = 1;
             Scanner scanner = new Scanner(new File(FILE_PATH_MACHINES + fileName));
             scanner.nextLine();
             while (scanner.hasNextLine()) {
@@ -49,12 +50,12 @@ public class InputFileReader {
                 String id = data[0];
                 String operation = data[1];
                 int time = Integer.parseInt(data[2]);
-
-                Machine machine = machines.getOrDefault(id, new Machine());
+                Machine machine = new Machine();
                 machine.setId(id);
                 machine.setOperation(operation);
                 machine.setTime(time);
-                machines.put(id, machine);
+                machines.put(increment, machine);
+                increment++;
             }
             scanner.close();
         } catch (FileNotFoundException e) {

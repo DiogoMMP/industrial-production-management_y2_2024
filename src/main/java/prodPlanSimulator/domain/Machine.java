@@ -4,7 +4,7 @@ package prodPlanSimulator.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Machine {
+public class Machine implements Comparable<Machine> {
     private String id;
     private String operation;
     private int time;
@@ -105,5 +105,10 @@ public class Machine {
      */
     public void clearUpMachine() {
         this.hasItem = false;
+    }
+
+    @Override
+    public int compareTo(Machine o) {
+        return this.id.compareTo(o.id);
     }
 }
