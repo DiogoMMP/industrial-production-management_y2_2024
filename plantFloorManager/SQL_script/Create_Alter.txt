@@ -14,7 +14,7 @@ CREATE TABLE Raw_Materials (Raw_Material_ID number(10) NOT NULL, Raw_Material_Na
 CREATE TABLE Stations (Stations_ID number(10) NOT NULL, Plant_Floor_ID number(10) NOT NULL, PRIMARY KEY (Stations_ID));
 CREATE TABLE type (ID number(10) NOT NULL, Name varchar2(10) NOT NULL, PRIMARY KEY (ID));
 CREATE TABLE Type_Industry (Type_Industry_ID number(10) NOT NULL, Manufacturing_Operations_ID number(10) NOT NULL, Type_Industry varchar2(255), Type_Stations_ID number(10) NOT NULL, PRIMARY KEY (Type_Industry_ID));
-CREATE TABLE Type_Stations (Type_Stations_ID number(10) NOT NULL, Type_Stations number(10), Stations_ID number(10) NOT NULL, PRIMARY KEY (Type_Stations_ID));
+CREATE TABLE Type_Stations (Type_Stations_ID number(10) NOT NULL, Type_Stations varchar2(10), Stations_ID number(10) NOT NULL, PRIMARY KEY (Type_Stations_ID));
 ALTER TABLE Plant_Floor ADD CONSTRAINT FKPlant_Floo395394 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Products ADD CONSTRAINT FKProducts52923 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Component ADD CONSTRAINT FKComponent47137 FOREIGN KEY (Product_ID) REFERENCES Products (Product_ID);
