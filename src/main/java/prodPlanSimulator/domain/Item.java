@@ -239,33 +239,58 @@ public class Item implements Comparable<Item> {
         int quantMachines = machines.size();
         sortMachinesByTime(machines);
         sortItemsByPriorityAndTime(items, machines);
+        addAllItems(operationsQueue, machines, timeOperations, items, quantMachines);
+    }
+
+    private static void addAllItems(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items, int quantMachines) {
         for (Item item : items) {
-            for (String operation : item.getOperations()) {
-                List<Machine> availableMachines = new ArrayList<>();
-                for (Machine machine : machines) {
-                    if (machine.getOperation().equalsIgnoreCase(operation) && !machine.getHasItem()) {
-                        availableMachines.add(machine);
-                    }
+            ArrayList<Item> SameItem = new ArrayList<>();
+            for (Item item1 : items) {
+                if (item1.getId() == item.getId() && item1.getPriority().toString().equalsIgnoreCase(item.getPriority().toString())) {
+                    SameItem.add(item1);
                 }
-                availableMachines.sort(Comparator.comparingInt(Machine::getTime));
-                checkMachinesWithOperation(machines, quantMachines, operation);
-                for (Machine machine : availableMachines) {
-                    if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
-                        break;
-                    }
-                    quantMachines = checkMachinesWithOperation(machines, quantMachines, machine.getOperation());
-                    if ((operationsQueue.get(machine.getOperation()).contains(item) && machine.getOperation().equalsIgnoreCase(operation)) && (!machine.getHasItem())) {
-                        quantMachines = checkMachines(machines, quantMachines);
-                        changeStatusMach(machines, machine);
-                        item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
-                        quantMachines--;
-                        String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
-                        timeOperations.put(operation1, timeOperations.getOrDefault(machine.getOperation(), 0.0) + machine.getTime());
-                        break;
-                    }
+            }
+            for (Item item1 : SameItem){
+                if (item1.getId() != 0) {
+                    quantMachines = addOperations(operationsQueue, machines, timeOperations, item1, quantMachines);
                 }
             }
         }
+    }
+
+    private static int addOperations(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, LinkedHashMap<String, Double> timeOperations, Item item1, int quantMachines) {
+        for (String operation : item1.getOperations()) {
+            List<Machine> availableMachines = new ArrayList<>();
+            checkMachinesWithOperation(machines, quantMachines, operation);
+            checkMachines(machines, quantMachines);
+            for (Machine machine : machines) {
+                if (machine.getOperation().equalsIgnoreCase(operation) && !machine.getHasItem()) {
+                    availableMachines.add(machine);
+                }
+            }
+            availableMachines.sort(Comparator.comparingInt(Machine::getTime));
+            quantMachines = addItem(operationsQueue, machines, timeOperations, item1, operation, availableMachines, quantMachines);
+        }
+        return quantMachines;
+    }
+
+    private static int addItem(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, LinkedHashMap<String, Double> timeOperations, Item item1, String operation, List<Machine> availableMachines, int quantMachines) {
+        for (Machine machine : availableMachines) {
+            if (item1.getCurrentOperationIndex() >= item1.getOperations().size()) {
+                break;
+            }
+            quantMachines = checkMachinesWithOperation(machines, quantMachines, machine.getOperation());
+            if ((operationsQueue.get(machine.getOperation()).contains(item1) && machine.getOperation().equalsIgnoreCase(operation)) && (!machine.getHasItem())) {
+                quantMachines = checkMachines(machines, quantMachines);
+                changeStatusMach(machines, machine);
+                item1.setCurrentOperationIndex(item1.getCurrentOperationIndex() + 1);
+                quantMachines--;
+                String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item1.getPriority() + " - Item: " + item1.getId() + " - Time: " + machine.getTime();
+                timeOperations.put(operation1, timeOperations.getOrDefault(machine.getOperation(), 0.0) + machine.getTime());
+                break;
+            }
+        }
+        return quantMachines;
     }
 
     private static void sortItemsByPriorityAndTime(ArrayList<Item> items, ArrayList<Machine> machines) {
@@ -277,8 +302,6 @@ public class Item implements Comparable<Item> {
             if (priorityComparison != 0) {
                 return priorityComparison;
             }
-
-            // Sort the operations by time for both items
             LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
                     .sorted(Map.Entry.comparingByValue())
                     .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
@@ -464,6 +487,10 @@ public class Item implements Comparable<Item> {
     private static void fillOperationsQueue(ArrayList<Item> items, HashMap<String, LinkedList<Item>> operationsQueue) {
         for (Item item : items) {
             ArrayList<String> operations = (ArrayList<String>) item.getOperations();
+            if (operations.isEmpty()) {
+                System.out.println("Item with ID " + item.getId() + " has no operations.");
+                continue;
+            }
             for (String operation : operations) {
                 if (!operationsQueue.containsKey(operation)) {
                     operationsQueue.put(operation, new LinkedList<>());

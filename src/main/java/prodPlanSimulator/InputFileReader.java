@@ -19,7 +19,7 @@ public class InputFileReader {
         try {
             int increment = 1;
             Scanner scanner = new Scanner(new File(FILE_PATH_ITEMS + fileName));
-            scanner.nextLine(); // Skip header line
+            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 String[] data = scanner.nextLine().split(";");
                 int id = Integer.parseInt(data[0]);
