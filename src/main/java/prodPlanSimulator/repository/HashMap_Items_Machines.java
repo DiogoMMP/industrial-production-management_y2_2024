@@ -10,17 +10,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class HashMap_Items_Machines {
     private HashMap<Item, Workstation> ProdPlan;
     public HashMap_Items_Machines() {
         this.ProdPlan = new HashMap<>();
     }
 
+    /**
+     * Constructor with ProdPlan
+     * @param ProdPlan
+     */
     public HashMap_Items_Machines(HashMap<Item, Workstation> ProdPlan) {
         this.ProdPlan = ProdPlan;
     }
 
+    /**
+     * Add all items and machines to the map
+     * @param itemsPath
+     * @param machinesPath
+     */
     public void addAll(String itemsPath, String machinesPath) {
         Map<Integer, Item> items = InputFileReader.readItems(itemsPath);
         Map<Integer, Workstation> machines = InputFileReader.readMachines(machinesPath);
@@ -36,6 +44,11 @@ public class HashMap_Items_Machines {
 
     }
 
+    /**
+     * Fill the map with items and machines
+     * @param items
+     * @param machines
+     */
     public void fillMap(Map<Integer, Item> items, Map<Integer, Workstation> machines) {
         int size = Math.max(items.size(), machines.size());
         Item item = new Item();
@@ -55,7 +68,10 @@ public class HashMap_Items_Machines {
         }
     }
 
-
+    /**
+     * Get the production plan
+     * @return production plan
+     */
     public HashMap<Item, Workstation> getProdPlan() {
         return ProdPlan;
     }
@@ -87,6 +103,9 @@ public class HashMap_Items_Machines {
         }
     }
 
+    /**
+     * List workstations by ascending order
+     */
     public void listWorkstationsByAscOrder() {
         HashMap<Item, Workstation> op = getProdPlan();
         int totalExecutionTime = 0;
@@ -120,6 +139,10 @@ public class HashMap_Items_Machines {
         }
     }
 
+    /**
+     * Set the production plan
+     * @param prodPlan
+     */
     public void setProdPlan(HashMap<Item, Workstation> prodPlan) {
         this.ProdPlan = prodPlan;
     }
