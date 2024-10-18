@@ -1,7 +1,7 @@
 package prodPlanSimulator;
 
 import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine;
+import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
 
 import java.io.*;
@@ -39,8 +39,8 @@ public class InputFileReader {
         return items;
     }
 
-    public static Map<Integer, Machine> readMachines(String fileName) {
-        Map<Integer, Machine> machines = new HashMap<>();
+    public static Map<Integer, Workstation> readMachines(String fileName) {
+        Map<Integer, Workstation> machines = new HashMap<>();
         try {
             int increment = 1;
             Scanner scanner = new Scanner(new File(FILE_PATH_MACHINES + fileName));
@@ -50,11 +50,11 @@ public class InputFileReader {
                 String id = data[0];
                 String operation = data[1];
                 int time = Integer.parseInt(data[2]);
-                Machine machine = new Machine();
-                machine.setId(id);
-                machine.setOperation(operation);
-                machine.setTime(time);
-                machines.put(increment, machine);
+                Workstation workstation = new Workstation();
+                workstation.setId(id);
+                workstation.setOperation(operation);
+                workstation.setTime(time);
+                machines.put(increment, workstation);
                 increment++;
             }
             scanner.close();

@@ -3,7 +3,7 @@ package prodPlanSimulator.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine;
+import prodPlanSimulator.domain.Workstation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -24,13 +24,13 @@ class HashMapTest {
 
     @Test
     void calcOpTime() throws Exception {
-        HashMap<Item, Machine> ProdPlan = new HashMap<>();
+        HashMap<Item, Workstation> ProdPlan = new HashMap<>();
         Item item = new Item();
         item.setId(10001);
-        Machine machine = new Machine();
-        machine.setId("1");
-        machine.setOperation(null);
-        ProdPlan.put(item, machine);
+        Workstation workstation = new Workstation();
+        workstation.setId("1");
+        workstation.setOperation(null);
+        ProdPlan.put(item, workstation);
         assertEquals(21, hashMapItemsMachines.calcOpTime("cut"));
     }
 }

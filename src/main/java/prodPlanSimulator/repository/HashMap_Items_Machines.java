@@ -2,7 +2,7 @@ package prodPlanSimulator.repository;
 
 import prodPlanSimulator.InputFileReader;
 import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine;
+import prodPlanSimulator.domain.Workstation;
 
 
 import java.util.ArrayList;
@@ -12,18 +12,18 @@ import java.util.Map;
 
 
 public class HashMap_Items_Machines {
-    private HashMap<Item, Machine> ProdPlan;
+    private HashMap<Item, Workstation> ProdPlan;
     public HashMap_Items_Machines() {
         this.ProdPlan = new HashMap<>();
     }
 
-    public HashMap_Items_Machines(HashMap<Item, Machine> ProdPlan) {
+    public HashMap_Items_Machines(HashMap<Item, Workstation> ProdPlan) {
         this.ProdPlan = ProdPlan;
     }
 
     public void addAll(String itemsPath, String machinesPath) {
         Map<Integer, Item> items = InputFileReader.readItems(itemsPath);
-        Map<Integer, Machine> machines = InputFileReader.readMachines(machinesPath);
+        Map<Integer, Workstation> machines = InputFileReader.readMachines(machinesPath);
         try {
             if (items.isEmpty() || machines.isEmpty()) {
                 throw new Exception("Items or Machines not found");
@@ -36,10 +36,10 @@ public class HashMap_Items_Machines {
 
     }
 
-    public void fillMap(Map<Integer, Item> items, Map<Integer, Machine> machines) {
+    public void fillMap(Map<Integer, Item> items, Map<Integer, Workstation> machines) {
         int size = Math.max(items.size(), machines.size());
         Item item = new Item();
-        Machine machine = new Machine();
+        Workstation workstation = new Workstation();
         for (int i = 1; i <= size; i++) {
             if (items.get(i) != null){
                 item = items.get(i);
@@ -47,16 +47,16 @@ public class HashMap_Items_Machines {
                 item = new Item();
             }
             if (machines.get(i) != null) {
-                machine = machines.get(i);
+                workstation = machines.get(i);
             } else if (machines.get(i) == null) {
-                machine = new Machine();
+                workstation = new Workstation();
             }
-            ProdPlan.put(item, machine);
+            ProdPlan.put(item, workstation);
         }
     }
 
 
-    public HashMap<Item, Machine> getProdPlan() {
+    public HashMap<Item, Workstation> getProdPlan() {
         return ProdPlan;
     }
 
@@ -69,11 +69,11 @@ public class HashMap_Items_Machines {
      */
     public int calcOpTime(String operation) throws Exception {
         try {
-            HashMap<Item, Machine> op = getProdPlan();
+            HashMap<Item, Workstation> op = getProdPlan();
             if (op.isEmpty()) {
                 throw new Exception("Operation not found");
             }
-            for (Map.Entry<Item, Machine> item : op.entrySet()) {
+            for (Map.Entry<Item, Workstation> item : op.entrySet()) {
                 if (item.getValue().getOperation().equals(operation)) {
                     return item.getValue().getTime();
                 } else {
@@ -88,39 +88,39 @@ public class HashMap_Items_Machines {
     }
 
     public void listWorkstationsByAscOrder() {
-        HashMap<Item, Machine> op = getProdPlan();
+        HashMap<Item, Workstation> op = getProdPlan();
         int totalExecutionTime = 0;
 
         // Calculate total execution time
-        for (Map.Entry<Item, Machine> entry : op.entrySet()) {
-            Machine machine = entry.getValue();
+        for (Map.Entry<Item, Workstation> entry : op.entrySet()) {
+            Workstation workstation = entry.getValue();
 
-            totalExecutionTime += machine.getTime();
+            totalExecutionTime += workstation.getTime();
 
         }
 
         // Store workstations with total time and percentage
-        List<Map.Entry<Machine, Double>> workstations = new ArrayList<>();
-        for (Map.Entry<Item, Machine> entry : op.entrySet()) {
-            Machine machine = entry.getValue();
+        List<Map.Entry<Workstation, Double>> workstations = new ArrayList<>();
+        for (Map.Entry<Item, Workstation> entry : op.entrySet()) {
+            Workstation workstation = entry.getValue();
             int totalTime = 0;
-            totalTime += machine.getTime();
+            totalTime += workstation.getTime();
             double percentage = (double) totalTime / totalExecutionTime * 100;
-            workstations.add(Map.entry(machine, percentage));
+            workstations.add(Map.entry(workstation, percentage));
         }
 
         // Sort workstations by percentage in ascending order
         workstations.sort(Map.Entry.comparingByValue());
 
         // Print sorted workstations with total time and percentage
-        for (Map.Entry<Machine, Double> entry : workstations) {
-            Machine machine = entry.getKey();
+        for (Map.Entry<Workstation, Double> entry : workstations) {
+            Workstation workstation = entry.getKey();
             double percentage = entry.getValue();
-            System.out.println("Workstation ID: " + machine.getId() + ", Total Time: " + machine.getTime() + ", Percentage: " + String.format("%.2f", percentage) + "%");
+            System.out.println("Workstation ID: " + workstation.getId() + ", Total Time: " + workstation.getTime() + ", Percentage: " + String.format("%.2f", percentage) + "%");
         }
     }
 
-    public void setProdPlan(HashMap<Item, Machine> prodPlan) {
+    public void setProdPlan(HashMap<Item, Workstation> prodPlan) {
         this.ProdPlan = prodPlan;
     }
 }

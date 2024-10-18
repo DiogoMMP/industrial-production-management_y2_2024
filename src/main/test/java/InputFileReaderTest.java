@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.InputFileReader;
 import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine;
 import prodPlanSimulator.enums.Priority;
 
 import java.util.List;

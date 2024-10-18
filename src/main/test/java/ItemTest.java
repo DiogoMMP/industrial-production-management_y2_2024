@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine;
+import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.Instances;
 
@@ -110,10 +110,10 @@ class ItemTest {
         // Set up data
         Item item1 = new Item();
         item1.setOperations(Arrays.asList("cut", "sand", "paint"));
-        Machine machine1 = new Machine();
-        machine1.setOperation(Arrays.asList("cut", "sand", "paint"));
-        HashMap<Item, Machine> ProdPlan = new HashMap<>();
-        ProdPlan.put(item1, machine1);
+        Workstation workstation1 = new Workstation();
+        workstation1.setOperation(Arrays.asList("cut", "sand", "paint"));
+        HashMap<Item, Workstation> ProdPlan = new HashMap<>();
+        ProdPlan.put(item1, workstation1);
         Instances.getInstance().getHashMapItemsMachines().setProdPlan(ProdPlan);
 
 
@@ -144,10 +144,10 @@ class ItemTest {
         // Set up data
         Item item1 = new Item();
         item1.setOperations(Arrays.asList("cut", "sand", "paint"));
-        Machine machine1 = new Machine();
-        machine1.setOperation(Arrays.asList("cut", "sand", "paint"));
-        HashMap<Item, Machine> ProdPlan = new HashMap<>();
-        ProdPlan.put(item1, machine1);
+        Workstation workstation1 = new Workstation();
+        workstation1.setOperation(Arrays.asList("cut", "sand", "paint"));
+        HashMap<Item, Workstation> ProdPlan = new HashMap<>();
+        ProdPlan.put(item1, workstation1);
         Instances.getInstance().getHashMapItemsMachines().setProdPlan(ProdPlan);
 
 

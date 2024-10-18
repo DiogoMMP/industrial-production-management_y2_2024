@@ -1,10 +1,7 @@
 package prodPlanSimulator.domain;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Machine implements Comparable<Machine> {
+public class Workstation implements Comparable<Workstation> {
     private String id;
     private String operation;
     private int time;
@@ -16,7 +13,7 @@ public class Machine implements Comparable<Machine> {
      * @param operation Machine operation
      * @param time Machine time
      */
-    public Machine(String id, String operation, int time) {
+    public Workstation(String id, String operation, int time) {
         this.id = id;
         this.operation = operation;
         this.time = time;
@@ -25,7 +22,7 @@ public class Machine implements Comparable<Machine> {
     /**
      * Empty Machine Builder
      */
-    public Machine() {
+    public Workstation() {
         this.id = "";
         this.operation = "";
         this.time = 0;
@@ -108,7 +105,7 @@ public class Machine implements Comparable<Machine> {
     }
 
     @Override
-    public int compareTo(Machine o) {
+    public int compareTo(Workstation o) {
         return this.id.compareTo(o.id);
     }
 }

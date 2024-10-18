@@ -7,7 +7,7 @@ This prodPlanSimulator.prodPlanSimulator.repository contains the code and prodPl
 The project is divided into several key modules, each focusing on different aspects of production management:
 
 - **plantFloorManager**: Application to manage the plant floor, including workstations and operations. Implemented using PL/SQL scripts for Oracle.
-- **machineSupervisor**: Supervisory system for monitoring and operating machines on the plant floor. Implemented using C and Assembly.
+- **machineSupervisor**: Supervisory system for monitoring and operating workstations on the plant floor. Implemented using C and Assembly.
 - **prodPlanSimulator**: Production Planner Simulator that simulates and optimizes production plans. Developed in Java.
 - **projectManager**: Project management tool using PERT/CPM methodology for task and critical path management. Also developed in Java.
 
@@ -31,7 +31,7 @@ Follow these steps to set up and run each module of the project:
 
 3. **Running the Machine Supervisor (machineSupervisor)**:
     - Navigate to the `machineSupervisor` folder.
-    - Compile the C and Assembly files, then run the application to supervise machine operations.
+    - Compile the C and Assembly files, then run the application to supervise workstation operations.
 
 4. **Running the Production Planner Simulator (prodPlanSimulator)**:
     - Navigate to the `prodPlanSimulator` folder.
