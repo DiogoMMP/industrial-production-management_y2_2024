@@ -5,6 +5,7 @@ VALUES (1, 1, 9, 8, 5000);
 INSERT INTO Factory_Plant (Factory_Plant_ID, Factory_Type_ID, Safety, Eficiency, Space)
 VALUES (2, 2, 7, 6, 4000);
 
+
 -- Production_Plan
 INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date)
 VALUES (1, TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_DATE('2024-10-10', 'YYYY-MM-DD'));
