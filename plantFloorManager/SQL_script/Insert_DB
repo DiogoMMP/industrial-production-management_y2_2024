@@ -6,3 +6,10 @@ insert into Country (Country_ID, Country_Name) values (203, 'Czechia');
 insert into type (ID, Name) values (1, 'Individual');
 insert into type (ID, Name) values (2, 'Company');
 
+--Product_Family
+insert into Product_Family (Family_ID, Family_Description) values (1, '5l 22 cm aluminium and teflon non stick pot');
+insert into Product_Family (Family_ID, Family_Description) values (2, '5l 22 cm stainless steel pot');
+insert into Product_Family (Family_ID, Family_Description) values (3, '3l 20 cm stainless steel pot');
+insert into Product_Family (Family_ID, Family_Description) values (4, '2l 17 cm stainless steel souce pan');
+insert into Product_Family (Family_ID, Family_Description) values (5, '17 cm stainless steel lid');
+insert into Product_Family (Family_ID, Family_Description) values (6, '17 cm glass lid');
