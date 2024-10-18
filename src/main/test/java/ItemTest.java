@@ -79,8 +79,8 @@ class ItemTest {
     }
 
     @Test
-    void simulateProcess() {
-        HashMap<String, Double> result = Item.simulateProcess(); // Assume you have a mock for this
+    void simulateProcessUS08() {
+        HashMap<String, Double> result = Item.simulateProcessUS08(); // Assume you have a mock for this
 
         assertNotNull(result, "Result should not be null");
         assertFalse(result.isEmpty(), "Result should not be empty");

@@ -1,7 +1,4 @@
 package prodPlanSimulator.domain;
-import prodPlanSimulator.InputFileReader;
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Machine;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 
@@ -24,7 +21,8 @@ public class DataInitializer {
     public void runItemMethods() {
         // Assuming that the Item class has a method named 'calculateAvgExecutionAndWaitingTimes'
         HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
-        HashMap<String, Double> result2 = Item.simulateProcess();
+        HashMap<String, Double> result2 = Item.simulateProcessUS08();
+        HashMap<String, Double> result3 = Item.simulateProcessUS02();
 
         for (Map.Entry<String, Double[]> entry : result.entrySet()) {
             System.out.println("Item: " + entry.getKey());
@@ -44,7 +42,7 @@ public class DataInitializer {
         }
 
         // Print the simulation results
-        for (Map.Entry<String, Double> entry : result2.entrySet()) {
+        for (Map.Entry<String, Double> entry : result3.entrySet()) {
             System.out.println("Item: " + entry.getKey());
         }
     }

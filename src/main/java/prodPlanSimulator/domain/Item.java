@@ -43,6 +43,24 @@ public class Item implements Comparable<Item> {
         this.lowestTimes = new LinkedHashMap<>();
     }
 
+    public static LinkedHashMap<String, Double> simulateProcessUS02() {
+        HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
+        ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
+        ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
+        removeNullMachines(machines);
+        removeNullItems(items);
+        // AC1 - Create the operationsQueue with the list of the items for each operation
+        fillOperationsQueue(items, operationsQueue);
+        // AC2 - Assign the items to the machines
+        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
+        fillUpMachinesUS02(operationsQueue, machines, timeOperations, items);
+        for (Machine machine : machines) {
+            machine.clearUpMachine();
+        }
+        return timeOperations;
+    }
+
     // Getters e Setters
 
     /**
@@ -138,7 +156,7 @@ public class Item implements Comparable<Item> {
     /**
      * Simulates the process of all the items present in the system
      */
-    public static LinkedHashMap<String, Double> simulateProcess() {
+    public static LinkedHashMap<String, Double> simulateProcessUS08() {
         HashMap<Item, Machine> ProdPlan = HashMap_Items_Machines.getProdPlan();
         HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Machine> machines = new ArrayList<>(ProdPlan.values());
@@ -149,8 +167,10 @@ public class Item implements Comparable<Item> {
         fillOperationsQueue(items, operationsQueue);
         // AC2 - Assign the items to the machines
         LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
-        fillUpMachines(operationsQueue, machines, timeOperations, items);
-
+        fillUpMachinesUS08(operationsQueue, machines, timeOperations, items);
+        for (Machine machine : machines) {
+            machine.clearUpMachine();
+        }
         return timeOperations;
     }
 
@@ -235,10 +255,17 @@ public class Item implements Comparable<Item> {
      * @param timeOperations  HashMap with the time of each operation
      * @param items           List of items
      */
-    private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items) {
+    private static void fillUpMachinesUS08(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items) {
         int quantMachines = machines.size();
         sortMachinesByTime(machines);
         sortItemsByPriorityAndTime(items, machines);
+        addAllItems(operationsQueue, machines, timeOperations, items, quantMachines);
+
+    }
+    private static void fillUpMachinesUS02(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Machine> machines, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items) {
+        int quantMachines = machines.size();
+        sortMachinesByTime(machines);
+        sortItemsByTime(items, machines);
         addAllItems(operationsQueue, machines, timeOperations, items, quantMachines);
     }
 
@@ -302,6 +329,33 @@ public class Item implements Comparable<Item> {
             if (priorityComparison != 0) {
                 return priorityComparison;
             }
+            LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue())
+                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+
+            LinkedHashMap<String, Integer> sortedTimes2 = item2.getLowestTimes().entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue())
+                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+
+            Iterator<Map.Entry<String, Integer>> it1 = sortedTimes1.entrySet().iterator();
+            Iterator<Map.Entry<String, Integer>> it2 = sortedTimes2.entrySet().iterator();
+
+            while (it1.hasNext() && it2.hasNext()) {
+                Map.Entry<String, Integer> entry1 = it1.next();
+                Map.Entry<String, Integer> entry2 = it2.next();
+                int timeComparison = Integer.compare(entry1.getValue(), entry2.getValue());
+                if (timeComparison != 0) {
+                    return timeComparison;
+                }
+            }
+            return 0;
+        });
+    }
+
+    private static void sortItemsByTime(ArrayList<Item> items, ArrayList<Machine> machines) {
+        addTimes(items, machines);
+        swapOperations(items);
+        items.sort((item1, item2) -> {
             LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
                     .sorted(Map.Entry.comparingByValue())
                     .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
