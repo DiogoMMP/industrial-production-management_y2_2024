@@ -1,6 +1,6 @@
 CREATE TABLE Component (Component_ID number(10) NOT NULL, Product_ID number(10) NOT NULL, Component_Description varchar2(255) NOT NULL, Component_Quantity number(10) NOT NULL, PRIMARY KEY (Component_ID));
-CREATE TABLE Country (Contry_ID number(10) NOT NULL, Contry_Name varchar2(255) NOT NULL, PRIMARY KEY (Contry_ID));
-CREATE TABLE Customer (NIF number(9) NOT NULL, Name varchar2(255) NOT NULL, Address varchar2(255) NOT NULL, Mobile_number number(9), Email varchar2(255), typeID number(10) NOT NULL, Contry_ID number(10) NOT NULL, PRIMARY KEY (NIF));
+CREATE TABLE Country (Country_ID number(10) NOT NULL, Country_Name varchar2(255) NOT NULL, PRIMARY KEY (Country_ID));
+CREATE TABLE Customer (NIF number(9) NOT NULL, Name varchar2(255) NOT NULL, Address varchar2(255) NOT NULL, Mobile_number number(9), Email varchar2(255), typeID number(10) NOT NULL, Country_ID number(10) NOT NULL, PRIMARY KEY (NIF));
 CREATE TABLE Customer_Order (Customer_Order_ID number(10) NOT NULL, Delivery_Date date NOT NULL, Location varchar2(255) NOT NULL, CustomerNIF number(9) NOT NULL, PRIMARY KEY (Customer_Order_ID));
 CREATE TABLE Factory_Plant (Factory_Plant_ID number(10) NOT NULL, Factory_Type_ID number(10) NOT NULL, Safety number(10), Eficiency number(10), Space number(10), PRIMARY KEY (Factory_Plant_ID));
 CREATE TABLE Inventory (Component_ID number(10) NOT NULL, Quantity_In_Stock number(10), PRIMARY KEY (Component_ID));
@@ -33,4 +33,4 @@ ALTER TABLE Customer ADD CONSTRAINT FKCustomer406672 FOREIGN KEY (typeID) REFERE
 ALTER TABLE Product ADD CONSTRAINT FKProduct885178 FOREIGN KEY (Customer_Order_ID) REFERENCES Customer_Order (Customer_Order_ID);
 ALTER TABLE Inventory ADD CONSTRAINT FKInventory197183 FOREIGN KEY (Component_ID) REFERENCES Component (Component_ID);
 ALTER TABLE Product ADD CONSTRAINT FKProduct738384 FOREIGN KEY (Family_ID) REFERENCES Product_Family (Family_ID);
-ALTER TABLE Customer ADD CONSTRAINT FKCustomer288040 FOREIGN KEY (Contry_ID) REFERENCES Country (Contry_ID);
+ALTER TABLE Customer ADD CONSTRAINT FKCustomer288040 FOREIGN KEY (Country_ID) REFERENCES Country (Country_ID);
