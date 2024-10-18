@@ -1,0 +1,8 @@
+--Country
+insert into Country (Country_ID, Country_Name) values (620, 'Portugal');
+insert into Country (Country_ID, Country_Name) values (203, 'Czechia');
+
+--Type
+insert into type (ID, Name) values (1, 'Individual');
+insert into type (ID, Name) values (2, 'Company');
+
