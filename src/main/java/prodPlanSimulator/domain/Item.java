@@ -13,7 +13,7 @@ public class Item implements Comparable<Item> {
     private int currentOperationIndex;
     private static HashMap_Items_Machines HashMap_Items_Machines = Instances.getInstance().getHashMapItemsMachines();
     private LinkedHashMap<String, Integer> lowestTimes;
-    ;
+
 
     /**
      * Item Builder

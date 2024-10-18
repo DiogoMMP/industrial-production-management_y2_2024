@@ -1,0 +1,30 @@
+package prodPlanSimulator.UI.Menu;
+
+import prodPlanSimulator.UI.*;
+import prodPlanSimulator.UI.Utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainMenuUI {
+    public MainMenuUI() {
+    }
+
+    public void run() {
+        List<MenuItem> options = new ArrayList<MenuItem>();
+        options.add(new MenuItem("Simulate Process", new SimulateProcessUI()));
+        options.add(new MenuItem("Total Time", new TotalTimeUI()));
+        options.add(new MenuItem("Time of Workstation", new WorkstationTimeUI()));
+        options.add(new MenuItem("NDF", new ListExecutionTimeUI()));
+        options.add(new MenuItem("List Workstations", new AverageAndWaitingTimesUI()));
+        options.add(new MenuItem("Add Workstation", new FlowDependencyUI()));
+        int option = 0;
+        do {
+            option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");
+
+            if ((option >= 0) && (option < options.size())) {
+                options.get(option).run();
+            }
+        } while (option != -1);
+    }
+}
