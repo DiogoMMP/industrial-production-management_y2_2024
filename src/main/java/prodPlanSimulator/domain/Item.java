@@ -252,7 +252,7 @@ public class Item implements Comparable<Item> {
      * Assigns the items to the machines
      *
      * @param operationsQueue HashMap with the operations and the list of items
-     * @param workstations        List of machines
+     * @param workstations    List of machines
      * @param timeOperations  HashMap with the time of each operation
      * @param items           List of items
      */
@@ -285,13 +285,14 @@ public class Item implements Comparable<Item> {
                 }
             }
         }
+
     }
 
     /**
      * Adds the operations to the machines for each item
      *
      * @param operationsQueue HashMap with the operations and the list of items
-     * @param workstations        List of machines
+     * @param workstations    List of machines
      * @param timeOperations  HashMap with the time of each operation
      * @param item1           Item to add the operations
      * @param quantMachines   Quantity of machines
@@ -316,13 +317,13 @@ public class Item implements Comparable<Item> {
     /**
      * Adds the item to the machine for the corresponding operation
      *
-     * @param operationsQueue   HashMap with the operations and the list of items
+     * @param operationsQueue       HashMap with the operations and the list of items
      * @param workstations          List of machines
-     * @param timeOperations    HashMap with the time of each operation
-     * @param item1             Item to add to the machine
-     * @param operation         Operation to add the item
+     * @param timeOperations        HashMap with the time of each operation
+     * @param item1                 Item to add to the machine
+     * @param operation             Operation to add the item
      * @param availableWorkstations List of available machines
-     * @param quantMachines     Quantity of machines
+     * @param quantMachines         Quantity of machines
      * @return Quantity of machines
      */
     private static int addItem(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, Item item1, String operation, List<Workstation> availableWorkstations, int quantMachines) {
@@ -379,7 +380,7 @@ public class Item implements Comparable<Item> {
     /**
      * Sorts the items by priority
      *
-     * @param items    List of items
+     * @param items        List of items
      * @param workstations List of machines
      */
     private static void sortItemsByTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
@@ -472,7 +473,7 @@ public class Item implements Comparable<Item> {
     /**
      * Checks if there are any machines left with the operation
      *
-     * @param workstations      List of machines
+     * @param workstations  List of machines
      * @param quantMachines Quantity of machines
      * @param operation     Operation to check
      * @return Quantity of machines
@@ -554,7 +555,8 @@ public class Item implements Comparable<Item> {
 
     /**
      * Checks if there are any machines left
-     * @param workstations List of machines
+     *
+     * @param workstations  List of machines
      * @param quantMachines Quantity of machines
      * @return Quantity of machines
      */
