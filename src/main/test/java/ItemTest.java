@@ -111,7 +111,7 @@ class ItemTest {
         Item item1 = new Item();
         item1.setOperations(Arrays.asList("cut", "sand", "paint"));
         Workstation workstation1 = new Workstation();
-        workstation1.setOperation(Arrays.asList("cut", "sand", "paint"));
+        //workstation1.setOperation(Arrays.asList("cut", "sand", "paint"));
         HashMap<Item, Workstation> ProdPlan = new HashMap<>();
         ProdPlan.put(item1, workstation1);
         Instances.getInstance().getHashMapItemsMachines().setProdPlan(ProdPlan);
@@ -145,7 +145,7 @@ class ItemTest {
         Item item1 = new Item();
         item1.setOperations(Arrays.asList("cut", "sand", "paint"));
         Workstation workstation1 = new Workstation();
-        workstation1.setOperation(Arrays.asList("cut", "sand", "paint"));
+        //workstation1.setOperation(Arrays.asList("cut", "sand", "paint"));
         HashMap<Item, Workstation> ProdPlan = new HashMap<>();
         ProdPlan.put(item1, workstation1);
         Instances.getInstance().getHashMapItemsMachines().setProdPlan(ProdPlan);

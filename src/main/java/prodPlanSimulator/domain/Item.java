@@ -268,7 +268,7 @@ public class Item implements Comparable<Item> {
         int quantMachines = workstations.size();
         sortMachinesByTime(workstations);
         sortItemsByPriorityAndTime(items, workstations);
-        addAllItems(operationsQueue, workstations, timeOperations, items, quantMachines);
+        addAllItemsUS08(operationsQueue, workstations, timeOperations, items, quantMachines);
 
     }
 
@@ -276,24 +276,23 @@ public class Item implements Comparable<Item> {
         int quantMachines = workstations.size();
         sortMachinesByTime(workstations);
         sortItemsByTime(items, workstations);
-        addAllItems(operationsQueue, workstations, timeOperations, items, quantMachines);
+        addAllItemsUS02(operationsQueue, workstations, timeOperations, items, quantMachines);
     }
 
-    private static void addAllItems(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items, int quantMachines) {
+    private static void addAllItemsUS02(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items, int quantMachines) {
         for (Item item : items) {
-            ArrayList<Item> SameItem = new ArrayList<>();
-            for (Item item1 : items) {
-                if (item1.getId() == item.getId() && item1.getPriority().toString().equalsIgnoreCase(item.getPriority().toString())) {
-                    SameItem.add(item1);
-                }
-            }
-            for (Item item1 : SameItem) {
-                if (item1.getId() != 0) {
-                    quantMachines = addOperations(operationsQueue, workstations, timeOperations, item1, quantMachines);
-                }
+            if (item.getId() != 0) {
+                quantMachines = addOperations(operationsQueue, workstations, timeOperations, item, quantMachines);
             }
         }
+    }
 
+    private static void addAllItemsUS08(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items, int quantMachines) {
+        for (Item item : items) {
+            if (item.getId() != 0) {
+                quantMachines = addOperations(operationsQueue, workstations, timeOperations, item, quantMachines);
+            }
+        }
     }
 
     /**
@@ -302,12 +301,12 @@ public class Item implements Comparable<Item> {
      * @param operationsQueue HashMap with the operations and the list of items
      * @param workstations    List of machines
      * @param timeOperations  HashMap with the time of each operation
-     * @param item1           Item to add the operations
+     * @param item           Item to add the operations
      * @param quantMachines   Quantity of machines
      * @return Quantity of machines
      */
-    private static int addOperations(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, Item item1, int quantMachines) {
-        for (String operation : item1.getOperations()) {
+    private static int addOperations(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, Item item, int quantMachines) {
+        for (String operation : item.getOperations()) {
             List<Workstation> availableWorkstations = new ArrayList<>();
             checkMachinesWithOperation(workstations, quantMachines, operation);
             checkMachines(workstations, quantMachines);
@@ -316,8 +315,7 @@ public class Item implements Comparable<Item> {
                     availableWorkstations.add(workstation);
                 }
             }
-            availableWorkstations.sort(Comparator.comparingInt(Workstation::getTime));
-            quantMachines = addItem(operationsQueue, workstations, timeOperations, item1, operation, availableWorkstations, quantMachines);
+            quantMachines = addItem(operationsQueue, workstations, timeOperations, item, operation, availableWorkstations, quantMachines);
         }
         return quantMachines;
     }
@@ -336,12 +334,12 @@ public class Item implements Comparable<Item> {
      */
     private static int addItem(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, Item item1, String operation, List<Workstation> availableWorkstations, int quantMachines) {
         for (Workstation workstation : availableWorkstations) {
+            quantMachines = checkMachinesWithOperation(workstations, quantMachines, workstation.getOperation());
+            quantMachines = checkMachines(workstations, quantMachines);
             if (item1.getCurrentOperationIndex() >= item1.getOperations().size()) {
                 break;
             }
-            quantMachines = checkMachinesWithOperation(workstations, quantMachines, workstation.getOperation());
             if ((operationsQueue.get(workstation.getOperation()).contains(item1) && workstation.getOperation().equalsIgnoreCase(operation)) && (!workstation.getHasItem())) {
-                quantMachines = checkMachines(workstations, quantMachines);
                 changeStatusMach(workstations, workstation);
                 item1.setCurrentOperationIndex(item1.getCurrentOperationIndex() + 1);
                 quantMachines--;
@@ -351,6 +349,72 @@ public class Item implements Comparable<Item> {
             }
         }
         return quantMachines;
+    }
+
+    private static void sortItemsByTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
+        addTimes(items, workstations);
+        swapOperations(items);
+        items.sort((item1, item2) -> {
+            LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue())
+                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+
+            LinkedHashMap<String, Integer> sortedTimes2 = item2.getLowestTimes().entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue())
+                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+
+            Iterator<Map.Entry<String, Integer>> it1 = sortedTimes1.entrySet().iterator();
+            Iterator<Map.Entry<String, Integer>> it2 = sortedTimes2.entrySet().iterator();
+
+            while (it1.hasNext() && it2.hasNext()) {
+                Map.Entry<String, Integer> entry1 = it1.next();
+                Map.Entry<String, Integer> entry2 = it2.next();
+                int timeComparison = Integer.compare(entry1.getValue(), entry2.getValue());
+                if (timeComparison != 0) {
+                    return timeComparison;
+                }
+            }
+            return 0;
+        });
+    }
+
+
+    private static void swapOperations(ArrayList<Item> items) {
+        for (Item item : items) {
+            List<String> operations = item.getOperations();
+            LinkedHashMap<String, Integer> lowestTimes = item.getLowestTimes();
+            boolean swapped;
+            do {
+                swapped = false;
+                for (int i = 0; i < operations.size() - 1; i++) {
+                    String operation1 = operations.get(i);
+                    String operation2 = operations.get(i + 1);
+                    if (lowestTimes.get(operation1) > lowestTimes.get(operation2)) {
+                        Collections.swap(operations, i, i + 1);
+                        swapped = true;
+                    }
+                }
+            } while (swapped);
+        }
+    }
+
+    private static void addTimes(ArrayList<Item> items, ArrayList<Workstation> workstations) {
+        for (Item item : items) {
+            LinkedHashMap<String, Integer> operationTimes = new LinkedHashMap<>();
+            for (String operation : item.getOperations()) {
+                int minTime = Integer.MAX_VALUE;
+                for (Workstation workstation : workstations) {
+                    if (workstation.getOperation().equalsIgnoreCase(operation)) {
+                        minTime = Math.min(minTime, workstation.getTime());
+                    }
+                }
+                if (minTime == Integer.MAX_VALUE) {
+                    System.out.println("Warning: No workstation found for operation: " + operation);
+                }
+                operationTimes.put(operation, minTime);
+            }
+            item.setLowestTimes(operationTimes);
+        }
     }
 
     private static void sortItemsByPriorityAndTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
@@ -383,84 +447,6 @@ public class Item implements Comparable<Item> {
             }
             return 0;
         });
-    }
-
-    /**
-     * Sorts the items by priority
-     *
-     * @param items        List of items
-     * @param workstations List of machines
-     */
-    private static void sortItemsByTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
-        addTimes(items, workstations);
-        swapOperations(items);
-        items.sort((item1, item2) -> {
-            LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue())
-                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
-
-            LinkedHashMap<String, Integer> sortedTimes2 = item2.getLowestTimes().entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue())
-                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
-
-            Iterator<Map.Entry<String, Integer>> it1 = sortedTimes1.entrySet().iterator();
-            Iterator<Map.Entry<String, Integer>> it2 = sortedTimes2.entrySet().iterator();
-
-            while (it1.hasNext() && it2.hasNext()) {
-                Map.Entry<String, Integer> entry1 = it1.next();
-                Map.Entry<String, Integer> entry2 = it2.next();
-                int timeComparison = Integer.compare(entry1.getValue(), entry2.getValue());
-                if (timeComparison != 0) {
-                    return timeComparison;
-                }
-            }
-            return 0;
-        });
-    }
-
-    /**
-     * Sorts the items by priority
-     *
-     * @param items List of items
-     */
-    private static void swapOperations(ArrayList<Item> items) {
-        for (Item item : items) {
-            List<String> operations = item.getOperations();
-            LinkedHashMap<String, Integer> lowestTimes = item.getLowestTimes();
-            boolean swapped;
-            do {
-                swapped = false;
-                for (int i = 0; i < operations.size() - 1; i++) {
-                    String operation1 = operations.get(i);
-                    String operation2 = operations.get(i + 1);
-                    if (lowestTimes.get(operation1) > lowestTimes.get(operation2)) {
-                        Collections.swap(operations, i, i + 1);
-                        swapped = true;
-                    }
-                }
-            } while (swapped);
-        }
-    }
-
-    /**
-     * Sorts the items by priority
-     *
-     * @param items List of items
-     */
-    private static void addTimes(ArrayList<Item> items, ArrayList<Workstation> workstations) {
-        for (Item item : items) {
-            LinkedHashMap<String, Integer> operationTimes = new LinkedHashMap<>();
-            for (String operation : item.getOperations()) {
-                int minTime = Integer.MAX_VALUE;
-                for (Workstation workstation : workstations) {
-                    if (workstation.getOperation().equalsIgnoreCase(operation)) {
-                        minTime = Math.min(minTime, workstation.getTime());
-                    }
-                }
-                operationTimes.put(operation, minTime);
-            }
-            item.setLowestTimes(operationTimes);
-        }
     }
 
 
@@ -612,16 +598,13 @@ public class Item implements Comparable<Item> {
      */
     private static void fillOperationsQueue(ArrayList<Item> items, HashMap<String, LinkedList<Item>> operationsQueue) {
         for (Item item : items) {
-            ArrayList<String> operations = (ArrayList<String>) item.getOperations();
-            if (operations.isEmpty()) {
+            List<String> operations = item.getOperations();
+            if (operations == null || operations.isEmpty()) {
                 System.out.println("Item with ID " + item.getId() + " has no operations.");
                 continue;
             }
             for (String operation : operations) {
-                if (!operationsQueue.containsKey(operation)) {
-                    operationsQueue.put(operation, new LinkedList<>());
-                }
-                operationsQueue.get(operation).add(item);
+                operationsQueue.computeIfAbsent(operation, k -> new LinkedList<>()).add(item);
             }
         }
     }
@@ -658,7 +641,7 @@ public class Item implements Comparable<Item> {
      * Compares this object with the specified object to verify if they are equal.
      *
      * @param o the object to be compared.
-     * @return
+     * @return true if the objects are equal, false otherwise.
      */
     @Override
     public int compareTo(Item o) {
