@@ -58,6 +58,10 @@ public class Item implements Comparable<Item> {
         for (Workstation workstation : workstations) {
             workstation.clearUpMachine();
         }
+        for (Item item : items) {
+            item.setCurrentOperationIndex(0);
+            item.setLowestTimes(new LinkedHashMap<>());
+        }
         return timeOperations;
     }
 
@@ -171,6 +175,10 @@ public class Item implements Comparable<Item> {
         fillUpMachinesUS08(operationsQueue, workstations, timeOperations, items);
         for (Workstation workstation : workstations) {
             workstation.clearUpMachine();
+        }
+        for (Item item : items) {
+            item.setCurrentOperationIndex(0);
+            item.setLowestTimes(new LinkedHashMap<>());
         }
         return timeOperations;
     }
