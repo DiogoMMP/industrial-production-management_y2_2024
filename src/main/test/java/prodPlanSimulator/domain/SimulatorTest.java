@@ -21,6 +21,7 @@ class SimulatorTest {
     static void setUp() {
         hashMap.addAll(FILE_PATH_ITEMS, FILE_PATH_MACHINES);
     }
+
     @Test
     void simulateProcessUS02() {
 
@@ -81,6 +82,9 @@ class SimulatorTest {
             for (String operation : item.getOperations()) {
                 expectedSize++;
             }
+        }
+        for (String key : result.keySet()) {
+            System.out.println(key);
         }
         assertEquals(expectedSize, result.size());
     }
@@ -146,4 +150,7 @@ class SimulatorTest {
         }
         assertEquals(expectedSize, result.size());
     }
+
+
 }
+

@@ -100,7 +100,7 @@ public class Workstation implements Comparable<Workstation> {
     /**
      * Clear the item of the machine
      */
-    public void clearUpMachine() {
+    public void clearUpWorkstation() {
         this.hasItem = false;
     }
 
