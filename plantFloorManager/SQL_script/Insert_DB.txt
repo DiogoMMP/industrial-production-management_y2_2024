@@ -16,12 +16,11 @@ insert into type (ID, Name) values (1, 'Individual');
 insert into type (ID, Name) values (2, 'Company');
 
 --Product_Family
-insert into Product_Family (Family_ID, Family_Description) values (1, '5l 22 cm aluminium and teflon non stick pot');
-insert into Product_Family (Family_ID, Family_Description) values (2, '5l 22 cm stainless steel pot');
-insert into Product_Family (Family_ID, Family_Description) values (3, '3l 20 cm stainless steel pot');
-insert into Product_Family (Family_ID, Family_Description) values (4, '2l 17 cm stainless steel souce pan');
-insert into Product_Family (Family_ID, Family_Description) values (5, '17 cm stainless steel lid');
-insert into Product_Family (Family_ID, Family_Description) values (6, '17 cm glass lid');
+INSERT INTO Product_Family (Family_ID, Family_Description) VALUES (1, 'Non-stick Aluminium Pots');
+INSERT INTO Product_Family (Family_ID, Family_Description) VALUES (2, 'Stainless Steel Pots');
+INSERT INTO Product_Family (Family_ID, Family_Description) VALUES (3, 'Stainless Steel Sauce Pans');
+INSERT INTO Product_Family (Family_ID, Family_Description) VALUES (4, 'Stainless Steel Lids');
+INSERT INTO Product_Family (Family_ID, Family_Description) VALUES (5, 'Glass Lids');
 
 --Manufacturing_Operations
 
@@ -41,14 +40,46 @@ insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Custome
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (6, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 348);
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (7, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 456);
 
---Plant_Floor
+--Plant_Floor (example)
+insert into Plant_Floor(Plant_Floor_ID, Factory_Plant_ID) values (1, 1);
 
+--Workstation_Type
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('A4578', '600t cold forging stamping press');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('A4588', '600t cold forging precision stamping press');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('A4598', '1000t cold forging precision stamping press');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('S3271', 'Handle rivet');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('K3675', 'Packaging');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('K3676', 'Packaging for large itens');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('C5637', 'Border trimming');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('D9123', 'Spot welding');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('Q5478', 'Teflon application station');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('Q3547', 'Stainless steel polishing');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('T3452', 'Assembly T1');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('G9273', 'Circular glass cutting');
+insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('G9274', 'Glass trimming');
 
---Station
-
-
---Type_Station
-
+--Workstation
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9875, 'Press 01', '220-630t cold forging press', 1, 'A4578');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9886, 'Press 02', '220-630t cold forging press', 1, 'A4578');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9847, 'Press 03', '220-630t precision cold forging press', 1, 'A4588');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9855, 'Press 04', '160-1000t precison cold forging press', 1, 'A4588');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8541, 'Rivet 02', 'Rivet station', 1, 'S3271');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8543, 'Rivet 03', 'Rivet station', 1, 'S3271');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6814, 'Packaging 01', 'Packaging station', 1, 'K3675');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6815, 'Packaging 02', 'Packaging station', 1, 'K3675');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6816, 'Packaging 03', 'Packaging station', 1, 'K3675');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6821, 'Packaging 04', 'Packaging station', 1, 'K3675');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6822, 'Packaging 05', 'Packaging station', 1, 'K3676');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8167, 'Welding 01', 'Spot welding staion', 1, 'D9123');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8170, 'Welding 02', 'Spot welding staion', 1, 'D9123');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8171, 'Welding 03', 'Spot welding staion', 1, 'D9123');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7235, 'Assembly 01', 'Product assembly station', 1, 'T3452');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7236, 'Assembly 02', 'Product assembly station', 1, 'T3452');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7238, 'Assembly 03', 'Product assembly station', 1, 'T3452');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (5124, 'Trimming 01', 'Metal trimming station', 1, 'C5637');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4123, 'Polishing 01', 'Metal polishing station', 1, 'Q3547');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4124, 'Polishing 02', 'Metal polishing station', 1, 'Q3547');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4125, 'Polishing 03', 'Metal polishing station', 1, 'Q3547');
 
 --Type_Industry
 
@@ -57,12 +88,12 @@ insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Custome
 
 
 --Product
-insert into Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) values ('AS12945T22', 'La Belle 22 5l pot', 1, 1);
-insert into Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) values ('AS12945S22', 'Pro 22 5l pot', 1, 2);
-insert into Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) values ('AS12945S20', 'Pro 20 3l pot', 1, 3);
-insert into Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) values ('AS12945S17', 'Pro 17 2l sauce pan', 1, 4);
-insert into Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) values ('AS12945S48', 'Pro 17 lid', 1, 5);
-insert into Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) values ('AS12945G48', 'Pro Clear 17 lid', 1, 6);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945T22', 'La Belle 22 5l pot', '5l 22 cm aluminium and teflon non stick pot', 1, 1);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S22', 'Pro 22 5l pot', '5l 22 cm stainless steel pot', 1, 2);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S20', 'Pro 20 3l pot', '3l 20 cm stainless steel pot', 1, 2);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S17', 'Pro 17 2l sauce pan', '2l 17 cm stainless steel souce pan', 1, 3);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S48', 'Pro 17 lid', '17 cm stainless steel lid', 1, 3);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945G48', 'Pro Clear 17 lid', '17 cm glass lid', 1, 4);
 
 --Component
 insert into Component(Component_ID, Component_Description) values ('PN12344A21', 'Screw M6 35 mm');
@@ -72,7 +103,10 @@ insert into Component(Component_ID, Component_Description) values ('PN18544A21',
 insert into Component(Component_ID, Component_Description) values ('PN18544C21', 'Stainless steel handle model U6');
 insert into Component(Component_ID, Component_Description) values ('PN18324C54', 'Stainless steel handle model R12');
 
---Process
+--BOO
+
+
+--BOM
 
 
 --Inventory
