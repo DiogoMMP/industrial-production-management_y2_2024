@@ -29,22 +29,37 @@ class HashMapTest {
     void calcOpTime() throws Exception {
         HashMap<Item, Workstation> ProdPlan = new HashMap<>();
         Item item = new Item();
+        Item item2 = new Item();
         item.setId(10001);
+        item2.setId(10002);
         Workstation workstation = new Workstation();
+        Workstation workstation2 = new Workstation();
         workstation.setId("1");
         workstation.setOperation("cut");
         workstation.setTime(21);
+        workstation2.setId("2");
+        workstation2.setOperation("sand");
+        workstation2.setTime(10);
         ProdPlan.put(item, workstation);
+        ProdPlan.put(item2, workstation2);
         hashMapItemsMachines.setProdPlan(ProdPlan);
         assertEquals(21, hashMapItemsMachines.calcOpTime("cut"));
+        assertEquals(10, hashMapItemsMachines.calcOpTime("sand"));
     }
     @Test
     void listWorkstationsByAscOrder() {
         // Mock data
         Item item1 = new Item();
         Item item2 = new Item();
+        Item item3 = new Item();
+        Item item4 = new Item();
+        Item item5 = new Item();
         Workstation workstation1 = new Workstation();
         Workstation workstation2 = new Workstation();
+        Workstation workstation3 = new Workstation();
+        Workstation workstation4 = new Workstation();
+        Workstation workstation5 = new Workstation();
+
 
         item1.setId(10001);
         item1.setPriority(Priority.HIGH);
@@ -54,17 +69,44 @@ class HashMapTest {
         item2.setPriority(Priority.LOW);
         item2.setOperations(List.of(new String[]{"drill", "polish"}));
 
+        item3.setId(10003);
+        item3.setPriority(Priority.NORMAL);
+        item3.setOperations(List.of(new String[]{"cut", "polish"}));
+
+        item4.setId(10004);
+        item4.setPriority(Priority.NORMAL);
+        item4.setOperations(List.of(new String[]{"cut", "paint"}));
+
+        item5.setId(10005);
+        item5.setPriority(Priority.HIGH);
+        item5.setOperations(List.of(new String[]{"drill", "sand"}));
+
         workstation1.setId("Workstation1");
         workstation1.setOperation("cut");
-        workstation1.setTime(10);
+        workstation1.setTime(20);
 
         workstation2.setId("Workstation2");
         workstation2.setOperation("sand");
-        workstation2.setTime(20);
+        workstation2.setTime(10);
+
+        workstation3.setId("Workstation3");
+        workstation3.setOperation("cut");
+        workstation3.setTime(25);
+
+        workstation4.setId("Workstation4");
+        workstation4.setOperation("paint");
+        workstation4.setTime(15);
+
+        workstation5.setId("Workstation5");
+        workstation5.setOperation("drill");
+        workstation5.setTime(30);
 
         HashMap<Item, Workstation> prodPlan = new HashMap<>();
         prodPlan.put(item1, workstation1);
         prodPlan.put(item2, workstation2);
+        prodPlan.put(item3, workstation3);
+        prodPlan.put(item4, workstation4);
+        prodPlan.put(item5, workstation5);
 
         hashMapItemsMachines.setProdPlan(prodPlan);
 
@@ -72,8 +114,12 @@ class HashMapTest {
         hashMapItemsMachines.listWorkstationsByAscOrder();
 
         // Verify the output
-        String expectedOutput = "Workstation ID: Workstation1, Total Time: 10, Percentage: 33.33%\n" +
-                "Workstation ID: Workstation2, Total Time: 20, Percentage: 66.67%\n";
+        String expectedOutput = "Workstation ID: Workstation2, Total Time: 10, Percentage: 10.00%\n" +
+                "Workstation ID: Workstation4, Total Time: 15, Percentage: 15.00%\n" +
+                "Workstation ID: Workstation1, Total Time: 20, Percentage: 20.00%\n" +
+                "Workstation ID: Workstation3, Total Time: 25, Percentage: 25.00%\n" +
+                "Workstation ID: Workstation5, Total Time: 30, Percentage: 30.00%\n";
+
         assertEquals(expectedOutput, outContent.toString());
 
         // Reset the output stream
