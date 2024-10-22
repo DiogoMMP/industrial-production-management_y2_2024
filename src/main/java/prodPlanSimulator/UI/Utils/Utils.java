@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -132,5 +133,11 @@ public class Utils {
         } while (value < 0 || value > list.size());
 
         return value - 1;
+    }
+    static public void goBackAndWait() {
+        String input;
+        do {
+            input = Utils.readLineFromConsole("Press '0' to go back: ");
+        } while (!Objects.equals(input, "0"));
     }
 }

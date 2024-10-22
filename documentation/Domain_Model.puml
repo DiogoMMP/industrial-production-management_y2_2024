@@ -9,105 +9,103 @@ hide methods
 
 class Customer {
     NIF
-    name
-    address
-    phone
-    email
-    category
-    orders
+    Name
+    Address
+    Mobile_number
+    Email
+    typeID
+    Country_ID
 }
 
 class Product {
-    product_ID
-    name
-}
-
-class Product_Variant {
-    size
-    colour
+    Product_ID
+    Product_Name
+    Product_Description
+    Factory_Plant_ID
+    Market_Demand
+    Optimization
+    Production_Cost
+    Flexibility
+    Family_ID
 }
 
 class Factory {
-    type_of_factory
-    safety
-    efficiency
-    space
-    production_orders
+    Factory_Plant_ID
+    Safety
+    Efficiency
+    Space
 }
 
 class Factory_Type {
-    type
+    Type
 }
 
 class Raw_Material {
-    material_ID
-    name
+    Raw_Material_ID
+    Raw_Material_Name
 }
 
 class Plant_Floor {
-    stations
+    Plant_Floor_ID
 }
 
 class Station {
-    type_of_station
-    type_of_industry
+    Workstation_ID
+    Workstation_Name
+    Workstation_Description
 }
 
 class Station_Type {
-    type
+    Workstation_Type_ID
+    Workstation_Type
 }
 
 class Industry_Type {
-    industry_types
-    operations
+    Type_Industry_ID
+    Type_Industry
 }
 
 class Operation {
-    operation_name
+    Manufacturing_Operation_ID
+    Operation_Description
 }
 
 class Production_Plan {
-    orders
-    begin_date
-    end_date
+    Product_Planing_ID
+    Product_Plan_Start_Date
+    Product_Plan_End_Date
 }
 
 class Order {
-    order_ID
-    customer_ID
-    products
-    delivery_date
-    location
+    Customer_Order_ID
+    Order_Date
+    Delivery_Date
+    Location
 }
 
-class Category_Customer {
-    category
-}
-
-class Category_Product {
-    category
+class Product_Family {
+    Family_ID
+    Family_Description
 }
 
 class Production_Order {
-    order_ID
-    product_ID
-    quantity
+    Order_ID
+    Product_ID
+    Quantity_Ordered
 }
 
+Customer "1" -- "0..*" Order
+Order "1" -- "0..*" Production_Order
 Factory "1" - "1" Factory_Type
 Station "1" -- "1" Station_Type
 Factory "1" -- "1..*" Plant_Floor
 Plant_Floor "1" -- "1..*" Station
 Station "1" -- "1" Industry_Type
 Industry_Type "1" -- "1..*" Operation
+Product "1" -- "1" Product_Family
 Product "1" -- "1..*" Operation
-Production_Plan "1" -- "1..*" Order
-Customer "1" -- "1..*" Order
-Category_Customer "1" -- "1..*" Customer
-Category_Product "1" -- "1..*" Product
-Product "1" -- "1..*" Product_Variant
-Order "1" -- "1..*" Production_Order
+Production_Plan "1" -- "0..*" Order
 Production_Order "1" -- "1" Product
-Production_Order "1" -- "1..*" Raw_Material
+Production_Order "1" -- "0..*" Raw_Material
 
 @enduml

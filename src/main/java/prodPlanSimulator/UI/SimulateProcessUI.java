@@ -1,7 +1,7 @@
 package prodPlanSimulator.UI;
 
-import prodPlanSimulator.UI.Domain.SimulateProcessTimeAndPriorityUI;
-import prodPlanSimulator.UI.Domain.SimulateProcessTimeUI;
+import prodPlanSimulator.UI.Domain.US02AndUS08.SimulateProcessTimeAndPriorityUI;
+import prodPlanSimulator.UI.Domain.US02AndUS08.SimulateProcessTimeUI;
 import prodPlanSimulator.UI.Menu.MenuItem;
 import prodPlanSimulator.UI.Utils.Utils;
 

@@ -605,7 +605,7 @@ public class Item implements Comparable<Item> {
      *
      * @return HashMap with the total production time per item
      */
-    public HashMap<Item, Double> calculateTotalProductionTimePerItem() {
+    public static HashMap<Item, Double> calculateTotalProductionTimePerItem() {
         double totalProductionTime = 0.0;
         HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
 

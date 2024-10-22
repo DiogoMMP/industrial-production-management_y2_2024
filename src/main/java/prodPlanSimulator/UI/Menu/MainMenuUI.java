@@ -6,10 +6,10 @@ import prodPlanSimulator.UI.Utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuUI {
+public class MainMenuUI implements Runnable {
     public MainMenuUI() {
     }
-
+    @Override
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Simulate Process", new SimulateProcessUI()));
