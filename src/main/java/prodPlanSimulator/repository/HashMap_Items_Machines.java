@@ -12,12 +12,14 @@ import java.util.Map;
 
 public class HashMap_Items_Machines {
     private HashMap<Item, Workstation> ProdPlan;
+
     public HashMap_Items_Machines() {
         this.ProdPlan = new HashMap<>();
     }
 
     /**
      * Constructor with ProdPlan
+     *
      * @param ProdPlan
      */
     public HashMap_Items_Machines(HashMap<Item, Workstation> ProdPlan) {
@@ -26,6 +28,7 @@ public class HashMap_Items_Machines {
 
     /**
      * Add all items and machines to the map
+     *
      * @param itemsPath
      * @param machinesPath
      */
@@ -46,6 +49,7 @@ public class HashMap_Items_Machines {
 
     /**
      * Fill the map with items and machines
+     *
      * @param items
      * @param machines
      */
@@ -54,9 +58,9 @@ public class HashMap_Items_Machines {
         Item item = new Item();
         Workstation workstation = new Workstation();
         for (int i = 1; i <= size; i++) {
-            if (items.get(i) != null){
+            if (items.get(i) != null) {
                 item = items.get(i);
-            } else if (items.get(i) == null){
+            } else if (items.get(i) == null) {
                 item = new Item();
             }
             if (machines.get(i) != null) {
@@ -70,6 +74,7 @@ public class HashMap_Items_Machines {
 
     /**
      * Get the production plan
+     *
      * @return production plan
      */
     public HashMap<Item, Workstation> getProdPlan() {
@@ -79,29 +84,25 @@ public class HashMap_Items_Machines {
     /**
      * Calculate the time of a specific operation
      *
-     * @param operation operation to calculate time
      * @return time of the operation
      * @throws Exception if operation not found
      */
-    public int calcOpTime(String operation) throws Exception {
-        try {
-            HashMap<Item, Workstation> op = getProdPlan();
-            if (op.isEmpty()) {
-                throw new Exception("Operation not found");
+    public HashMap<String, Double> calcOpTime(String operation) throws Exception {
+        HashMap<Item, Workstation> op = getProdPlan();
+        HashMap<String, Double> OpTime = new HashMap<>();
+        double totalTime = 0.0;
+
+        for (Map.Entry<Item, Workstation> entry : op.entrySet()) {
+            Workstation workstation = entry.getValue();
+            if (workstation.getOperation().equals(operation)) {
+                totalTime += workstation.getTime();
             }
-            for (Map.Entry<Item, Workstation> item : op.entrySet()) {
-                if (item.getValue().getOperation().equals(operation)) {
-                    return item.getValue().getTime();
-                } else {
-                    throw new Exception("Operation not found");
-                }
-            }
-            return 0;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return 0;
         }
+
+        OpTime.put(operation, totalTime);
+        return OpTime;
     }
+
 
     /**
      * List workstations by ascending order
@@ -141,6 +142,7 @@ public class HashMap_Items_Machines {
 
     /**
      * Set the production plan
+     *
      * @param prodPlan
      */
     public void setProdPlan(HashMap<Item, Workstation> prodPlan) {
