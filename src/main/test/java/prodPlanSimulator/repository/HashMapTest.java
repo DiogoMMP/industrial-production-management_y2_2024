@@ -61,7 +61,7 @@ class HashMapTest {
         ProdPlan.put(item3, workstation3);
 
         hashMapItemsMachines.setProdPlan(ProdPlan);
-        assertEquals(31, hashMapItemsMachines.calcOpTime("cut"));
+        assertEquals(31, hashMapItemsMachines.calcOpTime());
 
     }
     @Test
