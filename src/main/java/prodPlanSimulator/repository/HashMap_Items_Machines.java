@@ -93,8 +93,16 @@ public class HashMap_Items_Machines {
         double totalTime = 0.0;
 
         for (Map.Entry<Item, Workstation> entry : op.entrySet()) {
+            Item item = entry.getKey();
             Workstation workstation = entry.getValue();
+
+            // Check if the workstation performs the specified operation
             if (workstation.getOperation().equals(operation)) {
+                totalTime += workstation.getTime();
+            }
+
+            // Check if the item has the specified operation
+            if (item.getOperations().contains(operation)) {
                 totalTime += workstation.getTime();
             }
         }
