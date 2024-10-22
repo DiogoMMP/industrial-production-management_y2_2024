@@ -1,0 +1,15 @@
+SELECT DISTINCT ts.Type_Stations
+FROM
+    Production_Order po
+JOIN
+    Products prod ON po.Order_ID = prod.Order_ID
+JOIN
+    Factory_Plant fp ON prod.Factory_Plant_ID = fp.Factory_Plant_ID
+JOIN
+    Plant_Floor pf ON fp.Factory_Plant_ID = pf.Factory_Plant_ID
+JOIN
+    Stations s ON pf.Plant_Floor_ID = s.Plant_Floor_ID
+JOIN
+    Type_Stations ts ON s.Stations_ID = ts.Stations_ID
+WHERE
+    po.Order_ID = 1;
