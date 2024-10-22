@@ -48,6 +48,7 @@ public class DataInitializer {
         }
     }
 
+
     public static void main(String[] args) {
         DataInitializer dataInitializer = new DataInitializer();
         dataInitializer.initializeData();

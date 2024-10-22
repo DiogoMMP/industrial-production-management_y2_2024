@@ -386,6 +386,7 @@ public class Item implements Comparable<Item> {
         return quantMachines;
     }
 
+
     private static void sortItemsByTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
         addTimes(items, workstations);
         swapOperations(items);
