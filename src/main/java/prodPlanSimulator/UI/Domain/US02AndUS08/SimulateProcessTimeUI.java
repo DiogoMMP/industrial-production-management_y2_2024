@@ -49,7 +49,7 @@ public class SimulateProcessTimeUI implements Runnable {
             timeOperations = Item.simulateProcessUS02();
             timeOperations = updateOperationKeys(timeOperations);
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-                System.out.println(entry.getKey() + ", Time: " + entry.getValue());
+                System.out.println(entry.getKey());
             }
         } else {
             id = Integer.parseInt(choice.split(" ")[1]);
@@ -58,7 +58,7 @@ public class SimulateProcessTimeUI implements Runnable {
             timeOperations = sortOperations(timeOperations, id);
             timeOperations = updateOperationKeys(timeOperations);
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-                System.out.println(entry.getKey() + ", Time: " + entry.getValue());
+                System.out.println(entry.getKey());
             }
         }
     }

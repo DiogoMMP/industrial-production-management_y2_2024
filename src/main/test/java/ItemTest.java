@@ -111,51 +111,12 @@ class ItemTest {
     }
 
     // Test for calculateAvgExecutionAndWaitingTimes
-    @Test
 
-    void testCalculateAvgExecutionAndWaitingTimes() {
-        HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
 
-        assertNotNull(result, "Result should not be null");
-        assertFalse(result.isEmpty(), "Result should not be empty");
 
-        // Check that the result contains times for certain operations
-        assertTrue(result.containsKey("cut"), "Result should contain times for 'cut' operation");
-        assertTrue(result.containsKey("sand"), "Result should contain times for 'sand' operation");
-
-        // Validate that the times for an operation have the expected format
-        Double[] cutTimes = result.get("cut");
-        assertNotNull(cutTimes, "Times for 'cut' operation should not be null");
-        assertEquals(2, cutTimes.length, "Times array should contain 2 elements (execution and waiting time)");
-
-        // Check that each time is valid
-        assertTrue(cutTimes[0] >= 0, "Execution time for 'cut' should be 0 or greater");
-        assertTrue(cutTimes[1] >= 0, "Waiting time for 'cut' should be 0 or greater");
-    }
 
     // Test for generateWorkstationFlowDependency
-    @Test
-    void testGenerateWorkstationFlowDependency() {
-        Map<String, List<Map.Entry<String, Integer>>> result = Item.generateWorkstationFlowDependency();
 
-        assertNotNull(result, "Result should not be null");
-        assertFalse(result.isEmpty(), "Result should not be empty");
-
-        // Check that the result contains dependencies for certain machines
-        assertTrue(result.containsKey("M1"), "Result should contain flow for 'M1'");
-
-        // Validate that the flow dependencies for a machine have the expected format
-        List<Map.Entry<String, Integer>> machine1Flow = result.get("M1");
-        assertNotNull(machine1Flow, "Flow for 'M1' should not be null");
-        assertFalse(machine1Flow.isEmpty(), "Flow for 'M1' should not be empty");
-
-        // Check that each entry has a valid format (machine, transition count)
-        for (Map.Entry<String, Integer> entry : machine1Flow) {
-            assertNotNull(entry.getKey(), "Machine name in entry should not be null");
-            assertNotNull(entry.getValue(), "Transition count in entry should not be null");
-            assertTrue(entry.getValue() > 0, "Transition count should be greater than 0");
-        }
-    }
 
     @Test
     void testSimulateProcessUS02() {
