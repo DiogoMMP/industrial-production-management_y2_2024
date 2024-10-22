@@ -1,5 +1,5 @@
 CREATE TABLE BOM (Product_ID varchar2(255) NOT NULL, Component_ID varchar2(20) NOT NULL, Component_Quantity number(10) NOT NULL, PRIMARY KEY (Product_ID, Component_ID));
-CREATE TABLE BOO (Product_ID varchar2(255) NOT NULL, Manufacturing_Operation_ID number(10) NOT NULL, Operation_Order number(10), PRIMARY KEY (Product_ID, Manufacturing_Operation_ID));
+CREATE TABLE BOO (Product_ID varchar2(255) NOT NULL, Manufacturing_Operation_ID number(10) NOT NULL, Operation_Order number(10) NOT NULL, PRIMARY KEY (Product_ID, Manufacturing_Operation_ID, Operation_Order));
 CREATE TABLE Component (Component_ID varchar2(20) NOT NULL, Component_Description varchar2(255) NOT NULL, PRIMARY KEY (Component_ID));
 CREATE TABLE Component_Raw_Material (Component_ID varchar2(20) NOT NULL, Raw_Material_ID number(10) NOT NULL, Raw_Material_Quantity number(10) NOT NULL, PRIMARY KEY (Component_ID, Raw_Material_ID));
 CREATE TABLE Country (Country_ID number(10) NOT NULL, Country_Name varchar2(255) NOT NULL, PRIMARY KEY (Country_ID));
