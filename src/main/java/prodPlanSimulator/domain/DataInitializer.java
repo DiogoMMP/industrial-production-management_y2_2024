@@ -20,24 +20,25 @@ public class DataInitializer {
 
     public void runItemMethods() {
         // Assuming that the Item class has a method named 'calculateAvgExecutionAndWaitingTimes'
-        HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
+        Map<String, Map<String, Double>> result = Item.calculateAverageTimesUS06();
         HashMap<String, Double> result2 = Item.simulateProcessUS08();
         HashMap<String, Double> result3 = Item.simulateProcessUS02();
 
-        for (Map.Entry<String, Double[]> entry : result.entrySet()) {
+        for (Map.Entry<String, Map<String, Double>> entry : result.entrySet()) {
             System.out.println("Item: " + entry.getKey());
-            System.out.println("Execution Time: " + entry.getValue()[0]);
-            System.out.println("Waiting Time: " + entry.getValue()[1]);
+            for (Map.Entry<String, Double> subEntry : entry.getValue().entrySet()) {
+                System.out.println("  Operation: " + subEntry.getKey() + ", Average Time: " + subEntry.getValue());
+            }
         }
 
         // Generate workstation flow dependency
-        HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = Item.generateWorkstationFlowDependency();
+        Map<String, Map<String, Integer>> flowDependency = Item.calculateFlowDependencyUS07();
 
         // Print the flow dependency
-        for (Map.Entry<String, List<Map.Entry<String, Integer>>> entry : flowDependency.entrySet()) {
+        for (Map.Entry<String, Map<String, Integer>> entry : flowDependency.entrySet()) {
             System.out.println("Workstation: " + entry.getKey());
-            for (Map.Entry<String, Integer> transition : entry.getValue()) {
-                System.out.println("Next Workstation: " + transition.getKey() + ", Transitions: " + transition.getValue());
+            for (Map.Entry<String, Integer> subEntry : entry.getValue().entrySet()) {
+                System.out.println("  Next Workstation: " + subEntry.getKey() + ", Count: " + subEntry.getValue());
             }
         }
 

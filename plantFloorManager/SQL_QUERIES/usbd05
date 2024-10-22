@@ -1,0 +1,15 @@
+SELECT
+    C.Name AS Customer_Name,
+    P.Product_Name,
+    COP.Quantity,
+    CO.Delivery_Date
+FROM
+    Customer_Order CO
+JOIN
+    Customer_Order_Product COP ON CO.Customer_Order_ID = COP.Customer_Order_ID
+JOIN
+    Product P ON COP.Product_ID = P.Product_ID
+JOIN
+    Customer C ON CO.Customer_ID = C.Customer_ID
+WHERE
+    CO.Delivery_Date BETWEEN TO_DATE('01-SEP-2024', 'DD-MON-YYYY') AND TO_DATE('30-SEP-2024', 'DD-MON-YYYY');

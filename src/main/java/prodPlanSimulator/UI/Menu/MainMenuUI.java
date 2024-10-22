@@ -16,8 +16,8 @@ public class MainMenuUI implements Runnable {
         options.add(new MenuItem("Total Time", new TotalTimeUI()));
         options.add(new MenuItem("Time of Workstation", new WorkstationTimeUI()));
         options.add(new MenuItem("NDF", new ListExecutionTimeUI()));
-        options.add(new MenuItem("List Workstations", new AverageAndWaitingTimesUI()));
-        options.add(new MenuItem("Add Workstation", new FlowDependencyUI()));
+        options.add(new MenuItem("Average and waiting times", new AverageAndWaitingTimesUI()));
+        options.add(new MenuItem("Flow Dependency", new FlowDependencyUI()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");
