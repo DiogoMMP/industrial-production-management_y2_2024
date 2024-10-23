@@ -709,30 +709,50 @@ public class Item implements Comparable<Item> {
      *
      * @return HashMap with the total production time per item
      */
-    public static HashMap<Item, Double> calculateTotalProductionTimePerItem() {
-        double totalProductionTime = 0.0;
+    public static TreeMap<Item, Double> calculateTotalProductionTimePerItem() {
         HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
-        Set<Map.Entry<Item,Workstation>> entrySet = HashMap_Items_Workstations.getProdPlan().entrySet();
+        LinkedHashMap<String, Double> timeOperations = simulateProcessUS02();
 
-        for (Map.Entry<Item, Workstation> entry : entrySet) {
-            Item item = entry.getKey();
-            Workstation workstation = entry.getValue();
+        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
+        ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
 
-            if (item.getId() != 0 && !workstation.getId().equalsIgnoreCase("")){
-                for (String operation : item.getOperations()) {
-
-                    if (workstation.getOperation().equals(operation)) {
-                        totalProductionTime += workstation.getTime();
+        for (Item item : items) {
+            double totalProductionTime = 0.0;
+            for (String operation : item.getOperations()) {
+                for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+                    if (entry.getKey().contains(operation)) {
+                        totalProductionTime += entry.getValue();
                     }
                 }
-                totalProductionTimePerItem.put(item, totalProductionTime);
-                totalProductionTime = 0.0;
             }
+            totalProductionTimePerItem.put(item, totalProductionTime);
+        }
+        return sortById(removeDuplicateItems(totalProductionTimePerItem));
+    }
 
+    public static HashMap<Item, Double> removeDuplicateItems(HashMap<Item, Double> totalProductionTimePerItem) {
+        HashMap<Item, Double> uniqueTotalProductionTimePerItem = new HashMap<>();
+        Set<Integer> uniqueIds = new HashSet<>();
+
+        for (Map.Entry<Item, Double> entry : totalProductionTimePerItem.entrySet()) {
+            Item item = entry.getKey();
+            int itemId = item.getId();
+
+            if (!uniqueIds.contains(itemId)) {
+                uniqueTotalProductionTimePerItem.put(item, entry.getValue());
+                uniqueIds.add(itemId);
+            }
         }
 
-        return totalProductionTimePerItem;
+        return uniqueTotalProductionTimePerItem;
     }
+
+    public static TreeMap<Item, Double> sortById(HashMap<Item, Double> totalProductionTimePerItem) {
+        TreeMap<Item, Double> sortedMap = new TreeMap<>(Comparator.comparingInt(Item::getId));
+        sortedMap.putAll(totalProductionTimePerItem);
+        return sortedMap;
+    }
+
 
     /**
      * Compares this object with the specified object to verify if they are equal.

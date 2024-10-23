@@ -60,7 +60,7 @@ public class TotalTimeOneItemUI implements Runnable {
         int id;
         id = Integer.parseInt(choice.split(" ")[1]);
         System.out.println("Item: " + id);
-        HashMap<Item, Double> totalTimes = Item.calculateTotalProductionTimePerItem();
+        TreeMap<Item, Double> totalTimes = Item.calculateTotalProductionTimePerItem();
         int index = 1;
         for (Map.Entry<Item, Double> entry : totalTimes.entrySet()) {
             if (entry.getKey().getId() == id) {

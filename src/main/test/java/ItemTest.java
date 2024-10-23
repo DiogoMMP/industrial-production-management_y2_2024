@@ -139,7 +139,7 @@ class ItemTest {
 
     @Test
     void testCalculateTotalProductionTimePerItem() {
-        HashMap<Item, Double> result = Item.calculateTotalProductionTimePerItem();
+        TreeMap<Item, Double> result = Item.calculateTotalProductionTimePerItem();
         assertNotNull(result);
         assertFalse(result.isEmpty());
 
