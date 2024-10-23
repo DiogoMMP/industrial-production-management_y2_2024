@@ -9,6 +9,7 @@ import prodPlanSimulator.repository.Instances;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -83,15 +84,11 @@ class SimulatorTest {
                 expectedSize++;
             }
         }
-        for (String key : result.keySet()) {
-            System.out.println(key);
-        }
         assertEquals(expectedSize, result.size());
     }
 
     @Test
     void simulateProcessUS08() {
-
         // Setup test data
         List<Item> items = Arrays.asList(
                 new Item(23, Priority.NORMAL, Arrays.asList("CUT", "DRILL", "SCREW", "POLISH", "VARNISH", "PACK")),
@@ -148,7 +145,17 @@ class SimulatorTest {
                 expectedSize++;
             }
         }
+
         assertEquals(expectedSize, result.size());
+
+        // Check the priority order
+        Priority previousPriority = Priority.HIGH;
+        for (Map.Entry<String, Double> entry : result.entrySet()) {
+            String[] parts = entry.getKey().split(" - ");
+            Priority currentPriority = Priority.valueOf(parts[3].split(": ")[1].toUpperCase());
+            assertTrue(previousPriority.compareTo(currentPriority) <= 0);
+            previousPriority = currentPriority;
+        }
     }
 
 
