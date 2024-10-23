@@ -53,6 +53,5 @@ public class ListExecutionTimeOneOpUI implements Runnable {
                 System.out.println("Total time of the operatiom " + entry.getKey() + " : " + entry.getValue());
             }
         }
-        Utils.goBackAndWait();
     }
 }

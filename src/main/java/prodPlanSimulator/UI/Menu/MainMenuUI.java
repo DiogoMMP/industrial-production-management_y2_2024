@@ -11,7 +11,7 @@ public class MainMenuUI implements Runnable {
     }
     @Override
     public void run() {
-        List<MenuItem> options = new ArrayList<MenuItem>();
+        List<MenuItem> options = new ArrayList<>();
         options.add(new MenuItem("Simulate Process", new SimulateProcessUI()));
         options.add(new MenuItem("Total Time", new TotalTimeUI()));
         options.add(new MenuItem("Time of Workstation", new WorkstationTimeUI()));
