@@ -147,4 +147,33 @@ class ItemTest {
         assertTrue(result.containsKey(item1));
         assertTrue(result.containsKey(item2));
     }
+
+    @Test
+    void testRemoveDuplicateItems() {
+        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
+        totalProductionTimePerItem.put(item1, 30.0);
+        totalProductionTimePerItem.put(item2, 40.0);
+        totalProductionTimePerItem.put(item1, 50.0); // Duplicate item
+
+        HashMap<Item, Double> result = Item.removeDuplicateItems(totalProductionTimePerItem);
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(50.0, result.get(item1));
+        assertEquals(40.0, result.get(item2));
+    }
+
+    @Test
+    void testSortById() {
+        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
+        totalProductionTimePerItem.put(item2, 40.0);
+        totalProductionTimePerItem.put(item1, 30.0);
+
+        TreeMap<Item, Double> result = Item.sortById(totalProductionTimePerItem);
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        Iterator<Item> iterator = result.keySet().iterator();
+        assertEquals(item1, iterator.next());
+        assertEquals(item2, iterator.next());
+    }
 }
