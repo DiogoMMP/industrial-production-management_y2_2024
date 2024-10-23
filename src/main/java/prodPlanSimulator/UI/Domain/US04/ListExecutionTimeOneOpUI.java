@@ -1,6 +1,5 @@
 package prodPlanSimulator.UI.Domain.US04;
 
-import prodPlanSimulator.UI.Domain.US02AndUS08.SimulateProcessTimeAndPriorityUI;
 import prodPlanSimulator.UI.Menu.MenuItem;
 import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.domain.Item;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ListExecutionTimeOneOpUI implements Runnable {
-    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsMachines();
+    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
 
     @Override
     public void run() {

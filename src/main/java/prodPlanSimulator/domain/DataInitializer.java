@@ -3,14 +3,13 @@ import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DataInitializer {
 
     private HashMap_Items_Machines hashMapItemsMachines;
     public DataInitializer() {
-        this.hashMapItemsMachines = Instances.getInstance().getHashMapItemsMachines();
+        this.hashMapItemsMachines = Instances.getInstance().getHashMapItemsWorkstations();
     }
 
     public void initializeData() {

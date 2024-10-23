@@ -12,7 +12,7 @@ public class Item implements Comparable<Item> {
     private Priority priority;
     private List<String> operations;
     private int currentOperationIndex;
-    private static HashMap_Items_Machines HashMap_Items_Machines = Instances.getInstance().getHashMapItemsMachines();
+    private static HashMap_Items_Machines HashMap_Items_Workstations = Instances.getInstance().getHashMapItemsWorkstations();
     private LinkedHashMap<String, Integer> lowestTimes;
     private Map<String, Long> entryTimes = new HashMap<>();
     private Map<String, Integer> waitingTimes = new HashMap<>();
@@ -62,7 +62,7 @@ public class Item implements Comparable<Item> {
 
 
     public static LinkedHashMap<String, Double> simulateProcessUS02() {
-        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
         HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Workstation> workstations = new ArrayList<>(ProdPlan.values());
         ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
@@ -169,7 +169,7 @@ public class Item implements Comparable<Item> {
      * Simulates the process of all the items present in the system
      */
     public static LinkedHashMap<String, Double> simulateProcessUS08() {
-        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
         HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
         ArrayList<Workstation> workstations = new ArrayList<>(ProdPlan.values());
         ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
@@ -238,7 +238,7 @@ public class Item implements Comparable<Item> {
         Map<String, Map<String, Double>> result = new HashMap<>();
 
         // Get the production plan after the simulation
-        HashMap<Item, Workstation> prodPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<Item, Workstation> prodPlan = HashMap_Items_Workstations.getProdPlan();
 
         // Iterate through each item in the production plan
         for (Map.Entry<Item, Workstation> entry : prodPlan.entrySet()) {
@@ -556,7 +556,7 @@ public class Item implements Comparable<Item> {
     }
     public static Map<String, Map<String, Integer>> calculateFlowDependencyUS07() {
         Map<String, Map<String, Integer>> flowDependency = new HashMap<>();
-        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
 
         // Iterate through each item and track the flow between operations
         for (Map.Entry<Item, Workstation> entry : ProdPlan.entrySet()) {
@@ -656,7 +656,7 @@ public class Item implements Comparable<Item> {
 
     // Helper function to find workstation based on operation name
     private static Workstation findWorkstationByOperation(String operation) {
-        HashMap<Item, Workstation> prodPlan = HashMap_Items_Machines.getProdPlan();
+        HashMap<Item, Workstation> prodPlan = HashMap_Items_Workstations.getProdPlan();
         for (Workstation workstation : prodPlan.values()) {
             if (workstation.getOperation().equals(operation)) {
                 return workstation;
@@ -712,18 +712,19 @@ public class Item implements Comparable<Item> {
     public static HashMap<Item, Double> calculateTotalProductionTimePerItem() {
         double totalProductionTime = 0.0;
         HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
+        Set<Map.Entry<Item,Workstation>> entrySet = HashMap_Items_Workstations.getProdPlan().entrySet();
 
-        for (Map.Entry<Item, Workstation> entry : HashMap_Items_Machines.getProdPlan().entrySet()) {
+        for (Map.Entry<Item, Workstation> entry : entrySet) {
             Item item = entry.getKey();
             Workstation workstation = entry.getValue();
 
-            for (String operation : item.getOperations()) {
+            if (item.getId() != 0 && !workstation.getId().equalsIgnoreCase("")){
+                for (String operation : item.getOperations()) {
 
-                if (workstation.getOperation().equals(operation)) {
-                    totalProductionTime += workstation.getTime();
+                    if (workstation.getOperation().equals(operation)) {
+                        totalProductionTime += workstation.getTime();
+                    }
                 }
-            }
-            if (totalProductionTime > 0.0){
                 totalProductionTimePerItem.put(item, totalProductionTime);
                 totalProductionTime = 0.0;
             }

@@ -1,6 +1,5 @@
 package prodPlanSimulator.UI.Domain.US02AndUS08;
 
-import prodPlanSimulator.UI.Menu.MainMenuUI;
 import prodPlanSimulator.UI.Menu.MenuItem;
 import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.domain.Item;
@@ -10,7 +9,7 @@ import prodPlanSimulator.repository.Instances;
 import java.util.*;
 
 public class SimulateProcessTimeUI implements Runnable {
-    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsMachines();
+    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
 
     @Override
     public void run() {

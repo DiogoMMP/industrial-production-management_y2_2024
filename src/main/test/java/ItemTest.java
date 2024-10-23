@@ -5,7 +5,6 @@ import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.Instances;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,7 +43,7 @@ class ItemTest {
         prodPlan.put(item1, workstation1);
         prodPlan.put(item2, workstation2);
 
-        Instances.getInstance().getHashMapItemsMachines().setProdPlan(prodPlan);
+        Instances.getInstance().getHashMapItemsWorkstations().setProdPlan(prodPlan);
     }
 
     @Test

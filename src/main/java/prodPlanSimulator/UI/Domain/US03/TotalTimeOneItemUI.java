@@ -10,7 +10,7 @@ import prodPlanSimulator.repository.Instances;
 import java.util.*;
 
 public class TotalTimeOneItemUI implements Runnable {
-    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsMachines();
+    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
 
     @Override
     public void run() {

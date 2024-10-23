@@ -4,7 +4,7 @@ import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 
 public class DataInitializer implements Runnable{
-    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsMachines();
+    private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
 
     public void init(String pathArt, String pathWor){
         map.addAll(pathArt, pathWor);

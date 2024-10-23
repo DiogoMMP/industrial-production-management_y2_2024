@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SimulatorTest {
     private static final String FILE_PATH_ITEMS = "test_files/articles.csv";
     private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
-    private static HashMap_Items_Machines hashMap = Instances.getInstance().getHashMapItemsMachines();
+    private static HashMap_Items_Machines hashMap = Instances.getInstance().getHashMapItemsWorkstations();
 
     @BeforeAll
     static void setUp() {
