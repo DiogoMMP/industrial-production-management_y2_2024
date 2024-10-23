@@ -13,7 +13,7 @@ public class TotalTimeUI implements Runnable {
     public void run() {
         List<MenuItem> options = new ArrayList<>();
         options.add(new MenuItem("List Total Time of All Items", new TotalTimeAllItemsUI()));
-        options.add(new MenuItem("List Total Time of one Operation", new TotalTimeOneItemUI()));
+        options.add(new MenuItem("List Total Time of Specific Item", new TotalTimeOneItemUI()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\n--- List Total Time -------------------");

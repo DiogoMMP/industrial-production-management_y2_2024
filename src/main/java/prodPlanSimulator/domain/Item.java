@@ -723,8 +723,10 @@ public class Item implements Comparable<Item> {
                     totalProductionTime += workstation.getTime();
                 }
             }
-            totalProductionTimePerItem.put(item, totalProductionTime);
-            totalProductionTime = 0.0;
+            if (totalProductionTime > 0.0){
+                totalProductionTimePerItem.put(item, totalProductionTime);
+                totalProductionTime = 0.0;
+            }
 
         }
 
