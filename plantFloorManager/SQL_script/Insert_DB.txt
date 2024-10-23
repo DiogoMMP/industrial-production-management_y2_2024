@@ -4,8 +4,8 @@ INSERT INTO Factory_Plant (Factory_Plant_ID, Safety, Efficiency, Space) VALUES (
 INSERT INTO Factory_Plant (Factory_Plant_ID, Safety, Efficiency, Space) VALUES (3, 88, 75, 6000);
 
 --Production_Plan (example)
-INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date) VALUES (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'));
-INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date) VALUES (2, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'));
+INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date) VALUES (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'));
+INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date) VALUES (2, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'));
 INSERT INTO Production_Plan (Product_Planing_ID, Product_Plan_Start_Date, Product_Plan_End_Date) VALUES (3, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'));
 
 --Country
@@ -37,6 +37,10 @@ insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Descri
 insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5667, 'Lid polishing');
 insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5669, 'Pot base polishing');
 insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5671, 'Teflon painting');
+insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5681, 'Initial pan base pressing');
+insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5682, 'Final pan base pressing');
+insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5683, 'Pan base finishing');
+insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5688, 'Pan test and packaging');
 
 --Customer
 insert into Customer(Customer_ID, Name, NIF, Address, Mobile_number, Email, typeID, Country_ID) values (456, 'Carvalho & Carvalho, Lda', 'PT501245987', 'Tv. Augusto Lessa 23, 4200-047, Porto', 003518340500, 'idont@care.com', 2, 620);
@@ -46,7 +50,7 @@ insert into Customer(Customer_ID, Name, NIF, Address, Mobile_number, Email, type
 
 --Customer_Order
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 785);
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (2, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 657);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (2, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 657);
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (3, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 348);
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (4, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 785);
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (5, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 657);
@@ -97,24 +101,31 @@ insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Descriptio
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4125, 'Polishing 03', 'Metal polishing station', 1, 'Q3547');
 
 --Type_Industry
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1001, 'Metal or Ceramics Industry', 5647 , 'A4578');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1002, 'Metal or Ceramics Industry', 5647 , 'A4588');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1003, 'Metal or Ceramics Industry', 5647 , 'A4598');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1004, 'Ceramics Industry', 5649 , 'A4588');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1005, 'Ceramics Industry', 5649 , 'A4598');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1006, 'Ceramics Industry', 5651 , 'A4588');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1007, 'Ceramics Industry', 5651 , 'A4598');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1008, 'Ceramics Industry', 5653 , 'C5637');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1009, 'Metal or Ceramics Industry', 5655 , 'A4588');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1010, 'Metal or Ceramics Industry', 5655 , 'A4598');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1011, 'Metal or Ceramics Industry', 5657 , 'C5637');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1012, 'Metal Industry', 5659 , 'S3271');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1013, 'Metal Industry', 5661, 'T3452');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1014, 'Metal or Ceramics Industry', 5663, 'K3675');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1015, 'Metal Industry', 5665, 'D9123');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1016, 'Metal or Ceramics Industry', 5667, 'Q3547');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1017, 'Ceramics Industry', 5669, 'Q3547');
-insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1018, 'Metal Industry', 5671, 'Q5478');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1001, 'Disc cutting', 5647 , 'A4578');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1002, 'Disc cutting', 5647 , 'A4588');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1003, 'Disc cutting', 5647 , 'A4598');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1004, 'Initial pot base pressing', 5649 , 'A4588');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1005, 'Initial pot base pressing', 5649 , 'A4598');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1006, 'Final pot base pressing', 5651 , 'A4588');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1007, 'Final pot base pressing', 5651 , 'A4598');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1008, 'Pot base finishing', 5653 , 'C5637');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1009, 'Lid pressing', 5655 , 'A4588');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1010, 'Lid pressing', 5655 , 'A4598');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1011, 'Lid finishing', 5657 , 'C5637');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1012, 'Pot handles riveting', 5659 , 'S3271');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1013, 'Lid handle screw', 5661 , 'T3452');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1014, 'Pot test and packaging', 5663 , 'K3675');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1015, 'Handle welding', 5665 , 'D9123');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1016, 'Lid polishing', 5667 , 'Q3547');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1017, 'Pot base polishing', 5669 , 'Q3547');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1018, 'Teflon painting', 5671 , 'Q5478');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1019, 'Initial pan base pressing', 5681 , 'A4588');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1020, 'Initial pan base pressing', 5681 , 'A4598');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1021, 'Final pan base pressing', 5682 , 'A4588');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1022, 'Final pan base pressing', 5682 , 'A4598');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1023, 'Pan base finishing', 5683 , 'C5637');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1024, 'Handle welding', 5665 , 'D9123');
+insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1025, 'Pan test and packaging', 5688 , 'K3675');
 
 --Production_Order
 insert into Production_Order (Order_ID, Order_Date, Product_Planing_ID, Customer_Order_ID) values (1001, TO_DATE('15/09/2024', 'DD/MM/YYYY'), 1, 1);
@@ -130,7 +141,7 @@ insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plan
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S22', 'Pro 22 5l pot', '5l 22 cm stainless steel pot', 1, 125);
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S20', 'Pro 20 3l pot', '3l 20 cm stainless steel pot', 1, 125);
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S17', 'Pro 17 2l pot', '2l 17 cm stainless steel pot', 1, 125);
-insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945P17', 'Pro 17 2l sauce pan', '2l 17 cm stainless steel souce pan', 1, 132);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945P17', 'Pro 17 2l sauce pan', '2l 17 cm stainless steel source pan', 1, 132);
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S48', 'Pro 17 lid', '17 cm stainless steel lid', 1, 145);
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945G48', 'Pro Clear 17 lid', '17 cm glass lid', 1, 146);
 
@@ -138,23 +149,31 @@ insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plan
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1001, 5);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S20', 1001, 15);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1002, 10);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945P17', 1002, 20);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1003, 10);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S20', 1003, 10);
-insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1004, 4);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S20', 1004, 24);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1004, 16);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S17', 1004, 8);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1005, 12);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S17', 1006, 8);
-insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1007, 7);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945P17', 1006, 16);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1007, 8);
 
 --Customer_Order_Product
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (1, 'AS12945S22', 5);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (1, 'AS12945S20', 15);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (2, 'AS12945S22', 10);
+insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (2, 'AS12945P17', 20);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (3, 'AS12945S22', 10);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (3, 'AS12945S20', 10);
-insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (4, 'AS12945S22', 4);
+insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (4, 'AS12945S20', 24);
+insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (4, 'AS12945S22', 16);
+insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (4, 'AS12945S17', 8);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (5, 'AS12945S22', 12);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (6, 'AS12945S17', 8);
-insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (7, 'AS12945S22', 7);
+insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (6, 'AS12945P17', 16);
+insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (7, 'AS12945S22', 8);
 
 --Component
 insert into Component(Component_ID, Component_Description) values ('PN12344A21', 'Screw M6 35 mm');
@@ -166,6 +185,7 @@ insert into Component(Component_ID, Component_Description) values ('PN18324C54',
 insert into Component(Component_ID, Component_Description) values ('PN18324C51', 'Stainless steel handle model R11');
 insert into Component(Component_ID, Component_Description) values ('PN52384R45', '250x250 mm 5mm stainless steel sheet');
 insert into Component(Component_ID, Component_Description) values ('PN52384R12', '250x250 mm 1mm stainless steel sheet');
+insert into Component(Component_ID, Component_Description) values ('PN18324C91', 'Stainless steel handle model S26');
 
 --BOO
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5647, 1);
@@ -180,6 +200,11 @@ insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) 
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5661, 10);
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5667, 11);
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5663, 12);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5681, 1);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5682, 2);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5683, 3);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5665, 4);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5688, 5);
 
 --BOM
 insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S22', 'PN12344A21', 1);
@@ -200,6 +225,10 @@ insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S1
 insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18544A21', 4);
 insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18544C21', 2);
 insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18324C51', 1);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945P17', 'PN52384R45', 1);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945P17', 'PN18324C91', 1);
+
+
 
 --Inventory
 --Raw_Material
