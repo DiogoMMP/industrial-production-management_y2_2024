@@ -1,17 +1,16 @@
 SELECT
-    c.Component_Name,
-    c.Component_Quantity AS Required_Quantity,
-    i.Quantity_In_Stock AS Available_Stock,
-    (c.Component_Quantity - i.Quantity_In_Stock) AS Quantity_To_Order
+    p.Product_ID,
+    p.Product_Name,
+    bom.Component_ID,
+    c.Component_Description,
+    (bom.Component_Quantity * po.Quantity_Ordered) AS Quantity_To_Order
 FROM
-    Production_Order po
+    Product_Production_Order po
 JOIN
-    Products p ON po.Order_ID = p.Order_ID
+    Product p ON po.Product_ID = p.Product_ID
 JOIN
-    Component c ON p.Product_ID = c.Product_ID
-LEFT JOIN
-    Inventory i ON c.Component_ID = i.Component_ID
+    BOM bom ON p.Product_ID = bom.Product_ID
+JOIN
+    Component c ON bom.Component_ID = c.Component_ID
 WHERE
-    po.Order_ID = 2
-AND
-    i.Quantity_In_Stock < c.Component_Quantity;
+    po.Production_Order_ID = 1; -- ID da ordem de produção
