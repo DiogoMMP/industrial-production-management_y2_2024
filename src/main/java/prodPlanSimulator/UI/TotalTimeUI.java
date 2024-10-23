@@ -1,8 +1,25 @@
 package prodPlanSimulator.UI;
 
+import prodPlanSimulator.UI.Domain.US03.TotalTimeAllItemsUI;
+import prodPlanSimulator.UI.Domain.US03.TotalTimeOneItemUI;
+import prodPlanSimulator.UI.Menu.MenuItem;
+import prodPlanSimulator.UI.Utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class TotalTimeUI implements Runnable {
     @Override
     public void run() {
-
+        List<MenuItem> options = new ArrayList<>();
+        options.add(new MenuItem("List Total Time of All Items", new TotalTimeAllItemsUI()));
+        options.add(new MenuItem("List Total Time of one Operation", new TotalTimeOneItemUI()));
+        int option = 0;
+        do {
+            option = Utils.showAndSelectIndex(options, "\n\n--- List Total Time -------------------");
+            if ((option >= 0) && (option < options.size())) {
+                options.get(option).run();
+            }
+        } while (option != -1);
     }
 }

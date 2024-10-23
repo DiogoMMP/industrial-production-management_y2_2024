@@ -5,10 +5,7 @@ import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HashMap_Items_Machines {
     private HashMap<Item, Workstation> ProdPlan;
@@ -87,28 +84,21 @@ public class HashMap_Items_Machines {
      * @return time of the operation
      * @throws Exception if operation not found
      */
-    public HashMap<String, Double> calcOpTime(String operation) throws Exception {
-        HashMap<Item, Workstation> op = getProdPlan();
-        HashMap<String, Double> OpTime = new HashMap<>();
-        double totalTime = 0.0;
-
-        for (Map.Entry<Item, Workstation> entry : op.entrySet()) {
-            Item item = entry.getKey();
-            Workstation workstation = entry.getValue();
-
-            // Check if the workstation performs the specified operation
-            if (workstation.getOperation().equals(operation)) {
-                totalTime += workstation.getTime();
+    public HashMap<String, Double> calcOpTime() {
+        try {
+            HashMap<String, Double> OpTime = new HashMap<>();
+            LinkedHashMap<String, Double> timeOperations = Item.simulateProcessUS02();
+            for (String operation : timeOperations.keySet()) {
+                String[] parts = operation.split(" - ");
+                String operationName = parts[1].split(": ")[1];
+                OpTime.putIfAbsent(operationName, 0.0);
+                OpTime.put(operationName, OpTime.get(operationName) + timeOperations.get(operation));
             }
-
-            // Check if the item has the specified operation
-            if (item.getOperations().contains(operation)) {
-                totalTime += workstation.getTime();
-            }
+            return OpTime;
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
-        OpTime.put(operation, totalTime);
-        return OpTime;
+        return null;
     }
 
 
