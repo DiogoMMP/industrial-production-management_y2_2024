@@ -12,5 +12,5 @@ JOIN
     BOM bom ON p.Product_ID = bom.Product_ID
 JOIN
     Component c ON bom.Component_ID = c.Component_ID
-WHERE
-    po.Production_Order_ID = 1001; -- ID da ordem de produção
+WHERE -- ID da ordem de produção
+    po.Production_Order_ID = 1001;

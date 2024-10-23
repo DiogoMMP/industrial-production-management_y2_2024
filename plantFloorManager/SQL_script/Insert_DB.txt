@@ -164,6 +164,8 @@ insert into Component(Component_ID, Component_Description) values ('PN18544A21',
 insert into Component(Component_ID, Component_Description) values ('PN18544C21', 'Stainless steel handle model U6');
 insert into Component(Component_ID, Component_Description) values ('PN18324C54', 'Stainless steel handle model R12');
 insert into Component(Component_ID, Component_Description) values ('PN18324C51', 'Stainless steel handle model R11');
+insert into Component(Component_ID, Component_Description) values ('PN52384R45', '250x250 mm 5mm stainless steel sheet');
+insert into Component(Component_ID, Component_Description) values ('PN52384R12', '250x250 mm 1mm stainless steel sheet');
 
 --BOO
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5647, 1);
@@ -192,6 +194,12 @@ insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S2
 insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN18544A21', 4);
 insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN18544C21', 2);
 insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN18324C51', 1);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN12344A21', 1);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN52384R45', 1);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN52384R12', 1);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18544A21', 4);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18544C21', 2);
+insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18324C51', 1);
 
 --Inventory
 --Raw_Material
