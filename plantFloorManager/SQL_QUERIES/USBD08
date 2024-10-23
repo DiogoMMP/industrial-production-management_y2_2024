@@ -1,19 +1,21 @@
-SELECT
-    FP.Factory_Plant_ID,
-    PF.Plant_Floor_ID,
-    S.Station_ID,
+SELECT DISTINCT
     MO.Manufacturing_Operation_ID,
     MO.Operation_Description,
-    TI.Type_Industry
+    FP.Factory_Plant_ID,
+    FP.Safety,
+    FP.Efficiency,
+    FP.Space
 FROM
     Factory_Plant FP
 JOIN
     Plant_Floor PF ON FP.Factory_Plant_ID = PF.Factory_Plant_ID
 JOIN
-    Station S ON PF.Plant_Floor_ID = S.Plant_Floor_ID
+    Workstation WS ON PF.Plant_Floor_ID = WS.Plant_Floor_ID
 JOIN
-    Type_Station TS ON S.Station_ID = TS.Station_ID
+    Workstation_Type WT ON WS.Workstation_Type_ID = WT.Workstation_Type_ID
 JOIN
-    Type_Industry TI ON TS.Type_Station_ID = TI.Type_Station_ID
+    Type_Industry TI ON WT.Workstation_Type_ID = TI.Workstation_Type_ID
 JOIN
-    Manufacturing_Operation MO ON TI.Manufacturing_Operation_ID = MO.Manufacturing_Operation_ID;
+    Manufacturing_Operation MO ON TI.Manufacturing_Operation_ID = MO.Manufacturing_Operation_ID
+ORDER BY
+    MO.Manufacturing_Operation_ID;
