@@ -5,6 +5,7 @@ import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
 
 
+import java.io.FileNotFoundException;
 import java.sql.Time;
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class HashMap_Items_Machines {
      * @param itemsPath
      * @param machinesPath
      */
-    public void addAll(String itemsPath, String machinesPath) {
+    public void addAll(String itemsPath, String machinesPath) throws FileNotFoundException {
         Map<Integer, Item> items = InputFileReader.readItems(itemsPath);
         Map<Integer, Workstation> machines = InputFileReader.readMachines(machinesPath);
         try {

@@ -2,6 +2,7 @@ package prodPlanSimulator.domain;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class DataInitializer {
         this.hashMapItemsMachines = Instances.getInstance().getHashMapItemsWorkstations();
     }
 
-    public void initializeData() {
+    public void initializeData() throws FileNotFoundException {
         // Use InputFileReader to read Items and Machines
         hashMapItemsMachines.addAll("articles.csv", "workstations.csv");
     }
@@ -48,7 +49,7 @@ public class DataInitializer {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         DataInitializer dataInitializer = new DataInitializer();
         dataInitializer.initializeData();
         dataInitializer.runItemMethods();
