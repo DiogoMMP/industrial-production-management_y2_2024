@@ -6,6 +6,7 @@ import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ class SimulatorTest {
     private static HashMap_Items_Machines hashMap = Instances.getInstance().getHashMapItemsWorkstations();
 
     @BeforeAll
-    static void setUp() {
+    static void setUp() throws FileNotFoundException {
         hashMap.addAll(FILE_PATH_ITEMS, FILE_PATH_MACHINES);
     }
 

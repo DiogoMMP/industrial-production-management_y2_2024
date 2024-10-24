@@ -4,6 +4,7 @@ import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class InputFileReaderTest {
     private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
 
     @Test
-    public void testReadItems() {
+    public void testReadItems() throws FileNotFoundException {
         Map<Integer, Item> items = InputFileReader.readItems(FILE_PATH_ITEMS);
 
         assertNotNull(items, "The items list should not be null.");
@@ -29,7 +30,7 @@ public class InputFileReaderTest {
     }
 
     @Test
-    public void testReadMachines() {
+    public void testReadMachines() throws FileNotFoundException {
         Map<Integer, Workstation> machines = InputFileReader.readMachines(FILE_PATH_MACHINES);
 
         assertNotNull(machines, "The machines list should not be null.");

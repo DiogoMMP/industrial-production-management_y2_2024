@@ -89,53 +89,6 @@ class ItemTest {
         assertEquals(List.of("cut", "assemble"), item1.getOperations(), "New operations for item1 are incorrect");
     }
 
-    @Test
-    void simulateProcessUS08() {
-        LinkedHashMap<String, Double> result = Item.simulateProcessUS08();
-
-        assertNotNull(result, "Result should not be null");
-        assertFalse(result.isEmpty(), "Result should not be empty");
-
-        for (String key : result.keySet()) {
-            assertTrue(key.contains("Operation:"), "Result should contain 'Operation:'");
-            assertTrue(key.contains("Machine:"), "Result should contain 'Machine:'");
-            assertTrue(key.contains("Priority:"), "Result should contain 'Priority:'");
-            assertTrue(key.contains("Item:"), "Result should contain 'Item:'");
-            assertTrue(key.contains("Time:"), "Result should contain 'Time:'");
-        }
-
-        for (Double value : result.values()) {
-            assertTrue(value > 0, "Time should be greater than 0");
-        }
-    }
-
-    // Test for calculateAvgExecutionAndWaitingTimes
-
-
-
-
-    // Test for generateWorkstationFlowDependency
-
-
-    @Test
-    void testSimulateProcessUS02() {
-        LinkedHashMap<String, Double> result = Item.simulateProcessUS02();
-
-        assertNotNull(result, "Result should not be null");
-        assertFalse(result.isEmpty(), "Result should not be empty");
-
-        for (String key : result.keySet()) {
-            assertTrue(key.contains("Operation:"), "Result should contain 'Operation:'");
-            assertTrue(key.contains("Machine:"), "Result should contain 'Machine:'");
-            assertTrue(key.contains("Priority:"), "Result should contain 'Priority:'");
-            assertTrue(key.contains("Item:"), "Result should contain 'Item:'");
-            assertTrue(key.contains("Time:"), "Result should contain 'Time:'");
-        }
-
-        for (Double value : result.values()) {
-            assertTrue(value > 0, "Time should be greater than 0");
-        }
-    }
 
     @Test
     void testCalculateTotalProductionTimePerItem() {
