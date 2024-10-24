@@ -7,8 +7,6 @@ import prodPlanSimulator.enums.Priority;
 import java.io.*;
 import java.util.*;
 
-import static jdk.internal.net.http.common.Log.logError;
-
 public class InputFileReader {
 
     public static final String FILE_PATH_ITEMS = "src/main/java/prodPlanSimulator/resources/";
