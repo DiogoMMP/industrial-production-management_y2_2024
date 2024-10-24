@@ -1,15 +1,22 @@
-SELECT DISTINCT ts.Type_Stations
+SELECT DISTINCT
+    Workstation_Type
 FROM
-    Production_Order po
+    Customer_Order co
 JOIN
-    Products prod ON po.Order_ID = prod.Order_ID
+    Production_Order po ON co.Customer_Order_ID = po.Customer_Order_ID
 JOIN
-    Factory_Plant fp ON prod.Factory_Plant_ID = fp.Factory_Plant_ID
+    Product_Production_Order ppo ON po.Order_ID = ppo.Production_Order_ID
 JOIN
-    Plant_Floor pf ON fp.Factory_Plant_ID = pf.Factory_Plant_ID
+    Product p ON ppo.Product_ID = p.Product_ID
 JOIN
-    Stations s ON pf.Plant_Floor_ID = s.Plant_Floor_ID
+    BOO boo ON p.Family_ID = boo.Product_Family_ID
 JOIN
-    Type_Stations ts ON s.Stations_ID = ts.Stations_ID
+    Manufacturing_Operation mo ON boo.Manufacturing_Operation_ID = mo.Manufacturing_Operation_ID
+JOIN
+    Type_Industry ti ON mo.Manufacturing_Operation_ID = ti.Manufacturing_Operation_ID
+JOIN
+    Workstation_Type wt ON ti.Workstation_Type_ID = wt.Workstation_Type_ID
+JOIN
+    Workstation ws ON ws.Workstation_Type_ID = wt.Workstation_Type_ID
 WHERE
-    po.Order_ID = 1;
+    co.Customer_Order_ID = 5;
