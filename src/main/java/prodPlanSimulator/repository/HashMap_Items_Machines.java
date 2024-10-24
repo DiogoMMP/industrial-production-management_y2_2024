@@ -6,7 +6,6 @@ import prodPlanSimulator.domain.Workstation;
 
 
 import java.io.FileNotFoundException;
-import java.sql.Time;
 import java.util.*;
 
 public class HashMap_Items_Machines {
@@ -86,10 +85,9 @@ public class HashMap_Items_Machines {
      * @return time of the operation
      * @throws Exception if operation not found
      */
-    public HashMap<String, Double> calcOpTime() {
+    public HashMap<String, Double> calcOpTime(LinkedHashMap<String, Double> timeOperations) {
         try {
             HashMap<String, Double> OpTime = new HashMap<>();
-            LinkedHashMap<String, Double> timeOperations = Item.simulateProcessUS02();
             for (String operation : timeOperations.keySet()) {
                 String[] parts = operation.split(" - ");
                 String operationName = parts[1].split(": ")[1];
@@ -107,8 +105,7 @@ public class HashMap_Items_Machines {
     /**
      * List workstations by ascending order
      */
-    public void listWorkstationsByAscOrder() {
-        LinkedHashMap<String, Double> timeOperations = Item.simulateProcessUS02();
+    public void listWorkstationsByAscOrder(LinkedHashMap<String, Double> timeOperations) {
         int totalExecutionTime = 0;
 
         // Calculate total execution time

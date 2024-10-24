@@ -5,9 +5,11 @@ import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 public class Item implements Comparable<Item> {
+    public Callable<LinkedHashMap<String, Double>> simulateProcessUS02;
     private int id;
     private Priority priority;
     private List<String> operations;

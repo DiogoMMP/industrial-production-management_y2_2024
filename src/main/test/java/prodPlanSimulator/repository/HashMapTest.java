@@ -1,74 +1,68 @@
 package prodPlanSimulator.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import prodPlanSimulator.InputFileReader;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
-import prodPlanSimulator.enums.Priority;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
+public class HashMapTest {
 
-class HashMapTest {
+    private HashMap_Items_Machines hashMap;
 
-    private HashMap_Items_Machines hashMapItemsMachines;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private static final String FILE_PATH_ITEMS = "test_files/articles.csv";
-    private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
 
     @BeforeEach
-    void setUp() {
-        hashMapItemsMachines = new HashMap_Items_Machines();
+    public void setUp() {
+        hashMap = new HashMap_Items_Machines();
 
+        // Redirect the console output to capture the printed result
+        System.setOut(new PrintStream(outContent));
     }
 
     @Test
-    void calcOpTime() throws Exception {
-        HashMap<Item, Workstation> ProdPlan = new HashMap<>();
-        Item item = new Item();
-        Item item2 = new Item();
-        Item item3 = new Item();
+    public void testCalcOpTime(){
+        // Provide a predefined set of values instead of mocking
+        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
+        timeOperations.put("Step 1 - Machine A - Workstation 1: Workstation 1", 5.0);
+        timeOperations.put("Step 2 - Machine B - Workstation 2: Workstation 2", 10.0);
+        timeOperations.put("Step 3 - Machine C - Workstation 1: Workstation 1", 3.0);
 
-        item.setId(10001);
-        item2.setId(10002);
-        item3.setId(10003);
+        // Run the method
+        LinkedHashMap<String, Double> execTimes = (LinkedHashMap<String, Double>) hashMap.calcOpTime(timeOperations);
 
-        Workstation workstation = new Workstation();
-        Workstation workstation2 = new Workstation();
-        Workstation workstation3 = new Workstation();
+        // Capture and verify the output
+        String expectedOutput = "Total time of the operation Step 1 - Machine A - Workstation 1: Workstation 1 : 5.0\n"
+                + "Total time of the operation Step 2 - Machine B - Workstation 2: Workstation 2 : 10.0\n"
+                + "Total time of the operation Step 3 - Machine C - Workstation 1: Workstation 1 : 3.0\n";
+        assertEquals(expectedOutput, outContent.toString());
 
-        workstation.setId("1");
-        workstation.setOperation("cut");
-        workstation.setTime(21);
-        workstation2.setId("2");
-        workstation2.setOperation("cut");
-        workstation2.setTime(10);
-        workstation3.setId("3");
-        workstation3.setOperation("sand");
-        workstation3.setTime(15);
-        ProdPlan.put(item, workstation);
-        ProdPlan.put(item2, workstation2);
-        ProdPlan.put(item3, workstation3);
-
-        hashMapItemsMachines.setProdPlan(ProdPlan);
-        assertEquals(31, hashMapItemsMachines.calcOpTime());
-
+        // Verify the return value
+        assertEquals(timeOperations, execTimes);
     }
 
     @Test
-    void listWorkstationsByAscOrder() {   // Prepare the simulated date
+    public void testListWorkstationsByAscOrder() {
+        // Provide a predefined set of values instead of mocking
+        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
+        timeOperations.put("Step 1 - Machine A - Workstation 1: Workstation 1", 5.0);
+        timeOperations.put("Step 2 - Machine B - Workstation 2: Workstation 2", 10.0);
+        timeOperations.put("Step 3 - Machine C - Workstation 1: Workstation 1", 3.0);
 
+        // Run the method
+        hashMap.listWorkstationsByAscOrder(timeOperations);
+
+        // Capture and verify the output
+        String expectedOutput = "Workstation 1 - Total time: 8 - Percentage: 44.44%\n"
+                + "Workstation 2 - Total time: 10 - Percentage: 55.56%\n";
+        assertEquals(expectedOutput, outContent.toString());
     }
 }
-
-
