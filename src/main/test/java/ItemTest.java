@@ -14,20 +14,18 @@ class ItemTest {
     private Item item2;
     private Workstation workstation1;
     private Workstation workstation2;
-    private static final String FILE_PATH_ITEMS = "test_files/articles.csv";
-    private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
 
     @BeforeEach
     void setUp() {
         item1 = new Item();
         item1.setId(10001);
         item1.setPriority(Priority.HIGH);
-        item1.setOperations(Arrays.asList("cut", "sand", "paint"));
+        item1.setOperations(new ArrayList<>(Arrays.asList("cut", "sand", "paint")));
 
         item2 = new Item();
         item2.setId(10002);
         item2.setPriority(Priority.LOW);
-        item2.setOperations(Arrays.asList("drill", "polish"));
+        item2.setOperations(new ArrayList<>(Arrays.asList("drill", "polish")));
 
         workstation1 = new Workstation();
         workstation1.setId("M1");
@@ -93,12 +91,18 @@ class ItemTest {
     @Test
     void testCalculateTotalProductionTimePerItem() {
         TreeMap<Item, Double> result = Item.calculateTotalProductionTimePerItem();
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
+        assertNotNull(result, "The result should not be null");
+        assertFalse(result.isEmpty(), "The result should not be empty");
 
-        // Check the total production time for each item
-        assertTrue(result.containsKey(item1));
-        assertTrue(result.containsKey(item2));
+        assertTrue(result.containsKey(item1), "The result should contain item1");
+        assertTrue(result.containsKey(item2), "The result should contain item2");
+
+        double expectedTimeItem1 = 30.0;
+        assertEquals(expectedTimeItem1, result.get(item1), 0.01, "The total production time for item1 is incorrect");
+
+
+        double expectedTimeItem2 = 0.0;
+        assertEquals(expectedTimeItem2, result.get(item2), 0.01, "The total production time for item2 is incorrect");
     }
 
     @Test
