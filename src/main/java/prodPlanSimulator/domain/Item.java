@@ -730,6 +730,12 @@ public class Item implements Comparable<Item> {
         return sortById(removeDuplicateItems(totalProductionTimePerItem));
     }
 
+    /**
+     * Removes duplicate items from the HashMap
+     *
+     * @param totalProductionTimePerItem HashMap with the total production time per item
+     * @return HashMap with the unique items
+     */
     public static HashMap<Item, Double> removeDuplicateItems(HashMap<Item, Double> totalProductionTimePerItem) {
         HashMap<Item, Double> uniqueTotalProductionTimePerItem = new HashMap<>();
         Set<Integer> uniqueIds = new HashSet<>();
@@ -747,6 +753,12 @@ public class Item implements Comparable<Item> {
         return uniqueTotalProductionTimePerItem;
     }
 
+    /**
+     * Sorts the HashMap by the item ID
+     *
+     * @param totalProductionTimePerItem HashMap with the total production time per item
+     * @return TreeMap sorted by the item ID
+     */
     public static TreeMap<Item, Double> sortById(HashMap<Item, Double> totalProductionTimePerItem) {
         TreeMap<Item, Double> sortedMap = new TreeMap<>(Comparator.comparingInt(Item::getId));
         sortedMap.putAll(totalProductionTimePerItem);
@@ -758,7 +770,7 @@ public class Item implements Comparable<Item> {
      * Compares this object with the specified object to verify if they are equal.
      *
      * @param o the object to be compared.
-     * @return true if the objects are equal, false otherwise.
+     * @return 0 if the objects are equal, 1 if the object is greater than the specified object, -1 if the object is less than the specified object.
      */
     @Override
     public int compareTo(Item o) {
