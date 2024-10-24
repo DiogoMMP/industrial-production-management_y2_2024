@@ -4,7 +4,9 @@ SELECT DISTINCT
     FP.Factory_Plant_ID,
     FP.Safety,
     FP.Efficiency,
-    FP.Space
+    FP.Space,
+    WS.Workstation_ID,
+    WS.Workstation_Name
 FROM
     Factory_Plant FP
 JOIN
