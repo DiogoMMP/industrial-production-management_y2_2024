@@ -374,10 +374,10 @@ public class Item implements Comparable<Item> {
             }
             if ((operationsQueue.get(workstation.getOperation()).contains(item) && workstation.getOperation().equalsIgnoreCase(operation)) && (!workstation.getHasItem())) {
                 int currentItem = timeOperations.size() + 1;
-                changeStatusMach(availableWorkstations, workstation);
+                workstation.setHasItem(true);
                 item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
                 quantMachines--;
-                String operation1 =  currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + workstation.getTime();
+                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + workstation.getTime();
                 timeOperations.put(operation1, timeOperations.getOrDefault(workstation.getOperation(), 0.0) + workstation.getTime());
                 operationsQueue.get(workstation.getOperation()).remove(item);
                 return quantMachines;
@@ -486,19 +486,7 @@ public class Item implements Comparable<Item> {
     }
 
 
-    /**
-     * Changes the status of the machine
-     *
-     * @param workstations List of machines
-     * @param workstation  Machine to change the status
-     */
-    private static void changeStatusMach(ArrayList<Workstation> workstations, Workstation workstation) {
-        for (Workstation workstation1 : workstations) {
-            if (workstation.compareTo(workstation1) == 0) {
-                workstation1.setHasItem(true);
-            }
-        }
-    }
+
 
     /**
      * Checks if there are any machines left with the operation
@@ -554,6 +542,7 @@ public class Item implements Comparable<Item> {
         }
         return (double) sum / values.size();
     }
+
     public static Map<String, Map<String, Integer>> calculateFlowDependencyUS07() {
         Map<String, Map<String, Integer>> flowDependency = new HashMap<>();
         HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
@@ -612,12 +601,10 @@ public class Item implements Comparable<Item> {
      * @return Quantity of machines
      */
     private static int checkMachines(ArrayList<Workstation> workstations, int quantMachines) {
-        if (quantMachines == 0) {
-            for (Workstation workstation1 : workstations) {
-                workstation1.clearUpWorkstation();
-            }
-            quantMachines = workstations.size();
+        for (Workstation workstation1 : workstations) {
+            workstation1.clearUpWorkstation();
         }
+        quantMachines = workstations.size();
         return quantMachines;
     }
 
@@ -666,8 +653,7 @@ public class Item implements Comparable<Item> {
     }
 
     /**
-
-    /**
+     * /**
      * Fills the operationsQueue with the list of the items for each operation
      *
      * @param items           List with the items
