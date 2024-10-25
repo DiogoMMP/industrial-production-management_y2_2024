@@ -19,6 +19,7 @@ public class DataInitializer {
         hashMapItemsMachines.addAll("articles.csv", "workstations.csv");
     }
 
+
     public void runItemMethods() {
         // Assuming that the Item class has a method named 'calculateAvgExecutionAndWaitingTimes'
         HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
