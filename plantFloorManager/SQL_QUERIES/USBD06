@@ -19,4 +19,4 @@ JOIN
 JOIN
     Workstation ws ON ws.Workstation_Type_ID = wt.Workstation_Type_ID
 WHERE
-    co.Customer_Order_ID = 5;
+    co.Customer_Order_ID = 3;
