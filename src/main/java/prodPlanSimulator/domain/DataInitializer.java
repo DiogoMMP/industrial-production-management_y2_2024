@@ -4,6 +4,7 @@ import prodPlanSimulator.repository.Instances;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataInitializer {
@@ -20,28 +21,27 @@ public class DataInitializer {
 
     public void runItemMethods() {
         // Assuming that the Item class has a method named 'calculateAvgExecutionAndWaitingTimes'
-        Map<String, Map<String, Double>> result = Item.calculateAverageTimesUS06();
+        HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
         HashMap<String, Double> result2 = Item.simulateProcessUS08();
         HashMap<String, Double> result3 = Item.simulateProcessUS02();
 
-        for (Map.Entry<String, Map<String, Double>> entry : result.entrySet()) {
+        System.out.println("Result: " + result);
+        for (Map.Entry<String, Double[]> entry : result.entrySet()) {
             System.out.println("Item: " + entry.getKey());
-            for (Map.Entry<String, Double> subEntry : entry.getValue().entrySet()) {
-                System.out.println("  Operation: " + subEntry.getKey() + ", Average Time: " + subEntry.getValue());
+            for (Double value : entry.getValue()) {
+                System.out.println("  Average Time: " + value);
             }
         }
-
         // Generate workstation flow dependency
-        Map<String, Map<String, Integer>> flowDependency = Item.calculateFlowDependencyUS07();
+        HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = Item.generateWorkstationFlowDependency();
 
         // Print the flow dependency
-        for (Map.Entry<String, Map<String, Integer>> entry : flowDependency.entrySet()) {
+        for (Map.Entry<String, List<Map.Entry<String, Integer>>> entry : flowDependency.entrySet()) {
             System.out.println("Workstation: " + entry.getKey());
-            for (Map.Entry<String, Integer> subEntry : entry.getValue().entrySet()) {
+            for (Map.Entry<String, Integer> subEntry : entry.getValue()) {
                 System.out.println("  Next Workstation: " + subEntry.getKey() + ", Count: " + subEntry.getValue());
             }
         }
-
         // Print the simulation results
         for (Map.Entry<String, Double> entry : result3.entrySet()) {
             System.out.println("Item: " + entry.getKey());

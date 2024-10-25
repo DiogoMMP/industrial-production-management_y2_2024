@@ -56,6 +56,7 @@ public class Workstation implements Comparable<Workstation> {
         return operation;
     }
 
+
     /**
      * Sets the operation of the machine
      * @param operation new operation of the machine

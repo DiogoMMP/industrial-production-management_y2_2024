@@ -2,18 +2,21 @@ package prodPlanSimulator.UI;
 
 import prodPlanSimulator.domain.Item;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FlowDependencyUI implements Runnable {
     @Override
     public void run() {
-        Map<String, Map<String, Integer>> flowDependency = Item.calculateFlowDependencyUS07();
-        for (Map.Entry<String, Map<String, Integer>> entry : flowDependency.entrySet()) {
-            System.out.print(entry.getKey() + " : ");
-            for (Map.Entry<String, Integer> dependency : entry.getValue().entrySet()) {
-                System.out.print("(" + dependency.getKey() + "," + dependency.getValue() + "), ");
+        HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = Item.generateWorkstationFlowDependency();
+
+        // Print the flow dependency
+        for (Map.Entry<String, List<Map.Entry<String, Integer>>> entry : flowDependency.entrySet()) {
+            System.out.println("Workstation: " + entry.getKey());
+            for (Map.Entry<String, Integer> subEntry : entry.getValue()) {
+                System.out.println("  Next Workstation: " + subEntry.getKey() + ", Count: " + subEntry.getValue());
             }
-            System.out.println();
         }
     }
 }

@@ -230,67 +230,146 @@ public class Item implements Comparable<Item> {
      * @return HashMap<String, Double [ ]> where String is the operation and Double[] holds:
      * [average execution time, average waiting time]
      */
-    public static Map<String, Map<String, Double>> calculateAverageTimesUS06() {
-        // Run the simulation and get the execution times per operation
-        LinkedHashMap<String, Double> simulationResult = simulateProcessUS02();
+    public static HashMap<String, Double[]> calculateAvgExecutionAndWaitingTimes() {
+        HashMap<String, Double[]> operationTimes = new HashMap<>();
+        HashMap<Item, Workstation> ProdPlan = Instances.getInstance().getHashMapItemsWorkstations().getProdPlan();
+        HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
+        ArrayList<Workstation> machines = new ArrayList<>(ProdPlan.values());
+        removeNullMachines(machines);
+        removeNullItems(ProdPlan);
 
-        // Maps to accumulate execution and waiting times for each operation
-        Map<String, List<Double>> executionTimes = new HashMap<>();
-        Map<String, List<Integer>> waitingTimes = new HashMap<>();
-        Map<String, Map<String, Double>> result = new HashMap<>();
+        // Fill the operationsQueue with items waiting for each operation
+        fillOperationsQueueus06(ProdPlan, operationsQueue);
 
-        // Get the production plan after the simulation
-        HashMap<Item, Workstation> prodPlan = HashMap_Items_Workstations.getProdPlan();
+        // Track execution and waiting times for each operation
+        for (String operation : operationsQueue.keySet()) {
+            LinkedList<Item> items = operationsQueue.get(operation);
+            double totalExecutionTime = 0.0;
+            double totalWaitingTime = 0.0;
+            int itemCount = 0;
 
-        // Iterate through each item in the production plan
-        for (Map.Entry<Item, Workstation> entry : prodPlan.entrySet()) {
-            Item item = entry.getKey();
+            // Find the fastest machine for this operation
+            Workstation fastestMachine = null;
+            double fastestTime = Double.MAX_VALUE;
+            for (Workstation machine : machines) {
+                if (machine.getOperation().contains(operation) && machine.getTime() < fastestTime) {
+                    fastestMachine = machine;
+                    fastestTime = machine.getTime();
+                }
+            }
 
-            // Iterate through each operation of the item
-            for (String operation : item.getOperations()) {
-                // Add the execution time for this operation from the simulation result
-                // Ensure that only valid times from the simulation are considered
-                for (Map.Entry<String, Double> simEntry : simulationResult.entrySet()) {
-                    if (simEntry.getKey().contains(operation)) {
-                        executionTimes.computeIfAbsent(operation, k -> new ArrayList<>()).add(simEntry.getValue());
-                    }
+            if (fastestMachine != null) {
+                // Calculate waiting time for each item in the queue
+                int position = 0;
+                for (Item item : items) {
+                    // Execution time is the time of the fastest machine
+                    totalExecutionTime += fastestTime;
+
+                    // Waiting time for this item is the execution time of all items ahead in the queue
+                    totalWaitingTime += position * fastestTime;
+
+                    position++;
+                    itemCount++;
                 }
 
-                // Calculate the waiting time for this operation
-                long entryTime = item.getEntryTime(operation);
-                if (entryTime == 0) {
-                    // Set entry time if not already set
-                    entryTime = System.currentTimeMillis();
-                    item.setEntryTime(operation, entryTime);
-                }
-                long currentTime = System.currentTimeMillis(); // Assuming current time as the time when operation starts
-                int waitTime = (int) (currentTime - entryTime);
-                item.setWaitingTime(operation, waitTime);
+                // Calculate averages
+                double avgExecutionTime = itemCount > 0 ? totalExecutionTime / itemCount : 0;
+                double avgWaitingTime = itemCount > 0 ? totalWaitingTime / itemCount : 0;
 
-                // Add the waiting time for this operation from the item's waitingTimes map
-                waitingTimes.computeIfAbsent(operation, k -> new ArrayList<>()).add(waitTime);
+                operationTimes.put(operation, new Double[]{avgExecutionTime, avgWaitingTime});
             }
         }
 
-        // Now calculate the average execution and waiting times for each operation
-        for (String operation : executionTimes.keySet()) {
-            // Calculate average execution time
-            double avgExecutionTime = calculateAverageDouble(executionTimes.get(operation));
-            // Calculate average waiting time
-            double avgWaitingTime = calculateAverage(waitingTimes.getOrDefault(operation, new ArrayList<>()));
-
-            // Create a result map holding both average times
-            Map<String, Double> times = new HashMap<>();
-            times.put("executionTime", avgExecutionTime);
-            times.put("waitingTime", avgWaitingTime);
-
-            // Add the result for the operation
-            result.put(operation, times);
-        }
-
-        return result; // Return the map with average execution and waiting times per operation
+        return operationTimes;
     }
 
+    /**
+     * Fills the machines with the items
+     *
+     * @param operationsQueue HashMap with the operations and the list of items
+     * @param machines        List of machines
+     */
+    private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> machines, HashMap<String, Double> timeOperations) {
+        int quantMachines = machines.size();
+        for (String operation : operationsQueue.keySet()) {
+            LinkedList<Item> items = operationsQueue.get(operation);
+            sortByPriority(items);
+            for (Item item : items) {
+                for (Workstation machine : machines) {
+                    if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
+                        break;
+                    }
+                    for (String operationMachine : item.getOperations()) {
+                        if (operationMachine.equalsIgnoreCase(operation) && !machine.getHasItem()) {
+                            quantMachines = checkMachines(machines, quantMachines);
+                            machine.setHasItem(false);
+                            item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                            quantMachines--;
+                            String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
+                            timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private static void sortByPriority(LinkedList<Item> items) {
+        ArrayList<Item> itemsList = new ArrayList<>(items);
+        sortHigh(itemsList, items);
+        sortNormal(itemsList, items);
+        sortLow(itemsList, items);
+        items.clear();
+        items.addAll(itemsList);
+    }
+    private static void sortHigh(ArrayList<Item> itemsList, LinkedList<Item> items) {
+        for (Item item : items) {
+            if (item.getPriority().toString().equalsIgnoreCase("HIGH")) {
+                itemsList.add(item);
+            }
+        }
+    }
+
+    private static void sortNormal(ArrayList<Item> items, LinkedList<Item> itemsList) {
+        for (Item item : items) {
+            if (item.getPriority().toString().equalsIgnoreCase("NORMAL")) {
+                itemsList.add(item);
+            }
+        }
+    }
+
+    private static void sortLow(ArrayList<Item> items, LinkedList<Item> itemsList) {
+        for (Item item : items) {
+            if (item.getPriority().toString().equalsIgnoreCase("LOW")) {
+                itemsList.add(item);
+            }
+        }
+    }
+    /**
+     * Removes null entries from the workstation list
+     */
+    private static void removeNullWorkstations(ArrayList<Workstation> workstations) {
+        workstations.removeIf(Objects::isNull);
+    }
+
+    /**
+     * Removes null items from the production plan
+     */
+    private static void removeNullItems(HashMap<Item, Workstation> prodPlan) {
+        prodPlan.keySet().removeIf(Objects::isNull);
+    }
+
+    /**
+     * Fills the operationsQueue with items for each operation
+     */
+    private static void fillOperationsQueue(HashMap<Item, Workstation> prodPlan, HashMap<String, LinkedList<Item>> operationsQueue) {
+        for (Item item : prodPlan.keySet()) {
+            if (item.getOperations() != null && !item.getOperations().isEmpty()) {
+                String currentOperation = item.getOperations().get(item.getCurrentOperationIndex());
+                operationsQueue.computeIfAbsent(currentOperation, k -> new LinkedList<>()).add(item);
+            }
+        }
+    }
     private static void sortItemsByPriority(ArrayList<Item> items) {
         items.sort(Comparator.comparing(Item::getPriority));
     }
@@ -545,113 +624,201 @@ public class Item implements Comparable<Item> {
         return (double) sum / values.size();
     }
 
-    public static Map<String, Map<String, Integer>> calculateFlowDependencyUS07() {
-        Map<String, Map<String, Integer>> flowDependency = new HashMap<>();
-        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
+    public static HashMap<String, List<Map.Entry<String, Integer>>> generateWorkstationFlowDependency() {
+        HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = new HashMap<>();
+        HashMap<Item, Workstation> prodPlan = Instances.getInstance().getHashMapItemsWorkstations().getProdPlan();
+        ArrayList<Workstation> machines = new ArrayList<>(prodPlan.values());
 
-        // Iterate through each item and track the flow between operations
-        for (Map.Entry<Item, Workstation> entry : ProdPlan.entrySet()) {
-            Item item = entry.getKey();
-            List<String> operations = item.getOperations();
+        // Remove null entries and initialize flowDependency
+        removeNullMachines(machines);
+        removeNullItems(prodPlan);
+        for (Workstation machine : machines) {
+            flowDependency.put(machine.getId(), new ArrayList<>());
+        }
 
-            // Track flow between successive operations
-            for (int i = 0; i < operations.size() - 1; i++) {
-                String currentOperation = operations.get(i);
-                String nextOperation = operations.get(i + 1);
+        // Process each item's operation sequence
+        for (Item item : prodPlan.keySet()) {
+            if (item.getOperations() == null || item.getOperations().isEmpty()) continue;
 
-                // Find the current and next workstations by operation
-                Workstation currentWorkstation = findWorkstationByOperation(currentOperation);
-                Workstation nextWorkstation = findWorkstationByOperation(nextOperation);
+            // Process each pair of consecutive operations
+            for (int i = 0; i < item.getOperations().size() - 1; i++) {
+                String currentOp = item.getOperations().get(i);
+                String nextOp = item.getOperations().get(i + 1);
 
-                if (currentWorkstation != null && nextWorkstation != null) {
-                    String currentWorkstationId = currentWorkstation.getId();
-                    String nextWorkstationId = nextWorkstation.getId();
+                // Find all machines that can perform current operation
+                List<Workstation> currentMachines = findMachinesForOperation(machines, currentOp);
+                // Find all machines that can perform next operation
+                List<Workstation> nextMachines = findMachinesForOperation(machines, nextOp);
 
-                    flowDependency
-                            .computeIfAbsent(currentWorkstationId, k -> new HashMap<>())
-                            .merge(nextWorkstationId, 1, Integer::sum);
+                // Create transitions between all possible machine combinations
+                for (Workstation fromMachine : currentMachines) {
+                    for (Workstation toMachine : nextMachines) {
+                        updateTransitions(flowDependency, fromMachine.getId(), toMachine.getId());
+                    }
                 }
             }
         }
 
-        // Sort the flow dependency map based on the number of processed items in descending order
-        return sortFlowDependency(flowDependency);
+        return sortWorkstationsByTransitions(flowDependency);
     }
 
-
-    /**
-     * Finds the machine for the operation
-     *
-     * @param ProdPlan  HashMap with the items and the machines
-     * @param operation Operation to find the machine
-     * @return Machine for the operation
-     */
-    private static Workstation findMachineForOperation(HashMap<Item, Workstation> ProdPlan, String operation) {
-        for (Workstation workstation : ProdPlan.values()) {
-            if (workstation.getOperation().contains(operation)) {
-                return workstation;
+    private static List<Workstation> findMachinesForOperation(List<Workstation> machines, String operation) {
+        List<Workstation> compatibleMachines = new ArrayList<>();
+        for (Workstation machine : machines) {
+            if (machine.getOperation().contains(operation)) {
+                compatibleMachines.add(machine);
             }
         }
-        return null;
+        return compatibleMachines;
     }
 
-    /**
-     * Checks if there are any machines left
-     *
-     * @param workstations  List of machines
-     * @param quantMachines Quantity of machines
-     * @return Quantity of machines
-     */
-    private static int checkMachines(ArrayList<Workstation> workstations, int quantMachines) {
-        for (Workstation workstation1 : workstations) {
-            workstation1.clearUpWorkstation();
+    private static void updateTransitions(
+            HashMap<String, List<Map.Entry<String, Integer>>> flowDependency,
+            String fromMachine,
+            String toMachine) {
+
+        List<Map.Entry<String, Integer>> transitions = flowDependency.get(fromMachine);
+        if (transitions == null) {
+            transitions = new ArrayList<>();
+            flowDependency.put(fromMachine, transitions);
         }
-        quantMachines = workstations.size();
+
+        // Look for existing transition
+        boolean found = false;
+        for (int i = 0; i < transitions.size(); i++) {
+            Map.Entry<String, Integer> entry = transitions.get(i);
+            if (entry.getKey().equals(toMachine)) {
+                // Update existing transition count
+                int newCount = entry.getValue() + 1;
+                transitions.set(i, new AbstractMap.SimpleEntry<>(toMachine, newCount));
+                found = true;
+                break;
+            }
+        }
+
+        // Add new transition if not found
+        if (!found) {
+            transitions.add(new AbstractMap.SimpleEntry<>(toMachine, 1));
+        }
+    }
+
+    private static HashMap<String, List<Map.Entry<String, Integer>>> sortWorkstationsByTransitions(
+            HashMap<String, List<Map.Entry<String, Integer>>> flowDependency) {
+
+        // Calculate total transitions for each workstation
+        Map<String, Integer> totalTransitions = new HashMap<>();
+        for (Map.Entry<String, List<Map.Entry<String, Integer>>> entry : flowDependency.entrySet()) {
+            int total = entry.getValue().stream()
+                    .mapToInt(Map.Entry::getValue)
+                    .sum();
+            totalTransitions.put(entry.getKey(), total);
+        }
+
+        // Create sorted result
+        LinkedHashMap<String, List<Map.Entry<String, Integer>>> sortedFlow = new LinkedHashMap<>();
+
+        // Sort workstations by total transitions (descending)
+        totalTransitions.entrySet().stream()
+                .sorted((e1, e2) -> {
+                    int compare = e2.getValue().compareTo(e1.getValue());
+                    if (compare == 0) {
+                        // If transition counts are equal, sort by workstation ID
+                        return e1.getKey().compareTo(e2.getKey());
+                    }
+                    return compare;
+                })
+                .forEach(entry -> {
+                    String workstationId = entry.getKey();
+                    List<Map.Entry<String, Integer>> transitions = flowDependency.get(workstationId);
+
+                    // Sort transitions by count (descending) and then by destination workstation ID
+                    transitions.sort((a, b) -> {
+                        int compareCount = b.getValue().compareTo(a.getValue());
+                        if (compareCount == 0) {
+                            return a.getKey().compareTo(b.getKey());
+                        }
+                        return compareCount;
+                    });
+
+                    sortedFlow.put(workstationId, transitions);
+                });
+
+        return sortedFlow;
+    }
+
+
+    private static void trackOperationPaths(
+            HashMap<String, LinkedList<Item>> operationsQueue,
+            ArrayList<Workstation> machines,
+            HashMap<String, Double> timeOperations) {
+
+        int quantMachines = machines.size();
+
+        for (String operation : operationsQueue.keySet()) {
+            LinkedList<Item> items = operationsQueue.get(operation);
+            sortByPriority(items);
+
+            for (Item item : items) {
+                for (Workstation machine : machines) {
+                    if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
+                        break;
+                    }
+
+                    for (String operationMachine : item.getOperations()) {
+                        if (operationMachine.equalsIgnoreCase(operation) && !machine.getHasItem()) {
+                            quantMachines = checkMachines(machines, quantMachines);
+                            machine.setHasItem(false);
+                            item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                            quantMachines--;
+
+                            String operationKey = String.format("Operation: %s - Machine: %s - Priority: %s - Item: %d - Time: %.2f",
+                                    operation, machine.getId(), item.getPriority(), item.getId(), machine.getTime());
+                            timeOperations.put(operationKey, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private static int checkMachines(ArrayList<Workstation> machines, int quantMachines) {
+        if (quantMachines == 0) {
+            for (Workstation machine1 : machines) {
+                machine1.clearUpWorkstation();
+            }
+            quantMachines = machines.size();
+        }
         return quantMachines;
     }
-
-
-    private static void updateTransitionCount(List<Map.Entry<String, Integer>> transitions, String
-            nextMachineId) {
-        for (Map.Entry<String, Integer> entry : transitions) {
-            if (entry.getKey().equals(nextMachineId)) {
-                entry.setValue(entry.getValue() + 1);
-                return;
-            }
-        }
-        transitions.add(new AbstractMap.SimpleEntry<>(nextMachineId, 1));
-    }
-
-    // Helper function to sort the flow dependency map in descending order
-    private static Map<String, Map<String, Integer>> sortFlowDependency(Map<String, Map<String, Integer>> flowDependency) {
-        return flowDependency.entrySet().stream()
-                .sorted((e1, e2) -> Integer.compare(
-                        e2.getValue().values().stream().mapToInt(Integer::intValue).sum(),
-                        e1.getValue().values().stream().mapToInt(Integer::intValue).sum()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        e -> e.getValue().entrySet().stream()
-                                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                                .collect(Collectors.toMap(
-                                        Map.Entry::getKey,
-                                        Map.Entry::getValue,
-                                        (v1, v2) -> v1,
-                                        LinkedHashMap::new
-                                )),
-                        (v1, v2) -> v1,
-                        LinkedHashMap::new
-                ));
-    }
-
-    // Helper function to find workstation based on operation name
-    private static Workstation findWorkstationByOperation(String operation) {
-        HashMap<Item, Workstation> prodPlan = HashMap_Items_Workstations.getProdPlan();
-        for (Workstation workstation : prodPlan.values()) {
-            if (workstation.getOperation().equals(operation)) {
-                return workstation;
+    private static Workstation findMachineForOperation(HashMap<Item, Workstation> ProdPlan, String operation) {
+        for (Workstation machine : ProdPlan.values()) {
+            if (machine.getOperation().contains(operation)) {
+                return machine;
             }
         }
         return null;
+    }
+
+
+
+
+
+    /**
+     * Fills the operationsQueue with the list of the items for each operation
+     *
+     * @param ProdPlan        HashMap with the items and the machines
+     * @param operationsQueue HashMap with the operations and the list of items
+     */
+    private static void fillOperationsQueueus06(HashMap<Item, Workstation> ProdPlan, HashMap<String, LinkedList<Item>> operationsQueue) {
+        for (Item item : ProdPlan.keySet()) {
+            ArrayList<String> operations = (ArrayList<String>) item.getOperations();
+            for (String operation : operations) {
+                if (!operationsQueue.containsKey(operation)) {
+                    operationsQueue.put(operation, new LinkedList<>());
+                }
+                operationsQueue.get(operation).add(item);
+            }
+        }
     }
 
     /**
