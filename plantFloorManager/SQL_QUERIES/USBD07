@@ -1,24 +1,18 @@
 SELECT
     po.Production_Order_ID,
-    p.Product_ID,
     bom.Component_ID,
     c.Component_Description,
     SUM(bom.Component_Quantity * po.Quantity_Ordered) AS Quantity_To_Order
 FROM
     Product_Production_Order po
 JOIN
-    Product p ON po.Product_ID = p.Product_ID
-JOIN
-    BOM bom ON p.Product_ID = bom.Product_ID
+    BOM bom ON po.Product_ID = bom.Product_ID
 JOIN
     Component c ON bom.Component_ID = c.Component_ID
-WHERE
-    po.Production_Order_ID = 1002
 GROUP BY
     po.Production_Order_ID,
-    p.Product_ID,
     bom.Component_ID,
     c.Component_Description
 ORDER BY
     po.Production_Order_ID,
-    p.Product_ID;
+    bom.Component_ID;

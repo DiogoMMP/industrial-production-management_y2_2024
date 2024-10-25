@@ -59,8 +59,8 @@ insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Custome
 
 -- Plant_Floor (example)
 INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID) VALUES (1, 1);
-INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID) VALUES (2, 2);
-INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID) VALUES (3, 3);
+INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID) VALUES (2, 1);
+INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID) VALUES (3, 1);
 
 --Workstation_Type
 insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('A4578', '600t cold forging stamping press');
@@ -79,26 +79,26 @@ insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('G92
 
 --Workstation
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9875, 'Press 01', '220-630t cold forging press', 1, 'A4578');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9886, 'Press 02', '220-630t cold forging press', 2, 'A4578');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9847, 'Press 03', '220-630t precision cold forging press', 3, 'A4588');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9886, 'Press 02', '220-630t cold forging press', 1, 'A4578');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9847, 'Press 03', '220-630t precision cold forging press', 1, 'A4588');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9855, 'Press 04', '160-1000t precision cold forging press', 1, 'A4598');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8541, 'Rivet 02', 'Rivet station', 1, 'S3271');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8543, 'Rivet 03', 'Rivet station', 2, 'S3271');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8543, 'Rivet 03', 'Rivet station', 1, 'S3271');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6814, 'Packaging 01', 'Packaging station', 1, 'K3675');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6815, 'Packaging 02', 'Packaging station', 3, 'K3675');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6816, 'Packaging 03', 'Packaging station', 2, 'K3675');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6815, 'Packaging 02', 'Packaging station', 1, 'K3675');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6816, 'Packaging 03', 'Packaging station', 1, 'K3675');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6821, 'Packaging 04', 'Packaging station', 1, 'K3675');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6822, 'Packaging 05', 'Packaging station', 3, 'K3676');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8167, 'Welding 01', 'Spot welding station', 3, 'D9123');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8170, 'Welding 02', 'Spot welding station', 2, 'D9123');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8171, 'Welding 03', 'Spot welding station', 3, 'D9123');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6822, 'Packaging 05', 'Packaging station', 1, 'K3676');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8167, 'Welding 01', 'Spot welding station', 1, 'D9123');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8170, 'Welding 02', 'Spot welding station', 1, 'D9123');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8171, 'Welding 03', 'Spot welding station', 1, 'D9123');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7235, 'Assembly 01', 'Product assembly station', 1, 'T3452');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7236, 'Assembly 02', 'Product assembly station', 2, 'T3452');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7238, 'Assembly 03', 'Product assembly station', 3, 'T3452');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (5124, 'Trimming 01', 'Metal trimming station', 3, 'C5637');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7236, 'Assembly 02', 'Product assembly station', 1, 'T3452');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (7238, 'Assembly 03', 'Product assembly station', 1, 'T3452');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (5124, 'Trimming 01', 'Metal trimming station', 1, 'C5637');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4123, 'Polishing 01', 'Metal polishing station', 1, 'Q3547');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4124, 'Polishing 02', 'Metal polishing station', 2, 'Q3547');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4125, 'Polishing 03', 'Metal polishing station', 3, 'Q3547');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4124, 'Polishing 02', 'Metal polishing station', 1, 'Q3547');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (4125, 'Polishing 03', 'Metal polishing station', 1, 'Q3547');
 
 --Type_Industry
 insert into Type_Industry(Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) values (1001, 'Disc cutting', 5647 , 'A4578');
