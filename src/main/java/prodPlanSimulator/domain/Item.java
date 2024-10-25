@@ -283,37 +283,7 @@ public class Item implements Comparable<Item> {
         return operationTimes;
     }
 
-    /**
-     * Fills the machines with the items
-     *
-     * @param operationsQueue HashMap with the operations and the list of items
-     * @param machines        List of machines
-     */
-    private static void fillUpMachines(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> machines, HashMap<String, Double> timeOperations) {
-        int quantMachines = machines.size();
-        for (String operation : operationsQueue.keySet()) {
-            LinkedList<Item> items = operationsQueue.get(operation);
-            sortByPriority(items);
-            for (Item item : items) {
-                for (Workstation machine : machines) {
-                    if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
-                        break;
-                    }
-                    for (String operationMachine : item.getOperations()) {
-                        if (operationMachine.equalsIgnoreCase(operation) && !machine.getHasItem()) {
-                            quantMachines = checkMachines(machines, quantMachines);
-                            machine.setHasItem(false);
-                            item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
-                            quantMachines--;
-                            String operation1 = "Operation: " + operation + " - Machine: " + machine.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + machine.getTime();
-                            timeOperations.put(operation1, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
+
     private static void sortByPriority(LinkedList<Item> items) {
         ArrayList<Item> itemsList = new ArrayList<>(items);
         sortHigh(itemsList, items);
@@ -322,6 +292,7 @@ public class Item implements Comparable<Item> {
         items.clear();
         items.addAll(itemsList);
     }
+
     private static void sortHigh(ArrayList<Item> itemsList, LinkedList<Item> items) {
         for (Item item : items) {
             if (item.getPriority().toString().equalsIgnoreCase("HIGH")) {
@@ -345,6 +316,7 @@ public class Item implements Comparable<Item> {
             }
         }
     }
+
     /**
      * Removes null entries from the workstation list
      */
@@ -370,6 +342,7 @@ public class Item implements Comparable<Item> {
             }
         }
     }
+
     private static void sortItemsByPriority(ArrayList<Item> items) {
         items.sort(Comparator.comparing(Item::getPriority));
     }
@@ -567,8 +540,6 @@ public class Item implements Comparable<Item> {
     }
 
 
-
-
     /**
      * Checks if there are any machines left with the operation
      *
@@ -606,23 +577,7 @@ public class Item implements Comparable<Item> {
      * @return HashMap<String, List < Map.Entry < String, Integer>>> where String is the current workstation,
      * and the List holds entries of the next workstation and the number of transitions.
      */
-    public static double calculateAverageDouble(List<Double> values) {
-        if (values.isEmpty()) return 0.0;
-        double sum = 0.0;
-        for (double value : values) {
-            sum += value;
-        }
-        return sum / values.size();
-    }
 
-    public static double calculateAverage(List<Integer> values) {
-        if (values.isEmpty()) return 0.0;
-        int sum = 0;
-        for (int value : values) {
-            sum += value;
-        }
-        return (double) sum / values.size();
-    }
 
     public static HashMap<String, List<Map.Entry<String, Integer>>> generateWorkstationFlowDependency() {
         HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = new HashMap<>();
@@ -632,75 +587,84 @@ public class Item implements Comparable<Item> {
         // Remove null entries and initialize flowDependency
         removeNullMachines(machines);
         removeNullItems(prodPlan);
+        LinkedHashMap<String, Double> timeOperations = simulateProcessUS02();
+
         for (Workstation machine : machines) {
             flowDependency.put(machine.getId(), new ArrayList<>());
         }
 
-        // Process each item's operation sequence
-        for (Item item : prodPlan.keySet()) {
-            if (item.getOperations() == null || item.getOperations().isEmpty()) continue;
+        List<String> entries = new ArrayList<>(timeOperations.keySet());
+        for (int i = 0; i < entries.size() - 1; i++) {
+            String currentEntry = entries.get(i);
+            String nextEntry = entries.get(i + 1);
 
-            // Process each pair of consecutive operations
-            for (int i = 0; i < item.getOperations().size() - 1; i++) {
-                String currentOp = item.getOperations().get(i);
-                String nextOp = item.getOperations().get(i + 1);
+            String[] currentParts = currentEntry.split(" - ");
+            String currentMachineId = currentParts[2].split(": ")[1];
 
-                // Find all machines that can perform current operation
-                List<Workstation> currentMachines = findMachinesForOperation(machines, currentOp);
-                // Find all machines that can perform next operation
-                List<Workstation> nextMachines = findMachinesForOperation(machines, nextOp);
+            String[] nextParts = nextEntry.split(" - ");
+            String nextMachineId = nextParts[2].split(": ")[1];
 
-                // Create transitions between all possible machine combinations
-                for (Workstation fromMachine : currentMachines) {
-                    for (Workstation toMachine : nextMachines) {
-                        updateTransitions(flowDependency, fromMachine.getId(), toMachine.getId());
-                    }
-                }
+            Workstation fromWorkstation = machines.stream()
+                    .filter(machine -> machine.getId().equalsIgnoreCase(currentMachineId))
+                    .findFirst()
+                    .orElse(null);
+
+            Workstation toMachine = machines.stream()
+                    .filter(machine -> machine.getId().equalsIgnoreCase(nextMachineId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (fromWorkstation != null && toMachine != null) {
+                updateTransitions(flowDependency, fromWorkstation.getId(), toMachine.getId());
             }
         }
 
         return sortWorkstationsByTransitions(flowDependency);
     }
 
-    private static List<Workstation> findMachinesForOperation(List<Workstation> machines, String operation) {
-        List<Workstation> compatibleMachines = new ArrayList<>();
-        for (Workstation machine : machines) {
-            if (machine.getOperation().contains(operation)) {
-                compatibleMachines.add(machine);
+    private static LinkedHashMap<Workstation, String> listMachinesOperations(LinkedHashMap<String, Double> timeOperations, HashMap<Item, Workstation> prodPlan) {
+        LinkedHashMap<Workstation, String> machinesOps = new LinkedHashMap<>();
+        for (String entry : timeOperations.keySet()) {
+            // Extract the machine and operation from the string
+            String[] parts = entry.split(" - ");
+            String operation = parts[1].split(": ")[1];
+            String machineId = parts[2].split(": ")[1];
+
+            // Find the corresponding workstation
+            Workstation workstation = null;
+            for (Workstation ws : prodPlan.values()) {
+                if (ws.getId().equals(machineId)) {
+                    workstation = ws;
+                    break;
+                }
+            }
+
+            if (workstation != null) {
+                machinesOps.put(workstation, operation);
             }
         }
-        return compatibleMachines;
+        return machinesOps;
     }
 
-    private static void updateTransitions(
-            HashMap<String, List<Map.Entry<String, Integer>>> flowDependency,
-            String fromMachine,
-            String toMachine) {
 
-        List<Map.Entry<String, Integer>> transitions = flowDependency.get(fromMachine);
-        if (transitions == null) {
-            transitions = new ArrayList<>();
-            flowDependency.put(fromMachine, transitions);
-        }
+    private static void updateTransitions(HashMap<String, List<Map.Entry<String, Integer>>> flowDependency, String fromMachine, String toMachine) {
 
-        // Look for existing transition
+        // Check if the transition to `toMachine` already exists
         boolean found = false;
-        for (int i = 0; i < transitions.size(); i++) {
-            Map.Entry<String, Integer> entry = transitions.get(i);
+        for (Map.Entry<String, Integer> entry : flowDependency.get(fromMachine)) {
             if (entry.getKey().equals(toMachine)) {
-                // Update existing transition count
-                int newCount = entry.getValue() + 1;
-                transitions.set(i, new AbstractMap.SimpleEntry<>(toMachine, newCount));
+                // Increment the existing transition count
+                entry.setValue(entry.getValue() + 1);
                 found = true;
                 break;
             }
         }
-
-        // Add new transition if not found
+        // If the transition to `toMachine` was not found, add a new entry with a count of 1
         if (!found) {
-            transitions.add(new AbstractMap.SimpleEntry<>(toMachine, 1));
+            flowDependency.get(fromMachine).add(new AbstractMap.SimpleEntry<>(toMachine, 1));
         }
     }
+
 
     private static HashMap<String, List<Map.Entry<String, Integer>>> sortWorkstationsByTransitions(
             HashMap<String, List<Map.Entry<String, Integer>>> flowDependency) {
@@ -747,40 +711,6 @@ public class Item implements Comparable<Item> {
     }
 
 
-    private static void trackOperationPaths(
-            HashMap<String, LinkedList<Item>> operationsQueue,
-            ArrayList<Workstation> machines,
-            HashMap<String, Double> timeOperations) {
-
-        int quantMachines = machines.size();
-
-        for (String operation : operationsQueue.keySet()) {
-            LinkedList<Item> items = operationsQueue.get(operation);
-            sortByPriority(items);
-
-            for (Item item : items) {
-                for (Workstation machine : machines) {
-                    if (item.getCurrentOperationIndex() >= item.getOperations().size()) {
-                        break;
-                    }
-
-                    for (String operationMachine : item.getOperations()) {
-                        if (operationMachine.equalsIgnoreCase(operation) && !machine.getHasItem()) {
-                            quantMachines = checkMachines(machines, quantMachines);
-                            machine.setHasItem(false);
-                            item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
-                            quantMachines--;
-
-                            String operationKey = String.format("Operation: %s - Machine: %s - Priority: %s - Item: %d - Time: %.2f",
-                                    operation, machine.getId(), item.getPriority(), item.getId(), machine.getTime());
-                            timeOperations.put(operationKey, timeOperations.getOrDefault(operation, 0.0) + machine.getTime());
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
     private static int checkMachines(ArrayList<Workstation> machines, int quantMachines) {
         if (quantMachines == 0) {
             for (Workstation machine1 : machines) {
@@ -790,6 +720,7 @@ public class Item implements Comparable<Item> {
         }
         return quantMachines;
     }
+
     private static Workstation findMachineForOperation(HashMap<Item, Workstation> ProdPlan, String operation) {
         for (Workstation machine : ProdPlan.values()) {
             if (machine.getOperation().contains(operation)) {
@@ -798,9 +729,6 @@ public class Item implements Comparable<Item> {
         }
         return null;
     }
-
-
-
 
 
     /**

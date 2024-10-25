@@ -56,10 +56,7 @@ public class DataInitializer {
             sb.append("]");
             System.out.println(sb.toString());
         }
-        // Print the simulation results
-        for (Map.Entry<String, Double> entry : result3.entrySet()) {
-            System.out.println("Item: " + entry.getKey());
-        }
+
     }
 
 
