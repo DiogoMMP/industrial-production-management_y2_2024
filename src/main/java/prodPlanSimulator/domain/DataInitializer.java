@@ -36,12 +36,25 @@ public class DataInitializer {
         // Generate workstation flow dependency
         HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = Item.generateWorkstationFlowDependency();
 
-        // Print the flow dependency
         for (Map.Entry<String, List<Map.Entry<String, Integer>>> entry : flowDependency.entrySet()) {
-            System.out.println("Workstation: " + entry.getKey());
-            for (Map.Entry<String, Integer> subEntry : entry.getValue()) {
-                System.out.println("  Next Workstation: " + subEntry.getKey() + ", Count: " + subEntry.getValue());
+            String workstation = entry.getKey();
+            List<Map.Entry<String, Integer>> dependencies = entry.getValue();
+
+            // Sort dependencies in descending order of processed items
+            dependencies.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+            // Format the output
+            StringBuilder sb = new StringBuilder();
+            sb.append(workstation).append(" : [");
+            for (int i = 0; i < dependencies.size(); i++) {
+                Map.Entry<String, Integer> subEntry = dependencies.get(i);
+                sb.append("(").append(subEntry.getKey()).append(",").append(subEntry.getValue()).append(")");
+                if (i < dependencies.size() - 1) {
+                    sb.append(",");
+                }
             }
+            sb.append("]");
+            System.out.println(sb.toString());
         }
         // Print the simulation results
         for (Map.Entry<String, Double> entry : result3.entrySet()) {
