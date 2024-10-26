@@ -1,5 +1,6 @@
 package prodPlanSimulator.UI;
 
+import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.domain.Item;
 
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class FlowDependencyUI implements Runnable {
             sb.append("]");
             System.out.println(sb.toString());
         }
+        Utils.goBackAndWait();
     }
 }
 

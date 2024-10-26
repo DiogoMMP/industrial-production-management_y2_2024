@@ -43,17 +43,26 @@ public class SimulateProcessTimeUI implements Runnable {
     private void show(String choice) {
         System.out.println("\n\n--- Simulate Process by Time ------------");
         int id;
-        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
+        LinkedHashMap<String, Double> timeOperations;
         if (choice.equals("All")) {
-            timeOperations = Item.simulateProcessUS02();
+            timeOperations = Item.simulateProcessUS08();
             timeOperations = updateOperationKeys(timeOperations);
+            String previousId = "";
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+                String currentId = getItemIdFromEntry(entry.getKey());
+                if (!currentId.equals(previousId)) {
+                    if (!previousId.isEmpty()) {
+                        System.out.println();
+                    }
+                    System.out.println("Item: " + currentId);
+                    previousId = currentId;
+                }
                 System.out.println(entry.getKey());
             }
         } else {
             id = Integer.parseInt(choice.split(" ")[1]);
             System.out.println("Item: " + id);
-            timeOperations = Item.simulateProcessUS02();
+            timeOperations = Item.simulateProcessUS08();
             timeOperations = sortOperations(timeOperations, id);
             timeOperations = updateOperationKeys(timeOperations);
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
@@ -62,11 +71,22 @@ public class SimulateProcessTimeUI implements Runnable {
         }
     }
 
+    private String getItemIdFromEntry(String entry) {
+        String[] parts = entry.split(" - ");
+        for (String part : parts) {
+            if (part.startsWith("Item: ")) {
+                return part.substring(6);
+            }
+        }
+        return "";
+    }
+
+
     private LinkedHashMap<String, Double> updateOperationKeys(LinkedHashMap<String, Double> timeOperations) {
         LinkedHashMap<String, Double> updatedTimeOperations = new LinkedHashMap<>();
         int operationNumber = 1;
         for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-            String newKey = "Operation: " + operationNumber + " - " + entry.getKey().replaceFirst("\\d+ - ", "");
+            String newKey = operationNumber + " - " + entry.getKey().replaceFirst("\\d+ - ", "");
             updatedTimeOperations.put(newKey, entry.getValue());
             operationNumber++;
         }

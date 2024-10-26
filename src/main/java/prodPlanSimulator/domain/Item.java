@@ -627,29 +627,7 @@ public class Item implements Comparable<Item> {
         return sortWorkstationsByTransitions(flowDependency);
     }
 
-    private static LinkedHashMap<Workstation, String> listMachinesOperations(LinkedHashMap<String, Double> timeOperations, HashMap<Item, Workstation> prodPlan) {
-        LinkedHashMap<Workstation, String> machinesOps = new LinkedHashMap<>();
-        for (String entry : timeOperations.keySet()) {
-            // Extract the machine and operation from the string
-            String[] parts = entry.split(" - ");
-            String operation = parts[1].split(": ")[1];
-            String machineId = parts[2].split(": ")[1];
 
-            // Find the corresponding workstation
-            Workstation workstation = null;
-            for (Workstation ws : prodPlan.values()) {
-                if (ws.getId().equals(machineId)) {
-                    workstation = ws;
-                    break;
-                }
-            }
-
-            if (workstation != null) {
-                machinesOps.put(workstation, operation);
-            }
-        }
-        return machinesOps;
-    }
 
 
     private static void updateTransitions(HashMap<String, List<Map.Entry<String, Integer>>> flowDependency, String fromMachine, String toMachine) {

@@ -43,11 +43,20 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
     private void show(String choice) {
         System.out.println("\n\n--- Simulate Process by Time ------------");
         int id;
-        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
+        LinkedHashMap<String, Double> timeOperations;
         if (choice.equals("All")) {
             timeOperations = Item.simulateProcessUS08();
             timeOperations = updateOperationKeys(timeOperations);
+            String previousId = "";
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+                String currentId = getItemIdFromEntry(entry.getKey());
+                if (!currentId.equals(previousId)) {
+                    if (!previousId.isEmpty()) {
+                        System.out.println();
+                    }
+                    System.out.println("Item: " + currentId);
+                    previousId = currentId;
+                }
                 System.out.println(entry.getKey());
             }
         } else {
@@ -55,40 +64,29 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
             System.out.println("Item: " + id);
             timeOperations = Item.simulateProcessUS08();
             timeOperations = sortOperations(timeOperations, id);
-            timeOperations = updateOperationKeys(timeOperations);;
+            timeOperations = updateOperationKeys(timeOperations);
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
                 System.out.println(entry.getKey());
             }
         }
     }
-    private int getFirstItemIdFromTimeOperations(LinkedHashMap<String, Double> timeOperations) {
-        for (String key : timeOperations.keySet()) {
-            String[] parts = key.split(" - ");
-            for (String part : parts) {
-                if (part.startsWith("Item: ")) {
-                    return Integer.parseInt(part.substring(6));
-                }
+
+    private String getItemIdFromEntry(String entry) {
+        String[] parts = entry.split(" - ");
+        for (String part : parts) {
+            if (part.startsWith("Item: ")) {
+                return part.substring(6);
             }
         }
-        return -1; // Return -1 if no item ID is found
+        return "";
     }
 
-    private void printItemInfoIfIdDifferent(int currentId, int previousId, LinkedHashMap<String, Double> timeOperations) {
-        if (currentId != previousId) {
-            System.out.println("Item: " + currentId);
-            for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-                if (entry.getKey().contains("Item: " + currentId)) {
-                    System.out.println(entry.getKey());
-                }
-            }
-        }
-    }
 
     private LinkedHashMap<String, Double> updateOperationKeys(LinkedHashMap<String, Double> timeOperations) {
         LinkedHashMap<String, Double> updatedTimeOperations = new LinkedHashMap<>();
         int operationNumber = 1;
         for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-            String newKey = "Operation: " + operationNumber + " - " + entry.getKey().replaceFirst("\\d+ - ", "");
+            String newKey = operationNumber + " - " + entry.getKey().replaceFirst("\\d+ - ", "");
             updatedTimeOperations.put(newKey, entry.getValue());
             operationNumber++;
         }
