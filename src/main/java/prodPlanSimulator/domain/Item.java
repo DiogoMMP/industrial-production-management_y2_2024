@@ -594,9 +594,14 @@ public class Item implements Comparable<Item> {
         }
 
         List<String> entries = new ArrayList<>(timeOperations.keySet());
+        ArrayList<String> itemsID = timeOperations.keySet().stream()
+                .map(entry -> entry.split(" - ")[4].split(": ")[1])
+                .collect(Collectors.toCollection(ArrayList::new));
         for (int i = 0; i < entries.size() - 1; i++) {
             String currentEntry = entries.get(i);
             String nextEntry = entries.get(i + 1);
+            String currentItemID = itemsID.get(i);
+            String nextItemID = itemsID.get(i + 1);
 
             String[] currentParts = currentEntry.split(" - ");
             String currentMachineId = currentParts[2].split(": ")[1];
@@ -614,7 +619,7 @@ public class Item implements Comparable<Item> {
                     .findFirst()
                     .orElse(null);
 
-            if (fromWorkstation != null && toMachine != null) {
+            if (fromWorkstation != null && toMachine != null && currentItemID.equals(nextItemID)) {
                 updateTransitions(flowDependency, fromWorkstation.getId(), toMachine.getId());
             }
         }

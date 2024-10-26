@@ -55,9 +55,31 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
             System.out.println("Item: " + id);
             timeOperations = Item.simulateProcessUS08();
             timeOperations = sortOperations(timeOperations, id);
-            timeOperations = updateOperationKeys(timeOperations);
+            timeOperations = updateOperationKeys(timeOperations);;
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
                 System.out.println(entry.getKey());
+            }
+        }
+    }
+    private int getFirstItemIdFromTimeOperations(LinkedHashMap<String, Double> timeOperations) {
+        for (String key : timeOperations.keySet()) {
+            String[] parts = key.split(" - ");
+            for (String part : parts) {
+                if (part.startsWith("Item: ")) {
+                    return Integer.parseInt(part.substring(6));
+                }
+            }
+        }
+        return -1; // Return -1 if no item ID is found
+    }
+
+    private void printItemInfoIfIdDifferent(int currentId, int previousId, LinkedHashMap<String, Double> timeOperations) {
+        if (currentId != previousId) {
+            System.out.println("Item: " + currentId);
+            for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+                if (entry.getKey().contains("Item: " + currentId)) {
+                    System.out.println(entry.getKey());
+                }
             }
         }
     }
