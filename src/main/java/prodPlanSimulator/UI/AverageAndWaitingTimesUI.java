@@ -14,9 +14,8 @@ public class AverageAndWaitingTimesUI implements Runnable {
 
         for (Map.Entry<String, Double[]> entry : averageTimes.entrySet()) {
             System.out.println("Operation: " + entry.getKey());
-            for (Double value : entry.getValue()) {
-                System.out.println("  Average Time: " + value);
-            }
+            System.out.printf("Average Execution Time: %.2f\n", entry.getValue()[0]);
+            System.out.printf("Average Waiting Time: %.2f\n", entry.getValue()[1]);
         }
         Utils.goBackAndWait();
     }
