@@ -35,7 +35,15 @@ public class DataInitializer implements Runnable {
                 System.out.println("2. Enter file paths manually");
 
                 System.out.print("\n\nType your option: ");
-                int choice = Integer.parseInt(scanner.nextLine());
+                String input = scanner.nextLine();
+                int choice;
+
+                try {
+                    choice = Integer.parseInt(input);
+                } catch (NumberFormatException e) {
+                    System.err.println("Error: Invalid input. Please enter a number.");
+                    continue;
+                }
 
                 switch (choice) {
                     case 1:
