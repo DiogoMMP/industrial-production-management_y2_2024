@@ -14,12 +14,18 @@ public class DataInitializer {
         this.hashMapItemsMachines = Instances.getInstance().getHashMapItemsWorkstations();
     }
 
+    /**
+     * Initialize data by reading Items and Machines from CSV files
+     */
     public void initializeData() throws FileNotFoundException {
         // Use InputFileReader to read Items and Machines
         hashMapItemsMachines.addAll("articles.csv", "workstations.csv");
     }
 
 
+    /**
+     * Run methods from Item class
+     */
     public void runItemMethods() {
         // Assuming that the Item class has a method named 'calculateAvgExecutionAndWaitingTimes'
         HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();

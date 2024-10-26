@@ -12,6 +12,9 @@ public class ListExecutionTimeOneOpUI implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
     LinkedHashMap<String, Double> timeOperations = Item.simulateProcessUS02();
 
+    /**
+     * This method calculates the total time of each operation and prints it on the screen.
+     */
     @Override
     public void run() {
         String choice;
@@ -38,10 +41,17 @@ public class ListExecutionTimeOneOpUI implements Runnable {
             }
         } while (option != -1 && !options.get(option).toString().equals("Back"));
     }
+    /**
+     * This method clears the console.
+     */
     private void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
+    /**
+     * This method shows the total time of the operation.
+     * @param choice the operation to be visualized.
+     */
     private void show(String choice) {
         System.out.println("\n\n--- Execution Times by Operation  ------------");
         HashMap<String, Double> execTimes = map.calcOpTime(timeOperations);

@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class TotalTimeAllItemsUI implements Runnable {
+    /**
+     * This method calculates the total time of all items in the production plan.
+     */
     @Override
     public void run() {
         System.out.println("\n\n--- Simulate Process by Time ------------");

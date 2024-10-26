@@ -11,6 +11,9 @@ public class ListExecutionTimeAllOpUI implements Runnable {
     HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
     LinkedHashMap<String, Double> timeOperations = Item.simulateProcessUS02();
 
+    /**
+     * This method calculates the total time of each operation and prints it on the screen.
+     */
     @Override
     public void run() {
         System.out.println("\n\n--- Execution Times by Operation  ------------");

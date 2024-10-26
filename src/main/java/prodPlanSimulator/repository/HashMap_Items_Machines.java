@@ -18,7 +18,7 @@ public class HashMap_Items_Machines {
     /**
      * Constructor with ProdPlan
      *
-     * @param ProdPlan
+     * @param ProdPlan production plan
      */
     public HashMap_Items_Machines(HashMap<Item, Workstation> ProdPlan) {
         this.ProdPlan = ProdPlan;
@@ -27,8 +27,8 @@ public class HashMap_Items_Machines {
     /**
      * Add all items and machines to the map
      *
-     * @param itemsPath
-     * @param machinesPath
+     * @param itemsPath   path to items
+     * @param machinesPath path to machines
      */
     public void addAll(String itemsPath, String machinesPath) throws FileNotFoundException {
         Map<Integer, Item> items = InputFileReader.readItems(itemsPath);
@@ -48,8 +48,8 @@ public class HashMap_Items_Machines {
     /**
      * Fill the map with items and machines
      *
-     * @param items
-     * @param machines
+     * @param items   items
+     * @param machines machines
      */
     public void fillMap(Map<Integer, Item> items, Map<Integer, Workstation> machines) {
         int size = Math.max(items.size(), machines.size());
@@ -83,7 +83,6 @@ public class HashMap_Items_Machines {
      * Calculate the time of a specific operation
      *
      * @return time of the operation
-     * @throws Exception if operation not found
      */
     public HashMap<String, Double> calcOpTime(LinkedHashMap<String, Double> timeOperations) {
         try {
@@ -147,7 +146,7 @@ public class HashMap_Items_Machines {
     /**
      * Set the production plan
      *
-     * @param prodPlan
+     * @param prodPlan production plan
      */
     public void setProdPlan(HashMap<Item, Workstation> prodPlan) {
         this.ProdPlan = prodPlan;

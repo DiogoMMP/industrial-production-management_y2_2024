@@ -1,13 +1,20 @@
 package prodPlanSimulator.repository;
 
 public class Instances {
+
     private HashMap_Items_Machines hashMapItemsWorkstations;
     private static volatile Instances instance;
 
+    /**
+     * Private constructor to avoid client applications to use constructor
+     */
     private Instances() {
         hashMapItemsWorkstations = new HashMap_Items_Machines();
     }
 
+    /**
+     * Static method to get instance.
+     */
     public static Instances getInstance() {
         if (instance == null) {
             synchronized (Instances.class) {
@@ -19,6 +26,10 @@ public class Instances {
         return instance;
     }
 
+    /**
+     * Get the HashMap of Items and Workstations
+     * @return HashMap of Items and Workstations
+     */
     public HashMap_Items_Machines getHashMapItemsWorkstations() {
         return hashMapItemsWorkstations;
     }

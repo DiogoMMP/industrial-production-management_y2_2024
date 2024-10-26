@@ -15,6 +15,12 @@ import java.util.logging.Logger;
  */
 public class Utils {
 
+    /**
+     * Reads a line from the console
+     *
+     * @param prompt The prompt to show to the user
+     * @return The line read from the console
+     */
     static public String readLineFromConsole(String prompt) {
         try {
             System.out.print("\n" + prompt);
@@ -29,6 +35,12 @@ public class Utils {
         }
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param prompt The prompt to show to the user
+     * @return The line read from the console
+     */
     static public int readIntegerFromConsole(String prompt) {
         do {
             try {
@@ -43,6 +55,12 @@ public class Utils {
         } while (true);
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param prompt The prompt to show to the user
+     * @return The line read from the console
+     */
     static public double readDoubleFromConsole(String prompt) {
         do {
             try {
@@ -57,6 +75,12 @@ public class Utils {
         } while (true);
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param prompt The prompt to show to the user
+     * @return The line read from the console
+     */
     static public Date readDateFromConsole(String prompt) {
         do {
             try {
@@ -73,6 +97,12 @@ public class Utils {
         } while (true);
     }
 
+   /**
+     * Reads a line from the console
+     *
+     * @param message The prompt to show to the user
+     * @return The line read from the console
+     */
     static public boolean confirm(String message) {
         String input;
         do {
@@ -82,16 +112,36 @@ public class Utils {
         return input.equalsIgnoreCase("s");
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param list The list to show to the user
+     * @param header The header to show to the user
+     * @return The object selected by the user
+     */
     static public Object showAndSelectOne(List list, String header) {
         showList(list, header);
         return selectsObject(list);
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param list The list to show to the user
+     * @param header The header to show to the user
+     * @return The index selected by the user
+     */
     static public int showAndSelectIndex(List list, String header) {
         showList(list, header);
         return selectsIndex(list);
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param list The list to show to the user
+     * @param header The header to show to the user
+     */
     static public void showList(List list, String header) {
         System.out.println(header);
 
@@ -105,6 +155,12 @@ public class Utils {
         System.out.println("  0 - Exit");
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param list The list to show to the user
+     * @return The object selected by the user
+     */
     static public Object selectsObject(List list) {
         String input;
         int value;
@@ -120,6 +176,12 @@ public class Utils {
         }
     }
 
+    /**
+     * Reads a line from the console
+     *
+     * @param list The list to show to the user
+     * @return The index selected by the user
+     */
     static public int selectsIndex(List list) {
         String input;
         int value;
@@ -134,6 +196,10 @@ public class Utils {
 
         return value - 1;
     }
+
+    /**
+     * Reads a line from the console
+     */
     static public void goBackAndWait() {
         String input;
         do {

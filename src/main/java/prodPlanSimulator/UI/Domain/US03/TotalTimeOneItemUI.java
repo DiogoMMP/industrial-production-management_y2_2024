@@ -12,6 +12,9 @@ import java.util.*;
 public class TotalTimeOneItemUI implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
 
+    /**
+     * This method calculates the total time of one item in the production plan.
+     */
     @Override
     public void run() {
         String choice;
@@ -35,6 +38,12 @@ public class TotalTimeOneItemUI implements Runnable {
         } while (option != -1 && !options.get(option).toString().equals("Back"));
     }
 
+    /**
+     * This method sorts the items by id and removes duplicates.
+     *
+     * @param items the list of items to be sorted and have duplicates removed
+     * @return the sorted list of items without duplicates
+     */
     private ArrayList<Item> sortAndRemoveDuplicates(ArrayList<Item> items) {
         HashSet<Integer> seenIds = new HashSet<>();
         ArrayList<Item> uniqueItems = new ArrayList<>();
@@ -50,11 +59,19 @@ public class TotalTimeOneItemUI implements Runnable {
         return uniqueItems;
     }
 
+    /**
+     * This method clears the console.
+     */
     private void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    /**
+     * This method shows the total time of one item in the production plan.
+     *
+     * @param choice the item to be visualized
+     */
     private void show(String choice) {
         System.out.println("\n\n--- Simulate Process by Time ------------");
         int id;

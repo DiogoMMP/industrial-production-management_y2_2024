@@ -11,6 +11,9 @@ import java.util.*;
 public class SimulateProcessTimeAndPriorityUI implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
 
+    /**
+     * This method is responsible for running the simulation of the process time and priority of the items.
+     */
     @Override
     public void run() {
         String choice;
@@ -35,11 +38,18 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         } while (option != -1 && !options.get(option).toString().equals("Back"));
     }
 
+    /**
+     * This method is responsible for clearing the console.
+     */
     private void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    /**
+     * This method is responsible for showing the simulation of the process time and priority of the items.
+     * @param choice The choice of the item to be visualized.
+     */
     private void show(String choice) {
         System.out.println("\n\n--- Simulate Process by Time ------------");
         int id;
@@ -87,6 +97,11 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         }
     }
 
+    /**
+     * This method is responsible for getting the item id from the entry.
+     * @param entry The entry to get the item id from.
+     * @return The item id.
+     */
     private String getItemIdFromEntry(String entry) {
         String[] parts = entry.split(" - ");
         for (String part : parts) {
@@ -97,6 +112,11 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         return "";
     }
 
+    /**
+     * This method is responsible for getting the quantity from the entry.
+     * @param entry The entry to get the quantity from.
+     * @return The quantity.
+     */
     private int getQuantityFromEntry(String entry) {
         String[] parts = entry.split(" - ");
         for (String part : parts) {
@@ -107,11 +127,21 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         return 0;
     }
 
+    /**
+     * This method is responsible for removing the quantity from the entry.
+     * @param entry The entry to remove the quantity from.
+     * @return The entry without the quantity.
+     */
     private String removeQuantityFromEntry(String entry) {
         return entry.replaceAll(" - Quantity: \\d+", "");
     }
 
 
+    /**
+     * This method is responsible for updating the operation keys.
+     * @param timeOperations The time operations to update the keys.
+     * @return The updated time operations.
+     */
     private LinkedHashMap<String, Double> updateOperationKeys(LinkedHashMap<String, Double> timeOperations) {
         LinkedHashMap<String, Double> updatedTimeOperations = new LinkedHashMap<>();
         int operationNumber = 1;
@@ -123,6 +153,12 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         return updatedTimeOperations;
     }
 
+    /**
+     * This method is responsible for sorting the operations.
+     * @param timeOperations The time operations to sort.
+     * @param id The id of the item to sort the operations.
+     * @return The sorted time operations.
+     */
     private LinkedHashMap<String, Double> sortOperations(LinkedHashMap<String, Double> timeOperations, int id) {
         LinkedHashMap<String, Double> sortedTimeOperations = new LinkedHashMap<>();
 
@@ -141,6 +177,11 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         return sortedTimeOperations;
     }
 
+    /**
+     * This method is responsible for sorting and removing duplicates from the items.
+     * @param items The items to sort and remove duplicates.
+     * @return The sorted and unique items.
+     */
     private ArrayList<Item> sortAndRemoveDuplicates(ArrayList<Item> items) {
         HashSet<Integer> seenIds = new HashSet<>();
         ArrayList<Item> uniqueItems = new ArrayList<>();

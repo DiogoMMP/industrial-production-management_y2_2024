@@ -8,10 +8,19 @@ import java.util.Scanner;
 public class DataInitializer implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
 
+    /**
+     * Initialize the data
+     * @param pathArt path to the articles file
+     * @param pathWor path to the workstations file
+     * @throws FileNotFoundException if the file is not found
+     */
     public void init(String pathArt, String pathWor) throws FileNotFoundException {
         map.addAll(pathArt, pathWor);
     }
 
+    /**
+     * Run the data initializer
+     */
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);

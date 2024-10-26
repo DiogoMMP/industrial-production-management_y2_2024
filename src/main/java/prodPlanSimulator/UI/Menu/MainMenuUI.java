@@ -10,6 +10,9 @@ import java.util.List;
 public class MainMenuUI implements Runnable {
     public MainMenuUI() {
     }
+    /**
+     * Run the main menu
+     */
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<>();

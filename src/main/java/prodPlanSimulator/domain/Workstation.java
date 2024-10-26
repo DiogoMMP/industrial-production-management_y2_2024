@@ -105,6 +105,11 @@ public class Workstation implements Comparable<Workstation> {
         this.hasItem = false;
     }
 
+    /**
+     * Compare the machine ID
+     * @param o the object to be compared.
+     * @return the value 0 if the argument string is equal to this string; a value less than 0 if this string is lexicographically less than the string argument; and a value greater than 0 if this string is lexicographically greater than the string argument.
+     */
     @Override
     public int compareTo(Workstation o) {
         return this.id.compareTo(o.id);
