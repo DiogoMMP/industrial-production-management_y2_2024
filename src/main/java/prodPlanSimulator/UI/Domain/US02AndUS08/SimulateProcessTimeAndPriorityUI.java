@@ -48,16 +48,23 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
             timeOperations = Item.simulateProcessUS08();
             timeOperations = updateOperationKeys(timeOperations);
             String previousId = "";
+            int quantity = 0;
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
                 String currentId = getItemIdFromEntry(entry.getKey());
+                int currentQuantity = getQuantityFromEntry(entry.getKey());
                 if (!currentId.equals(previousId)) {
                     if (!previousId.isEmpty()) {
                         System.out.println();
                     }
-                    System.out.println("Item: " + currentId);
+                    System.out.println("Item: " + currentId + " - Quantity: " + currentQuantity);
                     previousId = currentId;
+                    quantity = currentQuantity;
+                } else if (currentQuantity != quantity) {
+                    System.out.println();
+                    System.out.println("Item: " + currentId + " - Quantity: " + currentQuantity);
+                    quantity = currentQuantity;
                 }
-                System.out.println(entry.getKey());
+                System.out.println(removeQuantityFromEntry(entry.getKey()));
             }
         } else {
             id = Integer.parseInt(choice.split(" ")[1]);
@@ -65,8 +72,17 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
             timeOperations = Item.simulateProcessUS08();
             timeOperations = sortOperations(timeOperations, id);
             timeOperations = updateOperationKeys(timeOperations);
+            int quantity = 0;
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-                System.out.println(entry.getKey());
+                int currentQuantity = getQuantityFromEntry(entry.getKey());
+                if (currentQuantity != quantity) {
+                    if (quantity != 0) {
+                        System.out.println();
+                    }
+                    System.out.println("Item: " + id + " - Quantity: " + currentQuantity);
+                    quantity = currentQuantity;
+                }
+                System.out.println(removeQuantityFromEntry(entry.getKey()));
             }
         }
     }
@@ -79,6 +95,20 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
             }
         }
         return "";
+    }
+
+    private int getQuantityFromEntry(String entry) {
+        String[] parts = entry.split(" - ");
+        for (String part : parts) {
+            if (part.startsWith("Quantity: ")) {
+                return Integer.parseInt(part.substring(10));
+            }
+        }
+        return 0;
+    }
+
+    private String removeQuantityFromEntry(String entry) {
+        return entry.replaceAll(" - Quantity: \\d+", "");
     }
 
 

@@ -374,9 +374,14 @@ public class Item implements Comparable<Item> {
     }
 
     private static void addAllItems(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items, int quantMachines) {
+        LinkedHashMap<String, Integer> quantItems = new LinkedHashMap<>();
         for (Item item : items) {
+            quantItems.put(String.valueOf(item.getId()), 0);
+        }
+        for (Item item : items) {
+            quantItems.put(String.valueOf(item.getId()), quantItems.get(String.valueOf(item.getId())) + 1);
             if (item.getId() != 0) {
-                quantMachines = addOperations(operationsQueue, workstations, timeOperations, item, quantMachines);
+                quantMachines = addOperations(operationsQueue, workstations, timeOperations, item, quantMachines, quantItems);
             }
         }
     }
@@ -392,7 +397,7 @@ public class Item implements Comparable<Item> {
      * @param quantMachines   Quantity of machines
      * @return Quantity of machines
      */
-    private static int addOperations(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, Item item, int quantMachines) {
+    private static int addOperations(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, Item item, int quantMachines, LinkedHashMap<String, Integer> quantItems) {
         for (String operation : item.getOperations()) {
             ArrayList<Workstation> availableWorkstations = new ArrayList<>();
             for (Workstation workstation : workstations) {
@@ -405,7 +410,7 @@ public class Item implements Comparable<Item> {
             } else {
                 quantMachines = checkMachinesWithOperation(availableWorkstations, quantMachines, operation);
             }
-            quantMachines = addItem(operationsQueue, timeOperations, item, operation, availableWorkstations, quantMachines);
+            quantMachines = addItem(operationsQueue, timeOperations, item, operation, availableWorkstations, quantMachines, quantItems);
         }
         return quantMachines;
     }
@@ -421,7 +426,7 @@ public class Item implements Comparable<Item> {
      * @param quantMachines         Quantity of machines
      * @return Quantity of machines
      */
-    private static int addItem(HashMap<String, LinkedList<Item>> operationsQueue, LinkedHashMap<String, Double> timeOperations, Item item, String operation, ArrayList<Workstation> availableWorkstations, int quantMachines) {
+    private static int addItem(HashMap<String, LinkedList<Item>> operationsQueue, LinkedHashMap<String, Double> timeOperations, Item item, String operation, ArrayList<Workstation> availableWorkstations, int quantMachines, LinkedHashMap<String, Integer> quantItems) {
         for (Workstation workstation : availableWorkstations) {
             if (item.getCurrentOperationIndex() > item.getOperations().size()) {
                 return quantMachines;
@@ -431,7 +436,7 @@ public class Item implements Comparable<Item> {
                 workstation.setHasItem(true);
                 item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
                 quantMachines--;
-                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + workstation.getTime();
+                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + workstation.getTime() + " - Quantity: " + quantItems.get(String.valueOf(item.getId()));
                 timeOperations.put(operation1, timeOperations.getOrDefault(workstation.getOperation(), 0.0) + workstation.getTime());
                 operationsQueue.get(workstation.getOperation()).remove(item);
                 return quantMachines;
