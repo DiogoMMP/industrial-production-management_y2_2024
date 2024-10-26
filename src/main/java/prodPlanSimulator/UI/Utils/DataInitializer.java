@@ -37,12 +37,18 @@ public class DataInitializer implements Runnable {
                 System.out.print("\n\nType your option: ");
                 int choice = Integer.parseInt(scanner.nextLine());
 
-                if (choice == 1) {
-                    pathArt = "articles.csv";
-                    pathWor = "workstations.csv";
-                } else {
-                    pathArt = Utils.readLineFromConsole("Articles: ");
-                    pathWor = Utils.readLineFromConsole("Workstations: ");
+                switch (choice) {
+                    case 1:
+                        pathArt = "articles.csv";
+                        pathWor = "workstations.csv";
+                        break;
+                    case 2:
+                        pathArt = Utils.readLineFromConsole("Articles: ");
+                        pathWor = Utils.readLineFromConsole("Workstations: ");
+                        break;
+                    default:
+                        System.err.println("Error: Invalid option. Please enter 1 or 2.");
+                        continue;
                 }
 
                 try {
@@ -55,6 +61,5 @@ public class DataInitializer implements Runnable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-
     }
 }

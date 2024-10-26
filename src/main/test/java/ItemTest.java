@@ -45,6 +45,24 @@ class ItemTest {
     }
 
     @Test
+    void testItemConstructor() {
+        // Setup
+        int id = 10001;
+        Priority priority = Priority.HIGH;
+        List<String> operations = Arrays.asList("cut", "sand", "paint");
+
+        // Execute
+        Item item = new Item(id, priority, operations);
+
+        // Verify
+        assertEquals(id, item.getId(), "Item ID should be initialized correctly");
+        assertEquals(priority, item.getPriority(), "Item priority should be initialized correctly");
+        assertEquals(operations, item.getOperations(), "Item operations should be initialized correctly");
+        assertEquals(0, item.getCurrentOperationIndex(), "Current operation index should be initialized to 0");
+        assertNotNull(item.getLowestTimes(), "Lowest times should be initialized");
+    }
+
+    @Test
     void getId() {
         assertEquals(10001, item1.getId(), "Item ID should be 10001");
         assertEquals(10002, item2.getId(), "Item ID should be 10002");
