@@ -284,46 +284,6 @@ public class Item implements Comparable<Item> {
     }
 
 
-    private static void sortByPriority(LinkedList<Item> items) {
-        ArrayList<Item> itemsList = new ArrayList<>(items);
-        sortHigh(itemsList, items);
-        sortNormal(itemsList, items);
-        sortLow(itemsList, items);
-        items.clear();
-        items.addAll(itemsList);
-    }
-
-    private static void sortHigh(ArrayList<Item> itemsList, LinkedList<Item> items) {
-        for (Item item : items) {
-            if (item.getPriority().toString().equalsIgnoreCase("HIGH")) {
-                itemsList.add(item);
-            }
-        }
-    }
-
-    private static void sortNormal(ArrayList<Item> items, LinkedList<Item> itemsList) {
-        for (Item item : items) {
-            if (item.getPriority().toString().equalsIgnoreCase("NORMAL")) {
-                itemsList.add(item);
-            }
-        }
-    }
-
-    private static void sortLow(ArrayList<Item> items, LinkedList<Item> itemsList) {
-        for (Item item : items) {
-            if (item.getPriority().toString().equalsIgnoreCase("LOW")) {
-                itemsList.add(item);
-            }
-        }
-    }
-
-    /**
-     * Removes null entries from the workstation list
-     */
-    private static void removeNullWorkstations(ArrayList<Workstation> workstations) {
-        workstations.removeIf(Objects::isNull);
-    }
-
     /**
      * Removes null items from the production plan
      */
@@ -331,17 +291,7 @@ public class Item implements Comparable<Item> {
         prodPlan.keySet().removeIf(Objects::isNull);
     }
 
-    /**
-     * Fills the operationsQueue with items for each operation
-     */
-    private static void fillOperationsQueue(HashMap<Item, Workstation> prodPlan, HashMap<String, LinkedList<Item>> operationsQueue) {
-        for (Item item : prodPlan.keySet()) {
-            if (item.getOperations() != null && !item.getOperations().isEmpty()) {
-                String currentOperation = item.getOperations().get(item.getCurrentOperationIndex());
-                operationsQueue.computeIfAbsent(currentOperation, k -> new LinkedList<>()).add(item);
-            }
-        }
-    }
+
 
     private static void sortItemsByPriority(ArrayList<Item> items) {
         items.sort(Comparator.comparing(Item::getPriority));
@@ -709,14 +659,7 @@ public class Item implements Comparable<Item> {
         return quantMachines;
     }
 
-    private static Workstation findMachineForOperation(HashMap<Item, Workstation> ProdPlan, String operation) {
-        for (Workstation machine : ProdPlan.values()) {
-            if (machine.getOperation().contains(operation)) {
-                return machine;
-            }
-        }
-        return null;
-    }
+
 
 
     /**
@@ -762,18 +705,6 @@ public class Item implements Comparable<Item> {
         }
     }
 
-    private static HashMap<String, List<Map.Entry<String, Integer>>> sortFlowDependency(
-            HashMap<String, List<Map.Entry<String, Integer>>> flowDependency) {
-        LinkedHashMap<String, List<Map.Entry<String, Integer>>> sortedFlowDependency = new LinkedHashMap<>();
-
-        flowDependency.entrySet().stream()
-                .sorted((e1, e2) -> Integer.compare(
-                        e2.getValue().stream().mapToInt(Map.Entry::getValue).sum(),
-                        e1.getValue().stream().mapToInt(Map.Entry::getValue).sum()))
-                .forEachOrdered(entry -> sortedFlowDependency.put(entry.getKey(), entry.getValue()));
-
-        return sortedFlowDependency;
-    }
 
     /**
      * Calculates the total production time per item

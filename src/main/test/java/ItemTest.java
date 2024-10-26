@@ -133,4 +133,96 @@ class ItemTest {
         assertEquals(item1, iterator.next());
         assertEquals(item2, iterator.next());
     }
+
+
+    @Test
+    void testGenerateWorkstationFlowDependency() {
+        // Execute the method
+        HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = Item.generateWorkstationFlowDependency();
+
+        // Verify the result is not null
+        assertNotNull(flowDependency);
+
+        // Verify M1 and M2 are in the results
+        assertTrue(flowDependency.containsKey("M1"));
+        assertTrue(flowDependency.containsKey("M2"));
+
+        // Get transitions from M1
+        List<Map.Entry<String, Integer>> m1Transitions = flowDependency.get("M1");
+
+        // Since M1 (cut) comes before M2 (sand) in item1's operations,
+        // there should be a transition from M1 to M2
+        boolean foundTransition = false;
+        for (Map.Entry<String, Integer> transition : m1Transitions) {
+            if (transition.getKey().equals("M2")) {
+                foundTransition = true;
+                assertEquals(1, transition.getValue().intValue(),
+                        "Should have 1 transition from M1 to M2");
+                break;
+            }
+        }
+        assertTrue(foundTransition, "Should have found a transition from M1 to M2");
+
+        // M2 should have no transitions since it's the last workstation in our test setup
+        assertTrue(flowDependency.get("M2").isEmpty(),
+                "M2 should have no outgoing transitions");
+    }
+
+    @Test
+    void testCalculateAvgExecutionAndWaitingTimes() {
+        // Execute the method
+        HashMap<String, Double[]> operationTimes = Item.calculateAvgExecutionAndWaitingTimes();
+
+        // Verify the result is not null
+        assertNotNull(operationTimes);
+
+        // Test cut operation times
+        Double[] cutTimes = operationTimes.get("cut");
+        assertNotNull(cutTimes);
+        assertEquals(2, cutTimes.length);
+        assertEquals(10.0, cutTimes[0], 0.01, "Cut operation execution time should be 10");
+        assertEquals(0.0, cutTimes[1], 0.01, "First operation should have no waiting time");
+
+        // Test sand operation times
+        Double[] sandTimes = operationTimes.get("sand");
+        assertNotNull(sandTimes);
+        assertEquals(2, sandTimes.length);
+        assertEquals(20.0, sandTimes[0], 0.01, "Sand operation execution time should be 20");
+        assertTrue(sandTimes[1] >= 0.0, "Waiting time should be non-negative");
+
+        // Operations not assigned to any workstation should not be in the results
+        assertNull(operationTimes.get("paint"),
+                "Paint operation should not be in results as no workstation handles it");
+        assertNull(operationTimes.get("drill"),
+                "Drill operation should not be in results as no workstation handles it");
+        assertNull(operationTimes.get("polish"),
+                "Polish operation should not be in results as no workstation handles it");
+    }
+
+    @Test
+    void testCalculateAvgExecutionAndWaitingTimesWithEmptyData() {
+        // Clear the production plan
+        Instances.getInstance().getHashMapItemsWorkstations().setProdPlan(new HashMap<>());
+
+        // Execute the method
+        HashMap<String, Double[]> operationTimes = Item.calculateAvgExecutionAndWaitingTimes();
+
+        // Verify the result is not null but empty
+        assertNotNull(operationTimes);
+        assertTrue(operationTimes.isEmpty());
+    }
+
+    @Test
+    void testGenerateWorkstationFlowDependencyWithEmptyData() {
+        // Clear the production plan
+        Instances.getInstance().getHashMapItemsWorkstations().setProdPlan(new HashMap<>());
+
+        // Execute the method
+        HashMap<String, List<Map.Entry<String, Integer>>> flowDependency =
+                Item.generateWorkstationFlowDependency();
+
+        // Verify the result is not null but empty
+        assertNotNull(flowDependency);
+        assertTrue(flowDependency.isEmpty());
+    }
 }
