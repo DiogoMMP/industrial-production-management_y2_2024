@@ -81,7 +81,7 @@ insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('G92
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9875, 'Press 01', '220-630t cold forging press', 1, 'A4578');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9886, 'Press 02', '220-630t cold forging press', 1, 'A4578');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9847, 'Press 03', '220-630t precision cold forging press', 1, 'A4588');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9855, 'Press 04', '160-1000t precision cold forging press', 1, 'A4598');
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9855, 'Press 04', '160-1000t precision cold forging press', 1, 'A4588');   --If we need to correct this the correct value is A4598
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8541, 'Rivet 02', 'Rivet station', 1, 'S3271');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8543, 'Rivet 03', 'Rivet station', 1, 'S3271');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6814, 'Packaging 01', 'Packaging station', 1, 'K3675');
