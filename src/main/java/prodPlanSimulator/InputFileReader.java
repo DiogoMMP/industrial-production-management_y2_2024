@@ -10,7 +10,12 @@ import java.util.*;
 
 public class InputFileReader {
 
-
+    /**
+     * Reads the items from the file and returns a map with the items
+     * @param fileName the name of the file to read
+     * @return a map with the items
+     * @throws FileNotFoundException if the file is not found
+     */
     public static Map<Integer, Item> readItems(String fileName) throws FileNotFoundException {
         Map<Integer, Item> items = new HashMap<>();
         int increment = 1;
@@ -40,6 +45,12 @@ public class InputFileReader {
         return items;
     }
 
+    /**
+     * Reads the machines from the file and returns a map with the machines
+     * @param fileName the name of the file to read
+     * @return a map with the machines
+     * @throws FileNotFoundException if the file is not found
+     */
     public static Map<Integer, Workstation> readMachines(String fileName) throws FileNotFoundException {
         Map<Integer, Workstation> machines = new HashMap<>();
         int increment = 1;

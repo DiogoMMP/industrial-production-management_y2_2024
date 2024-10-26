@@ -49,20 +49,42 @@ public class Item implements Comparable<Item> {
         this.lowestTimes = new LinkedHashMap<>();
     }
 
-    // New methods to resolve errors
+    /**
+     * Gets the entry time for a given operation.
+     *
+     * @param operation the operation for which the entry time is being retrieved
+     * @return the entry time for the specified operation, or 0 if the operation does not exist
+     */
     public long getEntryTime(String operation) {
         return entryTimes.getOrDefault(operation, 0L);
     }
 
+    /**
+     * Sets the entry time for a given operation.
+     *
+     * @param operation the operation for which the entry time is being set
+     * @param time the entry time to be set for the operation
+     */
     public void setEntryTime(String operation, long time) {
         entryTimes.put(operation, time);
     }
 
+    /**
+     * Sets the waiting time for a given operation.
+     *
+     * @param operation the operation for which the waiting time is being set
+     * @param time the waiting time to be set for the operation
+     */
     public void setWaitingTime(String operation, int time) {
         waitingTimes.put(operation, time);
     }
 
 
+    /**
+     * Simulates the process of all the items present in the system
+     *
+     * @return LinkedHashMap with the time of each operation
+     */
     public static LinkedHashMap<String, Double> simulateProcessUS02() {
         HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
         HashMap<String, LinkedList<Item>> operationsQueue = new HashMap<>();
@@ -291,12 +313,20 @@ public class Item implements Comparable<Item> {
         prodPlan.keySet().removeIf(Objects::isNull);
     }
 
-
-
+    /**
+     * Sorts the items by priority
+     *
+     * @param items List of items
+     */
     private static void sortItemsByPriority(ArrayList<Item> items) {
         items.sort(Comparator.comparing(Item::getPriority));
     }
 
+    /**
+     * Sorts the machines by time
+     *
+     * @param workstations List of machines
+     */
     private static void sortMachinesByTime(ArrayList<Workstation> workstations) {
         workstations.sort(Comparator.comparingInt(Workstation::getTime));
     }
@@ -316,6 +346,13 @@ public class Item implements Comparable<Item> {
         addAllItems(operationsQueue, workstations, timeOperations, items, quantMachines);
     }
 
+    /**
+     * Assigns the items to the machines
+     * @param operationsQueue HashMap with the operations and the list of items
+     * @param workstations List of machines
+     * @param timeOperations HashMap with the time of each operation
+     * @param items List of items
+     */
     private static void fillUpMachinesUS02(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items) {
         int quantMachines = workstations.size();
         sortMachinesByTime(workstations);
@@ -323,6 +360,15 @@ public class Item implements Comparable<Item> {
         addAllItems(operationsQueue, workstations, timeOperations, items, quantMachines);
     }
 
+    /**
+     * Adds all the items to the machines.
+     *
+     * @param operationsQueue HashMap with the operations and the list of items
+     * @param workstations List of machines
+     * @param timeOperations HashMap with the time of each operation
+     * @param items List of items
+     * @param quantMachines Quantity of machines
+     */
     private static void addAllItems(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, LinkedHashMap<String, Double> timeOperations, ArrayList<Item> items, int quantMachines) {
         LinkedHashMap<String, Integer> quantItems = new LinkedHashMap<>();
         for (Item item : items) {
@@ -396,6 +442,12 @@ public class Item implements Comparable<Item> {
     }
 
 
+    /**
+     * Sorts the items by time
+     *
+     * @param items        List of items
+     * @param workstations List of machines
+     */
     private static void sortItemsByTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
         addTimes(items, workstations);
         swapOperations(items);
@@ -423,7 +475,11 @@ public class Item implements Comparable<Item> {
         });
     }
 
-
+    /**
+     * Swaps the operations of the items
+     *
+     * @param items List of items
+     */
     private static void swapOperations(ArrayList<Item> items) {
         for (Item item : items) {
             List<String> operations = item.getOperations();
@@ -443,6 +499,11 @@ public class Item implements Comparable<Item> {
         }
     }
 
+    /**
+     * Adds the lowest times of the items
+     * @param items List of items
+     * @param workstations List of machines
+     */
     private static void addTimes(ArrayList<Item> items, ArrayList<Workstation> workstations) {
         for (Item item : items) {
             LinkedHashMap<String, Integer> operationTimes = new LinkedHashMap<>();
@@ -462,6 +523,11 @@ public class Item implements Comparable<Item> {
         }
     }
 
+    /**
+     * Sorts the items by priority and time
+     * @param items List of items
+     * @param workstations List of machines
+     */
     private static void sortItemsByPriorityAndTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
         sortItemsByPriority(items);
         addTimes(items, workstations);
@@ -532,8 +598,6 @@ public class Item implements Comparable<Item> {
      * @return HashMap<String, List < Map.Entry < String, Integer>>> where String is the current workstation,
      * and the List holds entries of the next workstation and the number of transitions.
      */
-
-
     public static HashMap<String, List<Map.Entry<String, Integer>>> generateWorkstationFlowDependency() {
         HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = new HashMap<>();
         HashMap<Item, Workstation> prodPlan = Instances.getInstance().getHashMapItemsWorkstations().getProdPlan();
@@ -583,8 +647,12 @@ public class Item implements Comparable<Item> {
     }
 
 
-
-
+    /**
+     * Updates the transitions between workstations
+     * @param flowDependency HashMap with the flow dependency between workstations
+     * @param fromMachine   Current workstation
+     * @param toMachine    Next workstation
+     */
     private static void updateTransitions(HashMap<String, List<Map.Entry<String, Integer>>> flowDependency, String fromMachine, String toMachine) {
 
         // Check if the transition to `toMachine` already exists
@@ -603,7 +671,11 @@ public class Item implements Comparable<Item> {
         }
     }
 
-
+    /**
+     * Sorts the workstations by transitions
+     * @param flowDependency HashMap with the flow dependency between workstations
+     * @return HashMap with the workstations sorted by transitions
+     */
     private static HashMap<String, List<Map.Entry<String, Integer>>> sortWorkstationsByTransitions(
             HashMap<String, List<Map.Entry<String, Integer>>> flowDependency) {
 
@@ -648,7 +720,12 @@ public class Item implements Comparable<Item> {
         return sortedFlow;
     }
 
-
+    /**
+     * Checks if there are any machines left
+     * @param machines List of machines
+     * @param quantMachines Quantity of machines
+     * @return Quantity of machines
+     */
     private static int checkMachines(ArrayList<Workstation> machines, int quantMachines) {
         if (quantMachines == 0) {
             for (Workstation machine1 : machines) {
@@ -658,9 +735,6 @@ public class Item implements Comparable<Item> {
         }
         return quantMachines;
     }
-
-
-
 
     /**
      * Fills the operationsQueue with the list of the items for each operation
