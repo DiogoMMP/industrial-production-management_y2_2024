@@ -237,33 +237,43 @@ public class Item implements Comparable<Item> {
         ArrayList<Workstation> machines = new ArrayList<>(ProdPlan.values());
         removeNullMachines(machines);
         removeNullItems(ProdPlan);
-
         // Fill the operationsQueue with items waiting for each operation
         fillOperationsQueueus06(ProdPlan, operationsQueue);
-
         // Track execution and waiting times for each operation
         for (String operation : operationsQueue.keySet()) {
             double totalExecutionTime = 0.0;
             double totalWaitingTime = 0.0;
             int itemCount = 0;
             ArrayList<Double> executionTimes = new ArrayList<>();
-            // Calculate waiting time for each item in the queue
+            LinkedHashMap<String, Integer> workstationsQuantityByOp = new LinkedHashMap<>();
+            for (Workstation workstation : machines) {
+                if (workstation.getOperation().equalsIgnoreCase(operation)) {
+                    workstationsQuantityByOp.put(workstation.getOperation(), workstationsQuantityByOp.getOrDefault(workstation.getOperation(), 0) + 1);
+                }
+            }
+            LinkedHashMap<String, Integer> temp = new LinkedHashMap<>(workstationsQuantityByOp);
             for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
                 String[] parts = entry.getKey().split(" - ");
                 String operationName = parts[1].split(": ")[1];
+                workstationsQuantityByOp.getOrDefault(operationName, 0);
                 if (operation.equals(operationName)) {
                     if (executionTimes.isEmpty()){
-                        executionTimes.add(entry.getValue());
-                    } else {
+                        executionTimes.add(0.0);
+                        workstationsQuantityByOp.put(operationName, workstationsQuantityByOp.get(operationName) - 1);
+                    } else if(workstationsQuantityByOp.get(operationName) > 0){
+                        executionTimes.add(executionTimes.get(executionTimes.size() - 1));
+                        workstationsQuantityByOp.put(operationName, workstationsQuantityByOp.get(operationName) - 1);
+                    } else if (workstationsQuantityByOp.get(operationName) == 0){
                         executionTimes.add(entry.getValue() + executionTimes.get(executionTimes.size() - 1));
+                        workstationsQuantityByOp.put(operationName, temp.get(operationName));
                     }
                     totalExecutionTime += entry.getValue();
                     executionTimes.add(entry.getValue());
-                    for (Double time : executionTimes) {
-                        totalWaitingTime += time;
-                    }
                     itemCount++;
                 }
+            }
+            for (Double time : executionTimes) {
+                totalWaitingTime += time;
             }
             // Calculate averages
             double avgExecutionTime = itemCount > 0 ? totalExecutionTime / itemCount : 0;
