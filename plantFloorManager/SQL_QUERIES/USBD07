@@ -16,3 +16,8 @@ GROUP BY
 ORDER BY
     po.Production_Order_ID,
     bom.Component_ID;
+
+
+    The select is to simplified so it is not right. The correct select needs to have to have a relation with the raw materials as the
+    components are made from raw materials. But the select is not wrong, it is just simplified.
+    In the relation model the bom needs to be refactored, in order to represent the correlation beetween the raw materials, the components and the product itself wich can be a componenet of another product.
