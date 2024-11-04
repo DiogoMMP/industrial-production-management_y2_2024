@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.Simulator;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ class SimulatorTest {
     private static final String FILE_PATH_ITEMS = "test_files/articles.csv";
     private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
     private static HashMap_Items_Machines hashMap = Instances.getInstance().getHashMapItemsWorkstations();
-
+    private static Simulator simulator = Instances.getInstance().getSimulator();
     @BeforeAll
     static void setUp() throws FileNotFoundException {
         hashMap.addAll(FILE_PATH_ITEMS, FILE_PATH_MACHINES);
@@ -78,7 +79,7 @@ class SimulatorTest {
                 new Workstation("ws20", "PACK", 23)
         );
 
-        LinkedHashMap<String, Double> result = Item.simulateProcessUS02();
+        LinkedHashMap<String, Double> result = simulator.simulateProcessUS02();
         int expectedSize = 0;
         for (Item item : items) {
             for (String operation : item.getOperations()) {
@@ -139,7 +140,7 @@ class SimulatorTest {
                 new Workstation("ws18", "GLUE", 10)
         );
 
-        LinkedHashMap<String, Double> result = Item.simulateProcessUS08();
+        LinkedHashMap<String, Double> result = simulator.simulateProcessUS08();
         int expectedSize = 0;
         for (Item item : items) {
             for (String operation : item.getOperations()) {

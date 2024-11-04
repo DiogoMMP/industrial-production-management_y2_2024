@@ -4,12 +4,14 @@ public class Instances {
 
     private HashMap_Items_Machines hashMapItemsWorkstations;
     private static volatile Instances instance;
+    private Simulator simulator;
 
     /**
      * Private constructor to avoid client applications to use constructor
      */
     private Instances() {
         hashMapItemsWorkstations = new HashMap_Items_Machines();
+        simulator = new Simulator();
     }
 
     /**
@@ -33,4 +35,8 @@ public class Instances {
     public HashMap_Items_Machines getHashMapItemsWorkstations() {
         return hashMapItemsWorkstations;
     }
+    public Simulator getSimulator() {
+        return simulator;
+    }
+
 }

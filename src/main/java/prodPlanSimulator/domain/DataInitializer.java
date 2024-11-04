@@ -29,8 +29,6 @@ public class DataInitializer {
     public void runItemMethods() {
         // Assuming that the Item class has a method named 'calculateAvgExecutionAndWaitingTimes'
         HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
-        HashMap<String, Double> result2 = Item.simulateProcessUS08();
-        HashMap<String, Double> result3 = Item.simulateProcessUS02();
 
         System.out.println("Result: " + result);
         for (Map.Entry<String, Double[]> entry : result.entrySet()) {

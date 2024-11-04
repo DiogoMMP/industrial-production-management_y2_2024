@@ -5,12 +5,13 @@ import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.Simulator;
 
 import java.util.*;
 
 public class SimulateProcessTimeAndPriorityUI implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
-
+    private Simulator simulator = Instances.getInstance().getSimulator();
     /**
      * This method is responsible for running the simulation of the process time and priority of the items.
      */
@@ -55,7 +56,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         int id;
         LinkedHashMap<String, Double> timeOperations;
         if (choice.equals("All")) {
-            timeOperations = Item.simulateProcessUS08();
+            timeOperations = simulator.simulateProcessUS08();
             timeOperations = updateOperationKeys(timeOperations);
             String previousId = "";
             int quantity = 0;
@@ -79,7 +80,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         } else {
             id = Integer.parseInt(choice.split(" ")[1]);
             System.out.println("Item: " + id);
-            timeOperations = Item.simulateProcessUS08();
+            timeOperations = simulator.simulateProcessUS08();
             timeOperations = sortOperations(timeOperations, id);
             timeOperations = updateOperationKeys(timeOperations);
             int quantity = 0;
