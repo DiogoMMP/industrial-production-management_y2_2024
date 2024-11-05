@@ -109,21 +109,32 @@ class ItemTest {
 
     @Test
     void testCalculateTotalProductionTimePerItem() {
+        // Simulate the process times
+        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
+        timeOperations.put("Operation: cut - Item: 10001", 10.0);
+        timeOperations.put("Operation: sand - Item: 10001", 20.0);
+        timeOperations.put("Operation: paint - Item: 10001", 30.0);
+        timeOperations.put("Operation: drill - Item: 10002", 15.0);
+        timeOperations.put("Operation: polish - Item: 10002", 25.0);
+
+        // Mock the simulator to return the simulated process times
+        Simulator simulator = Instances.getInstance().getSimulator();
+        simulator.setTimeOperations(timeOperations);
+
+        // Execute the method
         TreeMap<Item, Double> result = Item.calculateTotalProductionTimePerItem();
+
+        // Verify the result
         assertNotNull(result, "The result should not be null");
         assertFalse(result.isEmpty(), "The result should not be empty");
 
         assertTrue(result.containsKey(item1), "The result should contain item1");
         assertTrue(result.containsKey(item2), "The result should contain item2");
 
-        Simulator simulator = new Simulator();
-        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
-        timeOperations = simulator.simulateProcessUS02();
-        double expectedTimeItem1 = 30.0;
+        double expectedTimeItem1 = 60.0; // 10 + 20 + 30
         assertEquals(expectedTimeItem1, result.get(item1), 0.01, "The total production time for item1 is incorrect");
 
-
-        double expectedTimeItem2 = 0.0;
+        double expectedTimeItem2 = 40.0; // 15 + 25
         assertEquals(expectedTimeItem2, result.get(item2), 0.01, "The total production time for item2 is incorrect");
     }
 

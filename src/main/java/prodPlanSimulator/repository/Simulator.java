@@ -377,4 +377,8 @@ public class Simulator {
     public LinkedHashMap<String, Double> getTimeOperations() {
         return timeOperations;
     }
+
+    public void setTimeOperations(LinkedHashMap<String, Double> timeOperations) {
+        this.timeOperations = timeOperations;
+    }
 }
