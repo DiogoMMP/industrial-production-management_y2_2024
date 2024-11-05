@@ -63,3 +63,5 @@ The project is divided into 3 sprints:
    git push origin feature/YourFeature
    ```
 5. Create a pull request.
+
+
