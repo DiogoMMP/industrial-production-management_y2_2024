@@ -56,7 +56,7 @@ public class SimulateProcessTimeUI implements Runnable {
         int id;
         LinkedHashMap<String, Double> timeOperations;
         if (choice.equals("All")) {
-            timeOperations = simulator.simulateProcessUS02();
+            timeOperations = simulator.getTimeOperations();
             timeOperations = updateOperationKeys(timeOperations);
             String previousId = "";
             int quantity = 0;
@@ -80,7 +80,7 @@ public class SimulateProcessTimeUI implements Runnable {
         } else {
             id = Integer.parseInt(choice.split(" ")[1]);
             System.out.println("Item: " + id);
-            timeOperations = simulator.simulateProcessUS02();
+            timeOperations = simulator.getTimeOperations();
             timeOperations = sortOperations(timeOperations, id);
             timeOperations = updateOperationKeys(timeOperations);
             int quantity = 0;

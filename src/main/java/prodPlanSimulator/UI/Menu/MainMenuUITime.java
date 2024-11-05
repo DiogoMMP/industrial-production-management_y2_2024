@@ -1,14 +1,14 @@
 package prodPlanSimulator.UI.Menu;
 
 import prodPlanSimulator.UI.*;
+import prodPlanSimulator.UI.Domain.US02AndUS08.SimulateProcessTimeUI;
 import prodPlanSimulator.UI.Utils.Utils;
-import projectManager.ProductStructureGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuUI implements Runnable {
-    public MainMenuUI() {
+public class MainMenuUITime implements Runnable {
+    public MainMenuUITime() {
     }
     /**
      * Run the main menu
@@ -17,7 +17,7 @@ public class MainMenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("Simulate Process", new SimulateProcessUI()));
+            options.add(new MenuItem("Show Simulation", new SimulateProcessTimeUI()));
             options.add(new MenuItem("Total Time", new TotalTimeUI()));
             options.add(new MenuItem("Time of Workstation", new WorkstationTimeUI()));
             options.add(new MenuItem("Execution Time", new ListExecutionTimeUI()));

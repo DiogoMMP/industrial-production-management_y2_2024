@@ -1,6 +1,5 @@
 package prodPlanSimulator.UI;
 
-import prodPlanSimulator.UI.Menu.MainMenuUI;
 import prodPlanSimulator.UI.Utils.DataInitializer;
 
 public class MainUI {
@@ -8,8 +7,8 @@ public class MainUI {
         try {
             DataInitializer dataInitializer = new DataInitializer();
             dataInitializer.run();
-            MainMenuUI menu = new MainMenuUI();
-            menu.run();
+            ChooseSimulatorUI chooseSimulatorUI = new ChooseSimulatorUI();
+            chooseSimulatorUI.run();
         } catch (Exception e) {
             e.printStackTrace();
         }
