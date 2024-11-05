@@ -1,9 +1,12 @@
 CREATE TABLE BOM (
-  Product_ID         varchar2(255) NOT NULL,
-  Component_ID       varchar2(20) NOT NULL,
-  Component_Quantity number(10) NOT NULL,
-  PRIMARY KEY (Product_ID,
-  Component_ID));
+  ProductProduct_ID varchar2(255) NOT NULL,
+  PRIMARY KEY (ProductProduct_ID));
+CREATE TABLE BOM_Parts (
+  PartsParts_ID        number(10) NOT NULL,
+  BOMProductProduct_ID varchar2(255) NOT NULL,
+  Parts_Quantity       number(10),
+  PRIMARY KEY (PartsParts_ID,
+  BOMProductProduct_ID));
 CREATE TABLE BOO (
   Product_Family_ID          number(10) NOT NULL,
   Manufacturing_Operation_ID number(10) NOT NULL,
@@ -13,6 +16,7 @@ CREATE TABLE BOO (
   Operation_Order));
 CREATE TABLE Component (
   Component_ID          varchar2(20) NOT NULL,
+  PartsParts_ID         number(10) NOT NULL,
   Component_Description varchar2(255) NOT NULL,
   PRIMARY KEY (Component_ID));
 CREATE TABLE Component_Raw_Material (
@@ -62,6 +66,9 @@ CREATE TABLE Manufacturing_Operation (
   Manufacturing_Operation_ID number(10) NOT NULL,
   Operation_Description      varchar2(255) NOT NULL,
   PRIMARY KEY (Manufacturing_Operation_ID));
+CREATE TABLE Parts (
+  Parts_ID number(10) GENERATED AS IDENTITY,
+  PRIMARY KEY (Parts_ID));
 CREATE TABLE Plant_Floor (
   Plant_Floor_ID   number(10) NOT NULL,
   Factory_Plant_ID number(10) NOT NULL,
@@ -76,6 +83,7 @@ CREATE TABLE Product (
   Production_Cost     number(10),
   Flexibility         number(10),
   Family_ID           number(10) NOT NULL,
+  PartsParts_ID       number(10),
   PRIMARY KEY (Product_ID));
 CREATE TABLE Product_Family (
   Family_ID          number(10) NOT NULL,
@@ -100,6 +108,7 @@ CREATE TABLE Production_Plan (
   PRIMARY KEY (Product_Planing_ID));
 CREATE TABLE Raw_Material (
   Raw_Material_ID       number(10) NOT NULL,
+  PartsParts_ID         number(10) NOT NULL,
   Raw_Material_Name     varchar2(255),
   Raw_Material_Quantity number(10),
   PRIMARY KEY (Raw_Material_ID));
@@ -140,10 +149,14 @@ ALTER TABLE Customer_Order_Product ADD CONSTRAINT FKCustomer_O215463 FOREIGN KEY
 ALTER TABLE Customer_Order_Product ADD CONSTRAINT FKCustomer_O499676 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
 ALTER TABLE Component_Raw_Material ADD CONSTRAINT FKComponent_398818 FOREIGN KEY (Component_ID) REFERENCES Component (Component_ID);
 ALTER TABLE Component_Raw_Material ADD CONSTRAINT FKComponent_419783 FOREIGN KEY (Raw_Material_ID) REFERENCES Raw_Material (Raw_Material_ID);
-ALTER TABLE BOM ADD CONSTRAINT FKBOM256007 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
-ALTER TABLE BOM ADD CONSTRAINT FKBOM499722 FOREIGN KEY (Component_ID) REFERENCES Component (Component_ID);
 ALTER TABLE BOO ADD CONSTRAINT FKBOO833196 FOREIGN KEY (Product_Family_ID) REFERENCES Product_Family (Family_ID);
 ALTER TABLE BOO ADD CONSTRAINT FKBOO806947 FOREIGN KEY (Manufacturing_Operation_ID) REFERENCES Manufacturing_Operation (Manufacturing_Operation_ID);
 ALTER TABLE Product_Production_Order ADD CONSTRAINT FKProduct_Pr469792 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
 ALTER TABLE Product_Production_Order ADD CONSTRAINT FKProduct_Pr645358 FOREIGN KEY (Production_Order_ID) REFERENCES Production_Order (Order_ID);
 ALTER TABLE Workstation ADD CONSTRAINT FKWorkstatio169160 FOREIGN KEY (Workstation_Type_ID) REFERENCES Workstation_Type (Workstation_Type_ID);
+ALTER TABLE Component ADD CONSTRAINT FKComponent348581 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
+ALTER TABLE Raw_Material ADD CONSTRAINT FKRaw_Materi775959 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
+ALTER TABLE Product ADD CONSTRAINT FKProduct229508 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
+ALTER TABLE BOM_Parts ADD CONSTRAINT FKBOM_Parts582869 FOREIGN KEY (BOMProductProduct_ID) REFERENCES BOM (ProductProduct_ID);
+ALTER TABLE BOM_Parts ADD CONSTRAINT FKBOM_Parts706987 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
+ALTER TABLE BOM ADD CONSTRAINT FKBOM714321 FOREIGN KEY (ProductProduct_ID) REFERENCES Product (Product_ID);

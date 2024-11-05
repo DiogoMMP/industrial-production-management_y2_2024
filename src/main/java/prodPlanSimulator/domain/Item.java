@@ -386,7 +386,7 @@ public class Item implements Comparable<Item> {
             double totalProductionTime = 0.0;
             for (String operation : item.getOperations()) {
                 for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-                    if (entry.getKey().contains(operation)) {
+                    if (entry.getKey().contains(operation) && entry.getKey().contains("Item: " + item.getId())) {
                         totalProductionTime += entry.getValue();
                     }
                 }

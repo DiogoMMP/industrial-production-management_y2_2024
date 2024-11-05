@@ -4,6 +4,7 @@ import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.Simulator;
 
 import java.util.*;
 
@@ -115,6 +116,9 @@ class ItemTest {
         assertTrue(result.containsKey(item1), "The result should contain item1");
         assertTrue(result.containsKey(item2), "The result should contain item2");
 
+        Simulator simulator = new Simulator();
+        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
+        timeOperations = simulator.simulateProcessUS02();
         double expectedTimeItem1 = 30.0;
         assertEquals(expectedTimeItem1, result.get(item1), 0.01, "The total production time for item1 is incorrect");
 
