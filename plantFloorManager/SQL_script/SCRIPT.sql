@@ -1,183 +1,143 @@
 CREATE TABLE BOM (
-    ProductProduct_ID VARCHAR2(255) NOT NULL,
-    PRIMARY KEY (ProductProduct_ID)
-);
-
-CREATE TABLE BOM_Parts (
-    PartsParts_ID NUMBER(10) NOT NULL,
-    BOMProductProduct_ID VARCHAR2(255) NOT NULL,
-    Parts_Quantity NUMBER(10),
-    PRIMARY KEY (PartsParts_ID, BOMProductProduct_ID)
-);
-
+                     Product_ID varchar2(255) NOT NULL,
+                     PRIMARY KEY (Product_ID));
+CREATE TABLE BOM_Part (
+                          Part_ID       varchar2(255) NOT NULL,
+                          Product_ID    varchar2(255) NOT NULL,
+                          Part_Quantity number(10),
+                          PRIMARY KEY (Part_ID,
+                                       Product_ID));
 CREATE TABLE BOO (
-    Product_Family_ID NUMBER(10) NOT NULL,
-    Manufacturing_Operation_ID NUMBER(10) NOT NULL,
-    Operation_Order NUMBER(10) NOT NULL,
-    PRIMARY KEY (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order)
-);
-
+                     Product_Family_ID          number(10) NOT NULL,
+                     Manufacturing_Operation_ID number(10) NOT NULL,
+                     Operation_Order            number(10) NOT NULL,
+                     PRIMARY KEY (Product_Family_ID,
+                                  Manufacturing_Operation_ID,
+                                  Operation_Order));
 CREATE TABLE Component (
-    Component_ID VARCHAR2(20) NOT NULL,
-    PartsParts_ID NUMBER(10) NOT NULL,
-    Component_Description VARCHAR2(255) NOT NULL,
-    PRIMARY KEY (Component_ID)
-);
-
+                           Component_ID          varchar2(20) NOT NULL,
+                           Part_ID               varchar2(255) NOT NULL,
+                           Component_Description varchar2(255) NOT NULL,
+                           PRIMARY KEY (Component_ID));
 CREATE TABLE Component_Raw_Material (
-    Component_ID VARCHAR2(20) NOT NULL,
-    Raw_Material_ID NUMBER(10) NOT NULL,
-    Raw_Material_Quantity NUMBER(10) NOT NULL,
-    PRIMARY KEY (Component_ID, Raw_Material_ID)
-);
-
+                                        Component_ID          varchar2(20) NOT NULL,
+                                        Raw_Material_ID       number(10) NOT NULL,
+                                        Raw_Material_Quantity number(10) NOT NULL,
+                                        PRIMARY KEY (Component_ID,
+                                                     Raw_Material_ID));
 CREATE TABLE Country (
-    Country_ID NUMBER(10) NOT NULL,
-    Country_Name VARCHAR2(255) NOT NULL,
-    PRIMARY KEY (Country_ID)
-);
-
+                         Country_ID   number(10) NOT NULL,
+                         Country_Name varchar2(255) NOT NULL,
+                         PRIMARY KEY (Country_ID));
 CREATE TABLE Customer (
-    Customer_ID NUMBER(10) NOT NULL,
-    NIF VARCHAR2(20) NOT NULL,
-    Name VARCHAR2(255) NOT NULL,
-    Address VARCHAR2(255) NOT NULL,
-    Mobile_number NUMBER(20),
-    Email VARCHAR2(255),
-    Status VARCHAR2(255),
-    typeID NUMBER(10) NOT NULL,
-    Country_ID NUMBER(10) NOT NULL,
-    PRIMARY KEY (Customer_ID)
-);
-
+                          Customer_ID   number(10) NOT NULL,
+                          NIF           varchar2(20) NOT NULL,
+                          Name          varchar2(255) NOT NULL,
+                          Address       varchar2(255) NOT NULL,
+                          Mobile_number number(20),
+                          Email         varchar2(255),
+                          typeID        number(10) NOT NULL,
+                          Country_ID    number(10) NOT NULL,
+                          StatusID      number(10) NOT NULL,
+                          PRIMARY KEY (Customer_ID));
 CREATE TABLE Customer_Order (
-    Customer_Order_ID NUMBER(10) NOT NULL,
-    Order_Date DATE NOT NULL,
-    Delivery_Date DATE NOT NULL,
-    Location VARCHAR2(255),
-    Customer_ID NUMBER(10) NOT NULL,
-    PRIMARY KEY (Customer_Order_ID)
-);
-
+                                Customer_Order_ID number(10) NOT NULL,
+                                Order_Date        date NOT NULL,
+                                Delivery_Date     date NOT NULL,
+                                Location          varchar2(255),
+                                Customer_ID       number(10) NOT NULL,
+                                PRIMARY KEY (Customer_Order_ID));
 CREATE TABLE Customer_Order_Product (
-    Customer_Order_ID NUMBER(10) NOT NULL,
-    Product_ID VARCHAR2(255) NOT NULL,
-    Quantity NUMBER(10) NOT NULL,
-    PRIMARY KEY (Customer_Order_ID, Product_ID)
-);
-
+                                        Customer_Order_ID number(10) NOT NULL,
+                                        Product_ID        varchar2(255) NOT NULL,
+                                        Quantity          number(10) NOT NULL,
+                                        PRIMARY KEY (Customer_Order_ID,
+                                                     Product_ID));
 CREATE TABLE Factory_Plant (
-    Factory_Plant_ID NUMBER(10) NOT NULL,
-    Safety NUMBER(10),
-    Efficiency NUMBER(10),
-    Space NUMBER(10),
-    PRIMARY KEY (Factory_Plant_ID)
-);
-
+                               Factory_Plant_ID number(10) NOT NULL,
+                               Safety           number(10),
+                               Efficiency       number(10),
+                               Space            number(10),
+                               PRIMARY KEY (Factory_Plant_ID));
 CREATE TABLE Inventory (
-    Component_ID VARCHAR2(20) NOT NULL,
-    Quantity_In_Stock NUMBER(10),
-    PRIMARY KEY (Component_ID)
-);
-
+                           Component_ID      varchar2(20) NOT NULL,
+                           Quantity_In_Stock number(10),
+                           PRIMARY KEY (Component_ID));
 CREATE TABLE Manufacturing_Operation (
-    Manufacturing_Operation_ID NUMBER(10) NOT NULL,
-    Operation_Description VARCHAR2(255) NOT NULL,
-    PRIMARY KEY (Manufacturing_Operation_ID)
-);
-
-CREATE TABLE Parts (
-    Parts_ID NUMBER(10) GENERATED AS IDENTITY,
-    PRIMARY KEY (Parts_ID)
-);
-
+                                         Manufacturing_Operation_ID number(10) NOT NULL,
+                                         Operation_Description      varchar2(255) NOT NULL,
+                                         PRIMARY KEY (Manufacturing_Operation_ID));
+CREATE TABLE Part (
+                      Part_ID varchar2(255) NOT NULL,
+                      PRIMARY KEY (Part_ID));
 CREATE TABLE Plant_Floor (
-    Plant_Floor_ID NUMBER(10) NOT NULL,
-    Factory_Plant_ID NUMBER(10) NOT NULL,
-    PRIMARY KEY (Plant_Floor_ID)
-);
-
+                             Plant_Floor_ID   number(10) NOT NULL,
+                             Factory_Plant_ID number(10) NOT NULL,
+                             PRIMARY KEY (Plant_Floor_ID));
 CREATE TABLE Product (
-    Product_ID VARCHAR2(255) NOT NULL,
-    Product_Name VARCHAR2(255) NOT NULL,
-    Product_Description VARCHAR2(255) NOT NULL,
-    Factory_Plant_ID NUMBER(10) NOT NULL,
-    Market_Demand NUMBER(10),
-    Optimization NUMBER(10),
-    Production_Cost NUMBER(10),
-    Flexibility NUMBER(10),
-    Family_ID NUMBER(10) NOT NULL,
-    PartsParts_ID NUMBER(10),
-    PRIMARY KEY (Product_ID)
-);
-
+                         Product_ID          varchar2(255) NOT NULL,
+                         Product_Name        varchar2(255) NOT NULL,
+                         Product_Description varchar2(255) NOT NULL,
+                         Factory_Plant_ID    number(10) NOT NULL,
+                         Market_Demand       number(10),
+                         Optimization        number(10),
+                         Production_Cost     number(10),
+                         Flexibility         number(10),
+                         Family_ID           number(10) NOT NULL,
+                         Part_ID             varchar2(255),
+                         PRIMARY KEY (Product_ID));
 CREATE TABLE Product_Family (
-    Family_ID NUMBER(10) NOT NULL,
-    Family_Description VARCHAR2(255) NOT NULL,
-    PRIMARY KEY (Family_ID)
-);
-
+                                Family_ID          number(10) NOT NULL,
+                                Family_Description varchar2(255) NOT NULL,
+                                PRIMARY KEY (Family_ID));
 CREATE TABLE Product_Production_Order (
-    Product_ID VARCHAR2(255) NOT NULL,
-    Production_Order_ID NUMBER(10) NOT NULL,
-    Quantity_Ordered NUMBER(10),
-    PRIMARY KEY (Product_ID, Production_Order_ID)
-);
-
+                                          Product_ID          varchar2(255) NOT NULL,
+                                          Production_Order_ID number(10) NOT NULL,
+                                          Quantity_Ordered    number(10),
+                                          PRIMARY KEY (Product_ID,
+                                                       Production_Order_ID));
 CREATE TABLE Production_Order (
-    Order_ID NUMBER(10) NOT NULL,
-    Order_Date DATE NOT NULL,
-    Product_Planing_ID NUMBER(10) NOT NULL,
-    Customer_Order_ID NUMBER(10) NOT NULL,
-    PRIMARY KEY (Order_ID)
-);
-
+                                  Order_ID           number(10) NOT NULL,
+                                  Order_Date         date NOT NULL,
+                                  Product_Planing_ID number(10) NOT NULL,
+                                  Customer_Order_ID  number(10) NOT NULL,
+                                  PRIMARY KEY (Order_ID));
 CREATE TABLE Production_Plan (
-    Product_Planing_ID NUMBER(10) NOT NULL,
-    Product_Plan_Start_Date DATE,
-    Product_Plan_End_Date DATE,
-    PRIMARY KEY (Product_Planing_ID)
-);
-
+                                 Product_Planing_ID      number(10) NOT NULL,
+                                 Product_Plan_Start_Date date,
+                                 Product_Plan_End_Date   date,
+                                 PRIMARY KEY (Product_Planing_ID));
 CREATE TABLE Raw_Material (
-    Raw_Material_ID NUMBER(10) NOT NULL,
-    PartsParts_ID NUMBER(10) NOT NULL,
-    Raw_Material_Name VARCHAR2(255),
-    Raw_Material_Quantity NUMBER(10),
-    PRIMARY KEY (Raw_Material_ID)
-);
-
-CREATE TABLE type (
-    ID NUMBER(10) NOT NULL,
-    Name VARCHAR2(10) NOT NULL,
-    PRIMARY KEY (ID)
-);
-
+                              Raw_Material_ID       number(10) NOT NULL,
+                              Part_ID               varchar2(255) NOT NULL,
+                              Raw_Material_Name     varchar2(255),
+                              Raw_Material_Quantity number(10),
+                              PRIMARY KEY (Raw_Material_ID));
+CREATE TABLE Status (
+                        Status_ID number(10) NOT NULL,
+                        Status    varchar2(255) NOT NULL,
+                        PRIMARY KEY (Status_ID));
+CREATE TABLE Type (
+                      Type_ID number(10) NOT NULL,
+                      Name    varchar2(10) NOT NULL,
+                      PRIMARY KEY (Type_ID));
 CREATE TABLE Type_Industry (
-    Type_Industry_ID NUMBER(10) NOT NULL,
-    Type_Industry VARCHAR2(255),
-    Manufacturing_Operation_ID NUMBER(10) NOT NULL,
-    Workstation_Type_ID VARCHAR2(10) NOT NULL,
-    PRIMARY KEY (Type_Industry_ID)
-);
-
+                               Type_Industry_ID           number(10) NOT NULL,
+                               Type_Industry              varchar2(255),
+                               Manufacturing_Operation_ID number(10) NOT NULL,
+                               Workstation_Type_ID        varchar2(10) NOT NULL,
+                               PRIMARY KEY (Type_Industry_ID));
 CREATE TABLE Workstation (
-    Workstation_ID NUMBER(10) NOT NULL,
-    Workstation_Name VARCHAR2(255) NOT NULL,
-    Workstation_Description VARCHAR2(255) NOT NULL,
-    Plant_Floor_ID NUMBER(10) NOT NULL,
-    Workstation_Type_ID VARCHAR2(10) NOT NULL,
-    PRIMARY KEY (Workstation_ID)
-);
-
+                             Workstation_ID          number(10) NOT NULL,
+                             Workstation_Name        varchar2(255) NOT NULL,
+                             Workstation_Description varchar2(255) NOT NULL,
+                             Plant_Floor_ID          number(10) NOT NULL,
+                             Workstation_Type_ID     varchar2(10) NOT NULL,
+                             PRIMARY KEY (Workstation_ID));
 CREATE TABLE Workstation_Type (
-    Workstation_Type_ID VARCHAR2(10) NOT NULL,
-    Workstation_Type VARCHAR2(255) NOT NULL,
-    PRIMARY KEY (Workstation_Type_ID)
-);
-
-
--- Foreign Key Constraints
+                                  Workstation_Type_ID varchar2(10) NOT NULL,
+                                  Workstation_Type    varchar2(255) NOT NULL,
+                                  PRIMARY KEY (Workstation_Type_ID));
 ALTER TABLE Plant_Floor ADD CONSTRAINT FKPlant_Floo395394 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Product ADD CONSTRAINT FKProduct245766 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Workstation ADD CONSTRAINT FKWorkstatio40895 FOREIGN KEY (Plant_Floor_ID) REFERENCES Plant_Floor (Plant_Floor_ID);
@@ -186,7 +146,7 @@ ALTER TABLE Type_Industry ADD CONSTRAINT FKType_Indus935652 FOREIGN KEY (Manufac
 ALTER TABLE Production_Order ADD CONSTRAINT FKProduction873501 FOREIGN KEY (Product_Planing_ID) REFERENCES Production_Plan (Product_Planing_ID);
 ALTER TABLE Production_Order ADD CONSTRAINT FKProduction709873 FOREIGN KEY (Customer_Order_ID) REFERENCES Customer_Order (Customer_Order_ID);
 ALTER TABLE Customer_Order ADD CONSTRAINT FKCustomer_O422656 FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID);
-ALTER TABLE Customer ADD CONSTRAINT FKCustomer406672 FOREIGN KEY (typeID) REFERENCES type (ID);
+ALTER TABLE Customer ADD CONSTRAINT FKCustomer200511 FOREIGN KEY (typeID) REFERENCES Type (Type_ID);
 ALTER TABLE Inventory ADD CONSTRAINT FKInventory197183 FOREIGN KEY (Component_ID) REFERENCES Component (Component_ID);
 ALTER TABLE Product ADD CONSTRAINT FKProduct738384 FOREIGN KEY (Family_ID) REFERENCES Product_Family (Family_ID);
 ALTER TABLE Customer ADD CONSTRAINT FKCustomer361138 FOREIGN KEY (Country_ID) REFERENCES Country (Country_ID);
@@ -199,13 +159,13 @@ ALTER TABLE BOO ADD CONSTRAINT FKBOO806947 FOREIGN KEY (Manufacturing_Operation_
 ALTER TABLE Product_Production_Order ADD CONSTRAINT FKProduct_Pr469792 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
 ALTER TABLE Product_Production_Order ADD CONSTRAINT FKProduct_Pr645358 FOREIGN KEY (Production_Order_ID) REFERENCES Production_Order (Order_ID);
 ALTER TABLE Workstation ADD CONSTRAINT FKWorkstatio169160 FOREIGN KEY (Workstation_Type_ID) REFERENCES Workstation_Type (Workstation_Type_ID);
-ALTER TABLE Component ADD CONSTRAINT FKComponent348581 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
-ALTER TABLE Raw_Material ADD CONSTRAINT FKRaw_Materi775959 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
-ALTER TABLE Product ADD CONSTRAINT FKProduct229508 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
-ALTER TABLE BOM_Parts ADD CONSTRAINT FKBOM_Parts582869 FOREIGN KEY (BOMProductProduct_ID) REFERENCES BOM (ProductProduct_ID);
-ALTER TABLE BOM_Parts ADD CONSTRAINT FKBOM_Parts706987 FOREIGN KEY (PartsParts_ID) REFERENCES Parts (Parts_ID);
-ALTER TABLE BOM ADD CONSTRAINT FKBOM714321 FOREIGN KEY (ProductProduct_ID) REFERENCES Product (Product_ID);
-
+ALTER TABLE Component ADD CONSTRAINT FKComponent10459 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
+ALTER TABLE Raw_Material ADD CONSTRAINT FKRaw_Materi885917 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
+ALTER TABLE Product ADD CONSTRAINT FKProduct891385 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
+ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part416636 FOREIGN KEY (Product_ID) REFERENCES BOM (Product_ID);
+ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part269243 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
+ALTER TABLE BOM ADD CONSTRAINT FKBOM256007 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
+ALTER TABLE Customer ADD CONSTRAINT FKCustomer309016 FOREIGN KEY (StatusID) REFERENCES Status (Status_ID);
 
 
 
