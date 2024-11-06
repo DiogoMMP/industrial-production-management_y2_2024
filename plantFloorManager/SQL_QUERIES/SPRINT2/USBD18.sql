@@ -17,4 +17,4 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('Error: Customer has pending or undelivered orders and cannot be deactivated.');
     END IF;
 END;
-/
+
