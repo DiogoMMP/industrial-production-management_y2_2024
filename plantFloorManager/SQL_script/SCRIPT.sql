@@ -184,8 +184,8 @@ insert into Country (Country_ID, Country_Name) values (620, 'Portugal');
 insert into Country (Country_ID, Country_Name) values (203, 'Czechia');
 
 --Type
-insert into Type (ID, Name) values (1, 'Individual');
-insert into Type (ID, Name) values (2, 'Company');
+insert into Type (Type_ID, Name) values (1, 'Individual');
+insert into Type (Type_ID, Name) values (2, 'Company');
 
 --Status
 insert into Status(Status) values ('Activated');
@@ -218,10 +218,10 @@ insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Descri
 insert into Manufacturing_Operation(Manufacturing_Operation_ID, Operation_Description) values (5688, 'Pan test and packaging');
 
 --Customer
-insert into Customer(Customer_ID, Name, NIF, Address, Mobile_number, Email, typeID, Country_ID) values (456, 'Carvalho & Carvalho, Lda', 'PT501245987', 'Tv. Augusto Lessa 23, 4200-047, Porto', 003518340500, 'idont@care.com', 2, 620);
-insert into Customer(Customer_ID, Name, NIF, Address, Mobile_number, Email, typeID, Country_ID) values (785, 'Tudo para a casa, Lda', 'PT501245488', 'R. Dr. Barros 93, 4465-219, São Mamede de Infesta', 003518340500, 'me@neither.com', 2, 620);
-insert into Customer(Customer_ID, Name, NIF, Address, Mobile_number, Email, typeID, Country_ID) values (657, 'Sair de Cena', 'PT501242417', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88, 4400-023, Vila Nova de Gaia', 003518340500, 'some@email.com', 2, 620);
-insert into Customer(Customer_ID, Name, NIF, Address, Mobile_number, Email, typeID, Country_ID) values (348, 'U Fleku', 'CZ6451237810', 'Křemencova 11, 110 00, Nové Město', 004201234567, 'some.random@email.cz', 2, 620);
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('456', 'PT501245987', 'Carvalho & Carvalho, Lda', 'Tv. Augusto Lessa 23, 4200-047 Porto, Portugal', 003518340500, 'idont@care.com', 2, 620, 'Activated');
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('785', 'PT501245488', 'Tudo para a casa, Lda', 'R. Dr. Barros 93, 4465-219 São Mamede de Infesta, Portugal', 003518340500, 'me@neither.com', 2, 620, 'Activated');
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('657', 'PT501242417', 'Sair de Cena', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88, 4400-023 Vila Nova de Gaia, Portugal', 003518340500, 'some@email.com', 2, 620, 'Activated');
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('348', 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz', 1, 203, 'Activated');
 
 --Customer_Order
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 785);
@@ -256,7 +256,7 @@ insert into Workstation_Type(Workstation_Type_ID, Workstation_Type) values ('G92
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9875, 'Press 01', '220-630t cold forging press', 1, 'A4578');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9886, 'Press 02', '220-630t cold forging press', 1, 'A4578');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9847, 'Press 03', '220-630t precision cold forging press', 1, 'A4588');
-insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9855, 'Press 04', '160-1000t precision cold forging press', 1, 'A4588');   --If we need to correct this the correct value is A4598
+insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (9855, 'Press 04', '160-1000t precision cold forging press', 1, 'A4588');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8541, 'Rivet 02', 'Rivet station', 1, 'S3271');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (8543, 'Rivet 03', 'Rivet station', 1, 'S3271');
 insert into Workstation(Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID) values (6814, 'Packaging 01', 'Packaging station', 1, 'K3675');
@@ -350,36 +350,49 @@ insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) valu
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (6, 'AS12945P17', 16);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (7, 'AS12945S22', 8);
 
+--Part
+insert into Part(Part_ID) values ('PN12344A21');
+insert into Part(Part_ID) values ('PN52384R50');
+insert into Part(Part_ID) values ('PN52384R10');
+insert into Part(Part_ID) values ('PN18544A21');
+insert into Part(Part_ID) values ('PN18544C21');
+insert into Part(Part_ID) values ('PN18324C54');
+insert into Part(Part_ID) values ('PN18324C51');
+insert into Part(Part_ID) values ('PN52384R45');
+insert into Part(Part_ID) values ('PN52384R12');
+insert into Part(Part_ID) values ('PN18324C91');
+
 --Component
-insert into Component(Component_ID, Component_Description) values ('PN12344A21', 'Screw M6 35 mm');
-insert into Component(Component_ID, Component_Description) values ('PN52384R50', '300x300 mm 5mm stainless steel sheet');
-insert into Component(Component_ID, Component_Description) values ('PN52384R10', '300x300 mm 1mm stainless steel sheet');
-insert into Component(Component_ID, Component_Description) values ('PN18544A21', 'Rivet 6 mm');
-insert into Component(Component_ID, Component_Description) values ('PN18544C21', 'Stainless steel handle model U6');
-insert into Component(Component_ID, Component_Description) values ('PN18324C54', 'Stainless steel handle model R12');
-insert into Component(Component_ID, Component_Description) values ('PN18324C51', 'Stainless steel handle model R11');
-insert into Component(Component_ID, Component_Description) values ('PN52384R45', '250x250 mm 5mm stainless steel sheet');
-insert into Component(Component_ID, Component_Description) values ('PN52384R12', '250x250 mm 1mm stainless steel sheet');
-insert into Component(Component_ID, Component_Description) values ('PN18324C91', 'Stainless steel handle model S26');
+insert into Component(Component_ID, Component_Description, Part_ID) values (1, 'Screw M6 35 mm', 'PN12344A21');
+insert into Component(Component_ID, Component_Description, Part_ID) values (2, '300x300 mm 5mm stainless steel sheet', 'PN52384R50');
+insert into Component(Component_ID, Component_Description, Part_ID) values (3, '300x300 mm 1mm stainless steel sheet', 'PN52384R10');
+insert into Component(Component_ID, Component_Description, Part_ID) values (4, 'Rivet 6 mm', 'PN18544A21');
+insert into Component(Component_ID, Component_Description, Part_ID) values (5, 'Stainless steel handle model U6', 'PN18544C21');
+insert into Component(Component_ID, Component_Description, Part_ID) values (6, 'Stainless steel handle model R12', 'PN18324C54');
+insert into Component(Component_ID, Component_Description, Part_ID) values (7, 'Screw M6 35 mm', 'PN12344A21');
+insert into Component(Component_ID, Component_Description, Part_ID) values (8, '300x300 mm 5mm stainless steel sheet', 'PN52384R50');
+insert into Component(Component_ID, Component_Description, Part_ID) values (9, '300x300 mm 1mm stainless steel sheet', 'PN52384R10');
+insert into Component(Component_ID, Component_Description, Part_ID) values (10, 'Rivet 6 mm', 'PN18544A21');
 
 --BOO
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5647, 1);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5647, 2);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5649, 3);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5651, 4);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5653, 5);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5659, 6);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5669, 7);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5655, 8);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5657, 9);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5661, 10);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5667, 11);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('125', 5663, 12);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5681, 1);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5682, 2);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5683, 3);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5665, 4);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5688, 5);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5647, 1);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5647, 2);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5649, 3);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5651, 4);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5653, 5);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5659, 6);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5669, 7);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5655, 8);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5657, 9);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5661, 10);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5667, 11);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5663, 12);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5681, 1);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5682, 2);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5683, 3);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5665, 4);
+insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5688, 5);
+
 
 --BOM
 insert into BOM(Product_ID) values('AS12945T22');
@@ -390,6 +403,27 @@ insert into BOM(Product_ID) values('AS12945P17');
 insert into BOM(Product_ID) values('AS12945S48');
 insert into BOM(Product_ID) values('AS12945G48');
 
+--BOM_Part
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN12344A21', 'AS12945S22', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R50', 'AS12945S22', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R10', 'AS12945S22', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18544A21', 'AS12945S22', 4);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18544C21', 'AS12945S22', 2);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C54', 'AS12945S22', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN12344A21', 'AS12945S20', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R50', 'AS12945S20', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R10', 'AS12945S20', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18544A21', 'AS12945S20', 4);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18544C21', 'AS12945S20', 2);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C51', 'AS12945S20', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN12344A21', 'AS12945S17', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R45', 'AS12945S17', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R12', 'AS12945S17', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18544A21', 'AS12945S17', 4);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18544C21', 'AS12945S17', 2);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C51', 'AS12945S17', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R45', 'AS12945P17', 1);
+insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C91', 'AS12945P17', 1);
 
 
 --Inventory
