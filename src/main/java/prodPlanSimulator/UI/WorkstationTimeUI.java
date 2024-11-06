@@ -10,11 +10,9 @@ import java.util.LinkedHashMap;
 
 public class WorkstationTimeUI implements Runnable {
     HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
-    private Simulator simulator = Instances.getInstance().getSimulator();
     @Override
     public void run() {
-        LinkedHashMap<String, Double> timeOperations = simulator.getTimeOperations();
-        map.listWorkstationsByAscOrder(timeOperations);
+        map.listWorkstationsByAscOrder();
         Utils.goBackAndWait();
     }
 }

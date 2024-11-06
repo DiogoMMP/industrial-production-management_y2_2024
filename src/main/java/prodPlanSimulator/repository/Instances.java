@@ -35,6 +35,7 @@ public class Instances {
     public HashMap_Items_Machines getHashMapItemsWorkstations() {
         return hashMapItemsWorkstations;
     }
+
     public Simulator getSimulator() {
         return simulator;
     }

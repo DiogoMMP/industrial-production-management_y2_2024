@@ -10,6 +10,7 @@ import java.util.*;
 
 public class HashMap_Items_Machines {
     private HashMap<Item, Workstation> ProdPlan;
+    private static Simulator simulator = Instances.getInstance().getSimulator();
 
     public HashMap_Items_Machines() {
         this.ProdPlan = new HashMap<>();
@@ -84,28 +85,15 @@ public class HashMap_Items_Machines {
      *
      * @return time of the operation
      */
-    public HashMap<String, Double> calcOpTime(LinkedHashMap<String, Double> timeOperations) {
-        try {
-            HashMap<String, Double> OpTime = new HashMap<>();
-            for (String operation : timeOperations.keySet()) {
-                String[] parts = operation.split(" - ");
-                String operationName = parts[1].split(": ")[1];
-                OpTime.putIfAbsent(operationName, 0.0);
-                OpTime.put(operationName, OpTime.get(operationName) + timeOperations.get(operation));
-            }
-            return OpTime;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return null;
-    }
+
 
 
     /**
      * List workstations by ascending order
      */
-    public void listWorkstationsByAscOrder(LinkedHashMap<String, Double> timeOperations) {
+    public void listWorkstationsByAscOrder() {
         int totalExecutionTime = 0;
+        LinkedHashMap<String, Double> timeOperations = simulator.getTimeOperations();
 
         // Calculate total execution time
         for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {

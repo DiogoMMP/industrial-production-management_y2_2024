@@ -397,6 +397,27 @@ public class Item implements Comparable<Item> {
     }
 
     /**
+     * Calculates the total time of each operation
+     * @return HashMap with the total time of each operation
+     */
+    public static HashMap<String, Double> calcOpTime() {
+        LinkedHashMap<String, Double> timeOperations = simulator.getTimeOperations();
+        try {
+            HashMap<String, Double> OpTime = new HashMap<>();
+            for (String operation : timeOperations.keySet()) {
+                String[] parts = operation.split(" - ");
+                String operationName = parts[1].split(": ")[1];
+                OpTime.putIfAbsent(operationName, 0.0);
+                OpTime.put(operationName, OpTime.get(operationName) + timeOperations.get(operation));
+            }
+            return OpTime;
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Removes duplicate items from the HashMap
      *
      * @param totalProductionTimePerItem HashMap with the total production time per item
