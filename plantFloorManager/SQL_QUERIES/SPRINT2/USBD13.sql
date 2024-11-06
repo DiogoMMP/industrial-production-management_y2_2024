@@ -1,4 +1,4 @@
-// TO BE TESTED
+-- TO BE TESTED
 
 SELECT
     p.Product_ID AS Product,
