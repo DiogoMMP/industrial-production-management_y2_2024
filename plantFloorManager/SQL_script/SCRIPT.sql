@@ -34,11 +34,11 @@ CREATE TABLE Customer (
                           NIF           varchar2(20) NOT NULL,
                           Name          varchar2(255) NOT NULL,
                           Address       varchar2(255) NOT NULL,
-                          Mobile_number number(20),
-                          Email         varchar2(255),
-                          typeID        number(10) NOT NULL,
+                          Mobile_number number(20) NOT NULL,
+                          Email         varchar2(255) NOT NULL,
+                          type_ID       number(10) NOT NULL,
                           Country_ID    number(10) NOT NULL,
-                          StatusID      number(10) NOT NULL,
+                          Status        varchar2(255) NOT NULL,
                           PRIMARY KEY (Customer_ID));
 CREATE TABLE Customer_Order (
                                 Customer_Order_ID number(10) NOT NULL,
@@ -114,9 +114,8 @@ CREATE TABLE Raw_Material (
                               Raw_Material_Quantity number(10),
                               PRIMARY KEY (Raw_Material_ID));
 CREATE TABLE Status (
-                        Status_ID number(10) NOT NULL,
-                        Status    varchar2(255) NOT NULL,
-                        PRIMARY KEY (Status_ID));
+                        Status varchar2(255) NOT NULL,
+                        PRIMARY KEY (Status));
 CREATE TABLE Type (
                       Type_ID number(10) NOT NULL,
                       Name    varchar2(10) NOT NULL,
@@ -146,7 +145,7 @@ ALTER TABLE Type_Industry ADD CONSTRAINT FKType_Indus935652 FOREIGN KEY (Manufac
 ALTER TABLE Production_Order ADD CONSTRAINT FKProduction873501 FOREIGN KEY (Product_Planing_ID) REFERENCES Production_Plan (Product_Planing_ID);
 ALTER TABLE Production_Order ADD CONSTRAINT FKProduction709873 FOREIGN KEY (Customer_Order_ID) REFERENCES Customer_Order (Customer_Order_ID);
 ALTER TABLE Customer_Order ADD CONSTRAINT FKCustomer_O422656 FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID);
-ALTER TABLE Customer ADD CONSTRAINT FKCustomer200511 FOREIGN KEY (typeID) REFERENCES Type (Type_ID);
+ALTER TABLE Customer ADD CONSTRAINT FKCustomer913007 FOREIGN KEY (type_ID) REFERENCES Type (Type_ID);
 ALTER TABLE Inventory ADD CONSTRAINT FKInventory197183 FOREIGN KEY (Component_ID) REFERENCES Component (Component_ID);
 ALTER TABLE Product ADD CONSTRAINT FKProduct738384 FOREIGN KEY (Family_ID) REFERENCES Product_Family (Family_ID);
 ALTER TABLE Customer ADD CONSTRAINT FKCustomer361138 FOREIGN KEY (Country_ID) REFERENCES Country (Country_ID);
@@ -165,7 +164,8 @@ ALTER TABLE Product ADD CONSTRAINT FKProduct891385 FOREIGN KEY (Part_ID) REFEREN
 ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part416636 FOREIGN KEY (Product_ID) REFERENCES BOM (Product_ID);
 ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part269243 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
 ALTER TABLE BOM ADD CONSTRAINT FKBOM256007 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
-ALTER TABLE Customer ADD CONSTRAINT FKCustomer309016 FOREIGN KEY (StatusID) REFERENCES Status (Status_ID);
+ALTER TABLE Customer ADD CONSTRAINT FKCustomer56984 FOREIGN KEY (Status) REFERENCES Status (Status);
+
 
 
 
@@ -184,8 +184,12 @@ insert into Country (Country_ID, Country_Name) values (620, 'Portugal');
 insert into Country (Country_ID, Country_Name) values (203, 'Czechia');
 
 --Type
-insert into type (ID, Name) values (1, 'Individual');
-insert into type (ID, Name) values (2, 'Company');
+insert into Type (ID, Name) values (1, 'Individual');
+insert into Type (ID, Name) values (2, 'Company');
+
+--Status
+insert into Status(Status) values ('Activated');
+insert into Status(Status) values ('Deactivated');
 
 --Product_Family
 insert into Product_Family(Family_ID, Family_Description) values (125, 'Pro Line pots');
@@ -378,26 +382,13 @@ insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) 
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values ('132', 5688, 5);
 
 --BOM
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S22', 'PN12344A21', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S22', 'PN52384R50', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S22', 'PN52384R10', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S22', 'PN18544A21', 4);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S22', 'PN18544C21', 2);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S22', 'PN18324C54', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN12344A21', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN52384R50', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN52384R10', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN18544A21', 4);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN18544C21', 2);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S20', 'PN18324C51', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN12344A21', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN52384R45', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN52384R12', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18544A21', 4);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18544C21', 2);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945S17', 'PN18324C51', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945P17', 'PN52384R45', 1);
-insert into BOM(Product_ID, Component_ID, Component_Quantity) values ('AS12945P17', 'PN18324C91', 1);
+insert into BOM(Product_ID) values('AS12945T22');
+insert into BOM(Product_ID) values('AS12945S22');
+insert into BOM(Product_ID) values('AS12945S20');
+insert into BOM(Product_ID) values('AS12945S17');
+insert into BOM(Product_ID) values('AS12945P17');
+insert into BOM(Product_ID) values('AS12945S48');
+insert into BOM(Product_ID) values('AS12945G48');
 
 
 
