@@ -6,7 +6,7 @@ SELECT
     bp.Parts_Quantity,
     mo.Manufacturing_Operation_ID AS Operation_ID,
     mo.Operation_Description,
-    ti.Workstation_Type_ID AS Workstation_Type,
+    wt.Workstation_Type_ID AS Workstation_Type,
     ws.Workstation_Name,
     ws.Workstation_Description,
     cr.Raw_Material_ID,
@@ -26,7 +26,7 @@ LEFT JOIN
 LEFT JOIN
     Workstation_Type wt ON ti.Workstation_Type_ID = wt.Workstation_Type_ID
 LEFT JOIN
-    Workstation ws ON wt.Workstation_Type_ID = ws.Workstation_Type_ID
+    Workstation ws ON ws.Workstation_Type_ID = wt.Workstation_Type_ID
 LEFT JOIN
     Component_Raw_Material cr ON cr.Component_ID = bp.PartsParts_ID
 WHERE
