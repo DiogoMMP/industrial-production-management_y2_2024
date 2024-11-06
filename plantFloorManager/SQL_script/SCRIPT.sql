@@ -311,6 +311,18 @@ insert into Production_Order (Order_ID, Order_Date, Product_Planing_ID, Customer
 insert into Production_Order (Order_ID, Order_Date, Product_Planing_ID, Customer_Order_ID) values (1006, TO_DATE('18/09/2024', 'DD/MM/YYYY'), 2, 6);
 insert into Production_Order (Order_ID, Order_Date, Product_Planing_ID, Customer_Order_ID) values (1007, TO_DATE('21/09/2024', 'DD/MM/YYYY'), 3, 7);
 
+--Part
+insert into Part(Part_ID) values ('PN12344A21');
+insert into Part(Part_ID) values ('PN52384R50');
+insert into Part(Part_ID) values ('PN52384R10');
+insert into Part(Part_ID) values ('PN18544A21');
+insert into Part(Part_ID) values ('PN18544C21');
+insert into Part(Part_ID) values ('PN18324C54');
+insert into Part(Part_ID) values ('PN18324C51');
+insert into Part(Part_ID) values ('PN52384R45');
+insert into Part(Part_ID) values ('PN52384R12');
+insert into Part(Part_ID) values ('PN18324C91');
+
 --Product
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945T22', 'La Belle 22 5l pot', '5l 22 cm aluminium and teflon non stick pot', 1, 130);
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S22', 'Pro 22 5l pot', '5l 22 cm stainless steel pot', 1, 125);
@@ -350,18 +362,6 @@ insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) valu
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (6, 'AS12945P17', 16);
 insert into Customer_Order_Product(Customer_Order_ID, Product_ID, Quantity) values (7, 'AS12945S22', 8);
 
---Part
-insert into Part(Part_ID) values ('PN12344A21');
-insert into Part(Part_ID) values ('PN52384R50');
-insert into Part(Part_ID) values ('PN52384R10');
-insert into Part(Part_ID) values ('PN18544A21');
-insert into Part(Part_ID) values ('PN18544C21');
-insert into Part(Part_ID) values ('PN18324C54');
-insert into Part(Part_ID) values ('PN18324C51');
-insert into Part(Part_ID) values ('PN52384R45');
-insert into Part(Part_ID) values ('PN52384R12');
-insert into Part(Part_ID) values ('PN18324C91');
-
 --Component
 insert into Component(Component_ID, Component_Description, Part_ID) values (1, 'Screw M6 35 mm', 'PN12344A21');
 insert into Component(Component_ID, Component_Description, Part_ID) values (2, '300x300 mm 5mm stainless steel sheet', 'PN52384R50');
@@ -393,16 +393,6 @@ insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) 
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5665, 4);
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5688, 5);
 
-
---BOM
-insert into BOM(Product_ID) values('AS12945T22');
-insert into BOM(Product_ID) values('AS12945S22');
-insert into BOM(Product_ID) values('AS12945S20');
-insert into BOM(Product_ID) values('AS12945S17');
-insert into BOM(Product_ID) values('AS12945P17');
-insert into BOM(Product_ID) values('AS12945S48');
-insert into BOM(Product_ID) values('AS12945G48');
-
 --BOM_Part
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN12344A21', 'AS12945S22', 1);
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R50', 'AS12945S22', 1);
@@ -425,7 +415,12 @@ insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C51', '
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R45', 'AS12945P17', 1);
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C91', 'AS12945P17', 1);
 
+--BOM
+insert into BOM(Product_ID) values('AS12945T22');
+insert into BOM(Product_ID) values('AS12945S22');
+insert into BOM(Product_ID) values('AS12945S20');
+insert into BOM(Product_ID) values('AS12945S17');
+insert into BOM(Product_ID) values('AS12945P17');
+insert into BOM(Product_ID) values('AS12945S48');
+insert into BOM(Product_ID) values('AS12945G48');
 
---Inventory
---Raw_Material
---Component_Raw_Material

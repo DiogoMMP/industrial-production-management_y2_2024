@@ -1,23 +1,24 @@
 SELECT
-    po.Production_Order_ID,
-    bom.Component_ID,
-    c.Component_Description,
-    SUM(bom.Component_Quantity * po.Quantity_Ordered) AS Quantity_To_Order
+    po.Order_ID,
+    bp.Part_ID AS Component_Part_ID,
+    p.Product_Name,
+    SUM(bp.Part_Quantity * ppo.Quantity_Ordered) AS Quantity_To_Order
 FROM
-    Product_Production_Order po
+    Product_Production_Order ppo
 JOIN
-    BOM bom ON po.Product_ID = bom.Product_ID
+    Production_Order po ON ppo.Production_Order_ID = po.Order_ID
 JOIN
-    Component c ON bom.Component_ID = c.Component_ID
+    BOM_Part bp ON ppo.Product_ID = bp.Product_ID
+JOIN
+    Product p ON ppo.Product_ID = p.Product_ID
+LEFT JOIN
+    Component c ON bp.Part_ID = c.Part_ID
+WHERE
+    po.Order_ID = 1001
 GROUP BY
-    po.Production_Order_ID,
-    bom.Component_ID,
-    c.Component_Description
+    po.Order_ID,
+    bp.Part_ID,
+    p.Product_Name
 ORDER BY
-    po.Production_Order_ID,
-    bom.Component_ID;
-
-
-    The select is to simplified so it is not right. The correct select needs to have to have a relation with the raw materials as the
-    components are made from raw materials. But the select is not wrong, it is just simplified.
-    In the relation model the bom needs to be refactored, in order to represent the correlation beetween the raw materials, the components and the product itself wich can be a componenet of another product.
+    po.Order_ID,
+    bp.Part_ID;
