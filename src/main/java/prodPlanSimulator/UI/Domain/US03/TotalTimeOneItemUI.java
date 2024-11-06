@@ -77,11 +77,13 @@ public class TotalTimeOneItemUI implements Runnable {
         int id;
         id = Integer.parseInt(choice.split(" ")[1]);
         System.out.println("Item: " + id);
-        TreeMap<Item, Double> totalTimes = Item.calculateTotalProductionTimePerItem();
+        HashMap<String, Double> totalTimes = Item.calculateTotalProductionTimePerItem();
         int index = 1;
-        for (Map.Entry<Item, Double> entry : totalTimes.entrySet()) {
-            if (entry.getKey().getId() == id) {
-                System.out.println(index + " - Total time of the item " + entry.getKey().getId() + " : " + entry.getValue());
+        for (Map.Entry<String, Double> entry : totalTimes.entrySet()) {
+            String[] item = entry.getKey().split(" - ");
+            int itemID = Integer.parseInt(item[0]);
+            if (itemID == id) {
+                System.out.println(index + " - Total time of the item " + item[0] + " : " + entry.getValue());
                 index++;
             }
         }

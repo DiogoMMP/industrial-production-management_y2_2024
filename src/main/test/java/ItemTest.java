@@ -1,3 +1,4 @@
+import com.kitfox.svg.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.domain.Item;
@@ -122,20 +123,40 @@ class ItemTest {
         simulator.setTimeOperations(timeOperations);
 
         // Execute the method
-        TreeMap<Item, Double> result = Item.calculateTotalProductionTimePerItem();
-
+        HashMap<String, Double> result = Item.calculateTotalProductionTimePerItem();
+        ArrayList<Integer> resultItems = new ArrayList<>();
+        ArrayList<String> resultQuantity = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : result.entrySet()) {
+            String[] parts = entry.getKey().split(" - ");
+            int item = Integer.parseInt(parts[0]);
+            resultItems.add(item);
+            resultQuantity.add(parts[1]);
+        }
         // Verify the result
-        assertNotNull(result, "The result should not be null");
-        assertFalse(result.isEmpty(), "The result should not be empty");
+        assertNotNull(resultItems, "The result should not be null");
+        assertFalse(resultItems.isEmpty(), "The result should not be empty");
 
-        assertTrue(result.containsKey(item1), "The result should contain item1");
-        assertTrue(result.containsKey(item2), "The result should contain item2");
+        assertTrue(resultItems.contains(item1.getId()), "The result should contain item1");
+        assertTrue(resultItems.contains(item2.getId()), "The result should contain item2");
 
+        String item1ID = Integer.toString(item1.getId());
         double expectedTimeItem1 = 60.0; // 10 + 20 + 30
-        assertEquals(expectedTimeItem1, result.get(item1), 0.01, "The total production time for item1 is incorrect");
+        double actualTimeItem1 = 0.0;
+        for (Map.Entry<String, Double> entry : result.entrySet()) {
+            if (entry.getKey().contains(item1ID)) {
+                actualTimeItem1 += entry.getValue();
+            }
+        }
+        assertEquals(expectedTimeItem1, actualTimeItem1, 0.01, "The total production time for item1 is incorrect");
 
         double expectedTimeItem2 = 40.0; // 15 + 25
-        assertEquals(expectedTimeItem2, result.get(item2), 0.01, "The total production time for item2 is incorrect");
+        double actualTimeItem2 = 0.0;
+        for (Map.Entry<String, Double> entry : result.entrySet()) {
+            if (entry.getKey().contains(Integer.toString(item2.getId()))) {
+                actualTimeItem2 += entry.getValue();
+            }
+        }
+        assertEquals(expectedTimeItem2, actualTimeItem2, 0.01, "The total production time for item2 is incorrect");
     }
 
     @Test
@@ -154,15 +175,17 @@ class ItemTest {
 
     @Test
     void testSortById() {
-        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
-        totalProductionTimePerItem.put(item2, 40.0);
-        totalProductionTimePerItem.put(item1, 30.0);
+        HashMap<String, Double> totalProductionTimePerItem = new HashMap<>();
+        String item1ID = Integer.toString(item1.getId());
+        String item2ID = Integer.toString(item2.getId());
+        totalProductionTimePerItem.put(item1ID, 40.0);
+        totalProductionTimePerItem.put(item2ID, 30.0);
 
-        TreeMap<Item, Double> result = Item.sortById(totalProductionTimePerItem);
+        HashMap<String, Double> result = Item.sortById(totalProductionTimePerItem);
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        Iterator<Item> iterator = result.keySet().iterator();
+        Iterator<Map.Entry<String, Double>> iterator = result.entrySet().iterator();
         assertEquals(item1, iterator.next());
         assertEquals(item2, iterator.next());
     }

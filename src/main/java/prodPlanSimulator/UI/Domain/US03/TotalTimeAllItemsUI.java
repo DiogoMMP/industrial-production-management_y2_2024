@@ -15,10 +15,11 @@ public class TotalTimeAllItemsUI implements Runnable {
     @Override
     public void run() {
         System.out.println("\n\n--- Simulate Process by Time ------------");
-        TreeMap<Item, Double> totalTimes = Item.calculateTotalProductionTimePerItem();
+        HashMap<String, Double> totalTimes = Item.calculateTotalProductionTimePerItem();
         int index = 1;
-        for (Map.Entry<Item, Double> entry : totalTimes.entrySet()) {
-            System.out.println(index + " - Total time of the item " + entry.getKey().getId() + " : " + entry.getValue());
+        for (Map.Entry<String, Double> entry : totalTimes.entrySet()) {
+            String[] item = entry.getKey().split(" - ");
+            System.out.println(index + " - Total time of the item " +  item[0] + " : " + entry.getValue());
             index++;
         }
 

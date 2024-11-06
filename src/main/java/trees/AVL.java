@@ -11,8 +11,13 @@ package trees;
  * @param <E>
  */
 public class AVL <E extends Comparable<E>> extends BST<E> {
-    
-    
+
+
+    /**
+     * Returns the balance factor of a given node
+     * @param node node to calculate the balance factor
+     * @return balance factor of the node
+     */
     private int balanceFactor(Node<E> node){
         if (node == null) {
             return 0;
@@ -20,6 +25,11 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         return height(node.getLeft()) - height(node.getRight());
     }
 
+    /**
+     * Performs a right rotation of the subtree rooted at node
+     * @param node root of the subtree to be rotated
+     * @return the new root of the subtree
+     */
     private Node<E> rightRotation(Node<E> node){
         if (node == null) {
             return null;
@@ -33,7 +43,12 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         newRoot.setRight(node);
         return newRoot;
     }
-    
+
+    /**
+     * Performs a left rotation of the subtree rooted at node
+     * @param node root of the subtree to be rotated
+     * @return  the new root of the subtree
+     */
     private Node<E> leftRotation(Node<E> node){
         if (node == null) {
             return null;
@@ -47,7 +62,12 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         newRoot.setLeft(node);
         return newRoot;
     }
-    
+
+    /**
+     * Performs two rotations in the subtree rooted at node
+     * @param node root of the subtree to be rotated
+     * @return the new root of the subtree
+     */
     private Node<E> twoRotations(Node<E> node){
         if (node == null) {
             return null;
@@ -61,7 +81,12 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         }
 
     }
-    
+
+    /**
+     * Balances the node
+     * @param node node to be balanced
+     * @return the new root of the subtree
+     */
     private Node<E> balanceNode(Node<E> node)
     {
         if (balanceFactor(node) > 1) {
@@ -79,7 +104,11 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         }
         return node;
     }
-    
+
+    /**
+     * Inserts an element in the AVL tree
+     * @param element element to be inserted
+     */
     @Override
     public void insert(E element){
         root = insert(element, root);
@@ -95,7 +124,11 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         }
         return balanceNode(node);
     }
-    
+
+    /**
+     * Removes an element from the AVL tree
+     * @param element element to be removed
+     */
     @Override  
     public void remove(E element){
         root = remove(element, root());
@@ -126,7 +159,10 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         return balanceNode(node);
     }
     
-    
+    /**
+     * Returns the height of the AVL tree
+     * @return height of the AVL tree
+     */
     public boolean equals(Object otherObj) {
 
         if (this == otherObj) 
@@ -139,6 +175,12 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         return equals(root, second.root);
     }
 
+    /**
+     * Compares two AVL trees for equality
+     * @param root1 node of the first AVL tree
+     * @param root2 node of the second AVL tree
+     * @return true if the AVL trees are equal, false otherwise
+     */
     public boolean equals(Node<E> root1, Node<E> root2) {
         if (root1 == null && root2 == null) 
            return true;
