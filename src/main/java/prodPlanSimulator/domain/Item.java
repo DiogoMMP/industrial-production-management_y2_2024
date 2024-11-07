@@ -18,6 +18,7 @@ public class Item implements Comparable<Item> {
     private Map<String, Long> entryTimes = new HashMap<>();
     private Map<String, Integer> waitingTimes = new HashMap<>();
     private static Simulator simulator = Instances.getInstance().getSimulator();
+
     /**
      * Item Builder
      *
@@ -193,13 +194,13 @@ public class Item implements Comparable<Item> {
                 String operationName = parts[1].split(": ")[1];
                 workstationsQuantityByOp.getOrDefault(operationName, 0);
                 if (operation.equals(operationName)) {
-                    if (executionTimes.isEmpty()){
+                    if (executionTimes.isEmpty()) {
                         executionTimes.add(0.0);
                         workstationsQuantityByOp.put(operationName, workstationsQuantityByOp.get(operationName) - 1);
-                    } else if(workstationsQuantityByOp.get(operationName) > 0){
+                    } else if (workstationsQuantityByOp.get(operationName) > 0) {
                         executionTimes.add(executionTimes.get(executionTimes.size() - 1));
                         workstationsQuantityByOp.put(operationName, workstationsQuantityByOp.get(operationName) - 1);
-                    } else if (workstationsQuantityByOp.get(operationName) == 0){
+                    } else if (workstationsQuantityByOp.get(operationName) == 0) {
                         executionTimes.add(entry.getValue() + executionTimes.get(executionTimes.size() - 1));
                         workstationsQuantityByOp.put(operationName, temp.get(operationName));
                     }
@@ -284,8 +285,6 @@ public class Item implements Comparable<Item> {
 
         return sortWorkstationsByTransitions(flowDependency);
     }
-
-
 
 
     private static void updateTransitions(HashMap<String, List<Map.Entry<String, Integer>>> flowDependency, String fromMachine, String toMachine) {
@@ -375,29 +374,29 @@ public class Item implements Comparable<Item> {
      *
      * @return HashMap with the total production time per item
      */
-    public static TreeMap<Item, Double> calculateTotalProductionTimePerItem() {
-        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
+    public static HashMap<String, Double> calculateTotalProductionTimePerItem() {
+        HashMap<String, Double> totalProductionTimePerItem = new HashMap<>();
         LinkedHashMap<String, Double> timeOperations = simulator.getTimeOperations();
-
         HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
-        ArrayList<Item> items = new ArrayList<>(ProdPlan.keySet());
+        removeNullItems(ProdPlan);
 
-        for (Item item : items) {
-            double totalProductionTime = 0.0;
-            for (String operation : item.getOperations()) {
-                for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-                    if (entry.getKey().contains(operation) && entry.getKey().contains("Item: " + item.getId())) {
-                        totalProductionTime += entry.getValue();
-                    }
-                }
+        for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+            String[] parts = entry.getKey().split(" - ");
+            if (parts.length >= 7) {
+                String itemID = parts[4].split(": ")[1];
+                String quantity = parts[6].split(": ")[1];
+                double time = entry.getValue();
+                String key = itemID + " - " + quantity;
+                totalProductionTimePerItem.putIfAbsent(key, 0.0);
+                totalProductionTimePerItem.put(key, totalProductionTimePerItem.get(key) + time);
             }
-            totalProductionTimePerItem.put(item, totalProductionTime);
         }
-        return sortById(removeDuplicateItems(totalProductionTimePerItem));
+        return totalProductionTimePerItem;
     }
 
     /**
      * Calculates the total time of each operation
+     *
      * @return HashMap with the total time of each operation
      */
     public static HashMap<String, Double> calcOpTime() {
@@ -415,41 +414,6 @@ public class Item implements Comparable<Item> {
             System.out.println("Error: " + e.getMessage());
         }
         return null;
-    }
-
-    /**
-     * Removes duplicate items from the HashMap
-     *
-     * @param totalProductionTimePerItem HashMap with the total production time per item
-     * @return HashMap with the unique items
-     */
-    public static HashMap<Item, Double> removeDuplicateItems(HashMap<Item, Double> totalProductionTimePerItem) {
-        HashMap<Item, Double> uniqueTotalProductionTimePerItem = new HashMap<>();
-        Set<Integer> uniqueIds = new HashSet<>();
-
-        for (Map.Entry<Item, Double> entry : totalProductionTimePerItem.entrySet()) {
-            Item item = entry.getKey();
-            int itemId = item.getId();
-
-            if (!uniqueIds.contains(itemId)) {
-                uniqueTotalProductionTimePerItem.put(item, entry.getValue());
-                uniqueIds.add(itemId);
-            }
-        }
-
-        return uniqueTotalProductionTimePerItem;
-    }
-
-    /**
-     * Sorts the HashMap by the item ID
-     *
-     * @param totalProductionTimePerItem HashMap with the total production time per item
-     * @return TreeMap sorted by the item ID
-     */
-    public static TreeMap<Item, Double> sortById(HashMap<Item, Double> totalProductionTimePerItem) {
-        TreeMap<Item, Double> sortedMap = new TreeMap<>(Comparator.comparingInt(Item::getId));
-        sortedMap.putAll(totalProductionTimePerItem);
-        return sortedMap;
     }
 
 

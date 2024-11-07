@@ -1,0 +1,47 @@
+CREATE OR REPLACE FUNCTION add_product (
+    p_product_id          IN Product.Product_ID%TYPE,
+    p_product_name        IN Product.Product_Name%TYPE,
+    p_product_description IN Product.Product_Description%TYPE,
+    p_factory_plant_id    IN Product.Factory_Plant_ID%TYPE,
+    p_market_demand       IN Product.Market_Demand%TYPE DEFAULT NULL,
+    p_optimization        IN Product.Optimization%TYPE DEFAULT NULL,
+    p_production_cost     IN Product.Production_Cost%TYPE DEFAULT NULL,
+    p_flexibility         IN Product.Flexibility%TYPE DEFAULT NULL,
+    p_family_id           IN Product.Family_ID%TYPE,
+    p_part_id             IN Product.Part_ID%TYPE DEFAULT NULL
+) RETURN VARCHAR2 IS
+    v_result VARCHAR2(200) := 'Inserted successfully';
+BEGIN
+    -- Attempt to insert the new product
+    INSERT INTO Product (
+        Product_ID, Product_Name, Product_Description, Factory_Plant_ID,
+        Market_Demand, Optimization, Production_Cost, Flexibility,
+        Family_ID, Part_ID
+    ) VALUES (
+        p_product_id, p_product_name, p_product_description, p_factory_plant_id,
+        p_market_demand, p_optimization, p_production_cost, p_flexibility,
+        p_family_id, p_part_id
+    );
+
+    RETURN v_result;  -- Returns "Inserted successfully" if the insertion is successful
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Capture and return the specific error message
+        v_result := 'Not inserted: ' || SQLERRM;
+        RETURN v_result;
+END add_product;
+/
+
+
+
+
+-- Test the add_product function
+DECLARE
+    v_result VARCHAR2(50);
+BEGIN
+    v_result := add_product(
+        'P001', 'Test Product', 'Description of Test Product', 1, 100, 80, 200, 50, 125
+    );
+    DBMS_OUTPUT.PUT_LINE('Result: ' || v_result);
+END;
+/

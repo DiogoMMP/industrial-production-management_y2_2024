@@ -1,3 +1,4 @@
+import com.kitfox.svg.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.domain.Item;
@@ -111,60 +112,34 @@ class ItemTest {
     void testCalculateTotalProductionTimePerItem() {
         // Simulate the process times
         LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
-        timeOperations.put("Operation: cut - Item: 10001", 10.0);
-        timeOperations.put("Operation: sand - Item: 10001", 20.0);
-        timeOperations.put("Operation: paint - Item: 10001", 30.0);
-        timeOperations.put("Operation: drill - Item: 10002", 15.0);
-        timeOperations.put("Operation: polish - Item: 10002", 25.0);
+        timeOperations.put("1 -  Operation: CUT - Machine: ws11 - Priority: normal - Item: 1001 - Time: 10 - Quantity: 1", 10.0);
+        timeOperations.put("2 -  Operation: SAND - Machine: ws12 - Priority: normal - Item: 1001 - Time: 20 - Quantity: 1", 20.0);
+        timeOperations.put("3 -  Operation: PAINT - Machine: ws13 - Priority: normal - Item: 1001 - Time: 30 - Quantity: 1", 30.0);
+        timeOperations.put("4 -  Operation: DRILL - Machine: ws21 - Priority: normal - Item: 1002 - Time: 15 - Quantity: 1", 15.0);
+        timeOperations.put("5 -  Operation: POLISH - Machine: ws22 - Priority: normal - Item: 1002 - Time: 25 - Quantity: 1", 25.0);
 
         // Mock the simulator to return the simulated process times
         Simulator simulator = Instances.getInstance().getSimulator();
         simulator.setTimeOperations(timeOperations);
 
         // Execute the method
-        TreeMap<Item, Double> result = Item.calculateTotalProductionTimePerItem();
+        HashMap<String, Double> result = Item.calculateTotalProductionTimePerItem();
 
         // Verify the result
         assertNotNull(result, "The result should not be null");
         assertFalse(result.isEmpty(), "The result should not be empty");
 
-        assertTrue(result.containsKey(item1), "The result should contain item1");
-        assertTrue(result.containsKey(item2), "The result should contain item2");
+        String item1Key = "1001 - 1";
+        String item2Key = "1002 - 1";
+
+        assertTrue(result.containsKey(item1Key), "The result should contain item1");
+        assertTrue(result.containsKey(item2Key), "The result should contain item2");
 
         double expectedTimeItem1 = 60.0; // 10 + 20 + 30
-        assertEquals(expectedTimeItem1, result.get(item1), 0.01, "The total production time for item1 is incorrect");
+        assertEquals(expectedTimeItem1, result.get(item1Key), 0.01, "The total production time for item1 is incorrect");
 
         double expectedTimeItem2 = 40.0; // 15 + 25
-        assertEquals(expectedTimeItem2, result.get(item2), 0.01, "The total production time for item2 is incorrect");
-    }
-
-    @Test
-    void testRemoveDuplicateItems() {
-        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
-        totalProductionTimePerItem.put(item1, 30.0);
-        totalProductionTimePerItem.put(item2, 40.0);
-        totalProductionTimePerItem.put(item1, 50.0); // Duplicate item
-
-        HashMap<Item, Double> result = Item.removeDuplicateItems(totalProductionTimePerItem);
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(50.0, result.get(item1));
-        assertEquals(40.0, result.get(item2));
-    }
-
-    @Test
-    void testSortById() {
-        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
-        totalProductionTimePerItem.put(item2, 40.0);
-        totalProductionTimePerItem.put(item1, 30.0);
-
-        TreeMap<Item, Double> result = Item.sortById(totalProductionTimePerItem);
-        assertNotNull(result);
-        assertEquals(2, result.size());
-
-        Iterator<Item> iterator = result.keySet().iterator();
-        assertEquals(item1, iterator.next());
-        assertEquals(item2, iterator.next());
+        assertEquals(expectedTimeItem2, result.get(item2Key), 0.01, "The total production time for item2 is incorrect");
     }
 
 
