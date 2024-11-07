@@ -382,15 +382,16 @@ public class Item implements Comparable<Item> {
 
         for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
             String[] parts = entry.getKey().split(" - ");
-            String itemID = parts[4].split(": ")[1];
-            String quantity = parts[6].split(": ")[1];
-            double time = entry.getValue();
-            String key = itemID + " - " + quantity;
-            totalProductionTimePerItem.putIfAbsent(key, 0.0);
-            totalProductionTimePerItem.put(key, totalProductionTimePerItem.get(key) + time);
+            if (parts.length >= 7) {
+                String itemID = parts[4].split(": ")[1];
+                String quantity = parts[6].split(": ")[1];
+                double time = entry.getValue();
+                String key = itemID + " - " + quantity;
+                totalProductionTimePerItem.putIfAbsent(key, 0.0);
+                totalProductionTimePerItem.put(key, totalProductionTimePerItem.get(key) + time);
+            }
         }
-        return sortById(totalProductionTimePerItem);
-
+        return totalProductionTimePerItem;
     }
 
     /**
@@ -413,55 +414,6 @@ public class Item implements Comparable<Item> {
             System.out.println("Error: " + e.getMessage());
         }
         return null;
-    }
-
-    /**
-     * Removes duplicate items from the HashMap
-     *
-     * @param totalProductionTimePerItem HashMap with the total production time per item
-     * @return HashMap with the unique items
-     */
-    public static HashMap<Item, Double> removeDuplicateItems(HashMap<Item, Double> totalProductionTimePerItem) {
-        HashMap<Item, Double> uniqueTotalProductionTimePerItem = new HashMap<>();
-        Set<Integer> uniqueIds = new HashSet<>();
-
-        for (Map.Entry<Item, Double> entry : totalProductionTimePerItem.entrySet()) {
-            Item item = entry.getKey();
-            int itemId = item.getId();
-
-            if (!uniqueIds.contains(itemId)) {
-                uniqueTotalProductionTimePerItem.put(item, entry.getValue());
-                uniqueIds.add(itemId);
-            }
-        }
-
-        return uniqueTotalProductionTimePerItem;
-    }
-
-    /**
-     * Sorts the HashMap by the item ID
-     *
-     * @param totalProductionTimePerItem HashMap with the total production time per item
-     * @return HashMap sorted by the item ID
-     */
-    public static HashMap<String, Double> sortById(HashMap<String, Double> totalProductionTimePerItem) {
-        TreeMap<String, Double> sortedMap = new TreeMap<>((key1, key2) -> {
-            String[] parts1 = key1.split(" - ");
-            String[] parts2 = key2.split(" - ");
-            int id1 = Integer.parseInt(parts1[0]);
-            int id2 = Integer.parseInt(parts2[0]);
-            double time1 = Double.parseDouble(parts1[1]);
-            double time2 = Double.parseDouble(parts2[1]);
-
-            if (id1 != id2) {
-                return Integer.compare(id1, id2);
-            } else {
-                return Double.compare(time1, time2);
-            }
-        });
-
-        sortedMap.putAll(totalProductionTimePerItem);
-        return new LinkedHashMap<>(sortedMap);
     }
 
 

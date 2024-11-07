@@ -112,11 +112,11 @@ class ItemTest {
     void testCalculateTotalProductionTimePerItem() {
         // Simulate the process times
         LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
-        timeOperations.put("Operation: cut - Item: 10001", 10.0);
-        timeOperations.put("Operation: sand - Item: 10001", 20.0);
-        timeOperations.put("Operation: paint - Item: 10001", 30.0);
-        timeOperations.put("Operation: drill - Item: 10002", 15.0);
-        timeOperations.put("Operation: polish - Item: 10002", 25.0);
+        timeOperations.put("1 -  Operation: CUT - Machine: ws11 - Priority: normal - Item: 1001 - Time: 10 - Quantity: 1", 10.0);
+        timeOperations.put("2 -  Operation: SAND - Machine: ws12 - Priority: normal - Item: 1001 - Time: 20 - Quantity: 1", 20.0);
+        timeOperations.put("3 -  Operation: PAINT - Machine: ws13 - Priority: normal - Item: 1001 - Time: 30 - Quantity: 1", 30.0);
+        timeOperations.put("4 -  Operation: DRILL - Machine: ws21 - Priority: normal - Item: 1002 - Time: 15 - Quantity: 1", 15.0);
+        timeOperations.put("5 -  Operation: POLISH - Machine: ws22 - Priority: normal - Item: 1002 - Time: 25 - Quantity: 1", 25.0);
 
         // Mock the simulator to return the simulated process times
         Simulator simulator = Instances.getInstance().getSimulator();
@@ -124,70 +124,22 @@ class ItemTest {
 
         // Execute the method
         HashMap<String, Double> result = Item.calculateTotalProductionTimePerItem();
-        ArrayList<Integer> resultItems = new ArrayList<>();
-        ArrayList<String> resultQuantity = new ArrayList<>();
-        for (Map.Entry<String, Double> entry : result.entrySet()) {
-            String[] parts = entry.getKey().split(" - ");
-            int item = Integer.parseInt(parts[0]);
-            resultItems.add(item);
-            resultQuantity.add(parts[1]);
-        }
+
         // Verify the result
-        assertNotNull(resultItems, "The result should not be null");
-        assertFalse(resultItems.isEmpty(), "The result should not be empty");
+        assertNotNull(result, "The result should not be null");
+        assertFalse(result.isEmpty(), "The result should not be empty");
 
-        assertTrue(resultItems.contains(item1.getId()), "The result should contain item1");
-        assertTrue(resultItems.contains(item2.getId()), "The result should contain item2");
+        String item1Key = "1001 - 1";
+        String item2Key = "1002 - 1";
 
-        String item1ID = Integer.toString(item1.getId());
+        assertTrue(result.containsKey(item1Key), "The result should contain item1");
+        assertTrue(result.containsKey(item2Key), "The result should contain item2");
+
         double expectedTimeItem1 = 60.0; // 10 + 20 + 30
-        double actualTimeItem1 = 0.0;
-        for (Map.Entry<String, Double> entry : result.entrySet()) {
-            if (entry.getKey().contains(item1ID)) {
-                actualTimeItem1 += entry.getValue();
-            }
-        }
-        assertEquals(expectedTimeItem1, actualTimeItem1, 0.01, "The total production time for item1 is incorrect");
+        assertEquals(expectedTimeItem1, result.get(item1Key), 0.01, "The total production time for item1 is incorrect");
 
         double expectedTimeItem2 = 40.0; // 15 + 25
-        double actualTimeItem2 = 0.0;
-        for (Map.Entry<String, Double> entry : result.entrySet()) {
-            if (entry.getKey().contains(Integer.toString(item2.getId()))) {
-                actualTimeItem2 += entry.getValue();
-            }
-        }
-        assertEquals(expectedTimeItem2, actualTimeItem2, 0.01, "The total production time for item2 is incorrect");
-    }
-
-    @Test
-    void testRemoveDuplicateItems() {
-        HashMap<Item, Double> totalProductionTimePerItem = new HashMap<>();
-        totalProductionTimePerItem.put(item1, 30.0);
-        totalProductionTimePerItem.put(item2, 40.0);
-        totalProductionTimePerItem.put(item1, 50.0); // Duplicate item
-
-        HashMap<Item, Double> result = Item.removeDuplicateItems(totalProductionTimePerItem);
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(50.0, result.get(item1));
-        assertEquals(40.0, result.get(item2));
-    }
-
-    @Test
-    void testSortById() {
-        HashMap<String, Double> totalProductionTimePerItem = new HashMap<>();
-        String item1ID = Integer.toString(item1.getId());
-        String item2ID = Integer.toString(item2.getId());
-        totalProductionTimePerItem.put(item1ID, 40.0);
-        totalProductionTimePerItem.put(item2ID, 30.0);
-
-        HashMap<String, Double> result = Item.sortById(totalProductionTimePerItem);
-        assertNotNull(result);
-        assertEquals(2, result.size());
-
-        Iterator<Map.Entry<String, Double>> iterator = result.entrySet().iterator();
-        assertEquals(item1, iterator.next());
-        assertEquals(item2, iterator.next());
+        assertEquals(expectedTimeItem2, result.get(item2Key), 0.01, "The total production time for item2 is incorrect");
     }
 
 
