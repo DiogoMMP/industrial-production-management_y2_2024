@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prodPlanSimulator.trees;
+package prodPlanSimulator.trees.AVL_BST;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import trees.TREE;
+import trees.AVL_BST.TREE;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,11 +40,8 @@ public class TREETest {
         for(int i :arr)
             instance.insert(i);        
     }
-    
-    
-    /**
-     * Test of path method, of class TREE.
-     */
+
+
     @Test
     public void testpath() {
         System.out.println("path");
@@ -51,8 +49,8 @@ public class TREETest {
         assertArrayEquals(expectedResult, instance.path(7).toArray());
         Integer[] expectedResult2 = {20, 15, 10, 13};
         assertArrayEquals(expectedResult2, instance.path(13).toArray());
-        assertNull(instance.path(80));
-        assertNull(instance.path(45));
+        assertTrue(instance.path(80).isEmpty());
+        assertTrue(instance.path(45).isEmpty());
     }
 
     /**

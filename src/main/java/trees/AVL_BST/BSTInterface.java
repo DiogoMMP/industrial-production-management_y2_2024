@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trees;
+package trees.AVL_BST;
 
 import java.util.List;
 import java.util.Map;

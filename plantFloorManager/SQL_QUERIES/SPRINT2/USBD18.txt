@@ -1,3 +1,6 @@
+-- First, after the creation of the tables, we need to create the procedure that will deactivate a customer
+
+
 CREATE OR REPLACE PROCEDURE Deactivate_Customer (p_Customer_ID NUMBER) IS
     v_Pending_Orders NUMBER;
 BEGIN
@@ -18,3 +21,4 @@ BEGIN
     END IF;
 END;
 
+-- Test the procedure with a sample Customer

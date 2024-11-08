@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prodPlanSimulator.trees;
+package prodPlanSimulator.trees.AVL_BST;
 
 import org.junit.Test;
-import trees.AVL;
+import trees.AVL_BST.AVL;
+
 
 import java.util.Arrays;
 import java.util.List;

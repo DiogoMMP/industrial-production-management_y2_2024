@@ -137,6 +137,7 @@ CREATE TABLE Workstation_Type (
                                   Workstation_Type_ID varchar2(10) NOT NULL,
                                   Workstation_Type    varchar2(255) NOT NULL,
                                   PRIMARY KEY (Workstation_Type_ID));
+
 ALTER TABLE Plant_Floor ADD CONSTRAINT FKPlant_Floo395394 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Product ADD CONSTRAINT FKProduct245766 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Workstation ADD CONSTRAINT FKWorkstatio40895 FOREIGN KEY (Plant_Floor_ID) REFERENCES Plant_Floor (Plant_Floor_ID);
