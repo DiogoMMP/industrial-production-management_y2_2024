@@ -1,0 +1,13 @@
+Product_Family_ID,Manufacturing_Operation_ID,Operation_Order
+1001,2001,1
+1001,2002,2
+1002,2001,1
+
+Manufacturing_Operation_ID,Operation_Description
+2001,Cutting
+2002,Assembly
+2003,Painting
+
+Family_ID,Family_Description
+1001,Electronics
+1002,Furniture
