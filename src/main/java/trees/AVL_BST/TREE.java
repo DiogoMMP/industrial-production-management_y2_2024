@@ -1,5 +1,5 @@
 
-package trees;
+package trees.AVL_BST;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +19,7 @@ public class TREE<E extends Comparable<E>> extends BST<E> {
      */
     public List<E> path(E elem) {
         if (elem == null) {
-            return null;
+            return new ArrayList<>(); // Return an empty list instead of null
         }
         List<E> path = new ArrayList<>();
         Node<E> current = root;
@@ -33,7 +33,7 @@ public class TREE<E extends Comparable<E>> extends BST<E> {
                 current = current.getRight();
             }
         }
-        return path;
+        return new ArrayList<>(); // Return an empty list if the element is not found
     }
 
     /*

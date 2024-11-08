@@ -1,4 +1,4 @@
-package trees;
+package trees.AVL_BST;
 
 import java.util.ArrayList;
 import java.util.HashMap;

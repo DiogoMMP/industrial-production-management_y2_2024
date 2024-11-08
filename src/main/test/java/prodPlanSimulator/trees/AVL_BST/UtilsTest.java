@@ -1,8 +1,8 @@
 
-package prodPlanSimulator.trees;
+package prodPlanSimulator.trees.AVL_BST;
 
 import org.junit.Test;
-import trees.Utils;
+import trees.AVL_BST.Utils;
 
 import java.util.Arrays;
 import java.util.List;

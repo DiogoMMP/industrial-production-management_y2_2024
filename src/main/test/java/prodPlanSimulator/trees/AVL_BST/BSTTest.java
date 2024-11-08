@@ -1,9 +1,9 @@
 
-package prodPlanSimulator.trees;
+package prodPlanSimulator.trees.AVL_BST;
 
 import org.junit.Before;
 import org.junit.Test;
-import trees.BST;
+import trees.AVL_BST.BST;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -128,12 +128,12 @@ public class BSTTest {
     @Test
     public void testSmallestElement() {
         System.out.println("smallestElement");
-        assertEquals(new Integer(7), instance.smallestElement());
+        assertEquals(Integer.valueOf(7), instance.smallestElement());
         instance.remove(7);
-        assertEquals(new Integer(8), instance.smallestElement());
+        assertEquals(Integer.valueOf(8), instance.smallestElement());
         instance.remove(8);
-        assertEquals(new Integer(10), instance.smallestElement());
-    }    
+        assertEquals(Integer.valueOf(10), instance.smallestElement());
+    }
 /**
      * Test of processBstByLevel method, of class TREE.
      */
