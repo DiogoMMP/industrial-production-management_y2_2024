@@ -393,6 +393,15 @@ insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) 
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5665, 4);
 insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5688, 5);
 
+--BOM
+insert into BOM(Product_ID) values('AS12945T22');
+insert into BOM(Product_ID) values('AS12945S22');
+insert into BOM(Product_ID) values('AS12945S20');
+insert into BOM(Product_ID) values('AS12945S17');
+insert into BOM(Product_ID) values('AS12945P17');
+insert into BOM(Product_ID) values('AS12945S48');
+insert into BOM(Product_ID) values('AS12945G48');
+
 --BOM_Part
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN12344A21', 'AS12945S22', 1);
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R50', 'AS12945S22', 1);
@@ -414,13 +423,4 @@ insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18544C21', '
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C51', 'AS12945S17', 1);
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R45', 'AS12945P17', 1);
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C91', 'AS12945P17', 1);
-
---BOM
-insert into BOM(Product_ID) values('AS12945T22');
-insert into BOM(Product_ID) values('AS12945S22');
-insert into BOM(Product_ID) values('AS12945S20');
-insert into BOM(Product_ID) values('AS12945S17');
-insert into BOM(Product_ID) values('AS12945P17');
-insert into BOM(Product_ID) values('AS12945S48');
-insert into BOM(Product_ID) values('AS12945G48');
 
