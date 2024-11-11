@@ -1,7 +1,10 @@
 package prodPlanSimulator.repository;
 
+import com.sun.source.tree.Tree;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
+import trees.AVL_BST.AVL;
+import trees.AVL_BST.BST;
 
 import java.util.*;
 
@@ -29,6 +32,10 @@ public class Simulator {
         fillOperationsQueue(items, operationsQueue);
         // AC2 - Assign the items to the machines
         fillUpMachinesUS02(operationsQueue, workstations, items);
+        return SimulatorReset(workstations, items);
+    }
+
+    private LinkedHashMap<String, Double> SimulatorReset(ArrayList<Workstation> workstations, ArrayList<Item> items) {
         for (Workstation workstation : workstations) {
             workstation.clearUpWorkstation();
         }
@@ -205,28 +212,30 @@ public class Simulator {
     private static void sortItemsByTime(ArrayList<Item> items, ArrayList<Workstation> workstations) {
         addTimes(items, workstations);
         swapOperations(items);
-        items.sort((item1, item2) -> {
-            LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue())
-                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+        items.sort(Simulator::sortForItemsLowestTime);
+    }
 
-            LinkedHashMap<String, Integer> sortedTimes2 = item2.getLowestTimes().entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue())
-                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
+    private static int sortForItemsLowestTime(Item item1, Item item2) {
+        LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
 
-            Iterator<Map.Entry<String, Integer>> it1 = sortedTimes1.entrySet().iterator();
-            Iterator<Map.Entry<String, Integer>> it2 = sortedTimes2.entrySet().iterator();
+        LinkedHashMap<String, Integer> sortedTimes2 = item2.getLowestTimes().entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
 
-            while (it1.hasNext() && it2.hasNext()) {
-                Map.Entry<String, Integer> entry1 = it1.next();
-                Map.Entry<String, Integer> entry2 = it2.next();
-                int timeComparison = Integer.compare(entry1.getValue(), entry2.getValue());
-                if (timeComparison != 0) {
-                    return timeComparison;
-                }
+        Iterator<Map.Entry<String, Integer>> it1 = sortedTimes1.entrySet().iterator();
+        Iterator<Map.Entry<String, Integer>> it2 = sortedTimes2.entrySet().iterator();
+
+        while (it1.hasNext() && it2.hasNext()) {
+            Map.Entry<String, Integer> entry1 = it1.next();
+            Map.Entry<String, Integer> entry2 = it2.next();
+            int timeComparison = Integer.compare(entry1.getValue(), entry2.getValue());
+            if (timeComparison != 0) {
+                return timeComparison;
             }
-            return 0;
-        });
+        }
+        return 0;
     }
 
 
@@ -281,26 +290,7 @@ public class Simulator {
             if (priorityComparison != 0) {
                 return priorityComparison;
             }
-            LinkedHashMap<String, Integer> sortedTimes1 = item1.getLowestTimes().entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue())
-                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
-
-            LinkedHashMap<String, Integer> sortedTimes2 = item2.getLowestTimes().entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue())
-                    .collect(LinkedHashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), LinkedHashMap::putAll);
-
-            Iterator<Map.Entry<String, Integer>> it1 = sortedTimes1.entrySet().iterator();
-            Iterator<Map.Entry<String, Integer>> it2 = sortedTimes2.entrySet().iterator();
-
-            while (it1.hasNext() && it2.hasNext()) {
-                Map.Entry<String, Integer> entry1 = it1.next();
-                Map.Entry<String, Integer> entry2 = it2.next();
-                int timeComparison = Integer.compare(entry1.getValue(), entry2.getValue());
-                if (timeComparison != 0) {
-                    return timeComparison;
-                }
-            }
-            return 0;
+            return sortForItemsLowestTime(item1, item2);
         });
     }
 
@@ -357,21 +347,11 @@ public class Simulator {
         removeNullItems(items);
         fillOperationsQueue(items, operationsQueue);
         fillUpMachinesUS08(operationsQueue, workstations, items);
-        for (Workstation workstation : workstations) {
-            workstation.clearUpWorkstation();
-        }
-        for (Item item : items) {
-            item.setCurrentOperationIndex(0);
-            item.setLowestTimes(new LinkedHashMap<>());
-            // Calculate and set waiting times for each operation
-            for (String operation : item.getOperations()) {
-                long entryTime = item.getEntryTime(operation);
-                long currentTime = System.currentTimeMillis();
-                int waitTime = (int) (currentTime - entryTime);
-                item.setWaitingTime(operation, waitTime);
-            }
-        }
-        return timeOperations;
+        return SimulatorReset(workstations, items);
+    }
+
+    public Tree simulateBOMBOO(){
+        return null;
     }
 
     public LinkedHashMap<String, Double> getTimeOperations() {

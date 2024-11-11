@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class Item implements Comparable<Item> {
     private int id;
     private Priority priority;
+    private int idParent;
     private List<String> operations;
     private int currentOperationIndex;
     private static HashMap_Items_Machines HashMap_Items_Workstations = Instances.getInstance().getHashMapItemsWorkstations();
@@ -21,13 +22,26 @@ public class Item implements Comparable<Item> {
 
     /**
      * Item Builder
+     * @param id Item ID
+     * @param priority Item priority
+     * @param operations Item operations
+     * @param idParent Item parent ID
+     */
+    public Item(int id, Priority priority, List<String> operations, int idParent) {
+        this.id = id;
+        this.priority = priority;
+        this.operations = operations;
+        this.currentOperationIndex = 0;
+        this.lowestTimes = new LinkedHashMap<>();
+        this.idParent = idParent;
+    }
+    /**
+     * Item Builder
      *
      * @param id         Item ID
      * @param priority   Item priority
      * @param operations Item operations
      */
-
-
     public Item(int id, Priority priority, List<String> operations) {
         this.id = id;
         this.priority = priority;
@@ -62,6 +76,15 @@ public class Item implements Comparable<Item> {
     }
 
     // Getters e Setters
+
+    /**
+     * Gets the ID of the parent
+     *
+     * @return ID of the parent
+     */
+    public int getIdParent() {
+        return idParent;
+    }
 
     /**
      * Gets the ID of the product
@@ -134,7 +157,14 @@ public class Item implements Comparable<Item> {
     public void setCurrentOperationIndex(int currentOperationIndex) {
         this.currentOperationIndex = currentOperationIndex;
     }
-
+    /**
+     * Sets the ID of the parent
+     *
+     * @param idParent new ID of the parent
+     */
+    public void setIdParent(int idParent) {
+        this.idParent = idParent;
+    }
 
     /**
      * Removes the null machines from the list of machines
