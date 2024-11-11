@@ -4,6 +4,7 @@ import com.sun.source.tree.Tree;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
 import trees.AVL_BST.AVL;
+import trees.AVL_BST.BOMBOO;
 import trees.AVL_BST.BST;
 
 import java.util.*;
@@ -350,9 +351,11 @@ public class Simulator {
         return SimulatorReset(workstations, items);
     }
 
-    public Tree simulateBOMBOO(){
+    public AVL<BOMBOO> simulateBOMBOO(){
         return null;
     }
+
+
 
     public LinkedHashMap<String, Double> getTimeOperations() {
         return timeOperations;

@@ -22,6 +22,16 @@ public class Operation implements Comparable<Operation> {
 
     /**
      * Operation Builder
+     * @param description Operation description
+     */
+
+    public Operation(String description) {
+        this.id = 0;
+        this.description = description;
+    }
+
+    /**
+     * Operation Builder
      */
     public Operation() {
         this.id = 0;

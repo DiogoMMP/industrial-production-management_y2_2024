@@ -2,13 +2,12 @@ package trees.AVL_BST;
 
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Operation;
-import prodPlanSimulator.domain.Workstation;
 
 public class BOMBOO implements Comparable<BOMBOO> {
 
     private Item item;
     private Operation operation;
-
+    private int quantity;
     /**
      * Creates a new BOMBOO when it is a component and not a raw material
      * @param item item to be added
@@ -17,6 +16,7 @@ public class BOMBOO implements Comparable<BOMBOO> {
     public BOMBOO(Item item, Operation operation) {
         this.item = item;
         this.operation = operation;
+        this.quantity = 1;
     }
 
     /**
@@ -26,6 +26,7 @@ public class BOMBOO implements Comparable<BOMBOO> {
     public BOMBOO(Item item) {
         this.item = item;
         this.operation = new Operation();
+        this.quantity = 1;
     }
 
 
@@ -35,6 +36,14 @@ public class BOMBOO implements Comparable<BOMBOO> {
 
     public Operation getOperation() {
         return operation;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void incQuantity(){
+        quantity++;
     }
 
     @Override
