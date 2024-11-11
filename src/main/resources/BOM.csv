@@ -1,21 +1,20 @@
-ProductID;PartNumber;Description;Quantity
-AS12945S22;PN12344A21;Screw M6 35 mm;1
-AS12945S22;PN52384R50;300x300 mm 5mm stainless steel sheet;1
-AS12945S22;PN52384R10;300x300 mm 1mm stainless steel sheet;1
-AS12945S22;PN18544A21;Rivet 6 mm;4
-AS12945S22;PN18544C21;Stainless steel handle model U6;2
-AS12945S22;PN18324C54;Stainless steel handle model R12;1
-AS12945S20;PN12344A21;Screw M6 35 mm;1
-AS12945S20;PN52384R50;300x300 mm 5mm stainless steel sheet;1
-AS12945S20;PN52384R10;300x300 mm 1mm stainless steel sheet;1
-AS12945S20;PN18544A21;Rivet 6 mm;4
-AS12945S20;PN18544C21;Stainless steel handle model U6;2
-AS12945S20;PN18324C51;Stainless steel handle model R11;1
-AS12945S17;PN12344A21;Screw M6 35 mm;1
-AS12945S17;PN52384R45;250x250 mm 5mm stainless steel sheet;1
-AS12945S17;PN52384R12;250x250 mm 1mm stainless steel sheet;1
-AS12945S17;PN18544A21;Rivet 6 mm;4
-AS12945S17;PN18544C21;Stainless steel handle model U6;2
-AS12945S17;PN18324C51;Stainless steel handle model R11;1
-AS12945P17;PN52384R45;250x250 mm 5mm stainless steel sheet;1
-AS12945P17;PN18324C91;Stainless steel handle model S26;1
+Parent_ID;Item_ID;Item_Type;Item_Name;Description;Quantity
+;1;Product;Wooden Chair;Chair made of oak wood with various components;1
+1;C01;Component;Chair Legs;Oak, 18" length, 2" diameter;4
+1;C02;Component;Seat Base;Oak, 18" x 18" x 1" thick;1
+1;C03;Component;Backrest;Oak, 18" x 12" x 1" thick;1
+1;C04;Component;Support Bars;Oak, 14" length, 1" x 1" thick;2
+C01;201;Raw Material;Oak Wood;High-quality oak;2
+C02;202;Raw Material;Oak Wood;High-quality oak;1
+C03;203;Raw Material;Oak Wood;High-quality oak;1
+C04;204;Raw Material;Oak Wood;High-quality oak;2
+
+;2;Product;Metal Chair;Chair made of steel with various metal components;1
+2;C05;Component;Metal Legs;Steel, 18" length, 1.5" diameter;6
+2;C06;Component;Metal Seat Base;Steel, 18" x 18" x 1" thick;1
+2;C07;Component;Metal Backrest;Steel, 18" x 12" x 1" thick;1
+2;C08;Component;Metal Support Bars;Steel, 14" length, 1" x 1" thick;3
+C05;301;Raw Material;Steel;High-grade steel;3
+C06;302;Raw Material;Steel;High-grade steel;2
+C07;303;Raw Material;Steel;High-grade steel;1
+C08;304;Raw Material;Steel;High-grade steel;1

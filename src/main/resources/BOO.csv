@@ -1,13 +1,9 @@
-Product_Family_ID,Manufacturing_Operation_ID,Operation_Order
-1001,2001,1
-1001,2002,2
-1002,2001,1
-
-Manufacturing_Operation_ID,Operation_Description
-2001,Cutting
-2002,Assembly
-2003,Painting
-
-Family_ID,Family_Description
-1001,Electronics
-1002,Furniture
+Product_Family_ID;Manufacturing_Operation_ID;Operation_Order;Operation_Description
+1;101;1;Prepare Wood Components - Cut and shape wooden parts
+1;102;2;Assemble Chair Frame - Attach legs, seat base, and backrest
+1;103;3;Sand and Finish Components - Smooth and apply finish
+1;104;4;Packaging - Box and prepare for shipment
+2;201;1;Prepare Metal Components - Cut and shape metal parts
+2;202;2;Assemble Metal Frame - Attach metal legs, seat base, and backrest
+2;203;3;Apply Protective Coating - Coat with anti-corrosion layer
+2;204;4;Packaging - Box and prepare for shipment
