@@ -50,7 +50,7 @@ public class ProductionTree {
 
             Operation operation = new Operation(operationId, operationDescription, operationOrder);
             productOperations.computeIfAbsent(productId, k -> new ArrayList<>()).add(operation);
-            nodesMap.put(operationId, new TreeNode<>(operationDescription)); // Mapeia operações para criação de subárvores
+            nodesMap.put(operationId, new TreeNode<>(operation.toString())); // Mapeia operações para criação de subárvores
         }
 
         // Em seguida, processamos o BOM para associar materiais às operações
@@ -72,7 +72,7 @@ public class ProductionTree {
 
         // Construir a árvore para cada produto com as operações e materiais
         for (String productId : productOperations.keySet()) {
-            TreeNode<String> productNode = new TreeNode<>("Produto " + productId);
+            TreeNode<String> productNode = new TreeNode<>("Prepare " + productId );
             root.addChild(productNode); // Adiciona cada produto como filho do root
 
             // Adiciona operações ao produto

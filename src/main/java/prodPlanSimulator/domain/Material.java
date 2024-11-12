@@ -59,6 +59,6 @@ public class Material {
 
     @Override
     public String toString() {
-        return quantity + "x " + name + "(" + description + ")";
+        return quantity + "x " + name + "(" + description + ") (Material)";
     }
 }

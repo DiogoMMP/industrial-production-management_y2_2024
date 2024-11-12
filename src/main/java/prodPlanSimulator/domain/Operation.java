@@ -31,6 +31,6 @@ public class Operation {
 
     @Override
     public String toString() {
-        return description + " (Order: " + order + ")";
+        return description + " (Operation)";
     }
 }
