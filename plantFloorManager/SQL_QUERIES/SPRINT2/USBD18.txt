@@ -1,24 +1,112 @@
 -- First, after the creation of the tables, we need to create the procedure that will deactivate a customer
 
 
-CREATE OR REPLACE PROCEDURE Deactivate_Customer (p_Customer_ID NUMBER) IS
-    v_Pending_Orders NUMBER;
+CREATE OR REPLACE FUNCTION Deactivate_Customer (p_Customer_ID NUMBER) RETURN VARCHAR2 IS
+    v_Pending_Orders NUMBER := 0;
+    v_Result VARCHAR2(200);
+    v_Current_Status VARCHAR2(50);
 BEGIN
+    -- Check the current status of the customer
+    SELECT Status INTO v_Current_Status
+    FROM Customer
+    WHERE Customer_ID = p_Customer_ID;
+
+    -- If the customer is already deactivated, return a message
+    IF v_Current_Status = 'Deactivated' THEN
+        v_Result := 'Error: Customer is already deactivated.';
+        RETURN v_Result;
+    END IF;
+
     -- Check if there are any pending or undelivered orders for the customer
     SELECT COUNT(*) INTO v_Pending_Orders
     FROM Customer_Order
-    -- This needs to be checked
-    WHERE Customer_ID = p_Customer_ID AND Delivery_Date IS NULL;  -- Assuming NULL Delivery_Date indicates pending or undelivered orders
+    WHERE Customer_ID = p_Customer_ID;
 
     -- If no pending orders, update the status to "Inactive"
-    IF v_Pending_Orders = 0 THEN
+    IF ((v_Pending_Orders = 0) OR (v_Pending_Orders IS NULL)) THEN
         UPDATE Customer
-        SET Status = 'Inactive'
+        SET Status = 'Deactivated'
         WHERE Customer_ID = p_Customer_ID;
-        DBMS_OUTPUT.PUT_LINE('Customer successfully deactivated.');
+        v_Result := 'Customer successfully deactivated.';
     ELSE
-        DBMS_OUTPUT.PUT_LINE('Error: Customer has pending or undelivered orders and cannot be deactivated.');
+        v_Result := 'Error: Customer has pending or undelivered orders and cannot be deactivated.';
     END IF;
+
+    RETURN v_Result;
 END;
 
--- Test the procedure with a sample Customer
+-- Necessary data to test the function:
+
+--Country
+insert into Country (Country_ID, Country_Name) values (620, 'Portugal');
+insert into Country (Country_ID, Country_Name) values (203, 'Czechia');
+
+--Type
+insert into Type (Type_ID, Name) values (1, 'Individual');
+insert into Type (Type_ID, Name) values (2, 'Company');
+
+--Status
+insert into Status(Status) values ('Activated');
+insert into Status(Status) values ('Deactivated');
+
+--Customer
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('456', 'PT501245987', 'Carvalho & Carvalho, Lda', 'Tv. Augusto Lessa 23, 4200-047 Porto, Portugal', 003518340500, 'idont@care.com', 2, 620, 'Activated');
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('785', 'PT501245488', 'Tudo para a casa, Lda', 'R. Dr. Barros 93, 4465-219 São Mamede de Infesta, Portugal', 003518340500, 'me@neither.com', 2, 620, 'Activated');
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('657', 'PT501242417', 'Sair de Cena', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88, 4400-023 Vila Nova de Gaia, Portugal', 003518340500, 'some@email.com', 2, 620, 'Activated');
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('348', 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz', 1, 203, 'Activated');
+
+--Customer_Order
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 785);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (2, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 657);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (3, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 348);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (4, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 785);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (5, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 657);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (6, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 348);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (7, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 456);
+
+-- Test the function with a hardcoded customer ID, where it will not deactivate the customer
+
+DECLARE
+    ID_TO_Deactivate NUMBER(10) := 785; -- Replace with the desired customer ID for testing
+    v_Result VARCHAR2(200);
+BEGIN
+    -- Call the function and store the result
+    v_Result := Deactivate_Customer(ID_TO_Deactivate);
+
+    -- Display the result
+    DBMS_OUTPUT.PUT_LINE(v_Result);
+END;
+
+-- Extra data to test the function with a customer that can be deactivated
+
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('400', 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz', 1, 203, 'Activated');
+
+-- Test the function with a hardcoded customer ID, where it will deactivate the customer
+
+DECLARE
+    ID_TO_Deactivate NUMBER(10) := 400; -- Replace with the desired customer ID for testing
+    v_Result VARCHAR2(200);
+BEGIN
+    -- Call the function and store the result
+    v_Result := Deactivate_Customer(ID_TO_Deactivate);
+
+    -- Display the result
+    DBMS_OUTPUT.PUT_LINE(v_Result);
+END;
+
+-- Extra data to test the function with a customer that is already deactivated
+
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('200', 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz', 1, 203, 'Deactivated');
+
+-- Test the function with a hardcoded customer ID, where the customer is already deactivated
+
+DECLARE
+    ID_TO_Deactivate NUMBER(10) := 200; -- Replace with the desired customer ID for testing
+    v_Result VARCHAR2(200);
+BEGIN
+    -- Call the function and store the result
+    v_Result := Deactivate_Customer(ID_TO_Deactivate);
+
+    -- Display the result
+    DBMS_OUTPUT.PUT_LINE(v_Result);
+END;
