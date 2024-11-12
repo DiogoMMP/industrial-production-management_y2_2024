@@ -1,83 +1,36 @@
 package prodPlanSimulator.domain;
 
-public class Operation implements Comparable<Operation> {
-    /**
-     * Operation ID
-     */
-    private int id;
-    /**
-     * Operation description
-     */
+public class Operation {
+    private String id;
     private String description;
+    private int order;
 
-    /**
-     * Operation Builder
-     * @param id Operation ID
-     * @param description Operation description
-     */
-    public Operation(int id, String description) {
+    public Operation(String id, String description, int order) {
         this.id = id;
         this.description = description;
+        this.order = order;
     }
 
-    /**
-     * Operation Builder
-     * @param description Operation description
-     */
-
-    public Operation(String description) {
-        this.id = 0;
-        this.description = description;
-    }
-
-    /**
-     * Operation Builder
-     */
     public Operation() {
-        this.id = 0;
+        this.id = "";
         this.description = "";
+        this.order = 0;
     }
 
-    /**
-     * Gets the id of the operation
-     * @return id of the operation
-     */
-    public int getId() {
+    public String getId() {
         return id;
     }
-
-    /**
-     * Sets the id of the operation
-     * @param id new id of the operation
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the description of the operation
-     * @return description of the operation
-     */
 
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Sets the description of the operation
-     * @param description new description of the operation
-     */
-
-    public void setDescription(String description) {
-        this.description = description;
+    public int getOrder() {
+        return order;
     }
 
-    /**
-     * Operation toString
-     * @return Operation description
-     */
     @Override
-    public int compareTo(Operation o) {
-        return Integer.compare(this.id, o.id);
+    public String toString() {
+        return description + " (Order: " + order + ")";
     }
 }
