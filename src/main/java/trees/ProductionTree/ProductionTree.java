@@ -14,113 +14,130 @@ public class ProductionTree {
     private TreeNode<String> root;
     private Map<String, TreeNode<String>> nodesMap = new HashMap<>();
 
+    private static final String FILES_PATH = "src/main/resources/";
+
+    /**
+     * Constructs a production tree with the specified main objective.
+     * @param mainObjective the main objective of the production tree
+     */
     public ProductionTree(String mainObjective) {
         this.root = new TreeNode<>("Build " + mainObjective);
     }
 
+    /**
+     * Returns the root of the production tree.
+     * @return the root of the production tree
+     */
     public TreeNode<String> getRoot() {
         return root;
     }
 
     /**
-     * Build a tree structure from two CSV files: one with Bill of Operations (BOO)
-     * and another with Bill of Materials (BOM).
-     *
-     * @param booFilePath Path to the BOO file
-     * @param bomFilePath Path to the BOM file
+     * Builds the production tree from three CSV files: BOO, items, and operations.
+     * @param booFileName the path to the CSV file with the Bill of Operations
+     * @param itemsFileName the path to the CSV file with the items
+     * @param operationFileName the path to the CSV file with the operations
+     * @return the root of the production tree
      */
-    public void buildProductionTree(String booFilePath, String bomFilePath) {
+    public TreeNode<String> buildProductionTree(String booFileName, String itemsFileName, String operationFileName) {
+        List<String[]> booData = readCsvFile(booFileName);
+        List<String[]> itemsData = readCsvFile(itemsFileName);
+        List<String[]> operationsData = readCsvFile(operationFileName);
 
-        List<String[]> booData = readCsvFile(booFilePath);
-        List<String[]> bomData = readCsvFile(bomFilePath);
-
-        Map<String, List<Operation>> productOperations = new HashMap<>();
-        Map<String, List<Material>> operationMaterials = new HashMap<>();
-
-        // Primeiro, processamos o BOO para organizar operações por produto
-        for (String[] operationData : booData) {
-            if (operationData.length < 4) {
-                continue;
+        Map<String, String> itemNames = new HashMap<>();
+        for (String[] item : itemsData) {
+            if (item.length >= 2) {
+                itemNames.put(item[0], item[1]);
             }
-
-            String productId = operationData[0];
-            String operationId = operationData[1];
-            int operationOrder = Integer.parseInt(operationData[2]);
-            String operationDescription = operationData[3];
-
-            Operation operation = new Operation(operationId, operationDescription, operationOrder);
-            productOperations.computeIfAbsent(productId, k -> new ArrayList<>()).add(operation);
-            nodesMap.put(operationId, new TreeNode<>(operation.toString())); // Mapeia operações para criação de subárvores
         }
 
-        // Em seguida, processamos o BOM para associar materiais às operações
-        for (String[] materialData : bomData) {
-            if (materialData.length < 6) {
-                continue;
+        Map<String, String> operationDescriptions = new HashMap<>();
+        for (String[] operation : operationsData) {
+            if (operation.length >= 2) {
+                operationDescriptions.put(operation[0], operation[1]);
             }
-
-            String parentId = materialData[0];
-            String itemId = materialData[1];
-            String itemType = materialData[2];
-            String itemName = materialData[3];
-            String description = materialData[4];
-            int quantity = Integer.parseInt(materialData[5]);
-
-            Material material = new Material(itemId, itemName, description, itemType, quantity);
-            operationMaterials.computeIfAbsent(parentId, k -> new ArrayList<>()).add(material);
         }
 
-        // Construir a árvore para cada produto com as operações e materiais
-        for (String productId : productOperations.keySet()) {
-            TreeNode<String> productNode = new TreeNode<>("Prepare " + productId );
-            root.addChild(productNode); // Adiciona cada produto como filho do root
+        Map<String, TreeNode<String>> productSubTrees = new HashMap<>();
 
-            // Adiciona operações ao produto
-            List<Operation> operations = productOperations.get(productId);
-            if (operations != null) {
-                for (Operation operation : operations) {
-                    TreeNode<String> operationNode = new TreeNode<>(operation.getDescription());
-                    productNode.addChild(operationNode);
+        for (String[] booEntry : booData) {
+            if (booEntry.length >= 2) {
+                String itemId = booEntry[0];
+                String operationId = booEntry[1];
 
-                    // Adiciona materiais à operação
-                    List<Material> materials = operationMaterials.get(operation.getId());
-                    if (materials != null) {
-                        for (Material material : materials) {
-                            TreeNode<String> materialNode = new TreeNode<>(material.getName() + " (" + material.getDescription() + ") x" + material.getQuantity());
-                            operationNode.addChild(materialNode);
+                TreeNode<String> subTreeRoot = productSubTrees.get(itemId);
+                if (subTreeRoot == null) {
+                    subTreeRoot = new TreeNode<>("Build " + itemNames.getOrDefault(itemId, "Unknown Item"));
+                    root.addChild(subTreeRoot);
+                    productSubTrees.put(itemId, subTreeRoot);
+                }
 
-                            // Se o material tiver submateriais (raw materials), cria subárvores
-                            addRawMaterials(materialNode, material.getID(), operationMaterials);
-                        }
+                String operationDescription = operationDescriptions.getOrDefault(operationId, "Unknown Operation");
+                Operation operation = new Operation(operationId, operationDescription, 1);
+                TreeNode<String> operationNode = new TreeNode<>(operation.toString());
+                subTreeRoot.addChild(operationNode);
+                nodesMap.put(operationId, operationNode);
+
+                for (int i = 2; i < booEntry.length; i += 2) {
+                    if (i + 1 < booEntry.length) {
+                        String subitemId = booEntry[i];
+                        int quantity = Integer.parseInt(booEntry[i + 1]);
+                        String subitemName = itemNames.getOrDefault(subitemId, "Unknown Subitem");
+
+                        Material material = new Material(subitemId, subitemName, "Unknown description", "Type", quantity);
+                        TreeNode<String> subitemNode = new TreeNode<>(material.toString());
+                        operationNode.addChild(subitemNode);
+
+                        nodesMap.put(subitemId, subitemNode);
                     }
                 }
             }
         }
+        return root;
     }
 
     /**
-     * Método auxiliar para adicionar subárvores de materiais (raw materials) recursivamente.
+     * Returns a string representation of the production tree with the specified main objective.
+     * @param mainObjective the main objective of the production tree
+     * @return a string representation of the production tree
      */
-    private void addRawMaterials(TreeNode<String> parent, String materialId, Map<String, List<Material>> operationMaterials) {
-        List<Material> rawMaterials = operationMaterials.get(materialId);
-        if (rawMaterials != null) {
-            for (Material rawMaterial : rawMaterials) {
-                TreeNode<String> rawMaterialNode = new TreeNode<>(rawMaterial.getName() + " (" + rawMaterial.getDescription() + ") x" + rawMaterial.getQuantity());
-                parent.addChild(rawMaterialNode);
-
-                // Recursivamente adiciona submateriais se houver mais camadas
-                addRawMaterials(rawMaterialNode, rawMaterial.getID(), operationMaterials);
+    public String toIndentedStringForObjective(String mainObjective) {
+        StringBuilder builder = new StringBuilder();
+        for (TreeNode<String> child : root.getChildren()) {
+            if (child.getValue().equals("Build " + mainObjective)) {
+                toIndentedStringHelper(child, builder, 0);
+                break;
             }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Generates a string representation of the production tree with a custom indentation.
+     * @param node the node to start the string representation from recursively
+     * @param builder the string builder to append the string representation to recursively
+     * @param level the current level of the tree recursively
+     */
+    private void toIndentedStringHelper(TreeNode<String> node, StringBuilder builder, int level) {
+        if (level > 0) {
+            builder.append("    ".repeat(level - 1)).append("|___");
+        }
+        builder.append(node.getValue()).append("\n");
+        for (TreeNode<String> child : node.getChildren()) {
+            toIndentedStringHelper(child, builder, level + 1);
         }
     }
 
-
-    // Método auxiliar para leitura de ficheiros CSV
+    /**
+     * Reads a CSV file and returns its data as a list of string arrays.
+     * @param filePath the path to the CSV file
+     * @return a list of string arrays representing the data in the CSV file
+     */
     private List<String[]> readCsvFile(String filePath) {
         List<String[]> data = new ArrayList<>();
         try {
-            List<String> lines = Files.readAllLines(Paths.get(filePath));
-            for (int i = 1; i < lines.size(); i++) { // Começa a ler da segunda linha para ignorar o cabeçalho
+            List<String> lines = Files.readAllLines(Paths.get(FILES_PATH + filePath));
+            for (int i = 1; i < lines.size(); i++) {
                 String[] values = lines.get(i).split(";");
                 data.add(values);
             }
@@ -130,16 +147,11 @@ public class ProductionTree {
         return data;
     }
 
-
+    // main para testar!! Depois apagar
     public static void main(String[] args) {
-        ProductionTree tree = new ProductionTree("Table");
-        tree.buildProductionTree("src/main/resources/BOO.csv", "src/main/resources/BOM.csv");
-        System.out.println(tree.getRoot().getValue());
-        for (TreeNode<String> child : tree.getRoot().getChildren()) {
-            System.out.println("  " + child.getValue());
-            for (TreeNode<String> grandChild : child.getChildren()) {
-                System.out.println("    " + grandChild.getValue());
-            }
-        }
+        ProductionTree tree = new ProductionTree("Bicycle");
+        tree.buildProductionTree("boo.csv", "items.csv", "operations.csv");
+        System.out.println(tree.toIndentedStringForObjective("Bicycle"));
     }
 }
+

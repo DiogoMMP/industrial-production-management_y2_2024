@@ -3,7 +3,7 @@ package prodPlanSimulator.domain;
 public class Material {
     private String ID;
     private String name;
-    private String description;  // Descrição detalhada, ex: "Oak legs, 18\" length, 2\" diameter"
+    private String description;
     private String itemType;
     private int quantity;
 
@@ -59,6 +59,10 @@ public class Material {
 
     @Override
     public String toString() {
-        return quantity + "x " + name + "(" + description + ") (Material)";
+
+        if (description.equals("Unknown description")) {
+            return quantity + "x " + name + " (Material)";
+        }
+        return quantity + "x " + name + " (" + description + ") (Material)";
     }
 }
