@@ -1,0 +1,68 @@
+CREATE OR REPLACE FUNCTION Get_Product_Parts (p_Product_ID IN VARCHAR2)
+RETURN SYS_REFCURSOR
+AS
+    part_cursor SYS_REFCURSOR;
+BEGIN
+    OPEN part_cursor FOR
+        -- Level 1: Direct parts of the product
+        SELECT
+            p.Part_ID AS Part_ID,
+            p.Part_Description AS Part_Description,
+            bp.Part_Quantity AS Total_Quantity
+        FROM Product pr
+        JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
+        JOIN Part p ON bp.Part_ID = p.Part_ID
+        WHERE pr.Product_ID = p_Product_ID
+
+        UNION ALL
+
+        -- Level 2: Parts of parts (subparts)
+        SELECT
+            p2.Part_ID AS Part_ID,
+            p2.Part_Description AS Part_Description,
+            bp.Part_Quantity * bp2.Part_Quantity AS Total_Quantity
+        FROM Product pr
+        JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
+        JOIN Part p ON bp.Part_ID = p.Part_ID
+        JOIN BOM_Part bp2 ON bp.Part_ID = bp2.Product_ID
+        JOIN Part p2 ON bp2.Part_ID = p2.Part_ID
+        WHERE pr.Product_ID = p_Product_ID
+
+        UNION ALL
+
+        -- Level 3: Parts of subparts
+        SELECT
+            p3.Part_ID AS Part_ID,
+            p3.Part_Description AS Part_Description,
+            bp.Part_Quantity * bp2.Part_Quantity * bp3.Part_Quantity AS Total_Quantity
+        FROM Product pr
+        JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
+        JOIN Part p ON bp.Part_ID = p.Part_ID
+        JOIN BOM_Part bp2 ON bp.Part_ID = bp2.Product_ID
+        JOIN Part p2 ON bp2.Part_ID = p2.Part_ID
+        JOIN BOM_Part bp3 ON bp2.Part_ID = bp3.Product_ID
+        JOIN Part p3 ON bp3.Part_ID = p3.Part_ID
+        WHERE pr.Product_ID = p_Product_ID;
+
+    RETURN part_cursor;
+END;
+
+
+DECLARE
+    parts_cursor SYS_REFCURSOR;
+    part_id      VARCHAR2(255);
+    part_desc    VARCHAR2(255);
+    total_qty    NUMBER;
+	product_id VARCHAR2(255);
+BEGIN
+    product_id:='AS12945S22';
+    parts_cursor := Get_Product_Parts(product_id);
+
+    -- Fetch and display each part
+    LOOP
+        FETCH parts_cursor INTO part_id, part_desc, total_qty;
+        EXIT WHEN parts_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Part ID: ' || part_id || ', Description: ' || part_desc || ', Quantity: ' || total_qty);
+    END LOOP;
+    CLOSE parts_cursor;
+END;
