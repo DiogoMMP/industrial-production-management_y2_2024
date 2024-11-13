@@ -1,5 +1,3 @@
--- It is created now needs tests
-
 CREATE OR REPLACE FUNCTION Get_Product_Operations(
     p_product_id IN VARCHAR2
 ) RETURN SYS_REFCURSOR IS
@@ -7,6 +5,7 @@ CREATE OR REPLACE FUNCTION Get_Product_Operations(
 BEGIN
     OPEN c_operations FOR
         WITH Product_Operations AS (
+            -- Select operations for the main product
             SELECT
                 p.Product_ID AS Main_Product_ID,
                 p.Product_ID AS Product_ID,
@@ -14,12 +13,13 @@ BEGIN
                 mo.Operation_Description,
                 boo.Operation_Order
             FROM Product p
-                     JOIN BOO boo ON boo.Product_Family_ID = p.Family_ID
-                     JOIN Manufacturing_Operation mo ON mo.Manufacturing_Operation_ID = boo.Manufacturing_Operation_ID
+            JOIN BOO boo ON boo.Product_ID = p.Product_ID
+            JOIN Manufacturing_Operation mo ON mo.Manufacturing_Operation_ID = boo.Manufacturing_Operation_ID
             WHERE p.Product_ID = p_product_id
 
             UNION ALL
 
+            -- Select operations for subproducts (using BOM and BOM_Part)
             SELECT
                 p.Product_ID AS Main_Product_ID,
                 sp.Product_ID AS Product_ID,
@@ -27,14 +27,16 @@ BEGIN
                 mo.Operation_Description,
                 boo.Operation_Order
             FROM Product p
-                     JOIN BOM b ON b.Product_ID = p.Product_ID
-                     JOIN BOM_Part bp ON bp.Product_ID = b.Product_ID
-                     JOIN Product sp ON sp.Part_ID = bp.Part_ID
-                     JOIN BOO boo ON boo.Product_Family_ID = sp.Family_ID
-                     JOIN Manufacturing_Operation mo ON mo.Manufacturing_Operation_ID = boo.Manufacturing_Operation_ID
+            JOIN BOM b ON b.Product_ID = p.Product_ID
+            JOIN BOM_Part bp ON bp.Product_ID = b.Product_ID
+            JOIN Product sp ON sp.Part_ID = bp.Part_ID
+            JOIN BOO boo ON boo.Product_ID = sp.Product_ID
+            JOIN Manufacturing_Operation mo ON mo.Manufacturing_Operation_ID = boo.Manufacturing_Operation_ID
             WHERE p.Product_ID = p_product_id
         ),
+
         Workstation_Types AS (
+            -- Join workstation types to operations
             SELECT
                 po.Main_Product_ID,
                 po.Product_ID,
@@ -43,10 +45,12 @@ BEGIN
                 po.Operation_Order,
                 wt.Workstation_Type
             FROM Product_Operations po
-                     JOIN Type_Industry ti ON ti.Manufacturing_Operation_ID = po.Manufacturing_Operation_ID
-                     JOIN Workstation_Type wt ON wt.Workstation_Type_ID = ti.Workstation_Type_ID
+            JOIN Type_Industry ti ON ti.Manufacturing_Operation_ID = po.Manufacturing_Operation_ID
+            JOIN Workstation_Type wt ON wt.Workstation_Type_ID = ti.Workstation_Type_ID
         ),
+
         Component_Inputs_Outputs AS (
+            -- Get input/output components for each operation
             SELECT
                 wt.Main_Product_ID,
                 wt.Product_ID,
@@ -57,9 +61,11 @@ BEGIN
                 c.Component_ID AS Input_Component,
                 cr.Raw_Material_ID AS Output_Component
             FROM Workstation_Types wt
-                     LEFT JOIN Component c ON c.Part_ID = wt.Product_ID
-                     LEFT JOIN Component_Raw_Material cr ON cr.Component_ID = c.Component_ID
+            LEFT JOIN Component c ON c.Part_ID = wt.Product_ID
+            LEFT JOIN Component_Raw_Material cr ON cr.Component_ID = c.Component_ID
         )
+
+        -- Final selection of operations with inputs and outputs
         SELECT
             Main_Product_ID,
             Product_ID,
@@ -75,25 +81,47 @@ BEGIN
     RETURN c_operations;
 END Get_Product_Operations;
 
--- Test the function
+
 
 DECLARE
-    -- Declare only the product ID and cursor as per the function requirements
-    v_product_id VARCHAR2(50) := 'AS12945T22'; -- Replace with an actual Product_ID
+    -- Declare a cursor to hold the ref cursor returned by the function
     c_operations SYS_REFCURSOR;
-BEGIN
-    -- Call the function with the product ID
-    c_operations := Get_Product_Operations(v_product_id);
 
-    -- Loop through the cursor and output each row without storing values in separate variables
+    -- Declare variables to hold each column value for the fetched rows
+    v_main_product_id VARCHAR2(255);
+    v_product_id      VARCHAR2(255);
+    v_manufacturing_operation_id NUMBER;
+    v_operation_description VARCHAR2(255);
+    v_operation_order NUMBER;
+    v_workstation_type VARCHAR2(255);
+    v_input_component VARCHAR2(20);
+    v_output_product NUMBER(10);
+
+BEGIN
+    -- Call the function with a test product_id (replace 'TEST_PRODUCT_ID' with a valid product ID)
+    c_operations := Get_Product_Operations('AS12945S22');
+
+    -- Loop through the result set and fetch each row
     LOOP
-        -- Fetch and output each row directly
-        FETCH c_operations INTO
-            DBMS_OUTPUT.PUT_LINE(c_operations%ROWTYPE);
+        FETCH c_operations INTO v_main_product_id, v_product_id, v_manufacturing_operation_id,
+                               v_operation_description, v_operation_order, v_workstation_type,
+                               v_input_component, v_output_product;
+
         EXIT WHEN c_operations%NOTFOUND;
+
+        -- Display the results for each operation
+        DBMS_OUTPUT.PUT_LINE('Main Product ID: ' || v_main_product_id);
+        DBMS_OUTPUT.PUT_LINE('Product ID: ' || v_product_id);
+        DBMS_OUTPUT.PUT_LINE('Manufacturing Operation ID: ' || v_manufacturing_operation_id);
+        DBMS_OUTPUT.PUT_LINE('Operation Description: ' || v_operation_description);
+        DBMS_OUTPUT.PUT_LINE('Operation Order: ' || v_operation_order);
+        DBMS_OUTPUT.PUT_LINE('Workstation Type: ' || v_workstation_type);
+        DBMS_OUTPUT.PUT_LINE('Input Component: ' || v_input_component);
+        DBMS_OUTPUT.PUT_LINE('Output Product: ' || v_output_product);
+        DBMS_OUTPUT.PUT_LINE('------------------------');
     END LOOP;
 
-    -- Close the cursor
+    -- Close the cursor after use
     CLOSE c_operations;
-END;
 
+END;
