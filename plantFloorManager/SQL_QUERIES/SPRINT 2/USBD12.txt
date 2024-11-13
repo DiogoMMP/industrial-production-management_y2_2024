@@ -4,65 +4,104 @@ AS
     part_cursor SYS_REFCURSOR;
 BEGIN
     OPEN part_cursor FOR
-        -- Level 1: Direct parts of the product
+        -- Select main parts for the product
         SELECT
-            p.Part_ID AS Part_ID,
-            p.Part_Description AS Part_Description,
-            bp.Part_Quantity AS Total_Quantity
-        FROM Product pr
-        JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
-        JOIN Part p ON bp.Part_ID = p.Part_ID
-        WHERE pr.Product_ID = p_Product_ID
+            TO_CHAR(pr.Product_ID) AS Product_ID,
+            TO_CHAR(p.Part_ID) AS Part_ID,
+            TO_CHAR(p.Part_Description) AS Part_Description,
+            TO_NUMBER(bp.Part_Quantity) AS Quantity,  -- Explicit cast to NUMBER
+            TO_CHAR(p.Part_Description) AS Subpart_Description,
+            TO_CHAR(p.Part_ID) AS Subpart_ID,
+            'Part' AS Subpart_Type
+        FROM
+            Product pr
+            JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
+            JOIN Part p ON bp.Part_ID = p.Part_ID
+        WHERE
+            pr.Product_ID = p_Product_ID
 
         UNION ALL
 
-        -- Level 2: Parts of parts (subparts)
+        -- Select components for each part
         SELECT
-            p2.Part_ID AS Part_ID,
-            p2.Part_Description AS Part_Description,
-            bp.Part_Quantity * bp2.Part_Quantity AS Total_Quantity
-        FROM Product pr
-        JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
-        JOIN Part p ON bp.Part_ID = p.Part_ID
-        JOIN BOM_Part bp2 ON bp.Part_ID = bp2.Product_ID
-        JOIN Part p2 ON bp2.Part_ID = p2.Part_ID
-        WHERE pr.Product_ID = p_Product_ID
+            TO_CHAR(pr.Product_ID) AS Product_ID,
+            TO_CHAR(p.Part_ID) AS Part_ID,
+            TO_CHAR(p.Part_Description) AS Part_Description,
+            1 AS Quantity,
+            TO_CHAR(c.Component_Description) AS Subpart_Description,
+            TO_CHAR(c.Component_ID) AS Subpart_ID,
+            'Component' AS Subpart_Type
+        FROM
+            Product pr
+            JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
+            JOIN Part p ON bp.Part_ID = p.Part_ID
+            LEFT JOIN Component c ON p.Part_ID = c.Part_ID
+        WHERE
+            pr.Product_ID = p_Product_ID
+            AND c.Component_ID IS NOT NULL
 
         UNION ALL
 
-        -- Level 3: Parts of subparts
+        -- Select raw materials for each part
         SELECT
-            p3.Part_ID AS Part_ID,
-            p3.Part_Description AS Part_Description,
-            bp.Part_Quantity * bp2.Part_Quantity * bp3.Part_Quantity AS Total_Quantity
-        FROM Product pr
-        JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
-        JOIN Part p ON bp.Part_ID = p.Part_ID
-        JOIN BOM_Part bp2 ON bp.Part_ID = bp2.Product_ID
-        JOIN Part p2 ON bp2.Part_ID = p2.Part_ID
-        JOIN BOM_Part bp3 ON bp2.Part_ID = bp3.Product_ID
-        JOIN Part p3 ON bp3.Part_ID = p3.Part_ID
-        WHERE pr.Product_ID = p_Product_ID;
+            TO_CHAR(pr.Product_ID) AS Product_ID,
+            TO_CHAR(p.Part_ID) AS Part_ID,
+            TO_CHAR(p.Part_Description) AS Part_Description,
+            TO_NUMBER(rm.Raw_Material_Quantity) AS Quantity,  -- Cast to NUMBER
+            TO_CHAR(rm.Raw_Material_Name) AS Subpart_Description,
+            TO_CHAR(rm.Raw_Material_ID) AS Subpart_ID,
+            'Raw Material' AS Subpart_Type
+        FROM
+            Product pr
+            JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
+            JOIN Part p ON bp.Part_ID = p.Part_ID
+            LEFT JOIN Raw_Material rm ON p.Part_ID = rm.Part_ID
+        WHERE
+            pr.Product_ID = p_Product_ID
+            AND rm.Raw_Material_ID IS NOT NULL;
 
     RETURN part_cursor;
 END;
 
+-- Example usage of the function
 
 DECLARE
+    -- Declare the cursor to store the result
     parts_cursor SYS_REFCURSOR;
-    part_id      VARCHAR2(255);
-    part_desc    VARCHAR2(255);
-    total_qty    NUMBER;
-	product_id VARCHAR2(255);
+
+    -- Declare variables to store fetched values
+    product_id VARCHAR2(255);
+    part_id VARCHAR2(255);
+    part_desc VARCHAR2(255);
+    subpart_desc VARCHAR2(255);
+    subpart_id VARCHAR2(255);
+    subpart_type VARCHAR2(255);
+    total_qty NUMBER; -- Variable to store quantity
 BEGIN
-    product_id:='AS12945S22';
+    -- Set the product ID (for testing, we use a specific known product ID)
+    product_id := 'AS12945S22';
+
+    -- Call the function and get the cursor
     parts_cursor := Get_Product_Parts(product_id);
 
     -- Fetch and display each part
     LOOP
-        FETCH parts_cursor INTO part_id, part_desc, total_qty;
+        -- Fetch data including Product_ID and other columns
+        FETCH parts_cursor INTO product_id, part_id, part_desc, total_qty, subpart_desc, subpart_id, subpart_type;
+
+        -- Exit the loop when no more rows are found
         EXIT WHEN parts_cursor%NOTFOUND;
-        DBMS_OUTPUT.PUT_LINE('Part ID: ' || part_id || ', Description: ' || part_desc || ', Quantity: ' || total_qty);
+
+        -- Output the result
+        DBMS_OUTPUT.PUT_LINE('Product ID: ' || product_id ||
+                             ', Part ID: ' || part_id ||
+                             ', Description: ' || part_desc ||
+                             ', Quantity: ' || total_qty ||
+                             ', Subpart Type: ' || subpart_type ||
+                             ', Subpart ID: ' || subpart_id ||
+                             ', Subpart Description: ' || subpart_desc);
     END LOOP;
+
+    -- Close the cursor
     CLOSE parts_cursor;
 END;
