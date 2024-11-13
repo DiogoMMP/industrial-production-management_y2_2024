@@ -158,10 +158,10 @@ insert into Part(Part_ID, Part_Description) values ('AS12946S22', '5l 22 cm stai
 insert into Part(Part_ID, Part_Description) values ('AS12947S22', '22 cm stainless steel lid');
 insert into Part(Part_ID, Part_Description) values ('AS12945S20', '3l 20 cm stainless steel pot');
 insert into Part(Part_ID, Part_Description) values ('AS12945S17', '2l 17 cm stainless steel pot');
-insert into Part(Part_ID, Part_Description) values ('AS12945P17', '2l 17 cm stainless steel souce pan');
+insert into Part(Part_ID, Part_Description) values ('AS12945P17', '2l 17 cm stainless steel source pan');
 insert into Part(Part_ID, Part_Description) values ('AS12945S48', '17 cm stainless steel lid');
 insert into Part(Part_ID, Part_Description) values ('AS12945G48', '17 cm glass lid');
-insert into Part(Part_ID, Part_Description) values ('IP12945A01', '250 mm 5 mm stailess steel disc');
+insert into Part(Part_ID, Part_Description) values ('IP12945A01', '250 mm 5 mm stainless steel disc');
 insert into Part(Part_ID, Part_Description) values ('IP12945A02', '220 mm pot base phase 1');
 insert into Part(Part_ID, Part_Description) values ('IP12945A03', '220 mm pot base phase 2');
 insert into Part(Part_ID, Part_Description) values ('IP12945A04', '220 mm pot base final');
@@ -169,6 +169,12 @@ insert into Part(Part_ID, Part_Description) values ('IP12947A01', '250 mm 1 mm s
 insert into Part(Part_ID, Part_Description) values ('IP12947A02', '220 mm lid pressed');
 insert into Part(Part_ID, Part_Description) values ('IP12947A03', '220 mm lid polished');
 insert into Part(Part_ID, Part_Description) values ('IP12947A04', '220 mm lid with handle');
+insert into Part(Part_ID, Part_Description) values ('IP12945A32', '200 mm pot base phase 1');
+insert into Part(Part_ID, Part_Description) values ('IP12945A33', '200 mm pot base phase 2');
+insert into Part(Part_ID, Part_Description) values ('IP12945A34', '200 mm pot base final');
+insert into Part(Part_ID, Part_Description) values ('IP12947A32', '200 mm lid pressed');
+insert into Part(Part_ID, Part_Description) values ('IP12947A33', '200 mm lid polished');
+insert into Part(Part_ID, Part_Description) values ('IP12947A34', '200 mm lid with handle');
 
 --Product
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945T22', 'La Belle 22 5l pot', '5l 22 cm aluminium and teflon non stick pot', 1, 130);
@@ -178,6 +184,10 @@ insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plan
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945P17', 'Pro 17 2l sauce pan', '2l 17 cm stainless steel source pan', 1, 132);
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945S48', 'Pro 17 lid', '17 cm stainless steel lid', 1, 145);
 insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12945G48', 'Pro Clear 17 lid', '17 cm glass lid', 1, 146);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12946S22', 'Pro 22 5l pot - alternative', '5l 22 cm stainless steel pot - alternative version', 1, 125);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12947S22', 'Pro 22 5l pot - clear lid', '5l 22 cm stainless steel pot with clear lid', 1, 125);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12946S20', 'Pro 20 3l pot - alternative', '3l 20 cm stainless steel pot - alternative version', 1, 125);
+insert into Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID) values ('AS12947S20', 'Pro 20 3l pot - clear lid', '3l 20 cm stainless steel pot with clear lid', 1, 125);
 
 --Product_Production_Order
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1001, 5);
@@ -222,17 +232,28 @@ insert into Component(Component_ID, Component_Description, Part_ID) values (9, '
 insert into Component(Component_ID, Component_Description, Part_ID) values (10, 'Rivet 6 mm', 'PN18544A21');
 
 --BOO
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5647, 1);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5649, 2);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5651, 3);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5653, 4);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5659, 5);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5647, 1);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5655, 2);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5657, 3);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5661, 4);
-insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5667, 5);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S22', 5647, 1);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S22', 5649, 2);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S22', 5651, 3);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S22', 5653, 4);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S22', 5659, 5);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S22', 5647, 1);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S22', 5655, 2);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S22', 5657, 3);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S22', 5661, 4);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S22', 5667, 5);
 insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S22', 5663, 1);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S20', 5647, 1);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S20', 5649, 2);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S20', 5651, 3);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S20', 5653, 4);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12946S20', 5659, 5);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S20', 5647, 1);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S20', 5655, 2);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S20', 5657, 3);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S20', 5661, 4);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12947S20', 5667, 5);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5663, 1);
 
 --BOM
 insert into BOM(Product_ID) values('AS12945T22');
