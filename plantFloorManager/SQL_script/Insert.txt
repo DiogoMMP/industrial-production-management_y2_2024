@@ -222,23 +222,17 @@ insert into Component(Component_ID, Component_Description, Part_ID) values (9, '
 insert into Component(Component_ID, Component_Description, Part_ID) values (10, 'Rivet 6 mm', 'PN18544A21');
 
 --BOO
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5647, 1);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5647, 2);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5649, 3);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5651, 4);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5653, 5);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5659, 6);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5669, 7);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5655, 8);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5657, 9);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5661, 10);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5667, 11);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (125, 5663, 12);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5681, 1);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5682, 2);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5683, 3);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5665, 4);
-insert into BOO(Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) values (132, 5688, 5);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5647, 1);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5649, 2);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5651, 3);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5653, 4);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945T22', 5659, 5);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5647, 1);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5655, 2);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5657, 3);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5661, 4);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S20', 5667, 5);
+insert into BOO(Product_ID, Manufacturing_Operation_ID, Operation_Order) values ('AS12945S22', 5663, 1);
 
 --BOM
 insert into BOM(Product_ID) values('AS12945T22');
