@@ -23,7 +23,7 @@ public class ProductionTreeTest {
     @Test
     public void testToIndentedStringForObjective() {
         productionTree.buildProductionTree("boo1.csv", "items1.csv", "operations1.csv");
-        String treeString = productionTree.toIndentedStringForObjective("Bicycle");
+        String treeString = productionTree.toIndentedStringForObjective();
         assertNotNull(treeString);
         assertTrue(treeString.contains("Build Bicycle"));
     }
