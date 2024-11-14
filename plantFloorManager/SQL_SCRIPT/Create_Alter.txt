@@ -75,10 +75,14 @@ CREATE TABLE Plant_Floor (
   Plant_Floor_ID   number(10) NOT NULL,
   Factory_Plant_ID number(10) NOT NULL,
   PRIMARY KEY (Plant_Floor_ID));
+CREATE TABLE Priority (
+  Priority varchar2(255) NOT NULL,
+  PRIMARY KEY (Priority));
 CREATE TABLE Product (
   Product_ID          varchar2(255) NOT NULL,
   Product_Name        varchar2(255) NOT NULL,
   Product_Description varchar2(255) NOT NULL,
+  Priority            varchar2(255) NOT NULL,
   Factory_Plant_ID    number(10) NOT NULL,
   Market_Demand       number(10),
   Optimization        number(10),
@@ -131,6 +135,7 @@ CREATE TABLE Workstation (
   Workstation_ID          number(10) NOT NULL,
   Workstation_Name        varchar2(255) NOT NULL,
   Workstation_Description varchar2(255) NOT NULL,
+  Workstation_Time        number(20) NOT NULL,
   Plant_Floor_ID          number(10) NOT NULL,
   Workstation_Type_ID     varchar2(10) NOT NULL,
   PRIMARY KEY (Workstation_ID));
@@ -166,3 +171,4 @@ ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part416636 FOREIGN KEY (Product_ID) RE
 ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part269243 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
 ALTER TABLE BOM ADD CONSTRAINT FKBOM256007 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
 ALTER TABLE Customer ADD CONSTRAINT FKCustomer56984 FOREIGN KEY (Status) REFERENCES Status (Status);
+ALTER TABLE Product ADD CONSTRAINT FKProduct273600 FOREIGN KEY (Priority) REFERENCES Priority (Priority);
