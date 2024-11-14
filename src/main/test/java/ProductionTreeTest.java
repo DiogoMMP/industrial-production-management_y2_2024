@@ -15,14 +15,14 @@ public class ProductionTreeTest {
 
     @Test
     public void testBuildProductionTree() {
-        TreeNode<String> root = productionTree.buildProductionTree("boo.csv", "items.csv", "operations.csv");
+        TreeNode<String> root = productionTree.buildProductionTree("boo1.csv", "items1.csv", "operations1.csv");
         assertNotNull(root);
         assertEquals("Build Bicycle", root.getValue());
     }
 
     @Test
     public void testToIndentedStringForObjective() {
-        productionTree.buildProductionTree("boo.csv", "items.csv", "operations.csv");
+        productionTree.buildProductionTree("boo1.csv", "items1.csv", "operations1.csv");
         String treeString = productionTree.toIndentedStringForObjective("Bicycle");
         assertNotNull(treeString);
         assertTrue(treeString.contains("Build Bicycle"));

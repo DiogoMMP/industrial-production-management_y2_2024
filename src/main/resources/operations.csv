@@ -1,13 +1,11 @@
-op_id;op_name
-1;Assemble Frame
-2;Install Wheels
-3;Attach Brakes
-4;Install Chain
-5;Attach Pedals
-6;Mount Saddle
-7;Assemble Wheel
-8;Install Tire
-9;Attach Spokes
-10;Assemble Gear System
-11;Install Brake Cable
-12;Assemble Fork
+﻿op_id;op_name
+11;assemble bench 
+12;cut bench leg
+13;cut bench seat
+14;drill bench leg
+15;drill bench seat 
+16;fix bolt M16 22
+17;fix nut M16 21
+18;polish bench leg
+19;polish bench seat 
+20;varnish bench 

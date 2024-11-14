@@ -1,20 +1,17 @@
-id_item;item_name
-1;Bicycle
-2;Frame
-3;Front Wheel
-4;Rear Wheel
-5;Brake
-6;Chain
-7;Tire
-8;Spoke
-9;Handlebar
-10;Pedal
-11;Saddle
-12;Metal
-13;Rubber
-14;Plastic
-15;Gear System
-16;Brake Cable
-17;Chain Link
-18;Rim
-19;Fork
+﻿id_item;item_name
+1001;bench leg  w/hole
+1002;bench leg w/bolt
+1003;bench seat w/holes
+1004;bench seat w/nut
+1005;bolt M6
+1006;finished bench
+1007;nut M16
+1008;polished bench leg
+1009;polished bench seat
+1010;raw bench
+1011;raw bench leg
+1012;raw bench seat
+1013;threaded rod M16
+1014;varnish
+1015;wood 3cm
+1016;wood pole 4cm

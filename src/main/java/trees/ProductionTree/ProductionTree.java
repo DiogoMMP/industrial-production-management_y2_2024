@@ -13,6 +13,7 @@ import prodPlanSimulator.domain.Operation;
 public class ProductionTree {
     private TreeNode<String> root;
     private Map<String, TreeNode<String>> nodesMap = new HashMap<>();
+    private String mainObjective;
 
     private static final String FILES_PATH = "src/main/resources/";
 
@@ -21,6 +22,7 @@ public class ProductionTree {
      * @param mainObjective the main objective of the production tree
      */
     public ProductionTree(String mainObjective) {
+        this.mainObjective = mainObjective;
         this.root = new TreeNode<>("Build " + mainObjective);
     }
 
@@ -81,7 +83,7 @@ public class ProductionTree {
                 for (int i = 2; i < booEntry.length; i += 2) {
                     if (i + 1 < booEntry.length) {
                         String subitemId = booEntry[i];
-                        int quantity = Integer.parseInt(booEntry[i + 1]);
+                        String quantity = booEntry[i + 1];
                         String subitemName = itemNames.getOrDefault(subitemId, "Unknown Subitem");
 
                         Material material = new Material(subitemId, subitemName, "Unknown description", "Type", quantity);
@@ -98,10 +100,9 @@ public class ProductionTree {
 
     /**
      * Returns a string representation of the production tree with the specified main objective.
-     * @param mainObjective the main objective of the production tree
      * @return a string representation of the production tree
      */
-    public String toIndentedStringForObjective(String mainObjective) {
+    public String toIndentedStringForObjective() {
         StringBuilder builder = new StringBuilder();
         for (TreeNode<String> child : root.getChildren()) {
             if (child.getValue().equals("Build " + mainObjective)) {
@@ -149,9 +150,15 @@ public class ProductionTree {
 
     // main para testar!! Depois apagar
     public static void main(String[] args) {
-        ProductionTree tree = new ProductionTree("Bicycle");
-        tree.buildProductionTree("boo.csv", "items.csv", "operations.csv");
-        System.out.println(tree.toIndentedStringForObjective("Bicycle"));
+        ProductionTree tree1 = new ProductionTree("raw bench seat");
+        tree1.buildProductionTree("boo.csv", "items.csv", "operations.csv");
+        System.out.println(tree1.toIndentedStringForObjective());
+
+        System.out.println("\n");
+
+        ProductionTree tree2 = new ProductionTree("Bicycle");
+        tree2.buildProductionTree("boo1.csv", "items1.csv", "operations1.csv");
+        System.out.println(tree2.toIndentedStringForObjective());
     }
 }
 
