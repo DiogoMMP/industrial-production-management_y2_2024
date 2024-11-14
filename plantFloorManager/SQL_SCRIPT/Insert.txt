@@ -286,3 +286,18 @@ insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C51', '
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN52384R45', 'AS12945P17', 1);
 insert into BOM_Part(Part_ID, Product_ID, Part_Quantity) values ('PN18324C91', 'AS12945P17', 1);
 
+--Raw_Material
+insert into Raw_Material(Raw_Material_ID, Part_ID, Raw_Material_Name, Raw_Material_Quantity) values (101, 'PN52384R50', 'Stainless Steel Sheet 5mm', 50);
+insert into Raw_Material(Raw_Material_ID, Part_ID, Raw_Material_Name, Raw_Material_Quantity) values (102, 'PN52384R10', 'Stainless Steel Sheet 1mm', 100);
+insert into Raw_Material(Raw_Material_ID, Part_ID, Raw_Material_Name, Raw_Material_Quantity) values (103, 'PN18544A21', 'Rivet', 500);
+insert into Raw_Material(Raw_Material_ID, Part_ID, Raw_Material_Name, Raw_Material_Quantity) values (104, 'PN12344A21', 'Screw M6 35 mm', 250);
+insert into Raw_Material(Raw_Material_ID, Part_ID, Raw_Material_Name, Raw_Material_Quantity) values (105, 'PN18544C21', 'Stainless Steel Handle U6', 100);
+insert into Raw_Material(Raw_Material_ID, Part_ID, Raw_Material_Name, Raw_Material_Quantity) values (106, 'PN18324C54', 'Stainless Steel Handle R12', 150);
+
+--Component_Raw_Material
+insert into Component_Raw_Material(Component_ID, Raw_Material_ID, Raw_Material_Quantity) values (1, 104, 4);
+insert into Component_Raw_Material(Component_ID, Raw_Material_ID, Raw_Material_Quantity) values (2, 101, 1);
+insert into Component_Raw_Material(Component_ID, Raw_Material_ID, Raw_Material_Quantity) values (3, 102, 1);
+insert into Component_Raw_Material(Component_ID, Raw_Material_ID, Raw_Material_Quantity) values (4, 103, 10);
+insert into Component_Raw_Material(Component_ID, Raw_Material_ID, Raw_Material_Quantity) values (5, 105, 2);
+insert into Component_Raw_Material(Component_ID, Raw_Material_ID, Raw_Material_Quantity) values (6, 106, 1);
