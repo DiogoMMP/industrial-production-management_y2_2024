@@ -1,7 +1,6 @@
 SELECT
-    po.Order_ID,
-    bp.Part_ID AS Component_Part_ID,
-    p.Product_Name,
+    bp.Part_ID AS Part_ID,
+    pt.Part_Type AS Part_Type,
     SUM(bp.Part_Quantity * ppo.Quantity_Ordered) AS Quantity_To_Order
 FROM
     Product_Production_Order ppo
@@ -10,15 +9,13 @@ JOIN
 JOIN
     BOM_Part bp ON ppo.Product_ID = bp.Product_ID
 JOIN
-    Product p ON ppo.Product_ID = p.Product_ID
+    Part pt ON bp.Part_ID = pt.Part_ID
 LEFT JOIN
     Component c ON bp.Part_ID = c.Part_ID
 WHERE
     po.Order_ID = 1001
 GROUP BY
-    po.Order_ID,
     bp.Part_ID,
-    p.Product_Name
+    pt.Part_Type
 ORDER BY
-    po.Order_ID,
     bp.Part_ID;

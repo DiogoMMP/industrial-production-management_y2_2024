@@ -1,20 +1,20 @@
 id_item;item_name
-1;Bicycle
-2;Frame
-3;Front Wheel
-4;Rear Wheel
-5;Brake
-6;Chain
-7;Tire
-8;Spoke
-9;Handlebar
-10;Pedal
-11;Saddle
-12;Metal
-13;Rubber
-14;Plastic
-15;Gear System
-16;Brake Cable
-17;Chain Link
-18;Rim
-19;Fork
+1001;Bicycle
+1002;Frame
+1003;Front Wheel
+1004;Rear Wheel
+1005;Brake
+1006;Chain
+1007;Tire
+1008;Spoke
+1009;Handlebar
+1010;Pedal
+1011;Saddle
+1012;Metal
+1013;Rubber
+1014;Plastic
+1015;Gear System
+1016;Brake Cable
+1017;Chain Link
+1018;Rim
+1019;Fork

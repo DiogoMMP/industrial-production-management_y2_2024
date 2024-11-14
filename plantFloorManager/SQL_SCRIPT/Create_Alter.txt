@@ -70,7 +70,11 @@ CREATE TABLE Manufacturing_Operation (
 CREATE TABLE Part (
   Part_ID          varchar2(255) NOT NULL,
   Part_Description varchar2(255),
+  Part_Type        varchar2(255) NOT NULL,
   PRIMARY KEY (Part_ID));
+CREATE TABLE Part_Type (
+  Part_Type varchar2(255) NOT NULL,
+  PRIMARY KEY (Part_Type));
 CREATE TABLE Plant_Floor (
   Plant_Floor_ID   number(10) NOT NULL,
   Factory_Plant_ID number(10) NOT NULL,
@@ -82,7 +86,7 @@ CREATE TABLE Product (
   Product_ID          varchar2(255) NOT NULL,
   Product_Name        varchar2(255) NOT NULL,
   Product_Description varchar2(255) NOT NULL,
-  Priority            varchar2(255) NOT NULL,
+  Product_Priority    varchar2(255) NOT NULL,
   Factory_Plant_ID    number(10) NOT NULL,
   Market_Demand       number(10),
   Optimization        number(10),
@@ -171,4 +175,5 @@ ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part416636 FOREIGN KEY (Product_ID) RE
 ALTER TABLE BOM_Part ADD CONSTRAINT FKBOM_Part269243 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
 ALTER TABLE BOM ADD CONSTRAINT FKBOM256007 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
 ALTER TABLE Customer ADD CONSTRAINT FKCustomer56984 FOREIGN KEY (Status) REFERENCES Status (Status);
-ALTER TABLE Product ADD CONSTRAINT FKProduct273600 FOREIGN KEY (Priority) REFERENCES Priority (Priority);
+ALTER TABLE Product ADD CONSTRAINT FKProduct42190 FOREIGN KEY (Product_Priority) REFERENCES Priority (Priority);
+ALTER TABLE Part ADD CONSTRAINT FKPart434285 FOREIGN KEY (Part_Type) REFERENCES Part_Type (Part_Type);
