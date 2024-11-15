@@ -1,13 +1,14 @@
 CREATE OR REPLACE FUNCTION Register_Workstation(
-    p_Workstation_ID IN NUMBER,
-    p_Workstation_Name IN VARCHAR2,
-    p_Workstation_Description IN VARCHAR2,
-    p_Plant_Floor_ID IN NUMBER,
-    p_Workstation_Type_ID IN VARCHAR2
+    p_Workstation_ID IN Workstation.Workstation_ID%TYPE,
+    p_Workstation_Name IN Workstation.Workstation_Name%TYPE,
+    p_Workstation_Description IN Workstation.Workstation_Description%TYPE,
+    p_Workstation_Time IN Workstation.Workstation_Time%TYPE,
+    p_Plant_Floor_ID IN Workstation.Plant_Floor_ID%TYPE,
+    p_Workstation_Type_ID IN Workstation.Workstation_Type_ID%TYPE
 ) RETURN VARCHAR2 AS
 BEGIN
-    INSERT INTO Workstation (Workstation_ID, Workstation_Name, Workstation_Description, Plant_Floor_ID, Workstation_Type_ID)
-    VALUES (p_Workstation_ID, p_Workstation_Name, p_Workstation_Description, p_Plant_Floor_ID, p_Workstation_Type_ID);
+    INSERT INTO Workstation (Workstation_ID, Workstation_Name, Workstation_Description, Workstation_Time, Plant_Floor_ID, Workstation_Type_ID)
+    VALUES (p_Workstation_ID, p_Workstation_Name, p_Workstation_Description, p_Workstation_Time, p_Plant_Floor_ID, p_Workstation_Type_ID);
 
     RETURN 'Success';
 EXCEPTION
@@ -25,6 +26,7 @@ BEGIN
         p_Workstation_ID => 9999,
         p_Workstation_Name => 'Test Station',
         p_Workstation_Description => 'Testing workstation entry',
+    	p_Workstation_Time => 20.2,
         p_Plant_Floor_ID => 1,
         p_Workstation_Type_ID => 'A4578'
     );

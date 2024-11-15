@@ -12,7 +12,7 @@ BEGIN
             TO_NUMBER(bp.Part_Quantity) AS Quantity,  -- Explicit cast to NUMBER
             TO_CHAR(p.Part_Description) AS Subpart_Description,
             TO_CHAR(p.Part_ID) AS Subpart_ID,
-            'Part' AS Subpart_Type
+            TO_CHAR(p.Part_Type) AS Subpart_Type
         FROM
             Product pr
             JOIN BOM_Part bp ON pr.Product_ID = bp.Product_ID
@@ -93,13 +93,15 @@ BEGIN
         EXIT WHEN parts_cursor%NOTFOUND;
 
         -- Output the result
-        DBMS_OUTPUT.PUT_LINE('Product ID: ' || product_id ||
-                             ', Part ID: ' || part_id ||
-                             ', Description: ' || part_desc ||
-                             ', Quantity: ' || total_qty ||
-                             ', Subpart Type: ' || subpart_type ||
-                             ', Subpart ID: ' || subpart_id ||
-                             ', Subpart Description: ' || subpart_desc);
+        DBMS_OUTPUT.PUT_LINE('Product ID: ' || product_id);
+		DBMS_OUTPUT.PUT_LINE('Part ID: ' || part_id);
+		DBMS_OUTPUT.PUT_LINE('Description: ' || part_desc);
+		DBMS_OUTPUT.PUT_LINE('Quantity: ' || total_qty);
+		DBMS_OUTPUT.PUT_LINE('Subpart Type: ' || subpart_type);
+		DBMS_OUTPUT.PUT_LINE('Subpart ID: ' || subpart_id);
+		DBMS_OUTPUT.PUT_LINE('Subpart Description: ' || subpart_desc);
+
+		DBMS_OUTPUT.PUT_LINE('--------------------------------------------------------------------------------');
     END LOOP;
 
     -- Close the cursor
