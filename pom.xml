@@ -98,6 +98,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>pt.isep.lei.esoft</groupId>
             <artifactId>AuthLib</artifactId>
             <version>1.0-SNAPSHOT</version>

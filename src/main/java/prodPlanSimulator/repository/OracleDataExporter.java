@@ -3,23 +3,65 @@ package prodPlanSimulator.repository;
 import java.sql.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import prodPlanSimulator.domain.Item;
+
 
 public class OracleDataExporter {
 
-    private static final String DB_URL = "jdbc:oracle:thin:@yourDatabaseUrl";
-    private static final String USER = "yourUsername";
-    private static final String PASS = "yourPassword";
+    private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    private static final String USER = "SYS as SYSDBA";
+    private static final String PASS = "LAPR3";
 
     public static void main(String[] args) {
         OracleDataExporter exporter = new OracleDataExporter();
-        exporter.exportItemsToCSV("items.csv");
-        exporter.exportOperationsToCSV("operations.csv");
-        exporter.exportBOOToCSV("boo.csv");
-        exporter.exportArticlesToCSV("articles.csv");
-        exporter.exportWorkstationsToCSV("workstations.csv");
+//        exporter.exportItemsToCSV("items.csv");
+//        exporter.exportOperationsToCSV("operations.csv");
+//        exporter.exportBOOToCSV("boo.csv");
+//        exporter.exportArticlesToCSV("articles.csv");
+//        exporter.exportWorkstationsToCSV("workstations.csv");
+        exportTableToCSV("PRODUCT", "src/main/resources/product.csv");
+        exportTableToCSV("BOO", "boo.csv");
     }
 
-    public void exportItemsToCSV(String fileName) {
+    public static void exportTableToCSV(String tableName, String csvFilePath) {
+        try (
+                Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName );
+                CSVPrinter csvPrinter = new CSVPrinter(new FileWriter(csvFilePath), CSVFormat.DEFAULT)
+        ) {
+            System.out.println("Connected to the database and executing query...");
+
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            String[] columnNames = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames[i - 1] = metaData.getColumnName(i);
+            }
+            csvPrinter.printRecord((Object[]) columnNames);
+            System.out.println("Column names written: " + java.util.Arrays.toString(columnNames));
+
+            boolean hasData = false;
+            while (rs.next()) {
+                Object[] row = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    row[i - 1] = rs.getObject(i);
+                }
+                csvPrinter.printRecord(row);
+                System.out.println("Row written: " + java.util.Arrays.toString(row));
+                hasData = true;
+            }
+            if (!hasData) {
+                System.out.println("No rows found for table: " + tableName);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+  /*  public void exportItemsToCSV(String fileName) {
         String functionCall = "{ ? = CALL Get_Product_Parts(?) }";
         String getProductIdsQuery = "SELECT Product_ID FROM Product";
 
@@ -236,5 +278,5 @@ public class OracleDataExporter {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
