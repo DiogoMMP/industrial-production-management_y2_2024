@@ -39,4 +39,8 @@ public class TreeNode<T> {
     public T getValue() {
         return value;
     }
+
+    public void setValue(T newValue) {
+        this.value = newValue;
+    }
 }

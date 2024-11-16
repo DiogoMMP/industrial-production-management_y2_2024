@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import prodPlanSimulator.domain.Material;
 import prodPlanSimulator.domain.Operation;
 
@@ -19,6 +20,7 @@ public class ProductionTree {
 
     /**
      * Constructs a production tree with the specified main objective.
+     *
      * @param mainObjective the main objective of the production tree
      */
     public ProductionTree(String mainObjective) {
@@ -28,6 +30,7 @@ public class ProductionTree {
 
     /**
      * Returns the root of the production tree.
+     *
      * @return the root of the production tree
      */
     public TreeNode<String> getRoot() {
@@ -36,8 +39,9 @@ public class ProductionTree {
 
     /**
      * Builds the production tree from three CSV files: BOO, items, and operations.
-     * @param booFileName the path to the CSV file with the Bill of Operations
-     * @param itemsFileName the path to the CSV file with the items
+     *
+     * @param booFileName       the path to the CSV file with the Bill of Operations
+     * @param itemsFileName     the path to the CSV file with the items
      * @param operationFileName the path to the CSV file with the operations
      * @return the root of the production tree
      */
@@ -100,6 +104,7 @@ public class ProductionTree {
 
     /**
      * Returns a string representation of the production tree with the specified main objective.
+     *
      * @return a string representation of the production tree
      */
     public String toIndentedStringForObjective() {
@@ -115,15 +120,27 @@ public class ProductionTree {
 
     /**
      * Generates a string representation of the production tree with a custom indentation.
-     * @param node the node to start the string representation from recursively
+     *
+     * @param node    the node to start the string representation from recursively
      * @param builder the string builder to append the string representation to recursively
-     * @param level the current level of the tree recursively
+     * @param level   the current level of the tree recursively
      */
     private void toIndentedStringHelper(TreeNode<String> node, StringBuilder builder, int level) {
         if (level > 0) {
             builder.append("    ".repeat(level - 1)).append("|___");
         }
-        builder.append(node.getValue()).append("\n");
+        builder.append(node.getValue());
+
+        // Check if the node represents a material and extract the quantity
+        if (node.getValue().contains("(Material)")) {
+            String[] parts = node.getValue().split("x");
+            if (parts.length > 1) {
+                String quantity = parts[0].trim();
+                builder.append(" [Quantity: ").append(quantity).append("]");
+            }
+        }
+
+        builder.append("\n");
         for (TreeNode<String> child : node.getChildren()) {
             toIndentedStringHelper(child, builder, level + 1);
         }
@@ -131,6 +148,7 @@ public class ProductionTree {
 
     /**
      * Reads a CSV file and returns its data as a list of string arrays.
+     *
      * @param filePath the path to the CSV file
      * @return a list of string arrays representing the data in the CSV file
      */
@@ -148,12 +166,60 @@ public class ProductionTree {
         return data;
     }
 
+
+    /**
+     * Updates the quantity of a specific material in the production tree.
+     *
+     * @param materialId  The ID of the material to update.
+     * @param newQuantity The new quantity to set.
+     * @return True if the material was updated successfully, false otherwise.
+     */
+    public boolean updateMaterialQuantity(String materialId, String newQuantity) {
+        // Locate the node using the nodesMap
+        TreeNode<String> node = nodesMap.get(materialId);
+        if (node == null) {
+            System.out.println("Material with ID " + materialId + " not found.");
+            return false;
+        }
+
+        // Check if the node represents a material (leaf node)
+        String nodeValue = node.getValue();
+        if (nodeValue.contains("(Material)")) { // Materials contain "(Material)" in their description
+            // Update the quantity in the string representation
+            String updatedNodeValue = nodeValue.replaceFirst("\\d+x", newQuantity + "x");
+            node.setValue(updatedNodeValue);
+            System.out.println("Updated material: " + materialId + " to quantity: " + newQuantity);
+            return true;
+        }
+
+        System.out.println("Node with ID " + materialId + " is not a material.");
+        return false;
+    }
+
+
     // main para testar!! Depois apagar
     public static void main(String[] args) {
         ProductionTree tree1 = new ProductionTree("raw bench seat");
         tree1.buildProductionTree("boo.csv", "items.csv", "operations.csv");
         System.out.println(tree1.toIndentedStringForObjective());
+        // Print the tree before update
+        System.out.println("Before Update:");
+        System.out.println(tree1.toIndentedStringForObjective());
 
+        // Update a material's quantity
+        String materialId = "1015"; // Replace with a valid material ID from your CSV
+        String newQuantity = "60";
+        boolean result = tree1.updateMaterialQuantity(materialId, newQuantity);
+
+        if (result) {
+            System.out.println("Material updated successfully.");
+        } else {
+            System.out.println("Failed to update material.");
+        }
+
+        // Print the tree after update
+        System.out.println("After Update:");
+        System.out.println(tree1.toIndentedStringForObjective());
         System.out.println("\n");
 
         ProductionTree tree2 = new ProductionTree("Bicycle");
