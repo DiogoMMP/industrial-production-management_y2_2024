@@ -6,14 +6,30 @@ import java.util.List;
 public class TreeNode<T> {
     T value;
     List<TreeNode<T>> children;
+    TreeNode<T> parent;
+    NodeType type;
+
+    /**
+     * Constructs a tree node with the specified value and type.
+     * @param value the value of the tree node
+     * @param type the type of the tree node (e.g., NodeType.MATERIAL or NodeType.OPERATION)
+     */
+    public TreeNode(T value, NodeType type) {
+        this.value = value;
+        this.children = new ArrayList<>();
+        this.parent = null;
+        this.type = type;
+    }
 
     /**
      * Constructs a tree node with the specified value.
      * @param value the value of the tree node
      */
-    public TreeNode(T value) {
+    public TreeNode(T value){
         this.value = value;
         this.children = new ArrayList<>();
+        this.parent = null;
+        this.type = null;
     }
 
     /**
@@ -21,6 +37,7 @@ public class TreeNode<T> {
      * @param child the child to add to the tree node
      */
     public void addChild(TreeNode<T> child) {
+        child.parent = this;
         children.add(child);
     }
 
@@ -40,7 +57,27 @@ public class TreeNode<T> {
         return value;
     }
 
-    public void setValue(T newValue) {
-        this.value = newValue;
+    /**
+     * Returns the parent of the tree node.
+     * @return the parent of the tree node
+     */
+    public TreeNode<T> getParent() {
+        return parent;
+    }
+
+    /**
+     * Returns the type of the tree node.
+     * @return the type of the tree node
+     */
+    public NodeType getType() {
+        return type;
+    }
+
+    /**
+     * Sets the type of the tree node.
+     * @param nodeType the type of the tree node
+     */
+    public void setType(NodeType nodeType) {
+        this.type = nodeType;
     }
 }

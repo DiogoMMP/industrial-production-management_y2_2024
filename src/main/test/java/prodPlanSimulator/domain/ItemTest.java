@@ -1,8 +1,7 @@
-import com.kitfox.svg.A;
+package prodPlanSimulator.domain;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.Simulator;
