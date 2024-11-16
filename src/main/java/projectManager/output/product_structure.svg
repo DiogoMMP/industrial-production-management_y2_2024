@@ -1,241 +1,263 @@
-<svg width="2876px" height="154px"
- viewBox="0.00 0.00 2876.19 154.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 150.48)">
+<svg width="1166px" height="375px"
+ viewBox="0.00 0.00 1165.69 375.45" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 371.45)">
 <title>Product Structure</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-150.48 2872.19,-150.48 2872.19,4 -4,4"/>
-<!-- PN12344A21 -->
+<polygon fill="white" stroke="none" points="-4,4 -4,-371.45 1161.69,-371.45 1161.69,4 -4,4"/>
+<!-- 1 -->
 <g id="node1" class="node">
-<title>PN12344A21</title>
-<ellipse fill="none" stroke="black" cx="1216.12" cy="-28.99" rx="82.38" ry="28.99"/>
-<text text-anchor="middle" x="1216.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN12344A21</text>
-<text text-anchor="middle" x="1216.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">Screw M6 35 mm</text>
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="358.35" cy="-249.96" rx="41.01" ry="28.99"/>
+<text text-anchor="middle" x="358.35" y="-253.16" font-family="Times,serif" font-size="14.00">1</text>
+<text text-anchor="middle" x="358.35" y="-236.66" font-family="Times,serif" font-size="14.00">Product</text>
 </g>
-<!-- PN52384R50 -->
+<!-- C01 -->
 <g id="node2" class="node">
-<title>PN52384R50</title>
-<ellipse fill="none" stroke="black" cx="806.12" cy="-28.99" rx="164.05" ry="28.99"/>
-<text text-anchor="middle" x="806.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN52384R50</text>
-<text text-anchor="middle" x="806.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">300x300 mm 5mm stainless steel sheet</text>
+<title>C01</title>
+<ellipse fill="none" stroke="black" cx="72.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="72.35" y="-142.67" font-family="Times,serif" font-size="14.00">C01</text>
+<text text-anchor="middle" x="72.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
 </g>
-<!-- PN52384R10 -->
-<g id="node3" class="node">
-<title>PN52384R10</title>
-<ellipse fill="none" stroke="black" cx="460.12" cy="-28.99" rx="164.05" ry="28.99"/>
-<text text-anchor="middle" x="460.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN52384R10</text>
-<text text-anchor="middle" x="460.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">300x300 mm 1mm stainless steel sheet</text>
-</g>
-<!-- PN18544A21 -->
-<g id="node4" class="node">
-<title>PN18544A21</title>
-<ellipse fill="none" stroke="black" cx="1052.12" cy="-28.99" rx="63.82" ry="28.99"/>
-<text text-anchor="middle" x="1052.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN18544A21</text>
-<text text-anchor="middle" x="1052.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">Rivet 6 mm</text>
-</g>
-<!-- PN18544C21 -->
-<g id="node5" class="node">
-<title>PN18544C21</title>
-<ellipse fill="none" stroke="black" cx="1451.12" cy="-28.99" rx="134.88" ry="28.99"/>
-<text text-anchor="middle" x="1451.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN18544C21</text>
-<text text-anchor="middle" x="1451.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">Stainless steel handle model U6</text>
-</g>
-<!-- PN18324C54 -->
-<g id="node6" class="node">
-<title>PN18324C54</title>
-<ellipse fill="none" stroke="black" cx="139.12" cy="-28.99" rx="139.12" ry="28.99"/>
-<text text-anchor="middle" x="139.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN18324C54</text>
-<text text-anchor="middle" x="139.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">Stainless steel handle model R12</text>
-</g>
-<!-- PN18324C51 -->
-<g id="node7" class="node">
-<title>PN18324C51</title>
-<ellipse fill="none" stroke="black" cx="1743.12" cy="-28.99" rx="139.12" ry="28.99"/>
-<text text-anchor="middle" x="1743.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN18324C51</text>
-<text text-anchor="middle" x="1743.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">Stainless steel handle model R11</text>
-</g>
-<!-- PN52384R45 -->
-<g id="node8" class="node">
-<title>PN52384R45</title>
-<ellipse fill="none" stroke="black" cx="2410.12" cy="-28.99" rx="164.05" ry="28.99"/>
-<text text-anchor="middle" x="2410.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN52384R45</text>
-<text text-anchor="middle" x="2410.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">250x250 mm 5mm stainless steel sheet</text>
-</g>
-<!-- PN52384R12 -->
-<g id="node9" class="node">
-<title>PN52384R12</title>
-<ellipse fill="none" stroke="black" cx="2064.12" cy="-28.99" rx="164.05" ry="28.99"/>
-<text text-anchor="middle" x="2064.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN52384R12</text>
-<text text-anchor="middle" x="2064.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">250x250 mm 1mm stainless steel sheet</text>
-</g>
-<!-- PN18324C91 -->
-<g id="node10" class="node">
-<title>PN18324C91</title>
-<ellipse fill="none" stroke="black" cx="2730.12" cy="-28.99" rx="138.06" ry="28.99"/>
-<text text-anchor="middle" x="2730.12" y="-32.19" font-family="Times New Roman,serif" font-size="14.00">PN18324C91</text>
-<text text-anchor="middle" x="2730.12" y="-15.69" font-family="Times New Roman,serif" font-size="14.00">Stainless steel handle model S26</text>
-</g>
-<!-- AS12945S22 -->
-<g id="node11" class="node">
-<title>AS12945S22</title>
-<ellipse fill="none" stroke="black" cx="915.12" cy="-128.48" rx="60.05" ry="18"/>
-<text text-anchor="middle" x="915.12" y="-123.43" font-family="Times New Roman,serif" font-size="14.00">AS12945S22</text>
-</g>
-<!-- AS12945S22&#45;&gt;PN12344A21 -->
+<!-- 1&#45;&gt;C01 -->
 <g id="edge6" class="edge">
-<title>AS12945S22&#45;&gt;PN12344A21</title>
-<path fill="none" stroke="black" d="M968.78,-119.98C1002.93,-114.36 1047.79,-105.4 1086.12,-92.48 1112.27,-83.67 1140,-70.87 1163.1,-59.14"/>
-<polygon fill="black" stroke="black" points="1164.4,-62.41 1171.68,-54.71 1161.19,-56.19 1164.4,-62.41"/>
-<text text-anchor="middle" x="1130" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>1&#45;&gt;C01</title>
+<path fill="none" stroke="black" d="M320.62,-237.68C292.03,-228.89 251.91,-216.02 217.35,-202.97 185.97,-191.11 151.46,-176.31 123.98,-164.09"/>
+<polygon fill="black" stroke="black" points="125.75,-161.05 115.19,-160.16 122.89,-167.44 125.75,-161.05"/>
+<text text-anchor="middle" x="247.35" y="-189.67" font-family="Times,serif" font-size="14.00">Chair Legs</text>
 </g>
-<!-- AS12945S22&#45;&gt;PN52384R50 -->
+<!-- C02 -->
+<g id="node3" class="node">
+<title>C02</title>
+<ellipse fill="none" stroke="black" cx="219.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="219.35" y="-142.67" font-family="Times,serif" font-size="14.00">C02</text>
+<text text-anchor="middle" x="219.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
+</g>
+<!-- 1&#45;&gt;C02 -->
 <g id="edge5" class="edge">
-<title>AS12945S22&#45;&gt;PN52384R50</title>
-<path fill="none" stroke="black" d="M873.38,-115.26C860.35,-109.89 846.69,-102.47 836.37,-92.48 829.48,-85.81 823.94,-77.24 819.59,-68.6"/>
-<polygon fill="black" stroke="black" points="822.8,-67.2 815.49,-59.53 816.42,-70.08 822.8,-67.2"/>
-<text text-anchor="middle" x="839.75" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>1&#45;&gt;C02</title>
+<path fill="none" stroke="black" d="M331.22,-227.78C310.57,-211.67 281.86,-189.26 258.69,-171.18"/>
+<polygon fill="black" stroke="black" points="261.02,-168.56 250.98,-165.17 256.71,-174.08 261.02,-168.56"/>
+<text text-anchor="middle" x="323.97" y="-189.67" font-family="Times,serif" font-size="14.00">Seat Base</text>
 </g>
-<!-- AS12945S22&#45;&gt;PN52384R10 -->
+<!-- C03 -->
+<g id="node4" class="node">
+<title>C03</title>
+<ellipse fill="none" stroke="black" cx="358.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="358.35" y="-142.67" font-family="Times,serif" font-size="14.00">C03</text>
+<text text-anchor="middle" x="358.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
+</g>
+<!-- 1&#45;&gt;C03 -->
 <g id="edge4" class="edge">
-<title>AS12945S22&#45;&gt;PN52384R10</title>
-<path fill="none" stroke="black" d="M867.29,-117.23C798.16,-102.42 668.25,-74.59 573.71,-54.33"/>
-<polygon fill="black" stroke="black" points="574.64,-50.95 564.13,-52.28 573.18,-57.79 574.64,-50.95"/>
-<text text-anchor="middle" x="745.13" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>1&#45;&gt;C03</title>
+<path fill="none" stroke="black" d="M358.35,-220.74C358.35,-208.4 358.35,-193.72 358.35,-180.3"/>
+<polygon fill="black" stroke="black" points="361.85,-180.44 358.35,-170.44 354.85,-180.44 361.85,-180.44"/>
+<text text-anchor="middle" x="381.97" y="-189.67" font-family="Times,serif" font-size="14.00">Backrest</text>
 </g>
-<!-- AS12945S22&#45;&gt;PN18544A21 -->
+<!-- C04 -->
+<g id="node5" class="node">
+<title>C04</title>
+<ellipse fill="none" stroke="black" cx="497.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="497.35" y="-142.67" font-family="Times,serif" font-size="14.00">C04</text>
+<text text-anchor="middle" x="497.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
+</g>
+<!-- 1&#45;&gt;C04 -->
 <g id="edge3" class="edge">
-<title>AS12945S22&#45;&gt;PN18544A21</title>
-<path fill="none" stroke="black" d="M937.75,-111.38C957.14,-97.59 985.6,-77.33 1009.29,-60.48"/>
-<polygon fill="black" stroke="black" points="1011.08,-63.49 1017.2,-54.84 1007.02,-57.79 1011.08,-63.49"/>
-<text text-anchor="middle" x="987" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">4</text>
+<title>1&#45;&gt;C04</title>
+<path fill="none" stroke="black" d="M385.48,-227.78C406.12,-211.67 434.83,-189.26 458,-171.18"/>
+<polygon fill="black" stroke="black" points="459.98,-174.08 465.71,-165.17 455.67,-168.56 459.98,-174.08"/>
+<text text-anchor="middle" x="471.97" y="-189.67" font-family="Times,serif" font-size="14.00">Support Bars</text>
 </g>
-<!-- AS12945S22&#45;&gt;PN18544C21 -->
-<g id="edge2" class="edge">
-<title>AS12945S22&#45;&gt;PN18544C21</title>
-<path fill="none" stroke="black" d="M967.71,-119.47C989.46,-116.35 1014.97,-112.94 1038.12,-110.48 1145.82,-99.06 1175.42,-116.03 1281.12,-92.48 1301.2,-88.01 1305.09,-83.16 1324.37,-75.98 1340.03,-70.16 1356.81,-64 1372.87,-58.16"/>
-<polygon fill="black" stroke="black" points="1373.67,-61.59 1381.87,-54.89 1371.28,-55.01 1373.67,-61.59"/>
-<text text-anchor="middle" x="1327.75" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">2</text>
+<!-- 201 -->
+<g id="node6" class="node">
+<title>201</title>
+<ellipse fill="none" stroke="black" cx="64.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="64.35" y="-32.19" font-family="Times,serif" font-size="14.00">201</text>
+<text text-anchor="middle" x="64.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
 </g>
-<!-- AS12945S22&#45;&gt;PN18324C54 -->
-<g id="edge1" class="edge">
-<title>AS12945S22&#45;&gt;PN18324C54</title>
-<path fill="none" stroke="black" d="M857.78,-122.62C747.11,-112.91 496.5,-89.32 287.12,-57.98 274.82,-56.14 261.98,-54.02 249.23,-51.78"/>
-<polygon fill="black" stroke="black" points="250.01,-48.36 239.55,-50.06 248.78,-55.26 250.01,-48.36"/>
-<text text-anchor="middle" x="548.62" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
-</g>
-<!-- AS12945S20 -->
-<g id="node12" class="node">
-<title>AS12945S20</title>
-<ellipse fill="none" stroke="black" cx="1107.12" cy="-128.48" rx="60.05" ry="18"/>
-<text text-anchor="middle" x="1107.12" y="-123.43" font-family="Times New Roman,serif" font-size="14.00">AS12945S20</text>
-</g>
-<!-- AS12945S20&#45;&gt;PN12344A21 -->
-<g id="edge12" class="edge">
-<title>AS12945S20&#45;&gt;PN12344A21</title>
-<path fill="none" stroke="black" d="M1125.61,-110.94C1140.02,-98.06 1160.5,-79.74 1178.34,-63.79"/>
-<polygon fill="black" stroke="black" points="1180.6,-66.46 1185.72,-57.19 1175.93,-61.24 1180.6,-66.46"/>
-<text text-anchor="middle" x="1165" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
-</g>
-<!-- AS12945S20&#45;&gt;PN52384R50 -->
-<g id="edge11" class="edge">
-<title>AS12945S20&#45;&gt;PN52384R50</title>
-<path fill="none" stroke="black" d="M1078,-112.38C1055.54,-101.18 1023.46,-86.15 994.12,-75.98 970.86,-67.92 945.51,-60.7 921.18,-54.51"/>
-<polygon fill="black" stroke="black" points="922.1,-51.13 911.55,-52.1 920.4,-57.92 922.1,-51.13"/>
-<text text-anchor="middle" x="1038.72" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
-</g>
-<!-- AS12945S20&#45;&gt;PN52384R10 -->
-<g id="edge10" class="edge">
-<title>AS12945S20&#45;&gt;PN52384R10</title>
-<path fill="none" stroke="black" d="M1060.64,-116.85C1008.11,-105.19 919.89,-86.73 843.12,-75.98 750.35,-63 726.09,-69.47 633.12,-57.98 618.18,-56.14 602.55,-53.96 587.05,-51.64"/>
-<polygon fill="black" stroke="black" points="587.72,-48.2 577.31,-50.17 586.67,-55.13 587.72,-48.2"/>
-<text text-anchor="middle" x="941.33" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
-</g>
-<!-- AS12945S20&#45;&gt;PN18544A21 -->
-<g id="edge9" class="edge">
-<title>AS12945S20&#45;&gt;PN18544A21</title>
-<path fill="none" stroke="black" d="M1092.36,-110.68C1087.86,-105.11 1083.13,-98.73 1079.37,-92.48 1074.84,-84.93 1070.64,-76.49 1066.96,-68.32"/>
-<polygon fill="black" stroke="black" points="1070.21,-67.02 1063.04,-59.21 1063.78,-69.78 1070.21,-67.02"/>
-<text text-anchor="middle" x="1082.75" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">4</text>
-</g>
-<!-- AS12945S20&#45;&gt;PN18544C21 -->
-<g id="edge8" class="edge">
-<title>AS12945S20&#45;&gt;PN18544C21</title>
-<path fill="none" stroke="black" d="M1165.22,-123.72C1211.39,-119.48 1277.13,-110.64 1332.12,-92.48 1354.78,-85 1378.31,-73.53 1398.42,-62.45"/>
-<polygon fill="black" stroke="black" points="1399.98,-65.59 1406.97,-57.63 1396.54,-59.49 1399.98,-65.59"/>
-<text text-anchor="middle" x="1373.02" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">2</text>
-</g>
-<!-- AS12945S20&#45;&gt;PN18324C51 -->
+<!-- C01&#45;&gt;201 -->
 <g id="edge7" class="edge">
-<title>AS12945S20&#45;&gt;PN18324C51</title>
-<path fill="none" stroke="black" d="M1165.73,-123.83C1231.81,-119.12 1342.29,-109.43 1436.12,-92.48 1465.14,-87.24 1471.6,-82.4 1500.37,-75.98 1502.12,-75.59 1567.81,-63.15 1630.41,-51.31"/>
-<polygon fill="black" stroke="black" points="1630.98,-54.76 1640.15,-49.46 1629.68,-47.88 1630.98,-54.76"/>
-<text text-anchor="middle" x="1503.75" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>C01&#45;&gt;201</title>
+<path fill="none" stroke="black" d="M70.27,-110.25C69.36,-97.92 68.27,-83.24 67.28,-69.82"/>
+<polygon fill="black" stroke="black" points="70.78,-69.67 66.56,-59.96 63.8,-70.19 70.78,-69.67"/>
+<text text-anchor="middle" x="98.6" y="-79.18" font-family="Times,serif" font-size="14.00">Oak Wood</text>
 </g>
-<!-- AS12945S17 -->
-<g id="node13" class="node">
-<title>AS12945S17</title>
-<ellipse fill="none" stroke="black" cx="1571.12" cy="-128.48" rx="60.05" ry="18"/>
-<text text-anchor="middle" x="1571.12" y="-123.43" font-family="Times New Roman,serif" font-size="14.00">AS12945S17</text>
+<!-- 202 -->
+<g id="node7" class="node">
+<title>202</title>
+<ellipse fill="none" stroke="black" cx="211.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="211.35" y="-32.19" font-family="Times,serif" font-size="14.00">202</text>
+<text text-anchor="middle" x="211.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
 </g>
-<!-- AS12945S17&#45;&gt;PN12344A21 -->
-<g id="edge18" class="edge">
-<title>AS12945S17&#45;&gt;PN12344A21</title>
-<path fill="none" stroke="black" d="M1524.26,-116.92C1496.52,-110.42 1460.78,-101.6 1429.37,-92.48 1407.2,-86.04 1402.29,-82.42 1380.12,-75.98 1348.03,-66.67 1339.33,-66.9 1307.12,-57.98 1300.54,-56.16 1293.71,-54.19 1286.88,-52.18"/>
-<polygon fill="black" stroke="black" points="1288.22,-48.93 1277.64,-49.43 1286.22,-55.64 1288.22,-48.93"/>
-<text text-anchor="middle" x="1432.75" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<!-- C02&#45;&gt;202 -->
+<g id="edge8" class="edge">
+<title>C02&#45;&gt;202</title>
+<path fill="none" stroke="black" d="M217.27,-110.25C216.36,-97.92 215.27,-83.24 214.28,-69.82"/>
+<polygon fill="black" stroke="black" points="217.78,-69.67 213.56,-59.96 210.8,-70.19 217.78,-69.67"/>
+<text text-anchor="middle" x="245.6" y="-79.18" font-family="Times,serif" font-size="14.00">Oak Wood</text>
 </g>
-<!-- AS12945S17&#45;&gt;PN18544A21 -->
-<g id="edge15" class="edge">
-<title>AS12945S17&#45;&gt;PN18544A21</title>
-<path fill="none" stroke="black" d="M1513.05,-123.28C1426.92,-115.97 1260.87,-97.72 1125.12,-57.98 1120.02,-56.49 1114.77,-54.8 1109.53,-53"/>
-<polygon fill="black" stroke="black" points="1110.88,-49.77 1100.29,-49.71 1108.53,-56.36 1110.88,-49.77"/>
-<text text-anchor="middle" x="1273.31" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">4</text>
+<!-- 203 -->
+<g id="node8" class="node">
+<title>203</title>
+<ellipse fill="none" stroke="black" cx="358.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="358.35" y="-32.19" font-family="Times,serif" font-size="14.00">203</text>
+<text text-anchor="middle" x="358.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
 </g>
-<!-- AS12945S17&#45;&gt;PN18544C21 -->
+<!-- C03&#45;&gt;203 -->
+<g id="edge9" class="edge">
+<title>C03&#45;&gt;203</title>
+<path fill="none" stroke="black" d="M358.35,-110.25C358.35,-97.92 358.35,-83.24 358.35,-69.82"/>
+<polygon fill="black" stroke="black" points="361.85,-69.96 358.35,-59.96 354.85,-69.96 361.85,-69.96"/>
+<text text-anchor="middle" x="387.6" y="-79.18" font-family="Times,serif" font-size="14.00">Oak Wood</text>
+</g>
+<!-- 204 -->
+<g id="node9" class="node">
+<title>204</title>
+<ellipse fill="none" stroke="black" cx="505.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="505.35" y="-32.19" font-family="Times,serif" font-size="14.00">204</text>
+<text text-anchor="middle" x="505.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
+</g>
+<!-- C04&#45;&gt;204 -->
+<g id="edge10" class="edge">
+<title>C04&#45;&gt;204</title>
+<path fill="none" stroke="black" d="M499.43,-110.25C500.34,-97.92 501.42,-83.24 502.41,-69.82"/>
+<polygon fill="black" stroke="black" points="505.89,-70.19 503.14,-59.96 498.91,-69.67 505.89,-70.19"/>
+<text text-anchor="middle" x="531.6" y="-79.18" font-family="Times,serif" font-size="14.00">Oak Wood</text>
+</g>
+<!-- 2 -->
+<g id="node10" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="799.35" cy="-249.96" rx="41.01" ry="28.99"/>
+<text text-anchor="middle" x="799.35" y="-253.16" font-family="Times,serif" font-size="14.00">2</text>
+<text text-anchor="middle" x="799.35" y="-236.66" font-family="Times,serif" font-size="14.00">Product</text>
+</g>
+<!-- C05 -->
+<g id="node11" class="node">
+<title>C05</title>
+<ellipse fill="none" stroke="black" cx="660.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="660.35" y="-142.67" font-family="Times,serif" font-size="14.00">C05</text>
+<text text-anchor="middle" x="660.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
+</g>
+<!-- 2&#45;&gt;C05 -->
 <g id="edge14" class="edge">
-<title>AS12945S17&#45;&gt;PN18544C21</title>
-<path fill="none" stroke="black" d="M1551.04,-111.16C1535.42,-98.47 1513.19,-80.41 1493.66,-64.55"/>
-<polygon fill="black" stroke="black" points="1496.06,-61.99 1486.09,-58.4 1491.64,-67.42 1496.06,-61.99"/>
-<text text-anchor="middle" x="1528.78" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">2</text>
+<title>2&#45;&gt;C05</title>
+<path fill="none" stroke="black" d="M769.86,-229.44C758.21,-221.49 744.84,-212.04 733.1,-202.97 720.82,-193.47 707.83,-182.6 696.28,-172.62"/>
+<polygon fill="black" stroke="black" points="698.75,-170.12 688.91,-166.19 694.15,-175.4 698.75,-170.12"/>
+<text text-anchor="middle" x="764.47" y="-189.67" font-family="Times,serif" font-size="14.00">Metal Legs</text>
 </g>
-<!-- AS12945S17&#45;&gt;PN18324C51 -->
+<!-- C06 -->
+<g id="node12" class="node">
+<title>C06</title>
+<ellipse fill="none" stroke="black" cx="799.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="799.35" y="-142.67" font-family="Times,serif" font-size="14.00">C06</text>
+<text text-anchor="middle" x="799.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
+</g>
+<!-- 2&#45;&gt;C06 -->
 <g id="edge13" class="edge">
-<title>AS12945S17&#45;&gt;PN18324C51</title>
-<path fill="none" stroke="black" d="M1598.38,-112.03C1621.95,-98.67 1656.81,-78.92 1686.41,-62.14"/>
-<polygon fill="black" stroke="black" points="1687.93,-65.3 1694.9,-57.32 1684.48,-59.21 1687.93,-65.3"/>
-<text text-anchor="middle" x="1660.5" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>2&#45;&gt;C06</title>
+<path fill="none" stroke="black" d="M799.35,-220.74C799.35,-208.4 799.35,-193.72 799.35,-180.3"/>
+<polygon fill="black" stroke="black" points="802.85,-180.44 799.35,-170.44 795.85,-180.44 802.85,-180.44"/>
+<text text-anchor="middle" x="843.97" y="-189.67" font-family="Times,serif" font-size="14.00">Metal Seat Base</text>
 </g>
-<!-- AS12945S17&#45;&gt;PN52384R45 -->
-<g id="edge17" class="edge">
-<title>AS12945S17&#45;&gt;PN52384R45</title>
-<path fill="none" stroke="black" d="M1628.27,-122.61C1743.61,-112.55 2012.41,-87.86 2237.12,-57.98 2251.81,-56.03 2267.16,-53.81 2282.4,-51.49"/>
-<polygon fill="black" stroke="black" points="2282.62,-55 2291.97,-50.02 2281.56,-48.08 2282.62,-55"/>
-<text text-anchor="middle" x="2094.89" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<!-- C07 -->
+<g id="node13" class="node">
+<title>C07</title>
+<ellipse fill="none" stroke="black" cx="938.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="938.35" y="-142.67" font-family="Times,serif" font-size="14.00">C07</text>
+<text text-anchor="middle" x="938.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
 </g>
-<!-- AS12945S17&#45;&gt;PN52384R12 -->
-<g id="edge16" class="edge">
-<title>AS12945S17&#45;&gt;PN52384R12</title>
-<path fill="none" stroke="black" d="M1620.2,-117.78C1695.39,-102.91 1841.33,-74.05 1945.34,-53.48"/>
-<polygon fill="black" stroke="black" points="1945.93,-56.93 1955.06,-51.56 1944.57,-50.07 1945.93,-56.93"/>
-<text text-anchor="middle" x="1821" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<!-- 2&#45;&gt;C07 -->
+<g id="edge12" class="edge">
+<title>2&#45;&gt;C07</title>
+<path fill="none" stroke="black" d="M835.72,-235.76C853.96,-228.01 875.65,-216.97 892.35,-202.97 901.17,-195.57 909.23,-186.14 916.06,-176.86"/>
+<polygon fill="black" stroke="black" points="918.72,-179.16 921.58,-168.96 912.99,-175.15 918.72,-179.16"/>
+<text text-anchor="middle" x="948.97" y="-189.67" font-family="Times,serif" font-size="14.00">Metal Backrest</text>
 </g>
-<!-- AS12945P17 -->
+<!-- C08 -->
 <g id="node14" class="node">
-<title>AS12945P17</title>
-<ellipse fill="none" stroke="black" cx="2613.12" cy="-128.48" rx="60.05" ry="18"/>
-<text text-anchor="middle" x="2613.12" y="-123.43" font-family="Times New Roman,serif" font-size="14.00">AS12945P17</text>
+<title>C08</title>
+<ellipse fill="none" stroke="black" cx="1081.35" cy="-139.47" rx="56.39" ry="28.99"/>
+<text text-anchor="middle" x="1081.35" y="-142.67" font-family="Times,serif" font-size="14.00">C08</text>
+<text text-anchor="middle" x="1081.35" y="-126.17" font-family="Times,serif" font-size="14.00">Component</text>
 </g>
-<!-- AS12945P17&#45;&gt;PN52384R45 -->
-<g id="edge20" class="edge">
-<title>AS12945P17&#45;&gt;PN52384R45</title>
-<path fill="none" stroke="black" d="M2582.29,-112.68C2554.23,-99.2 2511.85,-78.85 2476.17,-61.71"/>
-<polygon fill="black" stroke="black" points="2477.71,-58.57 2467.18,-57.39 2474.68,-64.88 2477.71,-58.57"/>
-<text text-anchor="middle" x="2539.15" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<!-- 2&#45;&gt;C08 -->
+<g id="edge11" class="edge">
+<title>2&#45;&gt;C08</title>
+<path fill="none" stroke="black" d="M839.68,-244.13C880.19,-238.23 943.7,-226.03 994.35,-202.97 1012.01,-194.92 1029.72,-183.06 1044.52,-171.82"/>
+<polygon fill="black" stroke="black" points="1046.4,-174.79 1052.13,-165.87 1042.1,-169.27 1046.4,-174.79"/>
+<text text-anchor="middle" x="1076.97" y="-189.67" font-family="Times,serif" font-size="14.00">Metal Support Bars</text>
 </g>
-<!-- AS12945P17&#45;&gt;PN18324C91 -->
-<g id="edge19" class="edge">
-<title>AS12945P17&#45;&gt;PN18324C91</title>
-<path fill="none" stroke="black" d="M2632.71,-111.16C2647.87,-98.53 2669.42,-80.58 2688.39,-64.76"/>
-<polygon fill="black" stroke="black" points="2690.57,-67.5 2696.02,-58.41 2686.09,-62.12 2690.57,-67.5"/>
-<text text-anchor="middle" x="2675" y="-79.18" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<!-- 301 -->
+<g id="node15" class="node">
+<title>301</title>
+<ellipse fill="none" stroke="black" cx="652.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="652.35" y="-32.19" font-family="Times,serif" font-size="14.00">301</text>
+<text text-anchor="middle" x="652.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
+</g>
+<!-- C05&#45;&gt;301 -->
+<g id="edge15" class="edge">
+<title>C05&#45;&gt;301</title>
+<path fill="none" stroke="black" d="M658.27,-110.25C657.36,-97.92 656.27,-83.24 655.28,-69.82"/>
+<polygon fill="black" stroke="black" points="658.78,-69.67 654.56,-59.96 651.8,-70.19 658.78,-69.67"/>
+<text text-anchor="middle" x="670.85" y="-79.18" font-family="Times,serif" font-size="14.00">Steel</text>
+</g>
+<!-- 302 -->
+<g id="node16" class="node">
+<title>302</title>
+<ellipse fill="none" stroke="black" cx="799.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="799.35" y="-32.19" font-family="Times,serif" font-size="14.00">302</text>
+<text text-anchor="middle" x="799.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
+</g>
+<!-- C06&#45;&gt;302 -->
+<g id="edge16" class="edge">
+<title>C06&#45;&gt;302</title>
+<path fill="none" stroke="black" d="M799.35,-110.25C799.35,-97.92 799.35,-83.24 799.35,-69.82"/>
+<polygon fill="black" stroke="black" points="802.85,-69.96 799.35,-59.96 795.85,-69.96 802.85,-69.96"/>
+<text text-anchor="middle" x="812.85" y="-79.18" font-family="Times,serif" font-size="14.00">Steel</text>
+</g>
+<!-- 303 -->
+<g id="node17" class="node">
+<title>303</title>
+<ellipse fill="none" stroke="black" cx="946.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="946.35" y="-32.19" font-family="Times,serif" font-size="14.00">303</text>
+<text text-anchor="middle" x="946.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
+</g>
+<!-- C07&#45;&gt;303 -->
+<g id="edge17" class="edge">
+<title>C07&#45;&gt;303</title>
+<path fill="none" stroke="black" d="M940.43,-110.25C941.34,-97.92 942.42,-83.24 943.41,-69.82"/>
+<polygon fill="black" stroke="black" points="946.89,-70.19 944.14,-59.96 939.91,-69.67 946.89,-70.19"/>
+<text text-anchor="middle" x="956.85" y="-79.18" font-family="Times,serif" font-size="14.00">Steel</text>
+</g>
+<!-- 304 -->
+<g id="node18" class="node">
+<title>304</title>
+<ellipse fill="none" stroke="black" cx="1093.35" cy="-28.99" rx="64.35" ry="28.99"/>
+<text text-anchor="middle" x="1093.35" y="-32.19" font-family="Times,serif" font-size="14.00">304</text>
+<text text-anchor="middle" x="1093.35" y="-15.69" font-family="Times,serif" font-size="14.00">Raw Material</text>
+</g>
+<!-- C08&#45;&gt;304 -->
+<g id="edge18" class="edge">
+<title>C08&#45;&gt;304</title>
+<path fill="none" stroke="black" d="M1084.47,-110.25C1085.83,-97.92 1087.46,-83.24 1088.94,-69.82"/>
+<polygon fill="black" stroke="black" points="1092.41,-70.27 1090.03,-59.95 1085.45,-69.51 1092.41,-70.27"/>
+<text text-anchor="middle" x="1101.85" y="-79.18" font-family="Times,serif" font-size="14.00">Steel</text>
+</g>
+<g id="node19" class="node">
+<title></title>
+<ellipse fill="none" stroke="black" cx="494.35" cy="-349.45" rx="27" ry="18"/>
+</g>
+<!-- &#45;&gt;1 -->
+<g id="edge2" class="edge">
+<title>&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M476.29,-335.5C455.89,-320.88 422.12,-296.68 395.94,-277.9"/>
+<polygon fill="black" stroke="black" points="398.07,-275.12 387.9,-272.14 393.99,-280.81 398.07,-275.12"/>
+<text text-anchor="middle" x="483.1" y="-300.15" font-family="Times,serif" font-size="14.00">Wooden Chair</text>
+</g>
+<!-- &#45;&gt;2 -->
+<g id="edge1" class="edge">
+<title>&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M518.53,-340.72C568.75,-324.67 685.11,-287.47 751.21,-266.34"/>
+<polygon fill="black" stroke="black" points="752.25,-269.69 760.71,-263.31 750.12,-263.02 752.25,-269.69"/>
+<text text-anchor="middle" x="680.35" y="-300.15" font-family="Times,serif" font-size="14.00">Metal Chair</text>
 </g>
 </g>
 </svg>
