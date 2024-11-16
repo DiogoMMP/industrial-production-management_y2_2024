@@ -1,14 +1,24 @@
 CREATE OR REPLACE FUNCTION Get_Product_Operations(
     p_product_id IN VARCHAR2
 ) RETURN SYS_REFCURSOR IS
-    c_operations SYS_REFCURSOR;
-BEGIN
-    OPEN c_operations FOR
-        WITH Product_Operations AS (
-            -- Select operations for the main product
+    -- Variables to hold concatenated inputs and outputs
+    v_inputs VARCHAR2(4000);
+    v_outputs VARCHAR2(4000);
+
+    -- Cursor for the main operations data
+    CURSOR c_operations IS
+        SELECT
+            po.Main_Product_ID,
+            po.Product_ID,
+            po.Manufacturing_Operation_ID,
+            po.Operation_Description,
+            po.Operation_Order,
+            wt.Workstation_Type
+        FROM (
             SELECT
                 p.Product_ID AS Main_Product_ID,
-                p.Product_ID AS Product_ID,
+                p.Product_ID,
+                p.Part_ID,
                 boo.Manufacturing_Operation_ID,
                 mo.Operation_Description,
                 boo.Operation_Order
@@ -19,109 +29,148 @@ BEGIN
 
             UNION ALL
 
-            -- Select operations for subproducts (using BOM and BOM_Part)
             SELECT
                 p.Product_ID AS Main_Product_ID,
-                sp.Product_ID AS Product_ID,
+                sp.Product_ID,
+                sp.Part_ID,
                 boo.Manufacturing_Operation_ID,
                 mo.Operation_Description,
                 boo.Operation_Order
             FROM Product p
             JOIN BOM b ON b.Product_ID = p.Product_ID
             JOIN BOM_Part bp ON bp.Product_ID = b.Product_ID
-            JOIN Product sp ON sp.Part_ID = bp.Part_ID
+            JOIN Product sp ON sp.Product_ID = bp.Part_ID
             JOIN BOO boo ON boo.Product_ID = sp.Product_ID
             JOIN Manufacturing_Operation mo ON mo.Manufacturing_Operation_ID = boo.Manufacturing_Operation_ID
             WHERE p.Product_ID = p_product_id
-        ),
-
-        Workstation_Types AS (
-            -- Join workstation types to operations
+        ) po
+        LEFT JOIN (
             SELECT
-                po.Main_Product_ID,
-                po.Product_ID,
-                po.Manufacturing_Operation_ID,
-                po.Operation_Description,
-                po.Operation_Order,
+                ti.Manufacturing_Operation_ID,
                 wt.Workstation_Type
-            FROM Product_Operations po
-            JOIN Type_Industry ti ON ti.Manufacturing_Operation_ID = po.Manufacturing_Operation_ID
+            FROM Type_Industry ti
             JOIN Workstation_Type wt ON wt.Workstation_Type_ID = ti.Workstation_Type_ID
-        ),
+        ) wt ON wt.Manufacturing_Operation_ID = po.Manufacturing_Operation_ID
+        ORDER BY po.Main_Product_ID, po.Product_ID, po.Operation_Order;
 
-        Component_Inputs_Outputs AS (
-            -- Get input/output components for each operation
-            SELECT
-                wt.Main_Product_ID,
-                wt.Product_ID,
-                wt.Manufacturing_Operation_ID,
-                wt.Operation_Description,
-                wt.Operation_Order,
-                wt.Workstation_Type,
-                c.Component_ID AS Input_Component,
-                cr.Raw_Material_ID AS Output_Component
-            FROM Workstation_Types wt
-            LEFT JOIN Component c ON c.Part_ID = wt.Product_ID
-            LEFT JOIN Component_Raw_Material cr ON cr.Component_ID = c.Component_ID
-        )
+    -- Use a global predefined collection type
+    v_result SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST();  -- Initialize the collection
 
-        -- Final selection of operations with inputs and outputs
-        SELECT
-            Main_Product_ID,
-            Product_ID,
-            Manufacturing_Operation_ID,
-            Operation_Description,
-            Operation_Order,
-            Workstation_Type,
-            Input_Component,
-            Output_Component
-        FROM Component_Inputs_Outputs
-        ORDER BY Main_Product_ID, Product_ID, Operation_Order;
+    -- Declare the SYS_REFCURSOR to hold the final result
+    v_combined SYS_REFCURSOR;
 
-    RETURN c_operations;
+BEGIN
+    -- Loop through the operations data and process it
+    FOR op IN c_operations LOOP
+        -- Initialize input/output variables for each operation
+        v_inputs := '';
+        v_outputs := '';
+
+        -- Get Inputs for the operation
+        FOR input_row IN (
+            SELECT CAST(p.Part_ID AS CHAR) AS ID
+            FROM Part p
+            JOIN BOM_Part bp ON bp.Part_ID = p.Part_ID
+            JOIN BOM b ON b.Product_ID = bp.Product_ID
+            JOIN BOO boo ON boo.Product_ID = b.Product_ID
+            WHERE boo.Manufacturing_Operation_ID = op.Manufacturing_Operation_ID
+            UNION
+            SELECT CAST(pr.Product_ID AS CHAR) AS ID
+            FROM Product pr
+            JOIN BOM_Part bp ON bp.Product_ID = pr.Product_ID
+            JOIN BOM b ON b.Product_ID = bp.Product_ID
+            JOIN BOO boo ON boo.Product_ID = b.Product_ID
+            WHERE boo.Manufacturing_Operation_ID = op.Manufacturing_Operation_ID
+            UNION
+            SELECT CAST(c.Component_ID AS CHAR) AS ID
+            FROM Component c
+            JOIN Part p ON p.Part_ID = c.Part_ID
+            JOIN BOM_Part bp ON bp.Part_ID = p.Part_ID
+            JOIN BOM b ON b.Product_ID = bp.Product_ID
+            JOIN BOO boo ON boo.Product_ID = b.Product_ID
+            WHERE boo.Manufacturing_Operation_ID = op.Manufacturing_Operation_ID
+            UNION
+            SELECT CAST(cr.Raw_Material_ID AS CHAR) AS ID
+            FROM Component_Raw_Material cr
+            JOIN Component c ON c.Component_ID = cr.Component_ID
+            JOIN Part p ON p.Part_ID = c.Part_ID
+            JOIN BOM_Part bp ON bp.Part_ID = p.Part_ID
+            JOIN BOM b ON b.Product_ID = bp.Product_ID
+            JOIN BOO boo ON boo.Product_ID = b.Product_ID
+            WHERE boo.Manufacturing_Operation_ID = op.Manufacturing_Operation_ID
+        ) LOOP
+            v_inputs := v_inputs || input_row.ID || '  ';
+        END LOOP;
+
+        -- Get Outputs for the operation
+        FOR output_row IN (
+            SELECT CAST(p.Part_ID AS CHAR) AS ID
+            FROM Part p
+            JOIN BOM_Part bp ON bp.Part_ID = p.Part_ID
+            JOIN BOM b ON b.Product_ID = bp.Product_ID
+            JOIN BOO boo ON boo.Product_ID = b.Product_ID
+            WHERE boo.Manufacturing_Operation_ID = op.Manufacturing_Operation_ID
+            UNION
+            SELECT CAST(pr.Product_ID AS CHAR) AS ID
+            FROM Product pr
+            JOIN BOM_Part bp ON bp.Product_ID = pr.Product_ID
+            JOIN BOM b ON b.Product_ID = bp.Product_ID
+            JOIN BOO boo ON boo.Product_ID = b.Product_ID
+            WHERE boo.Manufacturing_Operation_ID = op.Manufacturing_Operation_ID
+        ) LOOP
+            v_outputs := v_outputs || output_row.ID || '  ';
+        END LOOP;
+
+        -- Trim trailing spaces
+        v_inputs := RTRIM(v_inputs);
+        v_outputs := RTRIM(v_outputs);
+
+        -- Store the results in the result collection
+        v_result.EXTEND;
+        v_result(v_result.COUNT) :=
+            'Main Product ID: ' || op.Main_Product_ID || CHR(10) ||  -- CHR(10) adds a newline
+            'Product ID: ' || op.Product_ID || CHR(10) ||
+            'Manufacturing Operation ID: ' || TO_CHAR(op.Manufacturing_Operation_ID) || CHR(10) ||
+            'Operation Description: ' || op.Operation_Description || CHR(10) ||
+            'Operation Order: ' || TO_CHAR(op.Operation_Order) || CHR(10) ||
+            'Workstation Type: ' || op.Workstation_Type || CHR(10) ||
+            'Input Component: ' || v_inputs || CHR(10) ||
+            'Output Component: ' || v_outputs || CHR(10) ||
+            '------------------------' || CHR(10);
+
+    END LOOP;
+
+    -- Now return the results as a SYS_REFCURSOR using SYS.ODCIVARCHAR2LIST
+    OPEN v_combined FOR
+        SELECT column_value AS operation_data
+        FROM TABLE(v_result);
+
+    -- Return the cursor with all results
+    RETURN v_combined;
+
 END Get_Product_Operations;
 
 
 
 DECLARE
-    -- Declare a cursor to hold the ref cursor returned by the function
-    c_operations SYS_REFCURSOR;
+    -- Declare a variable to hold the result cursor
+    v_result_cursor SYS_REFCURSOR;
 
-    -- Declare variables to hold each column value for the fetched rows
-    v_main_product_id VARCHAR2(255);
-    v_product_id      VARCHAR2(255);
-    v_manufacturing_operation_id NUMBER;
-    v_operation_description VARCHAR2(255);
-    v_operation_order NUMBER;
-    v_workstation_type VARCHAR2(255);
-    v_input_component VARCHAR2(20);
-    v_output_product NUMBER(10);
-
+    -- Declare a variable to store the fetched row from the cursor
+    v_operation_data VARCHAR2(4000);
 BEGIN
-    -- Call the function with a test product_id (replace 'TEST_PRODUCT_ID' with a valid product ID)
-    c_operations := Get_Product_Operations('AS12945S22');
+    -- Call the Get_Product_Operations function with a sample product ID
+    v_result_cursor := Get_Product_Operations('AS12945S22');  -- Replace with the actual product ID you want to test
 
-    -- Loop through the result set and fetch each row
+    -- Loop through the cursor and output the results
     LOOP
-        FETCH c_operations INTO v_main_product_id, v_product_id, v_manufacturing_operation_id,
-                               v_operation_description, v_operation_order, v_workstation_type,
-                               v_input_component, v_output_product;
+        FETCH v_result_cursor INTO v_operation_data;
+        EXIT WHEN v_result_cursor%NOTFOUND;
 
-        EXIT WHEN c_operations%NOTFOUND;
-
-        -- Display the results for each operation
-        DBMS_OUTPUT.PUT_LINE('Main Product ID: ' || v_main_product_id);
-        DBMS_OUTPUT.PUT_LINE('Product ID: ' || v_product_id);
-        DBMS_OUTPUT.PUT_LINE('Manufacturing Operation ID: ' || v_manufacturing_operation_id);
-        DBMS_OUTPUT.PUT_LINE('Operation Description: ' || v_operation_description);
-        DBMS_OUTPUT.PUT_LINE('Operation Order: ' || v_operation_order);
-        DBMS_OUTPUT.PUT_LINE('Workstation Type: ' || v_workstation_type);
-        DBMS_OUTPUT.PUT_LINE('Input Component: ' || v_input_component);
-        DBMS_OUTPUT.PUT_LINE('Output Product: ' || v_output_product);
-        DBMS_OUTPUT.PUT_LINE('------------------------');
+        -- Output each row (you can choose to print it or handle it differently)
+        DBMS_OUTPUT.PUT_LINE(v_operation_data);
     END LOOP;
 
-    -- Close the cursor after use
-    CLOSE c_operations;
-
+    -- Close the cursor
+    CLOSE v_result_cursor;
 END;
