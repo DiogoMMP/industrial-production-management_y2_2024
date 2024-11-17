@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Item implements Comparable<Item> {
-    private int id;
+    private String id;
     private String description;
     private Priority priority;
     private Double quantity;
@@ -26,12 +26,13 @@ public class Item implements Comparable<Item> {
 
     /**
      * Item Builder
-     * @param id Item ID
-     * @param priority Item priority
+     *
+     * @param id                 Item ID
+     * @param priority           Item priority
      * @param operationsRequired Item operations
-     * @param idParent Item parent ID
+     * @param idParent           Item parent ID
      */
-    public Item(int id, Priority priority, List<Operation> operationsRequired, int idParent, List<Item> itemsRequired) {
+    public Item(String id, Priority priority, List<Operation> operationsRequired, int idParent, List<Item> itemsRequired) {
         this.id = id;
         this.description = "";
         this.quantity = 0.0;
@@ -42,14 +43,15 @@ public class Item implements Comparable<Item> {
         this.lowestTimes = new LinkedHashMap<>();
         this.idParent = idParent;
     }
+
     /**
      * Item Builder
      *
-     * @param id         Item ID
-     * @param priority   Item priority
+     * @param id                 Item ID
+     * @param priority           Item priority
      * @param operationsRequired Item operations
      */
-    public Item(int id, Priority priority, List<Operation> operationsRequired, List<Item> itemsRequired) {
+    public Item(String id, Priority priority, List<Operation> operationsRequired, List<Item> itemsRequired) {
         this.id = id;
         this.description = "";
         this.quantity = 0.0;
@@ -62,7 +64,7 @@ public class Item implements Comparable<Item> {
         this.waitingTimes = new HashMap<>();
     }
 
-    public Item(int id, Priority priority, List<Operation> operationsRequired) {
+    public Item(String id, Priority priority, List<Operation> operationsRequired) {
         this.id = id;
         this.description = "";
         this.quantity = 0.0;
@@ -79,7 +81,7 @@ public class Item implements Comparable<Item> {
      * Empty Item Builder
      */
     public Item() {
-        this.id = 0;
+        this.id = "";
         this.description = "";
         this.quantity = 0.0;
         this.priority = null;
@@ -124,7 +126,7 @@ public class Item implements Comparable<Item> {
      *
      * @return ID of the product
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -133,7 +135,7 @@ public class Item implements Comparable<Item> {
      *
      * @param id new ID of the product
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -216,6 +218,7 @@ public class Item implements Comparable<Item> {
     public void setCurrentOperationIndex(int currentOperationIndex) {
         this.currentOperationIndex = currentOperationIndex;
     }
+
     /**
      * Sets the ID of the parent
      *
@@ -540,7 +543,7 @@ public class Item implements Comparable<Item> {
      */
     @Override
     public int compareTo(Item o) {
-        return Integer.compare(this.id, o.id);
+        return id.compareTo(o.getId());
     }
 
 }

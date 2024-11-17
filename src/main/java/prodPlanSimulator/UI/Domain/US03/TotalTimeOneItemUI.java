@@ -45,7 +45,7 @@ public class TotalTimeOneItemUI implements Runnable {
      * @return the sorted list of items without duplicates
      */
     private ArrayList<Item> sortAndRemoveDuplicates(ArrayList<Item> items) {
-        HashSet<Integer> seenIds = new HashSet<>();
+        HashSet<String> seenIds = new HashSet<>();
         ArrayList<Item> uniqueItems = new ArrayList<>();
 
         for (Item item : items) {
@@ -55,7 +55,12 @@ public class TotalTimeOneItemUI implements Runnable {
             }
         }
 
-        uniqueItems.sort(Comparator.comparingInt(Item::getId));
+        uniqueItems.sort(new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return o1.getId().compareTo(o2.getId());
+            }
+        });
         return uniqueItems;
     }
 

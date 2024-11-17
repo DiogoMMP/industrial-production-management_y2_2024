@@ -17,8 +17,8 @@ public class InputFileReaderTest {
     private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
 
     @Test
-    public void testReadItems() throws FileNotFoundException {
-        Map<Integer, Item> items = InputFileReader.readItems(FILE_PATH_ITEMS);
+    public void testReadArticles() throws FileNotFoundException {
+        Map<Integer, Item> items = InputFileReader.readArticles(FILE_PATH_ITEMS);
 
         assertNotNull(items, "The items list should not be null.");
         assertEquals(24, items.size(), "The number of items read from the file should be 24.");

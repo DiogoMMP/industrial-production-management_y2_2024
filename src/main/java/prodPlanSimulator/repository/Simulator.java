@@ -72,7 +72,7 @@ public class Simulator {
      * @param items list with the items
      */
     private static void removeNullItems(ArrayList<Item> items) {
-        items.removeIf(item -> item.getId() == 0);
+        items.removeIf(item -> item.getId().equalsIgnoreCase(""));
     }
 
     /**
@@ -159,7 +159,7 @@ public class Simulator {
         for (Item item : items) {
             quantItems.put(String.valueOf(item.getId()), quantItems.get(String.valueOf(item.getId())) + 1);
             steps++;
-            if (item.getId() != 0) {
+            if (!item.getId().equalsIgnoreCase("")) {
                 quantMachines = addOperations(operationsQueue, workstations, item, quantMachines, quantItems);
             }
         }
@@ -170,7 +170,7 @@ public class Simulator {
         steps.put("Steps", 1);
         for (Item item : items) {
             steps.put("Steps", steps.get("Steps") + 1);
-            if (item.getId() != 0) {
+            if (!item.getId().equalsIgnoreCase("")) {
                 quantMachines = addOperationsWithSteps(operationsQueue, workstations, item, quantMachines, steps);
             }
         }
