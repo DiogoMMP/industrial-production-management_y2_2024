@@ -219,6 +219,11 @@ insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S17', 1006, 8);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945P17', 1006, 16);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1007, 8);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12946S22', 1001, 5);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12947S22', 1002, 8);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12946S20', 1004, 12);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12947S20', 1005, 7);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S20', 1006, 15);
 
 --Priority
 insert into Priority (Priority) values ('High');
@@ -239,6 +244,17 @@ insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Pro
 insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (6, 'AS12945S17', 8, 'Low');
 insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (6, 'AS12945P17', 16, 'Low');
 insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (7, 'AS12945S22', 8, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (1, 'AS12946S22', 5, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (1, 'AS12947S22', 10, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (2, 'AS12946S20', 8, 'Normal');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (2, 'AS12947S20', 10, 'Normal');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (3, 'AS12946S22', 6, 'Low');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (3, 'AS12947S22', 7, 'Low');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (5, 'AS12945S17', 8, 'Normal');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (2, 'AS12947S22', 8, 'Normal');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (4, 'AS12946S20', 12, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (5, 'AS12947S20', 7, 'Normal');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (6, 'AS12945S20', 15, 'Low');
 
 --Component
 insert into Component (Component_ID, Part_ID, Component_Description) values ('C12344A21', 'PN12344A21', 'Screw M6 35 mm');
@@ -257,6 +273,12 @@ insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_
 insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C52384R10', 94561, 1);
 insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C52384R45', 94561, 1);
 insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C52384R12', 94561, 1);
+insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C52384R50', 52384, 1);
+insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C52384R10', 52385, 1);
+insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C18544A21', 18544, 1);
+insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C18324C54', 18324, 1);
+insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C52384R45', 52384, 1);
+insert into Component_Raw_Material (Component_ID, Raw_Material_ID, Raw_Material_Quantity) values ('C52384R12', 52385, 1);
 
 --BOO
 insert into BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID) values ('AS12946S22', 100, 5647, 103);

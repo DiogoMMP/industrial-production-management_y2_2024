@@ -1,21 +1,40 @@
 SELECT
-    bp.Part_ID AS Part_ID,
-    pt.Part_Type AS Part_Type,
-    SUM(bp.Part_Quantity * ppo.Quantity_Ordered) AS Quantity_To_Order
+    p.Product_Name,
+    p.Product_Description,
+    pi.Part_Description AS Component_Description,
+    SUM(bi.Quantity * ppo.Quantity_Ordered) AS Quantity_Required,
+    rm.Raw_Material_Name,
+    crm.Raw_Material_Quantity * SUM(bi.Quantity * ppo.Quantity_Ordered) AS Total_Raw_Material_Required
 FROM
-    Product_Production_Order ppo
+    Production_Order po
 JOIN
-    Production_Order po ON ppo.Production_Order_ID = po.Order_ID
+    Customer_Order co ON po.Customer_Order_ID = co.Customer_Order_ID
 JOIN
-    BOM_Part bp ON ppo.Product_ID = bp.Product_ID
+    Customer_Order_Product cop ON co.Customer_Order_ID = cop.Customer_Order_ID
 JOIN
-    Part pt ON bp.Part_ID = pt.Part_ID
-LEFT JOIN
-    Component c ON bp.Part_ID = c.Part_ID
+    Product p ON cop.Product_ID = p.Product_ID
+JOIN
+    Product_Production_Order ppo ON p.Product_ID = ppo.Product_ID AND po.Order_ID = ppo.Production_Order_ID
+JOIN
+    BOO b ON p.Product_ID = b.Product_ID
+JOIN
+    BOO_Input bi ON b.Product_ID = bi.Product_ID AND b.Operation_ID = bi.Operation_ID
+JOIN
+    Part pi ON bi.Part_ID = pi.Part_ID
+JOIN
+    Component c ON pi.Part_ID = c.Part_ID
+JOIN
+    Component_Raw_Material crm ON c.Component_ID = crm.Component_ID
+JOIN
+    Raw_Material rm ON crm.Raw_Material_ID = rm.Raw_Material_ID
 WHERE
     po.Order_ID = 1001
 GROUP BY
-    bp.Part_ID,
-    pt.Part_Type
+    p.Product_Name,
+    p.Product_Description,
+    pi.Part_Description,
+    rm.Raw_Material_Name,
+    crm.Raw_Material_Quantity
 ORDER BY
-    bp.Part_ID;
+    p.Product_Name,
+    pi.Part_Description;
