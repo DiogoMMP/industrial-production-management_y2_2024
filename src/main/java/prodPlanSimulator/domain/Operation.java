@@ -3,7 +3,7 @@ package prodPlanSimulator.domain;
 public class Operation {
     private String id;
     private String description;
-    private String quantity;
+    private Double quantity;
 
     /**
      * Constructor for Operation
@@ -11,7 +11,7 @@ public class Operation {
      * @param description Operation description
      * @param quantity Operation quantity
      */
-    public Operation(String id, String description, String quantity) {
+    public Operation(String id, String description, Double quantity) {
         this.id = id;
         this.description = description;
         this.quantity = quantity;
@@ -23,7 +23,7 @@ public class Operation {
     public Operation() {
         this.id = "";
         this.description = "";
-        this.quantity = "0";
+        this.quantity = 0.0;
     }
 
     /**
@@ -46,7 +46,7 @@ public class Operation {
      * Get the quantity of the operation
      * @return Operation quantity
      */
-    public String getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
@@ -70,7 +70,7 @@ public class Operation {
      * Set the quantity of the operation
      * @param quantity Operation quantity
      */
-    public void setQuantity(String quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 

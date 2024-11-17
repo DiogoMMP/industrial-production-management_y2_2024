@@ -21,21 +21,31 @@ class ItemTest {
         item1 = new Item();
         item1.setId(10001);
         item1.setPriority(Priority.HIGH);
-        item1.setOperations(new ArrayList<>(Arrays.asList("cut", "sand", "paint")));
+        Operation operation = new Operation();
+        operation.setDescription("cut");
+        Operation operation1 = new Operation();
+        operation1.setDescription("sand");
+        Operation operation2 = new Operation();
+        operation2.setDescription("paint");
+        item1.setOperations(new ArrayList<>(Arrays.asList(operation, operation1, operation2)));
 
         item2 = new Item();
         item2.setId(10002);
         item2.setPriority(Priority.LOW);
-        item2.setOperations(new ArrayList<>(Arrays.asList("drill", "polish")));
+        operation1.setDescription("drill");
+        operation2.setDescription("polish");
+        item2.setOperations(new ArrayList<>(Arrays.asList(operation1, operation2)));
 
         workstation1 = new Workstation();
         workstation1.setId("M1");
-        workstation1.setOperation("cut");
+        operation1.setDescription("cut");
+        workstation1.setOperation(operation1);
         workstation1.setTime(10);
 
         workstation2 = new Workstation();
         workstation2.setId("M2");
-        workstation2.setOperation("sand");
+        operation2.setDescription("sand");
+        workstation2.setOperation(operation2);
         workstation2.setTime(20);
 
         HashMap<Item, Workstation> prodPlan = new HashMap<>();
@@ -50,7 +60,13 @@ class ItemTest {
         // Setup
         int id = 10001;
         Priority priority = Priority.HIGH;
-        List<String> operations = Arrays.asList("cut", "sand", "paint");
+        Operation operation = new Operation();
+        operation.setDescription("cut");
+        Operation operation1 = new Operation();
+        operation1.setDescription("sand");
+        Operation operation2 = new Operation();
+        operation2.setDescription("paint");
+        List<Operation> operations = Arrays.asList(operation, operation1, operation2);
 
         // Execute
         Item item = new Item(id, priority, operations);
@@ -98,9 +114,13 @@ class ItemTest {
 
     @Test
     void setOperations() {
-        List<String> newOperations = new ArrayList<>();
-        newOperations.add("cut");
-        newOperations.add("assemble");
+        List<Operation> newOperations = new ArrayList<>();
+        Operation operation = new Operation();
+        operation.setDescription("cut");
+        Operation operation1 = new Operation();
+        operation1.setDescription("assemble");
+        newOperations.add(operation);
+        newOperations.add(operation1);
         item1.setOperations(newOperations);
         assertEquals(2, item1.getOperations().size(), "Item1 should now have 2 operations");
         assertEquals(List.of("cut", "assemble"), item1.getOperations(), "New operations for item1 are incorrect");

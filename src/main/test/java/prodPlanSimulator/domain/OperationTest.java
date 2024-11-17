@@ -8,10 +8,10 @@ public class OperationTest {
 
     @Test
     public void testConstructorWithParameters() {
-        Operation operation = new Operation("1", "Test Operation", "10");
+        Operation operation = new Operation("1", "Test Operation", 10.0);
         assertEquals("1", operation.getId());
         assertEquals("Test Operation", operation.getDescription());
-        assertEquals("10", operation.getQuantity());
+        assertEquals(10.0, operation.getQuantity(), 0.0);
     }
 
     @Test
@@ -19,25 +19,25 @@ public class OperationTest {
         Operation operation = new Operation();
         assertEquals("", operation.getId());
         assertEquals("", operation.getDescription());
-        assertEquals("0", operation.getQuantity());
+        assertEquals(0.0, operation.getQuantity(), 0.0);
     }
 
     @Test
     public void testGetId() {
-        Operation operation = new Operation("1", "Test Operation", "10");
+        Operation operation = new Operation("1", "Test Operation", 10.0);
         assertEquals("1", operation.getId());
     }
 
     @Test
     public void testGetDescription() {
-        Operation operation = new Operation("1", "Test Operation", "10");
+        Operation operation = new Operation("1", "Test Operation", 10.0);
         assertEquals("Test Operation", operation.getDescription());
     }
 
     @Test
     public void testGetQuantity() {
-        Operation operation = new Operation("1", "Test Operation", "10");
-        assertEquals("10", operation.getQuantity());
+        Operation operation = new Operation("1", "Test Operation", 10.0);
+        assertEquals(10.0, operation.getQuantity(), 0.0);
     }
 
     @Test
@@ -57,13 +57,13 @@ public class OperationTest {
     @Test
     public void testSetQuantity() {
         Operation operation = new Operation();
-        operation.setQuantity("20");
-        assertEquals("20", operation.getQuantity());
+        operation.setQuantity(20.0);
+        assertEquals(20.0, operation.getQuantity(), 0.0);
     }
 
     @Test
     public void testToString() {
-        Operation operation = new Operation("1", "Test Operation", "10");
+        Operation operation = new Operation("1", "Test Operation", 10.0);
         assertEquals("Test Operation", operation.toString());
     }
 }

@@ -5,40 +5,41 @@ import prodPlanSimulator.domain.Operation;
 
 public class BOMBOO implements Comparable<BOMBOO> {
 
-    private Item item;
-    private Operation operation;
-    private int quantity;
+    private String item;
+    private String operation;
+    private Double quantity;
     /**
      * Creates a new BOMBOO when it is a component and not a raw material
      * @param item item to be added
      * @param operation operation to be added
      */
-    public BOMBOO(Item item, Operation operation) {
+    public BOMBOO(String item, String operation, Double quantity) {
         this.item = item;
         this.operation = operation;
-        this.quantity = 1;
+        this.quantity = quantity;
     }
 
     /**
      * Creates a new BOMBOO when it is a raw material
      * @param item  item to be added
      */
-    public BOMBOO(Item item) {
+    public BOMBOO(String item, Double quantity) {
         this.item = item;
-        this.operation = new Operation();
-        this.quantity = 1;
+        this.operation = "";
+        this.quantity = quantity;
     }
 
 
-    public Item getItem() {
-        return item;
-    }
 
-    public Operation getOperation() {
+    public String getOperation() {
         return operation;
     }
 
-    public int getQuantity() {
+    public String getItem() {
+        return item;
+    }
+
+    public Double getQuantity() {
         return quantity;
     }
 
@@ -53,6 +54,6 @@ public class BOMBOO implements Comparable<BOMBOO> {
 
     @Override
     public String toString() {
-        return item.getId() + " - " + operation.getDescription();
+        return "Item: " + item + " Operation: " + operation + " Quantity: " + quantity;
     }
 }

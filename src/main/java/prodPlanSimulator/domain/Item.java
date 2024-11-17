@@ -3,6 +3,7 @@ package prodPlanSimulator.domain;
 import prodPlanSimulator.enums.Priority;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
+import prodPlanSimulator.repository.OperationsRepository;
 import prodPlanSimulator.repository.Simulator;
 
 import java.util.*;
@@ -10,9 +11,11 @@ import java.util.stream.Collectors;
 
 public class Item implements Comparable<Item> {
     private int id;
+    private String description;
     private Priority priority;
+    private Double quantity;
     private int idParent;
-    private List<String> operations;
+    private List<Operation> operations;
     private int currentOperationIndex;
     private static HashMap_Items_Machines HashMap_Items_Workstations = Instances.getInstance().getHashMapItemsWorkstations();
     private LinkedHashMap<String, Integer> lowestTimes;
@@ -27,8 +30,10 @@ public class Item implements Comparable<Item> {
      * @param operations Item operations
      * @param idParent Item parent ID
      */
-    public Item(int id, Priority priority, List<String> operations, int idParent) {
+    public Item(int id, Priority priority, List<Operation> operations, int idParent) {
         this.id = id;
+        this.description = "";
+        this.quantity = 0.0;
         this.priority = priority;
         this.operations = operations;
         this.currentOperationIndex = 0;
@@ -42,8 +47,10 @@ public class Item implements Comparable<Item> {
      * @param priority   Item priority
      * @param operations Item operations
      */
-    public Item(int id, Priority priority, List<String> operations) {
+    public Item(int id, Priority priority, List<Operation> operations) {
         this.id = id;
+        this.description = "";
+        this.quantity = 0.0;
         this.priority = priority;
         this.operations = operations;
         this.currentOperationIndex = 0;
@@ -57,6 +64,8 @@ public class Item implements Comparable<Item> {
      */
     public Item() {
         this.id = 0;
+        this.description = "";
+        this.quantity = 0.0;
         this.priority = null;
         this.operations = new ArrayList<>();
         this.currentOperationIndex = 0;
@@ -69,6 +78,14 @@ public class Item implements Comparable<Item> {
 
     public void setEntryTime(String operation, long time) {
         entryTimes.put(operation, time);
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public void setWaitingTime(String operation, int time) {
@@ -127,8 +144,16 @@ public class Item implements Comparable<Item> {
      *
      * @return operations of the item
      */
-    public List<String> getOperations() {
+    public List<Operation> getOperations() {
         return operations;
+    }
+
+    public List<String> getOperationsString() {
+        List<String> operationsString = new ArrayList<>();
+        for (Operation operation : operations) {
+            operationsString.add(operation.getDescription());
+        }
+        return operationsString;
     }
 
     /**
@@ -136,8 +161,26 @@ public class Item implements Comparable<Item> {
      *
      * @param operations new operations of the item
      */
-    public void setOperations(List<String> operations) {
+    public void setOperations(List<Operation> operations) {
         this.operations = operations;
+    }
+
+    /**
+     * Gets the description of the item
+     *
+     * @return description of the item
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the description of the item
+     *
+     * @param description new description of the item
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -214,8 +257,8 @@ public class Item implements Comparable<Item> {
             ArrayList<Double> executionTimes = new ArrayList<>();
             LinkedHashMap<String, Integer> workstationsQuantityByOp = new LinkedHashMap<>();
             for (Workstation workstation : machines) {
-                if (workstation.getOperation().equalsIgnoreCase(operation)) {
-                    workstationsQuantityByOp.put(workstation.getOperation(), workstationsQuantityByOp.getOrDefault(workstation.getOperation(), 0) + 1);
+                if (workstation.getOperationName().equalsIgnoreCase(operation)) {
+                    workstationsQuantityByOp.put(workstation.getOperationName(), workstationsQuantityByOp.getOrDefault(workstation.getOperation(), 0) + 1);
                 }
             }
             LinkedHashMap<String, Integer> temp = new LinkedHashMap<>(workstationsQuantityByOp);
@@ -380,7 +423,6 @@ public class Item implements Comparable<Item> {
         return sortedFlow;
     }
 
-
     /**
      * Fills the operationsQueue with the list of the items for each operation
      *
@@ -389,7 +431,8 @@ public class Item implements Comparable<Item> {
      */
     private static void fillOperationsQueueus06(HashMap<Item, Workstation> ProdPlan, HashMap<String, LinkedList<Item>> operationsQueue) {
         for (Item item : ProdPlan.keySet()) {
-            ArrayList<String> operations = (ArrayList<String>) item.getOperations();
+
+            ArrayList<String> operations = (ArrayList<String>) item.getOperationsString();
             for (String operation : operations) {
                 if (!operationsQueue.containsKey(operation)) {
                     operationsQueue.put(operation, new LinkedList<>());
@@ -446,6 +489,14 @@ public class Item implements Comparable<Item> {
         return null;
     }
 
+    public void addOperations(String operation) {
+        if (this.operations == null || this.operations.isEmpty()) {
+            this.operations = new ArrayList<>();
+        }
+        OperationsRepository operationsRepository = Instances.getInstance().getOperationsRepository();
+        Operation operationObj = operationsRepository.getOperationByName(operation);
+        this.operations.add(operationObj);
+    }
 
     /**
      * Compares this object with the specified object to verify if they are equal.
