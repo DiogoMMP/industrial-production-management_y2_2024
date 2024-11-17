@@ -15,7 +15,8 @@ public class Item implements Comparable<Item> {
     private Priority priority;
     private Double quantity;
     private int idParent;
-    private List<Operation> operations;
+    private List<Operation> operationsRequired;
+    private List<Item> itemsRequired;
     private int currentOperationIndex;
     private static HashMap_Items_Machines HashMap_Items_Workstations = Instances.getInstance().getHashMapItemsWorkstations();
     private LinkedHashMap<String, Integer> lowestTimes;
@@ -27,15 +28,16 @@ public class Item implements Comparable<Item> {
      * Item Builder
      * @param id Item ID
      * @param priority Item priority
-     * @param operations Item operations
+     * @param operationsRequired Item operations
      * @param idParent Item parent ID
      */
-    public Item(int id, Priority priority, List<Operation> operations, int idParent) {
+    public Item(int id, Priority priority, List<Operation> operationsRequired, int idParent, List<Item> itemsRequired) {
         this.id = id;
         this.description = "";
         this.quantity = 0.0;
         this.priority = priority;
-        this.operations = operations;
+        this.itemsRequired = itemsRequired;
+        this.operationsRequired = operationsRequired;
         this.currentOperationIndex = 0;
         this.lowestTimes = new LinkedHashMap<>();
         this.idParent = idParent;
@@ -45,14 +47,28 @@ public class Item implements Comparable<Item> {
      *
      * @param id         Item ID
      * @param priority   Item priority
-     * @param operations Item operations
+     * @param operationsRequired Item operations
      */
-    public Item(int id, Priority priority, List<Operation> operations) {
+    public Item(int id, Priority priority, List<Operation> operationsRequired, List<Item> itemsRequired) {
         this.id = id;
         this.description = "";
         this.quantity = 0.0;
         this.priority = priority;
-        this.operations = operations;
+        this.itemsRequired = itemsRequired;
+        this.operationsRequired = operationsRequired;
+        this.currentOperationIndex = 0;
+        this.lowestTimes = new LinkedHashMap<>();
+        this.entryTimes = new HashMap<>();
+        this.waitingTimes = new HashMap<>();
+    }
+
+    public Item(int id, Priority priority, List<Operation> operationsRequired) {
+        this.id = id;
+        this.description = "";
+        this.quantity = 0.0;
+        this.priority = priority;
+        this.itemsRequired = new ArrayList<>();
+        this.operationsRequired = operationsRequired;
         this.currentOperationIndex = 0;
         this.lowestTimes = new LinkedHashMap<>();
         this.entryTimes = new HashMap<>();
@@ -67,7 +83,7 @@ public class Item implements Comparable<Item> {
         this.description = "";
         this.quantity = 0.0;
         this.priority = null;
-        this.operations = new ArrayList<>();
+        this.operationsRequired = new ArrayList<>();
         this.currentOperationIndex = 0;
         this.lowestTimes = new LinkedHashMap<>();
     }
@@ -144,13 +160,13 @@ public class Item implements Comparable<Item> {
      *
      * @return operations of the item
      */
-    public List<Operation> getOperations() {
-        return operations;
+    public List<Operation> getOperationsRequired() {
+        return operationsRequired;
     }
 
     public List<String> getOperationsString() {
         List<String> operationsString = new ArrayList<>();
-        for (Operation operation : operations) {
+        for (Operation operation : operationsRequired) {
             operationsString.add(operation.getDescription());
         }
         return operationsString;
@@ -159,10 +175,10 @@ public class Item implements Comparable<Item> {
     /**
      * Sets the operations of the item
      *
-     * @param operations new operations of the item
+     * @param operationsRequired new operations of the item
      */
-    public void setOperations(List<Operation> operations) {
-        this.operations = operations;
+    public void setOperationsRequired(List<Operation> operationsRequired) {
+        this.operationsRequired = operationsRequired;
     }
 
     /**
@@ -207,6 +223,24 @@ public class Item implements Comparable<Item> {
      */
     public void setIdParent(int idParent) {
         this.idParent = idParent;
+    }
+
+    /**
+     * Gets the items required for the item
+     *
+     * @return items required for the item
+     */
+    public List<Item> getItemsRequired() {
+        return itemsRequired;
+    }
+
+    /**
+     * Sets the items required for the item
+     *
+     * @param itemsRequired new items required for the item
+     */
+    public void setItemsRequired(List<Item> itemsRequired) {
+        this.itemsRequired = itemsRequired;
     }
 
     /**
@@ -490,12 +524,12 @@ public class Item implements Comparable<Item> {
     }
 
     public void addOperations(String operation) {
-        if (this.operations == null || this.operations.isEmpty()) {
-            this.operations = new ArrayList<>();
+        if (this.operationsRequired == null || this.operationsRequired.isEmpty()) {
+            this.operationsRequired = new ArrayList<>();
         }
         OperationsRepository operationsRepository = Instances.getInstance().getOperationsRepository();
         Operation operationObj = operationsRepository.getOperationByName(operation);
-        this.operations.add(operationObj);
+        this.operationsRequired.add(operationObj);
     }
 
     /**

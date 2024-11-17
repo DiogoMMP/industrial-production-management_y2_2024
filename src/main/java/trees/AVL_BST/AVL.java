@@ -209,5 +209,26 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         }
         else return false;
     }
-   
+
+    /**
+     * Searches for an element in the AVL tree
+     * @param element element to search for
+     * @return the element if it is found, null otherwise
+     */
+    public BOMBOO search(E element) {
+        return search(root, element);
+    }
+
+    private BOMBOO search(Node<E> node, E element) {
+        if (node == null) {
+            return null;
+        }
+        if (element.compareTo(node.getElement()) == 0) {
+            return (BOMBOO) node.getElement();
+        }
+        if (element.compareTo(node.getElement()) < 0) {
+            return search(node.getLeft(), element);
+        }
+        return search(node.getRight(), element);
+    }
 }

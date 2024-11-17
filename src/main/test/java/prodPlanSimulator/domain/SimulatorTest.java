@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -98,7 +97,7 @@ class SimulatorTest {
         LinkedHashMap<String, Double> result = simulator.simulateProcessUS02();
         int expectedSize = 0;
         for (Item item : items) {
-            for (Operation operation : item.getOperations()) {
+            for (Operation operation : item.getOperationsRequired()) {
                 expectedSize++;
             }
         }
@@ -161,7 +160,7 @@ class SimulatorTest {
         // Validate result size matches expected size
         int expectedSize = 0;
         for (Item item : items) {
-            for (Operation operation : item.getOperations()) {
+            for (Operation operation : item.getOperationsRequired()) {
                 expectedSize++;
             }
         }

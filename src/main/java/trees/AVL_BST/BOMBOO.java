@@ -2,34 +2,42 @@ package trees.AVL_BST;
 
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Operation;
+import trees.ProductionTree.NodeType;
 
 public class BOMBOO implements Comparable<BOMBOO> {
 
     private String item;
     private String operation;
     private Double quantity;
+    private NodeType type;
     /**
-     * Creates a new BOMBOO when it is a component and not a raw material
+     * Creates a new BOMBOO when it is a material
      * @param item item to be added
-     * @param operation operation to be added
-     */
-    public BOMBOO(String item, String operation, Double quantity) {
-        this.item = item;
-        this.operation = operation;
-        this.quantity = quantity;
-    }
-
-    /**
-     * Creates a new BOMBOO when it is a raw material
-     * @param item  item to be added
      */
     public BOMBOO(String item, Double quantity) {
         this.item = item;
         this.operation = "";
         this.quantity = quantity;
+        this.type = NodeType.MATERIAL;
     }
 
+    /**
+     * Creates a new BOMBOO when it is a operation
+     * @param operation  item to be added
+     */
+    public BOMBOO(Double quantity, String operation) {
+        this.item = "";
+        this.operation = operation;
+        this.quantity = quantity;
+        this.type = NodeType.OPERATION;
+    }
 
+    public BOMBOO(String item) {
+        this.item = item;
+        this.operation = "";
+        this.quantity = 0.0;
+        this.type = NodeType.OPERATION;
+    }
 
     public String getOperation() {
         return operation;
@@ -43,10 +51,6 @@ public class BOMBOO implements Comparable<BOMBOO> {
         return quantity;
     }
 
-    public void incQuantity(){
-        quantity++;
-    }
-
     @Override
     public int compareTo(BOMBOO o) {
         return item.compareTo(o.getItem());
@@ -55,5 +59,13 @@ public class BOMBOO implements Comparable<BOMBOO> {
     @Override
     public String toString() {
         return "Item: " + item + " Operation: " + operation + " Quantity: " + quantity;
+    }
+
+    public NodeType getType() {
+        return type;
+    }
+
+    public void setType(NodeType type) {
+        this.type = type;
     }
 }

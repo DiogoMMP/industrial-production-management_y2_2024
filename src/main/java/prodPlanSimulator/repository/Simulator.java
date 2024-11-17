@@ -1,13 +1,9 @@
 package prodPlanSimulator.repository;
 
-import com.sun.source.tree.Tree;
-import org.w3c.dom.Node;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Workstation;
 import trees.AVL_BST.AVL;
 import trees.AVL_BST.BOMBOO;
-import trees.AVL_BST.BST;
-import trees.AVL_BST.SimulatorTree;
 import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
@@ -17,6 +13,7 @@ import java.util.*;
 public class Simulator {
     private LinkedHashMap<String, Double> timeOperations;
     private ProductionTree productionTree;
+
     /**
      * US2: Simulate the process of all the items present in the system.
      *
@@ -77,8 +74,8 @@ public class Simulator {
     private static void removeNullItems(ArrayList<Item> items) {
         items.removeIf(item -> item.getId() == 0);
     }
+
     /**
-     *
      * Fills the operationsQueue with the list of the items for each operation
      *
      * @param items           List with the items
@@ -88,7 +85,6 @@ public class Simulator {
         for (Item item : items) {
             ArrayList<String> operations = (ArrayList<String>) item.getOperationsString();
             if (operations.isEmpty()) {
-                System.out.println("Item with ID " + item.getId() + " has no operations.");
                 continue;
             }
             for (String operation : operations) {
@@ -101,6 +97,7 @@ public class Simulator {
             }
         }
     }
+
     /**
      * Assigns the items to the machines
      *
@@ -114,6 +111,14 @@ public class Simulator {
         sortItemsByTime(items, workstations);
         addAllItems(operationsQueue, workstations, items, quantMachines);
     }
+
+    private void fillUpMachinesUS16(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, ArrayList<Item> items) {
+        int quantMachines = workstations.size();
+        sortMachinesByTime(workstations);
+        sortItemsByTime(items, workstations);
+        addAllItemsWithSteps(operationsQueue, workstations, items, quantMachines);
+    }
+
     private static void sortItemsByPriority(ArrayList<Item> items) {
         items.sort(Comparator.comparing(Item::getPriority));
     }
@@ -137,23 +142,36 @@ public class Simulator {
     }
 
 
-
     /**
      * Adds all the items to the machines
-     * @param operationsQueue  HashMap with the operations and the list of items
+     *
+     * @param operationsQueue HashMap with the operations and the list of items
      * @param workstations    List of machines
-     * @param items         List of items
-     * @param quantMachines Quantity of machines
+     * @param items           List of items
+     * @param quantMachines   Quantity of machines
      */
     private void addAllItems(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, ArrayList<Item> items, int quantMachines) {
         LinkedHashMap<String, Integer> quantItems = new LinkedHashMap<>();
+        int steps = 0;
         for (Item item : items) {
             quantItems.put(String.valueOf(item.getId()), 0);
         }
         for (Item item : items) {
             quantItems.put(String.valueOf(item.getId()), quantItems.get(String.valueOf(item.getId())) + 1);
+            steps++;
             if (item.getId() != 0) {
                 quantMachines = addOperations(operationsQueue, workstations, item, quantMachines, quantItems);
+            }
+        }
+    }
+
+    private void addAllItemsWithSteps(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, ArrayList<Item> items, int quantMachines) {
+        LinkedHashMap<String, Integer> steps = new LinkedHashMap<>();
+        steps.put("Steps", 1);
+        for (Item item : items) {
+            steps.put("Steps", steps.get("Steps") + 1);
+            if (item.getId() != 0) {
+                quantMachines = addOperationsWithSteps(operationsQueue, workstations, item, quantMachines, steps);
             }
         }
     }
@@ -168,7 +186,7 @@ public class Simulator {
      * @param quantMachines   Quantity of machines
      * @return Quantity of machines
      */
-    private  int addOperations(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, Item item, int quantMachines, LinkedHashMap<String, Integer> quantItems) {
+    private int addOperations(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, Item item, int quantMachines, LinkedHashMap<String, Integer> quantItems) {
         for (String operation : item.getOperationsString()) {
             ArrayList<Workstation> availableWorkstations = new ArrayList<>();
             for (Workstation workstation : workstations) {
@@ -186,6 +204,43 @@ public class Simulator {
         return quantMachines;
     }
 
+    private int addOperationsWithSteps(HashMap<String, LinkedList<Item>> operationsQueue, ArrayList<Workstation> workstations, Item item, int quantMachines, LinkedHashMap<String, Integer> steps) {
+        String step = "Step " + steps.get("Steps") + ": ";
+        for (String operation : item.getOperationsString()) {
+            ArrayList<Workstation> availableWorkstations = new ArrayList<>();
+            for (Workstation workstation : workstations) {
+                if (workstation.getOperationName().equalsIgnoreCase(operation)) {
+                    availableWorkstations.add(workstation);
+                }
+            }
+            if (quantMachines == 0) {
+                quantMachines = checkMachines(workstations, quantMachines);
+            } else {
+                quantMachines = checkMachinesWithOperation(availableWorkstations, quantMachines, operation);
+            }
+            quantMachines = addItemWithSteps(operationsQueue, item, operation, availableWorkstations, quantMachines, step);
+        }
+        return quantMachines;
+    }
+
+    private int addItemWithSteps(HashMap<String, LinkedList<Item>> operationsQueue, Item item, String operation, ArrayList<Workstation> availableWorkstations, int quantMachines, String step) {
+        for (Workstation workstation : availableWorkstations) {
+            if (item.getCurrentOperationIndex() > item.getOperationsRequired().size()) {
+                return quantMachines;
+            }
+            if ((operationsQueue.get(workstation.getOperation().getDescription()).contains(item) && workstation.getOperationName().equalsIgnoreCase(operation)) && (!workstation.getHasItem())) {
+                int currentItem = timeOperations.size() + 1;
+                workstation.setHasItem(true);
+                item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
+                quantMachines--;
+                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + workstation.getTime() + " - Quantity: " + item.getQuantity() + step;
+                timeOperations.put(operation1, (double) workstation.getTime());
+                operationsQueue.get(workstation.getOperation().getDescription()).remove(item);
+                return quantMachines;
+            }
+        }
+        return quantMachines;
+    }
     /**
      * Adds the item to the machine for the corresponding operation
      *
@@ -196,19 +251,19 @@ public class Simulator {
      * @param quantMachines         Quantity of machines
      * @return Quantity of machines
      */
-    private  int addItem(HashMap<String, LinkedList<Item>> operationsQueue, Item item, String operation, ArrayList<Workstation> availableWorkstations, int quantMachines, LinkedHashMap<String, Integer> quantItems) {
+    private int addItem(HashMap<String, LinkedList<Item>> operationsQueue, Item item, String operation, ArrayList<Workstation> availableWorkstations, int quantMachines, LinkedHashMap<String, Integer> quantItems) {
         for (Workstation workstation : availableWorkstations) {
-            if (item.getCurrentOperationIndex() > item.getOperations().size()) {
+            if (item.getCurrentOperationIndex() > item.getOperationsRequired().size()) {
                 return quantMachines;
             }
-            if ((operationsQueue.get(workstation.getOperation()).contains(item) && workstation.getOperationName().equalsIgnoreCase(operation)) && (!workstation.getHasItem())) {
+            if ((operationsQueue.get(workstation.getOperation().getDescription()).contains(item) && workstation.getOperationName().equalsIgnoreCase(operation)) && (!workstation.getHasItem())) {
                 int currentItem = timeOperations.size() + 1;
                 workstation.setHasItem(true);
                 item.setCurrentOperationIndex(item.getCurrentOperationIndex() + 1);
                 quantMachines--;
-                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + workstation.getTime() + " - Quantity: " + quantItems.get(String.valueOf(item.getId()));
-                timeOperations.put(operation1,(double) workstation.getTime());
-                operationsQueue.get(workstation.getOperation()).remove(item);
+                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Priority: " + item.getPriority() + " - Item: " + item.getId() + " - Time: " + workstation.getTime() + " - Quantity: " + item.getQuantity();
+                timeOperations.put(operation1, (double) workstation.getTime());
+                operationsQueue.get(workstation.getOperation().getDescription()).remove(item);
                 return quantMachines;
             }
         }
@@ -264,6 +319,7 @@ public class Simulator {
             } while (swapped);
         }
     }
+
     private static void addTimes(ArrayList<Item> items, ArrayList<Workstation> workstations) {
         for (Item item : items) {
             LinkedHashMap<String, Integer> operationTimes = new LinkedHashMap<>();
@@ -282,6 +338,7 @@ public class Simulator {
             item.setLowestTimes(operationTimes);
         }
     }
+
     /**
      * Sorts the items by priority and time
      *
@@ -331,6 +388,7 @@ public class Simulator {
         }
         return quantMachines;
     }
+
     private static int checkMachines(ArrayList<Workstation> machines, int quantMachines) {
         if (quantMachines == 0) {
             for (Workstation machine1 : machines) {
@@ -340,6 +398,7 @@ public class Simulator {
         }
         return quantMachines;
     }
+
     /**
      * Simulates the process of all the items present in the system
      */
@@ -359,7 +418,7 @@ public class Simulator {
 
     public LinkedHashMap<String, Double> simulateBOMBOO() {
         TreeNode<String> root = productionTree.getRoot();
-        SimulatorTree bombooTree = new SimulatorTree();
+        AVL<BOMBOO> bombooTree = new AVL<>();
         createBOMBOOTree(root, bombooTree);
         timeOperations = new LinkedHashMap<>();
         HashMap_Items_Machines HashMap_Items_Workstations = Instances.getInstance().getHashMapItemsWorkstations();
@@ -371,28 +430,23 @@ public class Simulator {
         removeNullMachines(workstations);
         removeNullItems(filteredItems);
         fillOperationsQueue(filteredItems, operationsQueue);
-        return timeOperations;
+        fillUpMachinesUS16(operationsQueue, workstations, filteredItems);
+        return SimulatorReset(workstations, filteredItems);
     }
 
-    private ArrayList<Item> filterItems(ArrayList<Item> items, SimulatorTree bombooTree) {
+    private ArrayList<Item> filterItems(ArrayList<Item> items, AVL<BOMBOO> bombooTree) {
         ArrayList<Item> filteredItems = new ArrayList<>();
-        Iterator<Item> iterator = items.iterator();
-
-        while (iterator.hasNext()) {
-            Item item = iterator.next();
-            BOMBOO bomboo = new BOMBOO(item.getDescription(), item.getQuantity());
-            if (bomboo == null) {
-                iterator.remove();
-            } else {
-                item.addOperations(bomboo.getOperation());
+        for (Item item : items) {
+            BOMBOO bomboo = bombooTree.search(new BOMBOO(item.getDescription()));
+            String type = bomboo.getType().toString();
+            if (item.getDescription().equalsIgnoreCase(bomboo.getItem()) && type.equalsIgnoreCase("MATERIAL")) {
                 filteredItems.add(item);
             }
         }
-
         return filteredItems;
     }
 
-    private void createBOMBOOTree(TreeNode<String> node, SimulatorTree bombooTree) {
+    private void createBOMBOOTree(TreeNode<String> node, AVL<BOMBOO> bombooTree) {
         if (node == null) {
             return;
         }
@@ -402,7 +456,7 @@ public class Simulator {
             int endIndex = value.lastIndexOf('x');
             String operationName = value.substring(0, startIndex).trim();
             double quantity = Double.parseDouble(value.substring(startIndex + 1, endIndex).trim());
-            bombooTree.insert(new BOMBOO("", operationName, quantity));
+            bombooTree.insert(new BOMBOO(quantity, operationName));
         } else if (node.getType().equals(NodeType.MATERIAL)) {
             int startIndex = value.lastIndexOf('(');
             int endIndex = value.lastIndexOf('x');
@@ -418,13 +472,12 @@ public class Simulator {
     /**
      * Calculate the total quantity of materials and time needed for the production.
      *
-     * @param productionTree the production tree
      * @return a map containing the total quantity of materials and time needed
      */
-    public Map<String, Object> calculateTotalMaterialsAndTime(ProductionTree productionTree) {
+    public Map<String, Object> calculateTotalMaterialsAndTime() {
         Map<String, Integer> materialQuantities = new HashMap<>();
         Map<String, Double> operationTimes = new HashMap<>();
-        calculateTotals(productionTree.getRoot(), materialQuantities, operationTimes);
+        calculateTotals(materialQuantities, operationTimes);
 
         Map<String, Object> result = new HashMap<>();
         result.put("materialQuantities", materialQuantities);
@@ -432,27 +485,44 @@ public class Simulator {
         return result;
     }
 
-    private void calculateTotals(TreeNode<String> node, Map<String, Integer> materialQuantities, Map<String, Double> operationTimes) {
+    private void calculateTotals(Map<String, Integer> materialQuantities, Map<String, Double> operationTimes) {
+        TreeNode<String> root = productionTree.getRoot();
+        traverseTree(root, materialQuantities, operationTimes);
+    }
+
+    private void traverseTree(TreeNode<String> node, Map<String, Integer> materialQuantities, Map<String, Double> operationTimes) {
         if (node == null) {
             return;
         }
         String value = node.getValue();
-        if (value.startsWith("Material: ")) {
-            String[] parts = value.split(" - ");
-            String materialName = parts[1];
-            int quantity = Integer.parseInt(parts[3].split(": ")[1]);
+        if (node.getType().equals(NodeType.MATERIAL)) {
+            int startIndex = value.lastIndexOf('(');
+            int endIndex = value.lastIndexOf('x');
+            String materialName = value.substring(0, startIndex).trim();
+            int quantity = Integer.parseInt(value.substring(startIndex + 1, endIndex).trim());
             materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, 0) + quantity);
-        } else if (value.startsWith("Operation: ")) {
-            String[] parts = value.split(" - ");
-            String operationName = parts[1];
-            double time = Double.parseDouble(parts[3].split(": ")[1]);
-            operationTimes.put(operationName, operationTimes.getOrDefault(operationName, 0.0) + time);
+        } else if (node.getType().equals(NodeType.OPERATION)) {
+            int startIndex = value.lastIndexOf('(');
+            int endIndex = value.lastIndexOf('x');
+            String operationName = value.substring(0, startIndex).trim();
+            int quantity = Integer.parseInt(value.substring(startIndex + 1, endIndex).trim());
+
+            double totalTime = 0;
+            int count = 0;
+            for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+                if (entry.getKey().contains("Operation: " + operationName)) {
+                    totalTime += entry.getValue();
+                    count++;
+                }
+            }
+            double averageTime = count > 0 ? totalTime / count : 0;
+            operationTimes.put(operationName, operationTimes.getOrDefault(operationName, 0.0) + (averageTime * quantity));
         }
+
         for (TreeNode<String> child : node.getChildren()) {
-            calculateTotals(child, materialQuantities, operationTimes);
+            traverseTree(child, materialQuantities, operationTimes);
         }
     }
-
 
 
     public LinkedHashMap<String, Double> getTimeOperations() {
