@@ -104,6 +104,9 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      * Moves the entry at index j lower, if necessary, to restore the heap property.
      */
     protected void percolateDown(int j) {
+        if (heap.isEmpty()) { // Defensive check
+            return;
+        }
         Entry<K, V> entry = heap.get(j);
         while (hasLeft(j)) {
             int leftIndex = left(j);
@@ -121,6 +124,7 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
             j = smallChildIndex;
         }
     }
+
 
     /**
      * Performs a batch bottom-up construction of the heap in O(n) time.
@@ -181,16 +185,17 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      */
     @Override
     public Entry<K, V> removeMin() {
-        if (heap.isEmpty()) {
+        if (heap.isEmpty()) { // Check if the heap is empty
             return null;
         }
-        Entry<K, V> answer = heap.get(0);
-        swap(0, heap.size() - 1);
-        heap.remove(heap.size() - 1);
-        percolateDown(0);
+        Entry<K, V> answer = heap.get(0); // Root of the heap
+        swap(0, heap.size() - 1); // Swap root with the last element
+        heap.remove(heap.size() - 1); // Remove the last element
+        if (!heap.isEmpty()) { // Only percolate down if the heap is not empty
+            percolateDown(0);
+        }
         return answer;
     }
-
     @Override
     public String toString() {
         return heap.toString();

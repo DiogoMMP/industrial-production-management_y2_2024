@@ -1,5 +1,6 @@
 package trees.ProductionTree;
 
+import trees.AVL_BST.AVL;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,10 +10,16 @@ import java.util.List;
 import java.util.Map;
 import prodPlanSimulator.domain.Material;
 import prodPlanSimulator.domain.Operation;
+import trees.heap.HeapPriorityQueue;
+import java.util.Scanner;
+
 
 public class ProductionTree {
     private TreeNode<String> root;
     private Map<String, TreeNode<String>> nodesMap = new HashMap<>();
+    private HeapPriorityQueue<Integer, String> qualityCheckQueue; // Priority Queue for Quality Checks
+    private Map<Integer, Integer> depthPriorityMap; // Maps depth to priority
+    private int nextPriority; // Counter for the next available priority
 
     private static final String FILES_PATH = "src/main/resources/";
 
@@ -21,7 +28,11 @@ public class ProductionTree {
      *
      */
     public ProductionTree() {
+
         this.root = null;
+        this.qualityCheckQueue = new HeapPriorityQueue<>();
+        this.depthPriorityMap = new HashMap<>();
+        this.nextPriority = 1; // Start priority from 1
     }
 
     /**
@@ -127,6 +138,11 @@ public class ProductionTree {
                     TreeNode<String> subOperationNode = new TreeNode<>(subOperationDescription + " (" + subOperationQuantity + "x)");
                     subOperationNode.setType(NodeType.OPERATION);
                     productNode.addChild(subOperationNode);
+
+                    // Add quality check for this operation
+                    int depth = calculateDepth(subOperationNode);
+                    int priority = getPriorityForDepth(depth);
+                    qualityCheckQueue.insert(priority, subOperationDescription);
 
                     // Recursive call to sub-operations
                     buildSubTree(subOperationId, subOperationNode, booData, itemNames, operationDescriptions);
@@ -409,6 +425,99 @@ public class ProductionTree {
         return null;
     }
 
+    private int calculatePriorityLevel(TreeNode<String> node) {
+        int depth = 0;
+        while (node != null) {
+            depth++;
+            node = node.getParent();
+        }
+        return depth; // Use depth as priority (lower depth = higher priority)
+    }
+
+    private int calculateDepth(TreeNode<String> node) {
+        int depth = 0;
+        while (node != null) {
+            depth++;
+            node = node.getParent();
+        }
+        return depth;
+    }
+
+    private int getPriorityForDepth(int depth) {
+        // Assign a unique priority to each depth level
+        if (!depthPriorityMap.containsKey(depth)) {
+            depthPriorityMap.put(depth, nextPriority++);
+        }
+        return depthPriorityMap.get(depth);
+    }
+
+    public void viewQualityChecksInOrder() {
+        System.out.println("Quality Checks in Order of Priority:");
+        HeapPriorityQueue<Integer, String> tempQueue = qualityCheckQueue.clone();
+        while (!tempQueue.isEmpty()) {
+            var check = tempQueue.removeMin();
+            System.out.println("Quality Check: " + check.getValue() + " [Priority: " + check.getKey() + "]");
+        }
+    }
+
+    /**
+     * Allows the user to perform quality checks one at a time interactively.
+     */
+    public void performQualityChecksInteractively() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Starting Interactive Quality Checks:");
+        while (!qualityCheckQueue.isEmpty()) {
+            var nextCheck = qualityCheckQueue.removeMin();
+            System.out.println("Next Quality Check: " + nextCheck.getValue() + " [Priority: " + nextCheck.getKey() + "]");
+            System.out.print("Perform this quality check? (yes/no): ");
+
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("yes")) {
+                System.out.println("Performing Quality Check: " + nextCheck.getValue());
+            } else if (input.equals("no")) {
+                System.out.println("Skipping Quality Check: " + nextCheck.getValue());
+            } else {
+                System.out.println("Invalid input. Skipping Quality Check.");
+            }
+
+            System.out.print("Do you want to continue with the next quality check? (yes/no): ");
+            input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("no")) {
+                System.out.println("Stopping Quality Checks.");
+                break;
+            }
+        }
+
+        if (qualityCheckQueue.isEmpty()) {
+            System.out.println("All Quality Checks have been completed.");
+        }
+
+        scanner.close();
+    }
+
+
+    public void simulateProduction(TreeNode<String> productionTreeRoot) {
+        AVL<String> avl = new AVL<>();
+
+        // Populate AVL Tree with operations from the production tree
+        populateAVL(productionTreeRoot, avl);
+
+        // Traverse AVL Tree and simulate operations
+        System.out.println("Simulating Production Process (In-Order):");
+        avl.printInOrder();
+    }
+
+    private void populateAVL(TreeNode<String> node, AVL<String> avlTree) {
+        if (node.getType() == NodeType.OPERATION) {
+            avlTree.insert(node.getValue());
+        }
+        for (TreeNode<String> child : node.getChildren()) {
+            populateAVL(child, avlTree);
+        }
+    }
+
+
     // main para testar!! Depois apagar
     public static void main(String[] args) {
         // Criação de uma árvore de produção
@@ -438,6 +547,12 @@ public class ProductionTree {
         System.out.println("Search for ID or Name " + nonExistentId + " (not available):");
         Map<String, String> result3 = productionTree.searchNode(nonExistentId);
         printSearchResult(result3);
+
+        System.out.println("\nPerforming Quality Checks:");
+        productionTree.viewQualityChecksInOrder();
+        productionTree.performQualityChecksInteractively();
+
+        productionTree.simulateProduction(productionTree.getRoot());
     }
 
     /**
