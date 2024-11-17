@@ -158,6 +158,10 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         }
         return balanceNode(node);
     }
+
+    public void printInOrder() {
+        inOrderTraversal(root);
+    }
     
     /**
      * Returns the height of the AVL tree
@@ -173,6 +177,18 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
 
         AVL<E> second = (AVL<E>) otherObj;
         return equals(root, second.root);
+    }
+
+    public void inOrderTraversal() {
+        inOrderTraversal(root);
+    }
+
+    private void inOrderTraversal(Node<E> node) {
+        if (node != null) {
+            inOrderTraversal(node.getLeft());
+            System.out.println(node.getElement());
+            inOrderTraversal(node.getRight());
+        }
     }
 
     /**

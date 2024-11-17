@@ -3,7 +3,7 @@ package prodPlanSimulator.domain;
 
 public class Workstation implements Comparable<Workstation> {
     private String id;
-    private String operation;
+    private Operation operation;
     private int time;
     private Boolean hasItem = false;
 
@@ -13,7 +13,7 @@ public class Workstation implements Comparable<Workstation> {
      * @param operation Machine operation
      * @param time Machine time
      */
-    public Workstation(String id, String operation, int time) {
+    public Workstation(String id, Operation operation, int time) {
         this.id = id;
         this.operation = operation;
         this.time = time;
@@ -24,7 +24,7 @@ public class Workstation implements Comparable<Workstation> {
      */
     public Workstation() {
         this.id = "";
-        this.operation = "";
+        this.operation = new Operation();
         this.time = 0;
     }
 
@@ -52,16 +52,23 @@ public class Workstation implements Comparable<Workstation> {
      *
      * @return operation of the machine
      */
-    public String getOperation() {
+    public Operation getOperation() {
         return operation;
     }
 
+    /**
+     * Gets the operation of the machine
+     * @return operation of the machine
+     */
+    public String getOperationName() {
+        return operation.getDescription();
+    }
 
     /**
      * Sets the operation of the machine
      * @param operation new operation of the machine
      */
-    public void setOperation(String operation) {
+    public void setOperation(Operation operation) {
         this.operation = operation;
     }
 

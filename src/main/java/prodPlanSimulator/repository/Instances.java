@@ -11,6 +11,7 @@ public class Instances {
     private Simulator simulator;
     private BST bst;
     private HeapPriorityQueue heap;
+    private OperationsRepository operationsRepository;
 
     /**
      * Private constructor to avoid client applications to use constructor
@@ -20,6 +21,7 @@ public class Instances {
         simulator = new Simulator();
         bst = new BST();
         heap = new HeapPriorityQueue();
+        operationsRepository = new OperationsRepository();
     }
 
     /**
@@ -66,6 +68,14 @@ public class Instances {
      */
     public HeapPriorityQueue getHeap() {
         return heap;
+    }
+
+    /**
+     * Get the OperationsRepository
+     * @return OperationsRepository
+     */
+    public OperationsRepository getOperationsRepository() {
+        return operationsRepository;
     }
 
 

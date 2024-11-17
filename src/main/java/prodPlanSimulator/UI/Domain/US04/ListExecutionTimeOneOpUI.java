@@ -22,7 +22,7 @@ public class ListExecutionTimeOneOpUI implements Runnable  {
         ArrayList<Item> items = new ArrayList<>(map.getProdPlan().keySet());
         List<MenuItem> options = new ArrayList<>();
         for (Item item : items) {
-            for (String operation : item.getOperations()) {
+            for (String operation : item.getOperationsString()) {
                 if (options.stream().noneMatch(menuItem -> menuItem.toString().equals(operation))) {
                     options.add(new MenuItem(operation, new ListExecutionTimeOneOpUI()));
                 }

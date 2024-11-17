@@ -97,6 +97,25 @@ public class SimulatorTree extends BST<BOMBOO>{
         return balanceNode(node);
     }
 
+    /**
+     * Searches for a BOMBOO in the tree
+     * @param bomboo BOMBOO to search
+     * @return the BOMBOO if found, null otherwise
+     */
+    public BOMBOO search(BOMBOO bomboo) {
+        return search(bomboo, root);
+    }
 
-
+    private BOMBOO search(BOMBOO bomboo, Node<BOMBOO> node) {
+        if (node == null) {
+            return null;
+        }
+        if (bomboo.compareTo(node.getElement()) == 0) {
+            return node.getElement();
+        }
+        if (bomboo.compareTo(node.getElement()) < 0) {
+            return search(bomboo, node.getLeft());
+        }
+        return search(bomboo, node.getRight());
+    }
 }

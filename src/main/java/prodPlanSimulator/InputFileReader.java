@@ -36,7 +36,7 @@ public class InputFileReader {
                 Priority priority = Priority.fromString(priorityStr);
                 List<String> operations = new ArrayList<>(Arrays.asList(data).subList(2, data.length));
                 Item item = new Item(id, priority, new ArrayList<>());
-                item.getOperations().addAll(operations);
+                // item.getOperations().addAll(operations);
                 items.put(increment, item);
                 increment++;
             }
@@ -71,7 +71,7 @@ public class InputFileReader {
                 int time = Integer.parseInt(data[2]);
                 Workstation workstation = new Workstation();
                 workstation.setId(id);
-                workstation.setOperation(operation);
+                // workstation.setOperation(operation);
                 workstation.setTime(time);
                 machines.put(increment, workstation);
                 increment++;
