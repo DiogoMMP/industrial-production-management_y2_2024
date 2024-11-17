@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 import prodPlanSimulator.InputFileReader;
 import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.domain.Operation;
 import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
 
@@ -25,7 +26,7 @@ public class InputFileReaderTest {
         Item item1 = items.get(10);
         assertNotNull(item1, "Item 20 should exist.");
         assertEquals(Priority.NORMAL, item1.getPriority(), "The priority of item 20 should be NORMAL.");
-        List<String> operationsItem1 = item1.getOperations();
+        List<Operation> operationsItem1 = item1.getOperations();
         assertEquals(List.of("CUT", "POLISH", "VARNISH", "PACK"), operationsItem1, "The operations for item 20 are incorrect.");
     }
 

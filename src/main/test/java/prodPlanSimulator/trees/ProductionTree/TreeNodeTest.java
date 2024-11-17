@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import trees.ProductionTree.TreeNode;
 import trees.ProductionTree.NodeType;
 
-public class TreeNodeTest {
+public class TreeNodeTest{
 
     @Test
     public void testConstructorWithType() {
@@ -14,6 +14,7 @@ public class TreeNodeTest {
         assertEquals(NodeType.OPERATION, node.getType());
         assertTrue(node.getChildren().isEmpty());
         assertNull(node.getParent());
+        assertNull(node.getOperationParent());
     }
 
     @Test
@@ -23,6 +24,7 @@ public class TreeNodeTest {
         assertNull(node.getType());
         assertTrue(node.getChildren().isEmpty());
         assertNull(node.getParent());
+        assertNull(node.getOperationParent());
     }
 
     @Test
@@ -76,5 +78,19 @@ public class TreeNodeTest {
         TreeNode<String> node = new TreeNode<>("Test Node");
         node.setType(NodeType.MATERIAL);
         assertEquals(NodeType.MATERIAL, node.getType());
+    }
+
+    @Test
+    public void testGetOperationParent() {
+        TreeNode<String> node = new TreeNode<>("Test Node", NodeType.OPERATION);
+        assertNull(node.getOperationParent());
+    }
+
+    @Test
+    public void testSetOperationParent() {
+        TreeNode<String> node = new TreeNode<>("Test Node", NodeType.OPERATION);
+        TreeNode<String> operationParent = new TreeNode<>("Operation Parent", NodeType.OPERATION);
+        node.setOperationParent(operationParent);
+        assertEquals(operationParent, node.getOperationParent());
     }
 }

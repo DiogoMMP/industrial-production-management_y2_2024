@@ -7,6 +7,7 @@ public class TreeNode<T> {
     T value;
     List<TreeNode<T>> children;
     TreeNode<T> parent;
+    TreeNode<T> operationParent;
     NodeType type;
 
     /**
@@ -18,6 +19,7 @@ public class TreeNode<T> {
         this.value = value;
         this.children = new ArrayList<>();
         this.parent = null;
+        this.operationParent = null;
         this.type = type;
     }
 
@@ -29,6 +31,7 @@ public class TreeNode<T> {
         this.value = value;
         this.children = new ArrayList<>();
         this.parent = null;
+        this.operationParent = null;
         this.type = null;
     }
 
@@ -79,5 +82,21 @@ public class TreeNode<T> {
      */
     public void setType(NodeType nodeType) {
         this.type = nodeType;
+    }
+
+    /**
+     * Returns the operation parent of the tree node.
+     * @return the operation parent of the tree node
+     */
+    public TreeNode<T> getOperationParent() {
+        return operationParent;
+    }
+
+    /**
+     * Sets the operation parent of the tree node.
+     * @param operationParent the operation parent of the tree node
+     */
+    public void setOperationParent(TreeNode<T> operationParent) {
+        this.operationParent = operationParent;
     }
 }
