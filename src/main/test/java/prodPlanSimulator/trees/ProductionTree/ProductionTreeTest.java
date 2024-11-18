@@ -29,7 +29,7 @@ public class ProductionTreeTest {
     public void testBuildProductionTree() {
         TreeNode<String> root = productionTree.buildProductionTree(BOO_FILE, ITEMS_FILE, OPERATIONS_FILE, "1006");
         assertNotNull(root);
-        assertEquals("finished bench", root.getValue());
+        assertEquals("varnish bench  (Quantity: 1)", root.getValue());
         assertFalse(root.getChildren().isEmpty());
     }
 
