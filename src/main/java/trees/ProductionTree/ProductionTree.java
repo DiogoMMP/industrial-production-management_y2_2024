@@ -1,18 +1,21 @@
 package trees.ProductionTree;
 
+import trees.AVL_BST.AVL;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import prodPlanSimulator.domain.Material;
-import prodPlanSimulator.domain.Operation;
+import java.util.*;
+
+import trees.heap.HeapPriorityQueue;
+
 
 public class ProductionTree {
     private TreeNode<String> root;
     private Map<String, TreeNode<String>> nodesMap = new HashMap<>();
+    private HeapPriorityQueue<Integer, String> qualityCheckQueue; // Priority Queue for Quality Checks
+    private Map<Integer, Integer> depthPriorityMap; // Maps depth to priority
+    private int nextPriority; // Counter for the next available priority
 
     private static final String FILES_PATH = "src/main/resources/";
 
@@ -21,7 +24,11 @@ public class ProductionTree {
      *
      */
     public ProductionTree() {
+
         this.root = null;
+        this.qualityCheckQueue = new HeapPriorityQueue<>();
+        this.depthPriorityMap = new HashMap<>();
+        this.nextPriority = 1; // Start priority from 1
     }
 
     /**
@@ -63,7 +70,7 @@ public class ProductionTree {
         String mainObjectiveName = itemNames.getOrDefault(mainObjectiveID, "Unknown Product");
 
         // Create the root node
-        root = new TreeNode<>("Build " + mainObjectiveName);
+        root = new TreeNode<>(mainObjectiveName, NodeType.MATERIAL);
 
         // Identifies the operation associated with mainObjectiveID in BOO
         String initialOperationID = null;
@@ -100,22 +107,20 @@ public class ProductionTree {
             Map<String, String> itemNames,
             Map<String, String> operationDescriptions
     ) {
-
-        // Searches for all booData lines related to the current operation
         for (String[] booEntry : booData) {
             if (booEntry.length >= 2 && booEntry[0].equals(currentOperationID)) {
                 String productID = booEntry[1];
                 String productQuantity = booEntry[2];
 
-                // Gets the product/material description
                 String productName = itemNames.getOrDefault(productID, "Unknown Product");
-
-                // Creates the node for the product/material
                 TreeNode<String> productNode = new TreeNode<>(productName + " (" + productQuantity + "x)");
                 productNode.setType(NodeType.MATERIAL);
+                productNode.setOperationParent(parent); // Define the parent
                 parent.addChild(productNode);
 
-                // Add sub-operations (if any)
+                nodesMap.put(productID, productNode);
+
+                // Add sub-operations
                 int numberOperations = countOperations(booEntry);
                 int k = 4;
                 while (k < 4 + 2 * numberOperations) {
@@ -126,13 +131,15 @@ public class ProductionTree {
                     String subOperationDescription = operationDescriptions.getOrDefault(subOperationId, "Unknown Operation");
                     TreeNode<String> subOperationNode = new TreeNode<>(subOperationDescription + " (" + subOperationQuantity + "x)");
                     subOperationNode.setType(NodeType.OPERATION);
+                    subOperationNode.setOperationParent(parent); // Define the parent
                     productNode.addChild(subOperationNode);
 
-                    // Recursive call to sub-operations
+                    nodesMap.put(subOperationId, subOperationNode);
+
                     buildSubTree(subOperationId, subOperationNode, booData, itemNames, operationDescriptions);
                 }
 
-                // Add materials (if any)
+                // Add Materials
                 int materialsStartIndex = findMaterialsStartIndex(booEntry);
                 int numberMaterials = countMaterials(booEntry);
                 for (int j = materialsStartIndex; j < materialsStartIndex + 2 * numberMaterials; j += 2) {
@@ -140,12 +147,13 @@ public class ProductionTree {
                     String quantity = booEntry[j + 1];
                     String materialName = itemNames.getOrDefault(materialId, "Unknown Material");
 
-                    // Create the node for the material
                     TreeNode<String> materialNode = new TreeNode<>(materialName + " (" + quantity + "x)");
                     materialNode.setType(NodeType.MATERIAL);
+                    materialNode.setOperationParent(parent); // Define the parent
                     productNode.addChild(materialNode);
 
-                    // Recursive call to materials
+                    nodesMap.put(materialId, materialNode);
+
                     buildSubTree(materialId, materialNode, booData, itemNames, operationDescriptions);
                 }
             }
@@ -299,7 +307,6 @@ public class ProductionTree {
     }
 
 
-
     /**
      * Generates a string representation of the production tree with a custom indentation.
      * @param node the node to start the string representation from recursively
@@ -334,7 +341,7 @@ public class ProductionTree {
                 data.add(values);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("An error occurred while reading the CSV file: " + e.getMessage());
         }
         return data;
     }
@@ -347,7 +354,7 @@ public class ProductionTree {
     public Map<String, String> searchNode(String idOrName) {
         Map<String, String> result = new HashMap<>();
 
-        // Find the node based on ID or name
+        // Find the node with the specified ID or name
         TreeNode<String> node = nodesMap.get(idOrName);
         if (node == null) {
             result.put("Error", "Material or Operation not found.");
@@ -357,21 +364,32 @@ public class ProductionTree {
         String value = node.getValue();
         NodeType type = node.getType();
 
-        // Determine type based on the NodeType enum
+        // Determines the type based on NodeType
         if (type == NodeType.OPERATION) {
             result.put("Type", "Operation");
             result.put("Description", value);
-            result.put("Parent", root.getValue());
+
+            // Find the parent operation directly
+            TreeNode<String> parentOperation = node.getOperationParent();
+            if (parentOperation != null && !Objects.equals(parentOperation.getValue(), root.getValue())) {
+                result.put("Parent Operation", parentOperation.getValue());
+            }else {
+                assert parentOperation != null;
+                if (Objects.equals(parentOperation.getValue(), root.getValue())) {
+                    result.put("Parent Operation", "None");
+                }
+            }
+
         } else if (type == NodeType.MATERIAL) {
             result.put("Type", "Material");
             result.put("Description", value);
 
-            // Assume quantity is part of the value or stored elsewhere if needed
+            // Extract the quantity from the material
             String quantity = extractQuantityFromMaterial(value);
             result.put("Quantity", quantity);
 
-            // Find parent operation if applicable
-            TreeNode<String> parentOperation = findParentOperation(node);
+            // Find the material's parent operation
+            TreeNode<String> parentOperation = node.getOperationParent();
             if (parentOperation != null) {
                 result.put("Parent Operation", parentOperation.getValue());
             }
@@ -393,68 +411,228 @@ public class ProductionTree {
         return "Unknown quantity";
     }
 
-    /**
-     * Finds the parent operation of a node in the production tree.
-     * @param node the node to find the parent operation for
-     * @return the parent operation of the node
-     */
-    private TreeNode<String> findParentOperation(TreeNode<String> node) {
-        TreeNode<String> parent = node.getParent();
-        while (parent != null) {
-            if (parent.getValue().startsWith("Build ")) {
-                return parent;
-            }
-            parent = parent.getParent();
+    private int calculatePriorityLevel(TreeNode<String> node) {
+        int depth = 0;
+        while (node != null) {
+            depth++;
+            node = node.getParent();
         }
-        return null;
+        return depth; // Use depth as priority (lower depth = higher priority)
     }
+
+    private int calculateDepth(TreeNode<String> node) {
+        int depth = 0;
+        while (node != null) {
+            depth++;
+            node = node.getParent();
+        }
+        return depth;
+    }
+
+    private int getPriorityForDepth(int depth) {
+        // Assign a unique priority to each depth level
+        if (!depthPriorityMap.containsKey(depth)) {
+            depthPriorityMap.put(depth, nextPriority++);
+        }
+        return depthPriorityMap.get(depth);
+    }
+
+    public void viewQualityChecksInOrder() {
+        System.out.println("Quality Checks in Order of Priority:");
+        HeapPriorityQueue<Integer, String> tempQueue = qualityCheckQueue.clone();
+        while (!tempQueue.isEmpty()) {
+            var check = tempQueue.removeMin();
+            System.out.println("Quality Check: " + check.getValue() + " [Priority: " + check.getKey() + "]");
+        }
+    }
+
+    /**
+     * Allows the user to perform quality checks one at a time interactively.
+     */
+    public void performQualityChecksInteractively() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Starting Interactive Quality Checks:");
+        while (!qualityCheckQueue.isEmpty()) {
+            var nextCheck = qualityCheckQueue.removeMin();
+            System.out.println("Next Quality Check: " + nextCheck.getValue() + " [Priority: " + nextCheck.getKey() + "]");
+            System.out.print("Perform this quality check? (yes/no): ");
+
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("yes")) {
+                System.out.println("Performing Quality Check: " + nextCheck.getValue());
+            } else if (input.equals("no")) {
+                System.out.println("Skipping Quality Check: " + nextCheck.getValue());
+            } else {
+                System.out.println("Invalid input. Skipping Quality Check.");
+            }
+
+            System.out.print("Do you want to continue with the next quality check? (yes/no): ");
+            input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("no")) {
+                System.out.println("Stopping Quality Checks.");
+                break;
+            }
+        }
+
+        if (qualityCheckQueue.isEmpty()) {
+            System.out.println("All Quality Checks have been completed.");
+        }
+
+        scanner.close();
+    }
+
+
+    public void simulateProduction(TreeNode<String> productionTreeRoot) {
+        AVL<String> avl = new AVL<>();
+
+        // Populate AVL Tree with operations from the production tree
+        populateAVL(productionTreeRoot, avl);
+
+        // Traverse AVL Tree and simulate operations
+        System.out.println("Simulating Production Process (In-Order):");
+        avl.printInOrder();
+    }
+
+    private void populateAVL(TreeNode<String> node, AVL<String> avlTree) {
+        if (node.getType() == NodeType.OPERATION) {
+            avlTree.insert(node.getValue());
+        }
+        for (TreeNode<String> child : node.getChildren()) {
+            populateAVL(child, avlTree);
+        }
+    }
+
 
     // main para testar!! Depois apagar
     public static void main(String[] args) {
-        // Criação de uma árvore de produção
+        // Criar uma árvore de produção a partir dos ficheiros CSV
         ProductionTree productionTree = new ProductionTree();
         productionTree.buildProductionTree("boo_v2.csv", "items.csv", "operations.csv", "1006");
 
-        // Testar a árvore visualmente
-        System.out.println("Production Tree:\n" + productionTree.toIndentedStringForObjective());
+        // Exibir a árvore de produção de forma indentada
+        System.out.println("Árvore de Produção:\n" + productionTree.toIndentedStringForObjective());
 
-        // Testes de pesquisa
-        System.out.println("\nSearch Results:");
+        // Secção de testes de pesquisa
+        System.out.println("\nResultados da Pesquisa:");
 
         // Teste 1: Procurar uma operação existente pelo ID
-        String operationId = "12";
-        System.out.println("Search for Operation ID " + operationId + ":");
-        Map<String, String> result1 = productionTree.searchNode(operationId);
-        printSearchResult(result1);
+        String operationId = "11";
+        System.out.println("Teste 1 - Pesquisa por Operação com ID " + operationId + ":");
+        executeAndPrintSearch(productionTree, operationId);
 
         // Teste 2: Procurar um material existente pelo ID
         String materialId = "1004";
-        System.out.println("Search for Material ID " + materialId + ":");
-        Map<String, String> result2 = productionTree.searchNode(materialId);
-        printSearchResult(result2);
+        System.out.println("Teste 2 - Pesquisa por Material com ID " + materialId + ":");
+        executeAndPrintSearch(productionTree, materialId);
 
-        // Teste 3: Procurar por um ID ou nome não existente
+        // Teste 3: Procurar por um ID ou nome inexistente
         String nonExistentId = "500";
-        System.out.println("Search for ID or Name " + nonExistentId + " (not available):");
-        Map<String, String> result3 = productionTree.searchNode(nonExistentId);
-        printSearchResult(result3);
+        System.out.println("Teste 3 - Pesquisa por ID ou Nome " + nonExistentId + " (não existe):");
+        executeAndPrintSearch(productionTree, nonExistentId);
+
+        // Realizar verificações de qualidade
+        System.out.println("\nRealizando Verificações de Qualidade:");
+        productionTree.viewQualityChecksInOrder();
+        productionTree.performQualityChecksInteractively();
+
+        // Simular a produção completa
+        System.out.println("\nSimulando Produção:");
+        productionTree.simulateProduction(productionTree.getRoot());
+
+        // Calcular a quantidade total de materiais e tempo necessários para a produção
+        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
+        BigDecimal totalMaterialQuantity = BigDecimal.ZERO;
+        BigDecimal totalOperationQuantity = BigDecimal.ZERO;
+
+        for (Map.Entry<String, Object> entry : totals.entrySet()) {
+            if (entry.getKey().equals("materialQuantities")) {
+                System.out.println("\nQuantidade total por Material:\n");
+                Map<String, Double> materialQuantities = (Map<String, Double>) entry.getValue();
+                for (Map.Entry<String, Double> materialEntry : materialQuantities.entrySet()) {
+                    System.out.println(materialEntry.getKey() + ": " + materialEntry.getValue());
+                    totalMaterialQuantity = totalMaterialQuantity.add(BigDecimal.valueOf(materialEntry.getValue()));
+                }
+                System.out.println("Total Material Quantity: " + totalMaterialQuantity);
+            } else if (entry.getKey().equals("operationTimes")) {
+                System.out.println("\nQuantidade total por Operação:\n");
+                Map<String, Double> operationTimes = (Map<String, Double>) entry.getValue();
+                for (Map.Entry<String, Double> operationEntry : operationTimes.entrySet()) {
+                    System.out.println(operationEntry.getKey() + ": " + operationEntry.getValue());
+                    totalOperationQuantity = totalOperationQuantity.add(BigDecimal.valueOf(operationEntry.getValue()));
+                }
+                System.out.println("Total Operation Quantity: " + totalOperationQuantity);
+            }
+        }
     }
 
     /**
-     * Helper method to print the search results in a readable format.
+     * Helper method to execute and print the search results in a readable format.
      */
-    private static void printSearchResult(Map<String, String> result) {
+    private static void executeAndPrintSearch(ProductionTree productionTree, String id) {
+        Map<String, String> result = productionTree.searchNode(id);
         if (result.containsKey("Error")) {
-            System.out.println("Error, Material or Operation not found!!");
+            System.out.println("Error: Material or operation not found!");
         } else {
             System.out.println("Type: " + result.get("Type"));
-            System.out.println("Description and Quantity : " + result.get("Description"));
+            System.out.println("Description and Quantity: " + result.get("Description"));
             if (result.get("Type").equals("Material")) {
                 System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
             } else {
-                System.out.println("Principal Operation: " + result.getOrDefault("Parent", "None"));
+                System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
             }
         }
         System.out.println();
+    }
+
+    /**
+     * Calculate the total quantity of materials and time needed for the production.
+     *
+     * @return a map containing the total quantity of materials and time needed
+     */
+    public Map<String, Object> calculateTotalMaterialsAndOperations(TreeNode<String> root) {
+        Map<String, Double> materialQuantities = new HashMap<>();
+        Map<String, Double> operationTimes = new HashMap<>();
+        calculateTotals(materialQuantities, operationTimes, root);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("materialQuantities", materialQuantities);
+        result.put("operationTimes", operationTimes);
+        return result;
+    }
+
+    public void calculateTotals(Map<String, Double> materialQuantities, Map<String, Double> operationQuantities, TreeNode<String> root) {
+        traverseTree(root, materialQuantities, operationQuantities);
+    }
+
+    public void traverseTree(TreeNode<String> node, Map<String, Double> materialQuantities, Map<String, Double> operationQuantities) {
+        if (node == null) {
+            return;
+        }
+
+        String value = node.getValue();
+        if (node.getType().equals(NodeType.MATERIAL)) {
+            int startIndex = value.lastIndexOf('(');
+            int endIndex = value.lastIndexOf('x');
+            if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                String materialName = value.substring(0, startIndex).trim();
+                String quantityStr = value.substring(startIndex + 1, endIndex).trim().replace(',', '.');
+                double quantity = Double.parseDouble(quantityStr);
+                materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, 0.0) + quantity);
+            }
+        } else if (node.getType().equals(NodeType.OPERATION)) {
+            int startIndex = value.lastIndexOf('(');
+            int endIndex = value.lastIndexOf('x');
+            if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                String operationName = value.substring(0, startIndex).trim();
+                String quantityStr = value.substring(startIndex + 1, endIndex).trim().replace(',', '.');
+                double quantity = Double.parseDouble(quantityStr);
+                operationQuantities.put(operationName, operationQuantities.getOrDefault(operationName, 0.0) + quantity);
+            }
+        }
+
+        for (TreeNode<String> child : node.getChildren()) {
+            traverseTree(child, materialQuantities, operationQuantities);
+        }
     }
 }

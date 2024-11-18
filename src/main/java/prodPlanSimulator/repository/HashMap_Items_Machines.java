@@ -2,6 +2,7 @@ package prodPlanSimulator.repository;
 
 import prodPlanSimulator.InputFileReader;
 import prodPlanSimulator.domain.Item;
+import prodPlanSimulator.domain.Operation;
 import prodPlanSimulator.domain.Workstation;
 
 
@@ -11,6 +12,7 @@ import java.util.*;
 public class HashMap_Items_Machines {
     private HashMap<Item, Workstation> ProdPlan;
     private static Simulator simulator = Instances.getInstance().getSimulator();
+
 
     public HashMap_Items_Machines() {
         this.ProdPlan = new HashMap<>();
@@ -28,17 +30,20 @@ public class HashMap_Items_Machines {
     /**
      * Add all items and machines to the map
      *
-     * @param itemsPath   path to items
+     * @param articlesPath   path to items
      * @param machinesPath path to machines
      */
-    public void addAll(String itemsPath, String machinesPath) throws FileNotFoundException {
-        Map<Integer, Item> items = InputFileReader.readItems(itemsPath);
-        Map<Integer, Workstation> machines = InputFileReader.readMachines(machinesPath);
+    public void addAll(String articlesPath, String machinesPath, String billOfOpPath, String itemsPath, String operationsPath) throws FileNotFoundException {
+        List<Operation> operations = InputFileReader.readOperations(operationsPath);
+        Map<String, String> items = InputFileReader.readItems(itemsPath);
+        Map<Integer, Item> articles = InputFileReader.readArticles(articlesPath, operations, items);
+        Map<Integer, Workstation> machines = InputFileReader.readMachines(machinesPath, operations);
+
         try {
-            if (items.isEmpty() || machines.isEmpty()) {
+            if (articles.isEmpty() || machines.isEmpty()) {
                 throw new Exception("Items or Machines not found");
             }
-            fillMap(items, machines);
+            fillMap(articles, machines);
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

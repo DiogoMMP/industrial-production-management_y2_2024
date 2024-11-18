@@ -158,6 +158,10 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         }
         return balanceNode(node);
     }
+
+    public void printInOrder() {
+        inOrderTraversal(root);
+    }
     
     /**
      * Returns the height of the AVL tree
@@ -173,6 +177,18 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
 
         AVL<E> second = (AVL<E>) otherObj;
         return equals(root, second.root);
+    }
+
+    public void inOrderTraversal() {
+        inOrderTraversal(root);
+    }
+
+    private void inOrderTraversal(Node<E> node) {
+        if (node != null) {
+            inOrderTraversal(node.getLeft());
+            System.out.println(node.getElement());
+            inOrderTraversal(node.getRight());
+        }
     }
 
     /**
@@ -193,5 +209,26 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         }
         else return false;
     }
-   
+
+    /**
+     * Searches for an element in the AVL tree
+     * @param element element to search for
+     * @return the element if it is found, null otherwise
+     */
+    public BOMBOO search(E element) {
+        return search(root, element);
+    }
+
+    private BOMBOO search(Node<E> node, E element) {
+        if (node == null) {
+            return null;
+        }
+        if (element.compareTo(node.getElement()) == 0) {
+            return (BOMBOO) node.getElement();
+        }
+        if (element.compareTo(node.getElement()) < 0) {
+            return search(node.getLeft(), element);
+        }
+        return search(node.getRight(), element);
+    }
 }

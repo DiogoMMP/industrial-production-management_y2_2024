@@ -35,34 +35,6 @@ BEGIN
     RETURN v_Result;
 END;
 
--- Necessary data to test the function:
-
---Country
-insert into Country (Country_ID, Country_Name) values (620, 'Portugal');
-insert into Country (Country_ID, Country_Name) values (203, 'Czechia');
-
---Type
-insert into Type (Type_ID, Name) values (1, 'Individual');
-insert into Type (Type_ID, Name) values (2, 'Company');
-
---Status
-insert into Status(Status) values ('Activated');
-insert into Status(Status) values ('Deactivated');
-
---Customer
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('456', 'PT501245987', 'Carvalho & Carvalho, Lda', 'Tv. Augusto Lessa 23, 4200-047 Porto, Portugal', 003518340500, 'idont@care.com', 2, 620, 'Activated');
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('785', 'PT501245488', 'Tudo para a casa, Lda', 'R. Dr. Barros 93, 4465-219 São Mamede de Infesta, Portugal', 003518340500, 'me@neither.com', 2, 620, 'Activated');
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('657', 'PT501242417', 'Sair de Cena', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88, 4400-023 Vila Nova de Gaia, Portugal', 003518340500, 'some@email.com', 2, 620, 'Activated');
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('348', 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz', 1, 203, 'Activated');
-
---Customer_Order
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 785);
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (2, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 657);
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (3, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 348);
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (4, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 785);
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (5, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 657);
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (6, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 348);
-insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (7, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 456);
 
 -- Test the function with a hardcoded customer ID, where it will not deactivate the customer
 
