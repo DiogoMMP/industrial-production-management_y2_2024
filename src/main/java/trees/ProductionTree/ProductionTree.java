@@ -609,20 +609,20 @@ public class ProductionTree {
 
         String value = node.getValue();
         if (node.getType().equals(NodeType.MATERIAL)) {
-            int startIndex = value.lastIndexOf('(');
-            int endIndex = value.lastIndexOf('x');
+            int startIndex = value.indexOf("(Quantity: ");
+            int endIndex = value.indexOf(')', startIndex);
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String materialName = value.substring(0, startIndex).trim();
-                String quantityStr = value.substring(startIndex + 1, endIndex).trim().replace(',', '.');
+                String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
                 double quantity = Double.parseDouble(quantityStr);
                 materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, 0.0) + quantity);
             }
         } else if (node.getType().equals(NodeType.OPERATION)) {
-            int startIndex = value.lastIndexOf('(');
-            int endIndex = value.lastIndexOf('x');
+            int startIndex = value.indexOf("(Quantity: ");
+            int endIndex = value.indexOf(')', startIndex);
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String operationName = value.substring(0, startIndex).trim();
-                String quantityStr = value.substring(startIndex + 1, endIndex).trim().replace(',', '.');
+                String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
                 double quantity = Double.parseDouble(quantityStr);
                 operationQuantities.put(operationName, operationQuantities.getOrDefault(operationName, 0.0) + quantity);
             }
