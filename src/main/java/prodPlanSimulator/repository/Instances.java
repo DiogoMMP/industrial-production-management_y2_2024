@@ -2,6 +2,7 @@ package prodPlanSimulator.repository;
 
 import trees.AVL_BST.AVL;
 import trees.AVL_BST.BST;
+import trees.ProductionTree.ProductionTree;
 import trees.heap.HeapPriorityQueue;
 
 public class Instances {
@@ -12,6 +13,7 @@ public class Instances {
     private BST bst;
     private HeapPriorityQueue heap;
     private OperationsRepository operationsRepository;
+    private ProductionTree productionTree;
 
     /**
      * Private constructor to avoid client applications to use constructor
@@ -22,6 +24,7 @@ public class Instances {
         bst = new BST();
         heap = new HeapPriorityQueue();
         operationsRepository = new OperationsRepository();
+        productionTree = new ProductionTree();
     }
 
     /**
@@ -76,6 +79,10 @@ public class Instances {
      */
     public OperationsRepository getOperationsRepository() {
         return operationsRepository;
+    }
+
+    public ProductionTree getProductionTree() {
+        return productionTree;
     }
 
 
