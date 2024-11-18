@@ -1,72 +1,198 @@
-CREATE OR REPLACE FUNCTION Register_Customer_Order (
-   p_Customer_ID IN NUMBER,
-   p_Product_ID IN VARCHAR2,
-   p_Order_Date IN DATE,
-   p_Delivery_Date IN DATE,
-   p_Location IN VARCHAR2,
-   p_Quantity IN NUMBER
+CREATE OR REPLACE FUNCTION Register_Customer_Order(
+    p_customer_id        IN NUMBER,
+    p_product_id         IN VARCHAR2,
+    p_quantity           IN NUMBER,
+    p_order_date         IN DATE,
+    p_delivery_date      IN DATE
 ) RETURN NUMBER IS
-
-   v_Customer_Status VARCHAR2(20);
-   v_Product_Exists NUMBER;
-   v_Order_ID NUMBER;
-
+    v_customer_order_id  NUMBER;
+    v_active_status      VARCHAR2(255);
+    v_product_exists     NUMBER;
+	v_customer_exists    NUMBER;
 BEGIN
-   -- Step 1: Validate that the customer is active
-BEGIN
-SELECT Status INTO v_Customer_Status
-FROM Customer
-WHERE Customer_ID = p_Customer_ID;
 
-IF v_Customer_Status != 'Active' THEN
-         RAISE_APPLICATION_ERROR(-20001, 'Error: Customer is not active.');
-END IF;
+     -- Check if customer exists
+    Select Customer_id INTO v_customer_exists
+    FROM Customer
+    WHERE Customer_ID = p_customer_id;
+
+	IF v_customer_exists = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Customer doesn''t exist.');
+	END IF;
+
+     -- Check if the order date is before the current date
+    IF p_order_date < SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Order date cannot be before today''s date.');
+    END IF;
+
+	-- Check if the delivery date is after the new order date
+	IF p_delivery_date < p_order_date THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Delivery date can''t be before new order date');
+	END IF;
+
+    -- Step 1: Check if the customer is active
+    SELECT Status INTO v_active_status
+    FROM Customer
+    WHERE Customer_ID = p_customer_id;
+
+    IF v_active_status != 'Activated' THEN
+        RAISE_APPLICATION_ERROR(-20004, 'Customer is not active.');
+    END IF;
+
+    -- Step 2: Check if the product exists in the current lineup
+    SELECT COUNT(*)
+    INTO v_product_exists
+    FROM Product
+    WHERE Product_ID = p_product_id;
+
+    IF v_product_exists = 0 THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Product does not exist in the current lineup.');
+    END IF;
+
+    -- Step 3: Insert into Customer_Order
+	Select max(Customer_Order_ID) + 1 into v_customer_order_id from customer_order;
+
+
+    INSERT INTO Customer_Order (
+        Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID
+    ) VALUES (
+        v_customer_order_id, p_order_date, p_delivery_date, p_customer_id
+    );
+
+    -- Step 4: Insert into Customer_Order_Product
+    INSERT INTO Customer_Order_Product (
+        Customer_Order_ID, Product_ID, Quantity
+    ) VALUES (
+        v_customer_order_id, p_product_id, p_quantity
+    );
+
+    -- Return the new Customer_Order_ID
+    RETURN v_customer_order_id;
 
 EXCEPTION
-      -- Handle case where customer is not found
-      WHEN NO_DATA_FOUND THEN
-         RAISE_APPLICATION_ERROR(-20005, 'Error: Customer does not exist.');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20006, 'Error creating order: ' || SQLERRM);
 END;
+/
 
-   -- Step 2: Validate that the product exists in the current product line-up
+
+    --Valid test
+DECLARE
+    v_order_id NUMBER;
 BEGIN
-SELECT COUNT(*)
-INTO v_Product_Exists
-FROM Product
-WHERE Product_ID = p_Product_ID;
+    -- Test the Register_Customer_Order function
+    v_order_id := Register_Customer_Order(
+        p_customer_id   => 456,         	-- Customer_ID
+        p_product_id    => 'AS12945S22',    -- Product_ID
+        p_quantity      => 10,           	-- Example quantity
+        p_order_date    => SYSDATE,      	-- Date for the order
+        p_delivery_date => SYSDATE + 7  	-- Delivery date
+    );
 
-IF v_Product_Exists = 0 THEN
-         RAISE_APPLICATION_ERROR(-20002, 'Error: Product is not in the current line-up.');
-END IF;
-
+    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
 EXCEPTION
-      -- Handle case where product is not found
-      WHEN NO_DATA_FOUND THEN
-         RAISE_APPLICATION_ERROR(-20006, 'Error: Product does not exist.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
+/
 
-   -- Step 3: Insert the new order into the Customer_Order table
-SELECT Customer_Order_SEQ.NEXTVAL INTO v_Order_ID FROM dual;
+    --Test with wrong product
+DECLARE
+    v_order_id NUMBER;
+BEGIN
+    -- Test the Register_Customer_Order function
+    v_order_id := Register_Customer_Order(
+        p_customer_id   => 456,         	-- Customer_ID
+        p_product_id    => 'invalid',    	-- Product_ID
+        p_quantity      => 10,           	-- Example quantity
+        p_order_date    => SYSDATE,      	-- Date for the order
+        p_delivery_date => SYSDATE + 7  	-- Delivery date
+    );
 
-INSERT INTO Customer_Order (
-    Customer_Order_ID, Order_Date, Delivery_Date, Location, Customer_ID
-) VALUES (
-             v_Order_ID, p_Order_Date, p_Delivery_Date, p_Location, p_Customer_ID
-         );
-
--- Step 4: Insert the product into the Customer_Order_Product table
-INSERT INTO Customer_Order_Product (
-    Customer_Order_ID, Product_ID, Quantity
-) VALUES (
-             v_Order_ID, p_Product_ID, p_Quantity
-         );
-
--- Step 5: Return the generated Customer_Order_ID
-RETURN v_Order_ID;
-
+    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
 EXCEPTION
-   -- Catch-all for any other unexpected errors
-   WHEN OTHERS THEN
-      RAISE_APPLICATION_ERROR(-20004, 'Error: Could not process the order due to an unexpected issue: ' || SQLERRM);
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+    --Test with invalid customer
+DECLARE
+    v_order_id NUMBER;
+BEGIN
+    -- Test the Register_Customer_Order function
+    v_order_id := Register_Customer_Order(
+        p_customer_id   => 368,         	-- Customer_ID
+        p_product_id    => 'AS12945S22',    -- Product_ID
+        p_quantity      => 10,           	-- Example quantity
+        p_order_date    => SYSDATE,      	-- Date for the order
+        p_delivery_date => SYSDATE + 7  	-- Delivery date
+    );
+
+    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+
+    --Test with invalid date
+DECLARE
+    v_order_id NUMBER;
+BEGIN
+    -- Test the Register_Customer_Order function
+    v_order_id := Register_Customer_Order(
+        p_customer_id   => 456,         	-- Customer_ID
+        p_product_id    => 'AS12945S22',    -- Product_ID
+        p_quantity      => 10,           	-- Example quantity
+        p_order_date    => SYSDATE - 2,     -- Date for the order
+        p_delivery_date => SYSDATE + 7  	-- Delivery date
+    );
+
+    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+    --Test with invalid date
+DECLARE
+    v_order_id NUMBER;
+BEGIN
+    -- Test the Register_Customer_Order function
+    v_order_id := Register_Customer_Order(
+        p_customer_id   => 456,         	-- Customer_ID
+        p_product_id    => 'AS12945S22',    -- Product_ID
+        p_quantity      => 10,           	-- Example quantity
+        p_order_date    => SYSDATE,      	-- Date for the order
+        p_delivery_date => SYSDATE - 2      -- Delivery date
+    );
+
+    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+    --Test with invalid costumer
+DECLARE
+    v_order_id NUMBER;
+BEGIN
+    -- Test the Register_Customer_Order function
+    v_order_id := Register_Customer_Order(
+        p_customer_id   => 1000,         	-- Customer_ID
+        p_product_id    => 'AS12945S22',    -- Product_ID
+        p_quantity      => 10,           	-- Example quantity
+        p_order_date    => SYSDATE,      	-- Date for the order
+        p_delivery_date => SYSDATE + 7      -- Delivery date
+    );
+
+    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 /
