@@ -60,31 +60,33 @@ public class ProductionTree {
             String operationFileName,
             String mainObjectiveID
     ) {
-
         // Read the data from the files
         List<String[]> booData = readCsvFile(booFileName);
         Map<String, String> itemNames = readMaterials(itemsFileName);
         Map<String, String> operationDescriptions = readOperations(operationFileName);
 
-        // Get the name of the main objective
-        String mainObjectiveName = itemNames.getOrDefault(mainObjectiveID, "Unknown Product");
-
-        // Create the root node
-        root = new TreeNode<>(mainObjectiveName, NodeType.MATERIAL);
-
         // Identifies the operation associated with mainObjectiveID in BOO
         String initialOperationID = null;
+        String quantityOperation = null;
+
         for (String[] entry : booData) {
             if (entry.length >= 2 && entry[1].equals(mainObjectiveID)) {
                 initialOperationID = entry[0];
+                quantityOperation = entry[2];
                 break;
             }
         }
 
         if (initialOperationID == null) {
             System.out.println("Main objective not found in the Bill of Operations.");
-            return root; // Returns the incomplete tree
+            return null; // Returns null if the main objective is not found
         }
+
+        // Get the description of the initial operation
+        String mainOperationDescription = operationDescriptions.getOrDefault(initialOperationID, "Unknown Operation");
+
+        // Create the root node as the main operation
+        root = new TreeNode<>(mainOperationDescription + " (Quantity: " + quantityOperation + ")", NodeType.OPERATION);
 
         // Build the production tree recursively
         buildSubTree(initialOperationID, root, booData, itemNames, operationDescriptions);
@@ -113,8 +115,7 @@ public class ProductionTree {
                 String productQuantity = booEntry[2];
 
                 String productName = itemNames.getOrDefault(productID, "Unknown Product");
-                TreeNode<String> productNode = new TreeNode<>(productName + " (" + productQuantity + "x)");
-                productNode.setType(NodeType.MATERIAL);
+                TreeNode<String> productNode = new TreeNode<>(productName + " (Quantity: " + productQuantity + ")", NodeType.MATERIAL);
                 productNode.setOperationParent(parent); // Define the parent
                 parent.addChild(productNode);
 
@@ -129,7 +130,7 @@ public class ProductionTree {
                     k += 2;
 
                     String subOperationDescription = operationDescriptions.getOrDefault(subOperationId, "Unknown Operation");
-                    TreeNode<String> subOperationNode = new TreeNode<>(subOperationDescription + " (" + subOperationQuantity + "x)");
+                    TreeNode<String> subOperationNode = new TreeNode<>(subOperationDescription + " (Quantity: " + subOperationQuantity + ")");
                     subOperationNode.setType(NodeType.OPERATION);
                     subOperationNode.setOperationParent(parent); // Define the parent
                     productNode.addChild(subOperationNode);
@@ -147,7 +148,7 @@ public class ProductionTree {
                     String quantity = booEntry[j + 1];
                     String materialName = itemNames.getOrDefault(materialId, "Unknown Material");
 
-                    TreeNode<String> materialNode = new TreeNode<>(materialName + " (" + quantity + "x)");
+                    TreeNode<String> materialNode = new TreeNode<>(materialName + " (Quantity: " + quantity + ")");
                     materialNode.setType(NodeType.MATERIAL);
                     materialNode.setOperationParent(parent); // Define the parent
                     productNode.addChild(materialNode);
@@ -298,11 +299,7 @@ public class ProductionTree {
      */
     public String toIndentedStringForObjective() {
         StringBuilder builder = new StringBuilder();
-
-        for (TreeNode<String> child : root.getChildren()) {
-            toIndentedStringHelper(child, builder, 1);
-        }
-
+        toIndentedStringHelper(root, builder, 0);
         return builder.toString();
     }
 
@@ -314,7 +311,10 @@ public class ProductionTree {
      * @param level the current level of the tree recursively
      */
     private void toIndentedStringHelper(TreeNode<String> node, StringBuilder builder, int level) {
-        if (level > 1) {
+        if (node == null) {
+            return;
+        }
+        if (level > 0) {
             builder.append("    ".repeat(level - 1)).append("|___");
         }
         builder.append(node.getValue());
@@ -371,13 +371,10 @@ public class ProductionTree {
 
             // Find the parent operation directly
             TreeNode<String> parentOperation = node.getOperationParent();
-            if (parentOperation != null && !Objects.equals(parentOperation.getValue(), root.getValue())) {
+            if (parentOperation != null) {
                 result.put("Parent Operation", parentOperation.getValue());
             }else {
-                assert parentOperation != null;
-                if (Objects.equals(parentOperation.getValue(), root.getValue())) {
-                    result.put("Parent Operation", "None");
-                }
+                result.put("Parent Operation", "None");
             }
 
         } else if (type == NodeType.MATERIAL) {
