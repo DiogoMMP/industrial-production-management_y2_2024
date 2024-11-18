@@ -1,4 +1,4 @@
-package prodPlanSimulator.UI;
+package prodPlanSimulator.UI.Simulators;
 
 import prodPlanSimulator.UI.Menu.MainMenuUIPriority;
 import prodPlanSimulator.repository.Instances;

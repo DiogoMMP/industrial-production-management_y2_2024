@@ -20,23 +20,14 @@ skip_whitespace:
     cmpb $0, %cl            # End of string (invalid input if reached here)
     je invalid_input
     cmpb $'-', %cl          # Check for negative sign
-    je turn_negative
+    je invalid_input        # Invalid input if '-' sign is present
     cmpb $'+', %cl          # Check for positive sign
-    je parse_sign
+    je invalid_input        # Invalid input if '+' sign is present
     jmp check_first_digit
 
 increment_ptr:
     inc %rdi                # Increment the pointer
     jmp skip_whitespace
-
-parse_sign:
-    inc %rdi                # Skip the '+' sign
-    jmp check_first_digit
-
-turn_negative:
-    inc %rdi                # Skip the '-' sign
-    mov $1, %r8             # Set the negative flag
-    jmp check_first_digit
 
 check_first_digit:
     movb (%rdi), %cl

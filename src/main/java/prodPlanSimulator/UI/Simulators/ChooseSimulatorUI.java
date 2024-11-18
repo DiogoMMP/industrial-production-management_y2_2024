@@ -1,4 +1,4 @@
-package prodPlanSimulator.UI;
+package prodPlanSimulator.UI.Simulators;
 
 import prodPlanSimulator.UI.Menu.MenuItem;
 import prodPlanSimulator.UI.Utils.Utils;
@@ -13,6 +13,7 @@ public class ChooseSimulatorUI implements Runnable{
             List<MenuItem> options = new ArrayList<>();
             options.add(new MenuItem("Simulation by Time", new ProcessByTimeUI()));
             options.add(new MenuItem("Simulation by Priority", new ProcessByPriorityUI()));
+            options.add(new MenuItem("Simulation bt Structural Information", new ProcessByTreeUI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n--- Choose Simulator --------------------------");

@@ -1,4 +1,4 @@
-package prodPlanSimulator.UI;
+package prodPlanSimulator.UI.graphGenerator;
 
 import prodPlanSimulator.UI.Utils.Utils;
 import projectManager.ProductStructureGraph;

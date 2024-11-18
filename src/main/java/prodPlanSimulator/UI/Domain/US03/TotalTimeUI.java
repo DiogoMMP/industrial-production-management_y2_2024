@@ -1,7 +1,5 @@
-package prodPlanSimulator.UI;
+package prodPlanSimulator.UI.Domain.US03;
 
-import prodPlanSimulator.UI.Domain.US03.TotalTimeAllItemsUI;
-import prodPlanSimulator.UI.Domain.US03.TotalTimeOneItemUI;
 import prodPlanSimulator.UI.Menu.MenuItem;
 import prodPlanSimulator.UI.Utils.Utils;
 

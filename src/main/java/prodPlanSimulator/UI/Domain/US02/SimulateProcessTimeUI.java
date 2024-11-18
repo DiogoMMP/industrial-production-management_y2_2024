@@ -1,4 +1,4 @@
-package prodPlanSimulator.UI.Domain.US02AndUS08;
+package prodPlanSimulator.UI.Domain.US02;
 
 import prodPlanSimulator.UI.Menu.MenuItem;
 import prodPlanSimulator.UI.Utils.Utils;
@@ -9,11 +9,11 @@ import prodPlanSimulator.repository.Simulator;
 
 import java.util.*;
 
-public class SimulateProcessTimeAndPriorityUI implements Runnable {
+public class SimulateProcessTimeUI implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
     private Simulator simulator = Instances.getInstance().getSimulator();
     /**
-     * This method is responsible for running the simulation of the process time and priority of the items.
+     * This method is responsible for running the simulation of the process time for each item.
      */
     @Override
     public void run() {
@@ -22,9 +22,9 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         items = sortAndRemoveDuplicates(items);
         List<MenuItem> options = new ArrayList<>();
         for (Item item : items) {
-            options.add(new MenuItem("Item: " + item.getId(), new SimulateProcessTimeAndPriorityUI()));
+            options.add(new MenuItem("Item: " + item.getId(), new SimulateProcessTimeUI()));
         }
-        options.add(new MenuItem("All", new SimulateProcessTimeAndPriorityUI()));
+        options.add(new MenuItem("All", new SimulateProcessTimeUI()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Item to be visualized ------------");
@@ -48,8 +48,8 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
     }
 
     /**
-     * This method is responsible for showing the simulation of the process time and priority of the items.
-     * @param choice The choice of the item to be visualized.
+     * This method is responsible for showing the simulation of the process time for each item.
+     * @param choice The choice of the user.
      */
     private void show(String choice) {
         System.out.println("\n\n--- Simulate Process by Time ------------");
@@ -100,7 +100,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
 
     /**
      * This method is responsible for getting the item id from the entry.
-     * @param entry The entry to get the item id from.
+     * @param entry The entry.
      * @return The item id.
      */
     private String getItemIdFromEntry(String entry) {
@@ -115,7 +115,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
 
     /**
      * This method is responsible for getting the quantity from the entry.
-     * @param entry The entry to get the quantity from.
+     * @param entry The entry.
      * @return The quantity.
      */
     private int getQuantityFromEntry(String entry) {
@@ -130,7 +130,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
 
     /**
      * This method is responsible for removing the quantity from the entry.
-     * @param entry The entry to remove the quantity from.
+     * @param entry The entry.
      * @return The entry without the quantity.
      */
     private String removeQuantityFromEntry(String entry) {
@@ -140,7 +140,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
 
     /**
      * This method is responsible for updating the operation keys.
-     * @param timeOperations The time operations to update the keys.
+     * @param timeOperations The time operations.
      * @return The updated time operations.
      */
     private LinkedHashMap<String, Double> updateOperationKeys(LinkedHashMap<String, Double> timeOperations) {
@@ -156,8 +156,8 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
 
     /**
      * This method is responsible for sorting the operations.
-     * @param timeOperations The time operations to sort.
-     * @param id The id of the item to sort the operations.
+     * @param timeOperations The time operations.
+     * @param id The id.
      * @return The sorted time operations.
      */
     private LinkedHashMap<String, Double> sortOperations(LinkedHashMap<String, Double> timeOperations, int id) {
@@ -179,8 +179,8 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
     }
 
     /**
-     * This method is responsible for sorting and removing duplicates from the items.
-     * @param items The items to sort and remove duplicates.
+     * This method is responsible for sorting and removing duplicates.
+     * @param items The items.
      * @return The sorted and unique items.
      */
     private ArrayList<Item> sortAndRemoveDuplicates(ArrayList<Item> items) {

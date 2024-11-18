@@ -1,4 +1,4 @@
-package prodPlanSimulator.UI;
+package prodPlanSimulator.UI.Domain.US06;
 
 
 import prodPlanSimulator.UI.Utils.Utils;

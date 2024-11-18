@@ -1,8 +1,13 @@
 package prodPlanSimulator.UI.Menu;
 
-import prodPlanSimulator.UI.*;
-import prodPlanSimulator.UI.Domain.US02AndUS08.SimulateProcessTimeUI;
+import prodPlanSimulator.UI.Domain.US02.SimulateProcessTimeUI;
+import prodPlanSimulator.UI.Domain.US04.ListExecutionTimeUI;
+import prodPlanSimulator.UI.Domain.US03.TotalTimeUI;
+import prodPlanSimulator.UI.Domain.US05.WorkstationTimeUI;
+import prodPlanSimulator.UI.Domain.US06.AverageAndWaitingTimesUI;
+import prodPlanSimulator.UI.Domain.US07.FlowDependencyUI;
 import prodPlanSimulator.UI.Utils.Utils;
+import prodPlanSimulator.UI.graphGenerator.ProductStructureGraphUI;
 
 import java.util.ArrayList;
 import java.util.List;

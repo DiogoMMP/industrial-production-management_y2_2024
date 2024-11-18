@@ -1,7 +1,5 @@
-package prodPlanSimulator.UI;
+package prodPlanSimulator.UI.Domain.US04;
 
-import prodPlanSimulator.UI.Domain.US04.ListExecutionTimeAllOpUI;
-import prodPlanSimulator.UI.Domain.US04.ListExecutionTimeOneOpUI;
 import prodPlanSimulator.UI.Menu.MenuItem;
 import prodPlanSimulator.UI.Utils.Utils;
 
