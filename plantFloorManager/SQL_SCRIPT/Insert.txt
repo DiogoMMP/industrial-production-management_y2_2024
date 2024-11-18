@@ -332,6 +332,7 @@ insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values
 insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 151, 'PN94561L67', 5, 'ml');
 insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 152, 'IP12945A32', 1, 'unit');
 insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 152, 'PN94561L67', 5, 'ml');
+insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 153, 'IP12945A33', 1, 'unit');
 insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 154, 'IP12945A04', 1, 'unit');
 insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 154, 'PN18544C21', 2, 'unit');
 
