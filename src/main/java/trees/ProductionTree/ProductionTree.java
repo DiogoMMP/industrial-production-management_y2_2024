@@ -2,6 +2,7 @@ package trees.ProductionTree;
 
 import trees.AVL_BST.AVL;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -538,6 +539,31 @@ public class ProductionTree {
         // Simular a produção completa
         System.out.println("\nSimulando Produção:");
         productionTree.simulateProduction(productionTree.getRoot());
+
+        // Calcular a quantidade total de materiais e tempo necessários para a produção
+        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
+        BigDecimal totalMaterialQuantity = BigDecimal.ZERO;
+        BigDecimal totalOperationQuantity = BigDecimal.ZERO;
+
+        for (Map.Entry<String, Object> entry : totals.entrySet()) {
+            if (entry.getKey().equals("materialQuantities")) {
+                System.out.println("\nQuantidade total por Material:\n");
+                Map<String, Double> materialQuantities = (Map<String, Double>) entry.getValue();
+                for (Map.Entry<String, Double> materialEntry : materialQuantities.entrySet()) {
+                    System.out.println(materialEntry.getKey() + ": " + materialEntry.getValue());
+                    totalMaterialQuantity = totalMaterialQuantity.add(BigDecimal.valueOf(materialEntry.getValue()));
+                }
+                System.out.println("Total Material Quantity: " + totalMaterialQuantity);
+            } else if (entry.getKey().equals("operationTimes")) {
+                System.out.println("\nQuantidade total por Operação:\n");
+                Map<String, Double> operationTimes = (Map<String, Double>) entry.getValue();
+                for (Map.Entry<String, Double> operationEntry : operationTimes.entrySet()) {
+                    System.out.println(operationEntry.getKey() + ": " + operationEntry.getValue());
+                    totalOperationQuantity = totalOperationQuantity.add(BigDecimal.valueOf(operationEntry.getValue()));
+                }
+                System.out.println("Total Operation Quantity: " + totalOperationQuantity);
+            }
+        }
     }
 
     /**
@@ -559,4 +585,54 @@ public class ProductionTree {
         System.out.println();
     }
 
+    /**
+     * Calculate the total quantity of materials and time needed for the production.
+     *
+     * @return a map containing the total quantity of materials and time needed
+     */
+    public Map<String, Object> calculateTotalMaterialsAndOperations(TreeNode<String> root) {
+        Map<String, Double> materialQuantities = new HashMap<>();
+        Map<String, Double> operationTimes = new HashMap<>();
+        calculateTotals(materialQuantities, operationTimes, root);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("materialQuantities", materialQuantities);
+        result.put("operationTimes", operationTimes);
+        return result;
+    }
+
+    public void calculateTotals(Map<String, Double> materialQuantities, Map<String, Double> operationQuantities, TreeNode<String> root) {
+        traverseTree(root, materialQuantities, operationQuantities);
+    }
+
+    public void traverseTree(TreeNode<String> node, Map<String, Double> materialQuantities, Map<String, Double> operationQuantities) {
+        if (node == null) {
+            return;
+        }
+
+        String value = node.getValue();
+        if (node.getType().equals(NodeType.MATERIAL)) {
+            int startIndex = value.lastIndexOf('(');
+            int endIndex = value.lastIndexOf('x');
+            if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                String materialName = value.substring(0, startIndex).trim();
+                String quantityStr = value.substring(startIndex + 1, endIndex).trim().replace(',', '.');
+                double quantity = Double.parseDouble(quantityStr);
+                materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, 0.0) + quantity);
+            }
+        } else if (node.getType().equals(NodeType.OPERATION)) {
+            int startIndex = value.lastIndexOf('(');
+            int endIndex = value.lastIndexOf('x');
+            if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                String operationName = value.substring(0, startIndex).trim();
+                String quantityStr = value.substring(startIndex + 1, endIndex).trim().replace(',', '.');
+                double quantity = Double.parseDouble(quantityStr);
+                operationQuantities.put(operationName, operationQuantities.getOrDefault(operationName, 0.0) + quantity);
+            }
+        }
+
+        for (TreeNode<String> child : node.getChildren()) {
+            traverseTree(child, materialQuantities, operationQuantities);
+        }
+    }
 }

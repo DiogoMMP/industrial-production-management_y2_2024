@@ -469,60 +469,7 @@ public class Simulator {
         }
     }
 
-    /**
-     * Calculate the total quantity of materials and time needed for the production.
-     *
-     * @return a map containing the total quantity of materials and time needed
-     */
-    public Map<String, Object> calculateTotalMaterialsAndTime() {
-        Map<String, Integer> materialQuantities = new HashMap<>();
-        Map<String, Double> operationTimes = new HashMap<>();
-        calculateTotals(materialQuantities, operationTimes);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("materialQuantities", materialQuantities);
-        result.put("operationTimes", operationTimes);
-        return result;
-    }
-
-    private void calculateTotals(Map<String, Integer> materialQuantities, Map<String, Double> operationTimes) {
-        TreeNode<String> root = productionTree.getRoot();
-        traverseTree(root, materialQuantities, operationTimes);
-    }
-
-    private void traverseTree(TreeNode<String> node, Map<String, Integer> materialQuantities, Map<String, Double> operationTimes) {
-        if (node == null) {
-            return;
-        }
-        String value = node.getValue();
-        if (node.getType().equals(NodeType.MATERIAL)) {
-            int startIndex = value.lastIndexOf('(');
-            int endIndex = value.lastIndexOf('x');
-            String materialName = value.substring(0, startIndex).trim();
-            int quantity = Integer.parseInt(value.substring(startIndex + 1, endIndex).trim());
-            materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, 0) + quantity);
-        } else if (node.getType().equals(NodeType.OPERATION)) {
-            int startIndex = value.lastIndexOf('(');
-            int endIndex = value.lastIndexOf('x');
-            String operationName = value.substring(0, startIndex).trim();
-            int quantity = Integer.parseInt(value.substring(startIndex + 1, endIndex).trim());
-
-            double totalTime = 0;
-            int count = 0;
-            for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-                if (entry.getKey().contains("Operation: " + operationName)) {
-                    totalTime += entry.getValue();
-                    count++;
-                }
-            }
-            double averageTime = count > 0 ? totalTime / count : 0;
-            operationTimes.put(operationName, operationTimes.getOrDefault(operationName, 0.0) + (averageTime * quantity));
-        }
-
-        for (TreeNode<String> child : node.getChildren()) {
-            traverseTree(child, materialQuantities, operationTimes);
-        }
-    }
 
 
     public LinkedHashMap<String, Double> getTimeOperations() {
