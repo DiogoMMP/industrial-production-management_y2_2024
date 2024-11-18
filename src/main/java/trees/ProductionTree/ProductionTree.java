@@ -69,7 +69,7 @@ public class ProductionTree {
         String mainObjectiveName = itemNames.getOrDefault(mainObjectiveID, "Unknown Product");
 
         // Create the root node
-        root = new TreeNode<>(mainObjectiveName);
+        root = new TreeNode<>(mainObjectiveName, NodeType.MATERIAL);
 
         // Identifies the operation associated with mainObjectiveID in BOO
         String initialOperationID = null;
