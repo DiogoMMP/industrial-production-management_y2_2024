@@ -52,6 +52,7 @@ insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type
 insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('785', 'PT501245488', 'Tudo para a casa, Lda', 'R. Dr. Barros 93, 4465-219 São Mamede de Infesta, Portugal', 003518340500, 'me@neither.com', 2, 620, 'Activated');
 insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('657', 'PT501242417', 'Sair de Cena', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88, 4400-023 Vila Nova de Gaia, Portugal', 003518340500, 'some@email.com', 2, 620, 'Activated');
 insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('348', 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz', 1, 203, 'Activated');
+insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('999', 'CZ6451237820', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'someother.random@email.cz', 1, 203, 'Deactivated');
 
 --Customer_Order
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 785);

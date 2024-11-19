@@ -3,7 +3,8 @@ CREATE OR REPLACE FUNCTION Register_Customer_Order(
     p_product_id         IN VARCHAR2,
     p_quantity           IN NUMBER,
     p_order_date         IN DATE,
-    p_delivery_date      IN DATE
+    p_delivery_date      IN DATE,
+	p_product_priority   IN VARCHAR2
 ) RETURN NUMBER IS
     v_customer_order_id  NUMBER;
     v_active_status      VARCHAR2(255);
@@ -61,9 +62,9 @@ BEGIN
 
     -- Step 4: Insert into Customer_Order_Product
     INSERT INTO Customer_Order_Product (
-        Customer_Order_ID, Product_ID, Quantity
+        Customer_Order_ID, Product_ID, Quantity, Product_Priority
     ) VALUES (
-        v_customer_order_id, p_product_id, p_quantity
+        v_customer_order_id, p_product_id, p_quantity, p_product_priority
     );
 
     -- Return the new Customer_Order_ID
@@ -86,7 +87,8 @@ BEGIN
         p_product_id    => 'AS12945S22',    -- Product_ID
         p_quantity      => 10,           	-- Example quantity
         p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7  	-- Delivery date
+        p_delivery_date => SYSDATE + 7, 	-- Delivery date
+    	p_product_priority => 'High'		-- Product priority
     );
 
     DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
@@ -106,7 +108,8 @@ BEGIN
         p_product_id    => 'invalid',    	-- Product_ID
         p_quantity      => 10,           	-- Example quantity
         p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7  	-- Delivery date
+        p_delivery_date => SYSDATE + 7,  	-- Delivery date
+    	p_product_priority => 'High'		-- Product priority
     );
 
     DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
@@ -122,11 +125,12 @@ DECLARE
 BEGIN
     -- Test the Register_Customer_Order function
     v_order_id := Register_Customer_Order(
-        p_customer_id   => 368,         	-- Customer_ID
+        p_customer_id   => 999,         	-- Customer_ID
         p_product_id    => 'AS12945S22',    -- Product_ID
         p_quantity      => 10,           	-- Example quantity
         p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7  	-- Delivery date
+        p_delivery_date => SYSDATE + 7,  	-- Delivery date
+    	p_product_priority => 'High'		-- Product priority
     );
 
     DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
@@ -147,7 +151,8 @@ BEGIN
         p_product_id    => 'AS12945S22',    -- Product_ID
         p_quantity      => 10,           	-- Example quantity
         p_order_date    => SYSDATE - 2,     -- Date for the order
-        p_delivery_date => SYSDATE + 7  	-- Delivery date
+        p_delivery_date => SYSDATE + 7,  	-- Delivery date
+    	p_product_priority => 'High'		-- Product priority
     );
 
     DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
@@ -167,7 +172,8 @@ BEGIN
         p_product_id    => 'AS12945S22',    -- Product_ID
         p_quantity      => 10,           	-- Example quantity
         p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE - 2      -- Delivery date
+        p_delivery_date => SYSDATE - 2,      -- Delivery date
+    	p_product_priority => 'High'		-- Product priority
     );
 
     DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
@@ -187,7 +193,8 @@ BEGIN
         p_product_id    => 'AS12945S22',    -- Product_ID
         p_quantity      => 10,           	-- Example quantity
         p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7      -- Delivery date
+        p_delivery_date => SYSDATE + 7,      -- Delivery date
+    	p_product_priority => 'High'		-- Product priority
     );
 
     DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
