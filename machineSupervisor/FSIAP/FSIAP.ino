@@ -1,0 +1,111 @@
+#include "DHT.h"
+#include <arduino-timer.h>
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+#define NR_SOIL_HUMIDITY_SENSORS 1
+#define NR_ATMOSPHERIC_HUMIDITY_SENSORS 4 // Sensor IDs: 3, 4, 5, 6
+#define NR_ATMOSPHERIC_TEMPERATURE_SENSORS 4 // Sensor IDs: 7, 8, 9, 10
+
+#define DATA_LENGTH 100
+#define TYPE_NAME_LENGTH 30
+#define UNIT_NAME_LENGTH 30
+
+#define TOGGLE_LED_PERIOD 1000 // milliseconds
+#define SOIL_HUMIDITY_PERIOD 5000
+#define ATMOSPHERIC_HUMIDITY_PERIOD 2000
+#define ATMOSPHERIC_TEMPERATURE_PERIOD 2000
+
+char sensor_types[][TYPE_NAME_LENGTH] = {
+    "soil_humidity",
+    "atmospheric_humidity",
+    "atmospheric_temperature"
+};
+
+enum sensor_type {
+    SOIL_HUMIDITY = 0,
+    ATMOSPHERIC_HUMIDITY,
+    ATMOSPHERIC_TEMPERATURE
+};
+
+char sensor_units[][UNIT_NAME_LENGTH] = {
+    "percentage",
+    "celsius"
+};
+
+enum sensor_unit {
+    PERCENTAGE = 0,
+    CELSIUS
+};
+
+DHT dht(DHTPIN, DHTTYPE);
+auto timer = timer_create_default(); // Create a timer with default settings
+
+bool toggle_led(void *) {
+    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN)); // Toggle the LED
+    return true; // Keep the timer active
+}
+
+int get_sensor_id(int min, int max) {
+    return random(min, max); // Generate a random value in [min, max)
+}
+
+bool read_soil_humidity(void *) {
+    int min = 1;
+    int max = min + NR_SOIL_HUMIDITY_SENSORS;
+    int id = get_sensor_id(min, max);
+    float r = dht.readHumidity();
+    if (!isnan(r)) {
+        send_data(id, SOIL_HUMIDITY, r, PERCENTAGE, millis());
+    }
+    return true;
+}
+
+bool read_atmospheric_humidity(void *) {
+    int min = NR_SOIL_HUMIDITY_SENSORS + 1;
+    int max = min + NR_ATMOSPHERIC_HUMIDITY_SENSORS;
+    int id = get_sensor_id(min, max);
+    float r = dht.readHumidity();
+    if (!isnan(r)) {
+        send_data(id, ATMOSPHERIC_HUMIDITY, r, PERCENTAGE, millis());
+    }
+    return true;
+}
+
+bool read_atmospheric_temperature(void *) {
+    int min = NR_SOIL_HUMIDITY_SENSORS + NR_ATMOSPHERIC_HUMIDITY_SENSORS + 1;
+    int max = min + NR_ATMOSPHERIC_TEMPERATURE_SENSORS;
+    int id = get_sensor_id(min, max);
+    float r = dht.readTemperature();
+    if (!isnan(r)) {
+        send_data(id, ATMOSPHERIC_TEMPERATURE, r, CELSIUS, millis());
+    }
+    return true;
+}
+
+void send_data(int id, sensor_type t, float r, sensor_unit u, unsigned long m) {
+    char buffer[DATA_LENGTH];
+    snprintf(buffer, DATA_LENGTH - 1,
+             "sensor_id:%d#type:%s#value:%.2f#unit:%s#time:%lu",
+             id, sensor_types[t], r, sensor_units[u], m);
+    Serial.println(buffer);
+}
+
+void setup() {
+    // Initialize digital pin LED_BUILTIN as an output
+    pinMode(LED_BUILTIN, OUTPUT);
+    randomSeed(analogRead(0));
+    Serial.begin(9600);
+    dht.begin();
+
+    // Set up periodic tasks
+    timer.every(TOGGLE_LED_PERIOD, toggle_led);
+    timer.every(ATMOSPHERIC_TEMPERATURE_PERIOD, read_atmospheric_temperature);
+    timer.every(ATMOSPHERIC_HUMIDITY_PERIOD, read_atmospheric_humidity);
+    timer.every(SOIL_HUMIDITY_PERIOD, read_soil_humidity);
+}
+
+void loop() {
+    timer.tick(); // Tick the timer
+}
