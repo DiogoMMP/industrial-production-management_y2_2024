@@ -7,7 +7,6 @@ get_number:
 
     # Initialize the result as 0
     mov $0, %eax            # Return value (success or failure)
-    mov $0, %r8             # Negative flag
     movl $0, (%rsi)         # Initialize result to 0
 
 skip_whitespace:
@@ -76,18 +75,9 @@ check_if_it_ends:
 
 store_result:
     movl $1, %eax           # Return 1 (success)
-    cmp $1, %r8
-    je make_negative         # If negative flag is set, negate the result
-    ret
-
-make_negative:
-    movl $-1, %edx
-    movl (%rsi), %r10d
-    imull %edx, %r10d
-    movl %r10d, (%rsi)
     ret
 
 invalid_input:
-    movl $0, (%rsi)         # Store 0 in the result
+    movl $-1, (%rsi)         # Store 0 in the result
     movl $0, %eax           # Return 0 (failure)
     ret
