@@ -1,8 +1,9 @@
 .section .text
-    .global extract_token
-extract_token:
+    .global extract_data
+extract_data:
     # Initialize outputs to failure defaults
     movl $0, (%rcx)       # Set *value = 0
+    mov %rdi, %r9        # Set unit = str
     movb $0, (%rdx)       # Set unit = empty string
     movl $0, %eax         # Return value = 0
 
@@ -13,16 +14,23 @@ search_token:
     je not_found          # If yes, token not found
 
     # Compare token with the current position in the string
-    push %rdi             # Save str pointer
-    push %rsi             # Save token pointer
     call compare_token    # Compare token
-    pop %rsi              # Restore token pointer
-    pop %rdi              # Restore str pointer
     test %eax, %eax       # Was token found?
     jnz token_found       # If yes, jump to token_found
 
+get_next_token:
+    movb (%rdi), %al
+    cmpb $0, %al
+    je not_found
+    cmpb $'#', %al        # Check if next char is '#'
+    je next_char         # If yes, move to next char and set the token to the next char
     # Move to the next character in the string
     inc %rdi
+    jmp get_next_token
+
+next_char:
+    inc %rdi
+    mov %rdi, %r9        # Set unit = str
     jmp search_token
 
 token_found:
@@ -82,30 +90,38 @@ not_found:
 
 # Helper: Compare token with substring
 compare_token:
-    push %rdi
+    push %r9
     push %rsi
 
 compare_loop:
-    movb (%rdi), %al      # Read char from str
-    movb (%rsi), %bl      # Read char from token
-    cmpb $0, %bl          # End of token?
-    je compare_end        # If yes, match found
-    cmpb %al, %bl         # Match characters?
-    jne compare_not_equal # If not, fail
-    inc %rdi              # Move to next char
+    # Compare token with substring
+    movb (%r9), %al
+    movb (%rsi), %r10b
+    # Check if token is at the end
+    cmpb $0, %r10b
+    je compare_end
+    # Compare characters
+    cmpb %al, %r10b
+    jne compare_not_equal
+    inc %r9
     inc %rsi
     jmp compare_loop
 
 compare_end:
-    movl $1, %eax         # Match found
+    # Check if token is at the end
+    movb (%rsi), %r10b
+    cmpb $0, %r10b
+    jne compare_not_equal
+    movl $1, %eax
     pop %rsi
-    pop %rdi
+    pop %r9
     ret
 
 compare_not_equal:
-    movl $0, %eax         # Match not found
+    # Token not found
+    movl $0, %eax
     pop %rsi
-    pop %rdi
+    pop %r9
     ret
 
 # Helper: Copy string until '&'
@@ -156,3 +172,4 @@ extract_done:
     pop %rsi
     pop %rdi
     ret
+    
