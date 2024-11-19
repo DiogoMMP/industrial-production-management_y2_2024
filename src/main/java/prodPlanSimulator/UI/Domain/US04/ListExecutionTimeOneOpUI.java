@@ -1,12 +1,10 @@
 package prodPlanSimulator.UI.Domain.US04;
 
 import prodPlanSimulator.UI.Menu.MenuItem;
-import prodPlanSimulator.UI.ProcessByTimeUI;
 import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.Simulator;
 
 import java.util.*;
 

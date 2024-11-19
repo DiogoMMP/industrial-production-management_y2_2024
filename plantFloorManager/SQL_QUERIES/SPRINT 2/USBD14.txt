@@ -1,57 +1,137 @@
--- Insert a new product family for testing
-INSERT INTO Product_Family (Family_ID, Family_Description) VALUES (999, 'Test Family for All Machines');
-
 
 INSERT INTO Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID)
-VALUES ('ALL_WS_PRODUCT', 'Universal Product', 'Product using all workstations', 1, 999);
+VALUES ('NEWPROD001', 'All Workstations Pot', 'A product that uses all workstation types', 1, 125);
+
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)
+VALUES (5672, 'Packaging for large items');
+
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)
+VALUES (5673, 'Circular glass cutting');
+
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)
+VALUES (5674, 'Glass trimming');
+
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5001, 5647, 5002);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5002, 5649, 5003);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5003, 5651, 5004);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5004, 5653, 5005);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5005, 5655, 5006);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5006, 5657, 5007);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5007, 5659, 5008);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5008, 5661, 5009);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5009, 5663, 5010);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5010, 5665, 5011);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5011, 5667, 5012);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5012, 5669, 5013);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5013, 5671, 5014);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5014, 5672, 5015);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5015, 5673, 5016);
+INSERT INTO BOO (Product_ID, Operation_ID, Operation_Type_ID, Next_Operation_ID)
+VALUES ('NEWPROD001', 5016, 5674, NULL);
+
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5001, 'PN52384R50', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5002, 'IP12945A01', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5003, 'IP12945A02', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5004, 'IP12945A03', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5005, 'IP12947A01', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5006, 'IP12947A02', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5007, 'PN18544A21', 2, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5008, 'PN12344A21', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5009, 'PN18324C91', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5010, 'PN94561L67', 5, 'ml');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5011, 'IP12947A03', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5012, 'IP12945A04', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5013, 'PN52384R10', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5014, 'PN12344A21', 3, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5015, 'PN52384R50', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5016, 'PN52384R10', 2, 'unit');
+
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5001, 'IP12945A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5002, 'IP12945A02', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5003, 'IP12945A03', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5004, 'IP12945A04', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5005, 'IP12947A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5006, 'IP12947A02', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5007, 'IP12947A03', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5008, 'IP12947A04', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5009, 'AS12945S22', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5010, 'IP12945A04', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5011, 'IP12947A03', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5012, 'IP12945A04', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5013, 'AS12945T22', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5014, 'IP12945A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5015, 'IP12947A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+VALUES ('NEWPROD001', 5016, 'AS12945T22', 1, 'unit');
 
 
--- Mapping all Manufacturing Operations for Universal Product Family in BOO
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5647, 1);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5649, 2);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5651, 3);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5653, 4);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5655, 5);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5657, 6);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5659, 7);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5661, 8);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5663, 9);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5665, 10);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5667, 11);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5669, 12);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5671, 13);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5681, 14);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5682, 15);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5683, 16);
-INSERT INTO BOO (Product_Family_ID, Manufacturing_Operation_ID, Operation_Order) VALUES (999, 5688, 17);
+INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Operation_Type_ID, Workstation_Type_ID)
+VALUES (1026, 'Packaging for large items', 5672, 'K3676');
 
--- Linking all Manufacturing Operations for Universal Product Family to each Workstation Type
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2001, 'Universal Operation', 5647, 'A4578');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2002, 'Universal Operation', 5649, 'A4588');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2003, 'Universal Operation', 5651, 'A4598');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2004, 'Universal Operation', 5653, 'C5637');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2005, 'Universal Operation', 5655, 'S3271');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2006, 'Universal Operation', 5657, 'K3675');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2007, 'Universal Operation', 5659, 'K3676');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2008, 'Universal Operation', 5661, 'D9123');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2009, 'Universal Operation', 5663, 'Q5478');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2010, 'Universal Operation', 5665, 'Q3547');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2011, 'Universal Operation', 5667, 'T3452');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2012, 'Universal Operation', 5669, 'G9273');
-INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Manufacturing_Operation_ID, Workstation_Type_ID) VALUES (2013, 'Universal Operation', 5671, 'G9274');
+INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Operation_Type_ID, Workstation_Type_ID)
+VALUES (1027, 'Circular glass cutting', 5673, 'G9273');
 
+INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Operation_Type_ID, Workstation_Type_ID)
+VALUES (1028, 'Glass trimming', 5674, 'G9274');
 
 WITH Families_Using_All_Workstations AS (
-    SELECT boo.Product_Family_ID
-    FROM BOO boo
-    JOIN Type_Industry ti ON boo.Manufacturing_Operation_ID = ti.Manufacturing_Operation_ID
-    GROUP BY boo.Product_Family_ID
+    SELECT p.Product_ID
+    FROM BOO b
+    JOIN Product p ON b.Product_ID = p.Product_ID
+    JOIN Type_Industry ti ON b.Operation_Type_ID = ti.Operation_Type_ID
+    GROUP BY p.Product_ID
     HAVING COUNT(DISTINCT ti.Workstation_Type_ID) = (
         SELECT COUNT(DISTINCT Workstation_Type_ID) FROM Workstation_Type
     )
 )
-
--- Step 2: Select Products from those Families
 SELECT p.Product_ID, p.Product_Name
 FROM Product p
-WHERE p.Family_ID IN (SELECT Product_Family_ID FROM Families_Using_All_Workstations);
+WHERE p.Product_ID IN (SELECT Product_ID FROM Families_Using_All_Workstations);
+
+

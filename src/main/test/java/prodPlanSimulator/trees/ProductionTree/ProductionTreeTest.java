@@ -29,7 +29,7 @@ public class ProductionTreeTest {
     public void testBuildProductionTree() {
         TreeNode<String> root = productionTree.buildProductionTree(BOO_FILE, ITEMS_FILE, OPERATIONS_FILE, "1006");
         assertNotNull(root);
-        assertEquals("finished bench", root.getValue());
+        assertEquals("varnish bench  (Quantity: 1)", root.getValue());
         assertFalse(root.getChildren().isEmpty());
     }
 
@@ -87,28 +87,32 @@ public class ProductionTreeTest {
 
     @Test
     public void testCalculateTotals() {
-        TreeNode<String> root = new TreeNode<>("finished bench (1x)", NodeType.MATERIAL);
-        TreeNode<String> operationNode = new TreeNode<>("assemble bench (2x)", NodeType.OPERATION);
+        TreeNode<String> root = new TreeNode<>("finished bench (Quantity: 1)", NodeType.MATERIAL);
+        TreeNode<String> operationNode = new TreeNode<>("assemble bench (Quantity: 2)", NodeType.OPERATION);
         root.addChild(operationNode);
 
         Map<String, Double> materialQuantities = new HashMap<>();
         Map<String, Double> operationTimes = new HashMap<>();
         productionTree.calculateTotals(materialQuantities, operationTimes, root);
 
+        assertTrue(materialQuantities.containsKey("finished bench"));
+        assertTrue(operationTimes.containsKey("assemble bench"));
         assertEquals(1.0, materialQuantities.get("finished bench"), 0.001);
         assertEquals(2.0, operationTimes.get("assemble bench"), 0.001);
     }
 
     @Test
     public void testTraverseTree() {
-        TreeNode<String> root = new TreeNode<>("finished bench (1x)", NodeType.MATERIAL);
-        TreeNode<String> operationNode = new TreeNode<>("assemble bench (2x)", NodeType.OPERATION);
+        TreeNode<String> root = new TreeNode<>("finished bench (Quantity: 1)", NodeType.MATERIAL);
+        TreeNode<String> operationNode = new TreeNode<>("assemble bench (Quantity: 2)", NodeType.OPERATION);
         root.addChild(operationNode);
 
         Map<String, Double> materialQuantities = new HashMap<>();
         Map<String, Double> operationTimes = new HashMap<>();
         productionTree.traverseTree(root, materialQuantities, operationTimes);
 
+        assertTrue(materialQuantities.containsKey("finished bench"));
+        assertTrue(operationTimes.containsKey("assemble bench"));
         assertEquals(1.0, materialQuantities.get("finished bench"), 0.001);
         assertEquals(2.0, operationTimes.get("assemble bench"), 0.001);
     }

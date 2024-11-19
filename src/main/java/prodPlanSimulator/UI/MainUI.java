@@ -1,5 +1,6 @@
 package prodPlanSimulator.UI;
 
+import prodPlanSimulator.UI.Simulators.ChooseSimulatorUI;
 import prodPlanSimulator.UI.Utils.DataInitializer;
 
 public class MainUI {
