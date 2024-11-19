@@ -37,7 +37,7 @@ void run_test(int * array, int len, int rd, int wr, int num,
 	int v2[100]; 
     memset(v2, 0x55, sizeof v2);    // destination 
     int res; 
-	res=call_func(move_num_vec, v1+5, len, v1+1, v1+3, num, v2+1);
+	res=call_func(move_n_to_array, v1+5, len, v1+1, v1+3, num, v2+1);
     TEST_ASSERT_EQUAL_INT(exp_res,res);    // check result 
     TEST_ASSERT_EQUAL_INT(0x55555555, v1[0]);    // check sentinel 
     TEST_ASSERT_EQUAL_INT(0x55555555, v1[2]);    // check sentinel  

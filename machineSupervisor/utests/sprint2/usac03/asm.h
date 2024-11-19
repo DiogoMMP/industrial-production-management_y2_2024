@@ -1,5 +1,5 @@
 #ifndef ASM_H 
 #define ASM_H 
-int  mediana(int* ptr, int num); 
+int get_number(char * str, int * n ); 
 #endif 
 
