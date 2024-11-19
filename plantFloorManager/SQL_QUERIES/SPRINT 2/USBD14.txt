@@ -120,18 +120,19 @@ VALUES (1027, 'Circular glass cutting', 5673, 'G9273');
 INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Operation_Type_ID, Workstation_Type_ID)
 VALUES (1028, 'Glass trimming', 5674, 'G9274');
 
-WITH Families_Using_All_Workstations AS (
-    SELECT p.Product_ID
+
+SELECT p.Product_ID, p.Product_Name
+FROM Product p
+WHERE p.Product_ID IN (
+    SELECT b.Product_ID
     FROM BOO b
-    JOIN Product p ON b.Product_ID = p.Product_ID
+    JOIN Product p_sub ON b.Product_ID = p_sub.Product_ID
     JOIN Type_Industry ti ON b.Operation_Type_ID = ti.Operation_Type_ID
-    GROUP BY p.Product_ID
+    GROUP BY b.Product_ID
     HAVING COUNT(DISTINCT ti.Workstation_Type_ID) = (
         SELECT COUNT(DISTINCT Workstation_Type_ID) FROM Workstation_Type
     )
-)
-SELECT p.Product_ID, p.Product_Name
-FROM Product p
-WHERE p.Product_ID IN (SELECT Product_ID FROM Families_Using_All_Workstations);
+);
+
 
 
