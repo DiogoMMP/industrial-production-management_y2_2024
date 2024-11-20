@@ -1,4 +1,5 @@
 package prodPlanSimulator.UI.Utils;
+import prodPlanSimulator.UI.Simulators.ChooseSimulatorUI;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 
@@ -75,6 +76,8 @@ public class DataInitializer implements Runnable {
                     System.err.println("Error: File not found. Please check the file path and try again.");
                 }
             }
+            ChooseSimulatorUI chooseSimulatorUI = new ChooseSimulatorUI();
+            chooseSimulatorUI.run();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

@@ -3,280 +3,330 @@ package prodPlanSimulator.repository;
 import java.sql.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import prodPlanSimulator.domain.Item;
 
 
-public class OracleDataExporter {
+public class OracleDataExporter implements Runnable{
 
     private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
     private static final String USER = "SYS as SYSDBA";
     private static final String PASS = "LAPR3";
 
-    public static void main(String[] args) {
-        OracleDataExporter exporter = new OracleDataExporter();
-//        exporter.exportItemsToCSV("items.csv");
-//        exporter.exportOperationsToCSV("operations.csv");
-//        exporter.exportBOOToCSV("boo.csv");
-//        exporter.exportArticlesToCSV("articles.csv");
-//        exporter.exportWorkstationsToCSV("workstations.csv");
-        exportTableToCSV("PRODUCT", "src/main/resources/product.csv");
-        exportTableToCSV("BOO", "boo.csv");
+    @Override
+    public void run() {
+        exportItemsToCSV("src/main/resources/items_exported.csv");
+        exportOperationsToCSV("src/main/resources/operations_exported.csv");
+        // exportBOOToCSV("src/main/resources/boo_exported.csv");
+        // BOO Still not working
+        exportArticlesToCSV("src/main/resources/articles_exported.csv");
+        exportWorkstationsToCSV("src/main/resources/workstations_exported.csv");
     }
 
-    public static void exportTableToCSV(String tableName, String csvFilePath) {
-        try (
-                Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName );
-                CSVPrinter csvPrinter = new CSVPrinter(new FileWriter(csvFilePath), CSVFormat.DEFAULT)
-        ) {
-            System.out.println("Connected to the database and executing query...");
+    private static void exportWorkstationsToCSV(String file) {
+        String query =
+                "SELECT DISTINCT " +
+                        "w.Workstation_ID AS workstation, " +
+                        "ot.Operation_Description AS name_oper, " +
+                        "w.Workstation_Time AS time " +
+                        "FROM Workstation w " +
+                        "JOIN Type_Industry ti ON w.Workstation_Type_ID = ti.Workstation_Type_ID " +
+                        "JOIN Operation_Type ot ON ti.Operation_Type_ID = ot.Operation_Type_ID " +
+                        "ORDER BY w.Workstation_ID, ot.Operation_Description, w.Workstation_Time";
 
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            String[] columnNames = new String[columnCount];
-            for (int i = 1; i <= columnCount; i++) {
-                columnNames[i - 1] = metaData.getColumnName(i);
-            }
-            csvPrinter.printRecord((Object[]) columnNames);
-            System.out.println("Column names written: " + java.util.Arrays.toString(columnNames));
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query);
+             FileWriter fileWriter = new FileWriter(file);
+             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
 
-            boolean hasData = false;
+            // Track seen combinations to eliminate duplicates
+            Map<String, Integer> seenOperations = new HashMap<>();
+
+            // Write the header
+            csvPrinter.printRecord("workstation", "name_oper", "time");
+
+            // Write the data rows
             while (rs.next()) {
-                Object[] row = new Object[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    row[i - 1] = rs.getObject(i);
+                String workstation = rs.getString("workstation");
+                String nameOper = rs.getString("name_oper");
+                int time = rs.getInt("time");
+
+                // Create a unique key for this combination
+                String key = workstation + "-" + nameOper;
+
+                // Skip duplicate operations for the same workstation with identical time
+                if (seenOperations.containsKey(key) && seenOperations.get(key) == time) {
+                    continue;
                 }
+
+                // Write the row to CSV
+                csvPrinter.printRecord(workstation, nameOper, time);
+
+                // Mark this combination as seen
+                seenOperations.put(key, time);
+            }
+
+            csvPrinter.flush();
+            System.out.println("Workstations exported successfully to " + file);
+
+        } catch (SQLException | IOException e) {
+            System.err.println("Error exporting workstations to CSV: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+    private static void exportArticlesToCSV(String file) {
+        String query = "SELECT DISTINCT " +
+                "p.Product_ID AS article, " +
+                "cop.Product_Priority AS priority, " +
+                "ot.Operation_Description AS operation_name, " +
+                "b.Operation_ID " + // Include b.Operation_ID for ORDER BY
+                "FROM Product p " +
+                "JOIN BOO b ON p.Product_ID = b.Product_ID " +
+                "JOIN Operation_Type ot ON b.Operation_Type_ID = ot.Operation_Type_ID " +
+                "JOIN Customer_Order_Product cop ON p.Product_ID = cop.Product_ID " +
+                "ORDER BY p.Product_ID, b.Operation_ID";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query);
+             FileWriter fileWriter = new FileWriter(file);
+             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
+
+            // Maps to store the operations and priority for each product
+            Map<String, List<String>> operationsMap = new HashMap<>();
+            Map<String, String> priorityMap = new HashMap<>();
+            int maxOperations = 0; // Track the maximum number of operations
+
+            // Process the query results
+            while (rs.next()) {
+                String productId = rs.getString("article");
+                String operationName = rs.getString("operation_name");
+                String priority = rs.getString("priority");
+
+                // Store the priority for each product
+                priorityMap.put(productId, priority);
+
+                // Add the operation to the list of operations for the product, avoiding duplicates
+                List<String> operations = operationsMap.computeIfAbsent(productId, k -> new ArrayList<>());
+                if (!operations.contains(operationName)) {
+                    operations.add(operationName);
+                }
+
+                // Update the max operations count
+                maxOperations = Math.max(maxOperations, operations.size());
+            }
+
+            // Dynamically generate headers based on maxOperations
+            List<String> headers = new ArrayList<>();
+            headers.add("article");
+            headers.add("priority");
+            for (int i = 1; i <= maxOperations; i++) {
+                headers.add("name_oper" + i);
+            }
+
+            // Write the headers
+            csvPrinter.printRecord(headers);
+
+            // Write the data for each product
+            for (Map.Entry<String, List<String>> entry : operationsMap.entrySet()) {
+                String article = entry.getKey();
+                List<String> operations = entry.getValue();
+                String priority = priorityMap.get(article); // Get the priority for the current product
+
+                // Prepare the CSV row
+                List<String> row = new ArrayList<>();
+                row.add(article);
+                row.add(priority);
+
+                // Add operations to the row
+                row.addAll(operations);
+
+                // Fill in any missing operation slots with empty values
+                while (row.size() < headers.size()) {
+                    row.add("");
+                }
+
+                // Write the row to CSV
                 csvPrinter.printRecord(row);
-                System.out.println("Row written: " + java.util.Arrays.toString(row));
-                hasData = true;
-            }
-            if (!hasData) {
-                System.out.println("No rows found for table: " + tableName);
-            }
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-  /*  public void exportItemsToCSV(String fileName) {
-        String functionCall = "{ ? = CALL Get_Product_Parts(?) }";
-        String getProductIdsQuery = "SELECT Product_ID FROM Product";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement productStmt = conn.prepareStatement(getProductIdsQuery);
-             CallableStatement stmt = conn.prepareCall(functionCall);
-             FileWriter csvWriter = new FileWriter(fileName)) {
-
-            // Execute query to get all Product IDs
-            ResultSet productRs = productStmt.executeQuery();
-
-            boolean headersWritten = false;
-
-            // Loop over each Product ID
-            while (productRs.next()) {
-                String productID = productRs.getString("Product_ID");
-
-                // Register the output parameter (cursor) and set the input parameter (productID)
-                stmt.registerOutParameter(1, Types.REF_CURSOR);
-                stmt.setString(2, productID);
-
-                // Execute the function
-                stmt.execute();
-
-                // Retrieve the cursor
-                ResultSet rs = (ResultSet) stmt.getObject(1);
-                ResultSetMetaData metaData = rs.getMetaData();
-                int columnCount = metaData.getColumnCount();
-
-                // Write headers to CSV if not already written
-                if (!headersWritten) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        csvWriter.append(metaData.getColumnName(i));
-                        if (i < columnCount) csvWriter.append(";");
-                    }
-                    csvWriter.append("\n");
-                    headersWritten = true;
-                }
-
-                // Write data rows to CSV
-                while (rs.next()) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        csvWriter.append(rs.getString(i) != null ? rs.getString(i) : "");
-                        if (i < columnCount) csvWriter.append(";");
-                    }
-                    csvWriter.append("\n");
-                }
             }
 
-            System.out.println("All product parts data exported to " + fileName);
+            // Flush and close CSVPrinter
+            csvPrinter.flush();
+            System.out.println("Articles exported successfully to " + file);
 
         } catch (SQLException | IOException e) {
+            System.err.println("Error exporting articles to CSV: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
 
 
-    public void exportOperationsToCSV(String fileName) {
-        String query = "SELECT Manufacturing_Operation_ID, Operation_Description FROM Manufacturing_Operation";
-        exportToCSV(query, fileName, ";");
-    }
 
-    public void exportBOOToCSV(String fileName) {
-        String getProductIdsQuery = "SELECT Product_ID FROM Product";
-        String functionCall = "{ ? = CALL Get_Product_Operations(?) }";
+    public static void exportBOOToCSV(String file) {
+        // Maps to hold data
+        Map<String, List<String>> operationDetails = new HashMap<>();
+        Map<String, List<String>> inputItemDetails = new HashMap<>();
+        String operationQuery = "SELECT " +
+                "b.Operation_ID AS op_id, " +
+                "b.Product_ID AS main_item_id, " +
+                "1 AS main_item_qtd," +
+                "b.Next_Operation_ID AS next_op_id, " +
+                "i.Part_ID AS input_item_id, " +
+                "i.Quantity AS input_item_qtd " +
+                "FROM " +
+                "BOO b " +
+                "LEFT JOIN BOO_Input i ON b.Product_ID = i.Product_ID AND b.Operation_ID = i.Operation_ID " +
+                "ORDER BY b.Product_ID, b.Operation_ID, i.Part_ID";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement productStmt = conn.prepareStatement(getProductIdsQuery);
-             CallableStatement stmt = conn.prepareCall(functionCall);
-             FileWriter csvWriter = new FileWriter(fileName)) {
+             Statement stmt = conn.createStatement()) {
 
-            // Execute query to get all Product IDs
-            ResultSet productRs = productStmt.executeQuery();
-            boolean headersWritten = false;
+            // Fetch operation
 
-            // Loop over each Product ID
-            while (productRs.next()) {
-                String productID = productRs.getString("Product_ID");
+            ResultSet operationRS = stmt.executeQuery(operationQuery);
 
-                // Register the output parameter (cursor) and set the input parameter (productID)
-                stmt.registerOutParameter(1, Types.REF_CURSOR);
-                stmt.setString(2, productID);
+            while (operationRS.next()) {
+                String opId = operationRS.getString("Operation_ID");
+                String nextOpId = operationRS.getString("Next_Operation_ID");
 
-                // Execute the function
-                stmt.execute();
-
-                // Retrieve the cursor
-                ResultSet rs = (ResultSet) stmt.getObject(1);
-                ResultSetMetaData metaData = rs.getMetaData();
-                int columnCount = metaData.getColumnCount();
-
-                // Write headers to CSV if not already written
-                if (!headersWritten) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        csvWriter.append(metaData.getColumnName(i));
-                        if (i < columnCount) csvWriter.append(";");
-                    }
-                    csvWriter.append("\n");
-                    headersWritten = true;
-                }
-
-                // Write data rows to CSV
-                while (rs.next()) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        csvWriter.append(rs.getString(i) != null ? rs.getString(i) : "");
-                        if (i < columnCount) csvWriter.append(";");
-                    }
-                    csvWriter.append("\n");
+                // Add operation details
+                operationDetails.computeIfAbsent(opId, k -> new ArrayList<>());
+                if (nextOpId != null) {
+                    operationDetails.get(opId).add(nextOpId + ";1");
                 }
             }
 
-            System.out.println("All product operations data exported to " + fileName);
+            // Fetch input items
+            String inputQuery = "SELECT Operation_ID, Part_ID, Quantity FROM BOO_Input";
+            ResultSet inputRS = stmt.executeQuery(inputQuery);
 
-        } catch (SQLException | IOException e) {
+            while (inputRS.next()) {
+                String opId = inputRS.getString("Operation_ID");
+                String inputItemId = inputRS.getString("Part_ID");
+                String inputItemQtd = inputRS.getString("Quantity");
+
+                // Add input item details
+                inputItemDetails.computeIfAbsent(opId, k -> new ArrayList<>());
+                inputItemDetails.get(opId).add(inputItemId + ";" + inputItemQtd);
+            }
+
+            // Write to CSV
+            try (FileWriter csvWriter = new FileWriter(file)) {
+                csvWriter.append("op_id;item_id;item_qtd;(;op1;op_qtd1;...;opN;op_qtdN;);(;item_id1;item_qtd1;...;item_idN;item_qtdN;)\n");
+
+                for (String opId : operationDetails.keySet()) {
+                    String itemId = opId; // Assuming operation ID matches the product ID
+                    String itemQtd = "1"; // Default quantity
+
+                    // Format operation details
+                    StringBuilder opDetails = new StringBuilder("(;");
+                    for (String detail : operationDetails.getOrDefault(opId, new ArrayList<>())) {
+                        opDetails.append(detail).append(";");
+                    }
+                    opDetails.append(")");
+
+                    // Format input item details
+                    StringBuilder itemDetails = new StringBuilder("(;");
+                    for (String detail : inputItemDetails.getOrDefault(opId, new ArrayList<>())) {
+                        itemDetails.append(detail).append(";");
+                    }
+                    itemDetails.append(")");
+
+                    // Write row
+                    csvWriter.append(opId).append(";")
+                            .append(itemId).append(";")
+                            .append(itemQtd).append(";")
+                            .append(opDetails).append(";")
+                            .append(itemDetails).append("\n");
+                }
+            }
+
+            System.out.println("BOO V2 data exported successfully to " + file);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    public void exportArticlesToCSV(String fileName) {
-        String getProductIdsQuery = "SELECT Product_ID FROM Product";
-        String functionCall = "{ ? = CALL Get_Product_Operations(?) }";
+    public static void exportOperationsToCSV(String file) {
+        String query =
+                "SELECT Operation_Type_ID AS op_id, Operation_Description AS op_name " +
+                        "FROM Operation_Type";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement productStmt = conn.prepareStatement(getProductIdsQuery);
-             CallableStatement stmt = conn.prepareCall(functionCall);
-             FileWriter csvWriter = new FileWriter(fileName)) {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query);
+             FileWriter csvWriter = new FileWriter(file)) {
 
-            // Execute query to get all Product IDs
-            ResultSet productRs = productStmt.executeQuery();
-            boolean headersWritten = false;
+            // Write the header
+            csvWriter.append("op_id;op_name\n");
 
-            // Loop over each Product ID
-            while (productRs.next()) {
-                String productID = productRs.getString("Product_ID");
-
-                // Register the output parameter (cursor) and set the input parameter (productID)
-                stmt.registerOutParameter(1, Types.REF_CURSOR);
-                stmt.setString(2, productID);
-
-                // Execute the function
-                stmt.execute();
-
-                // Retrieve the cursor
-                ResultSet rs = (ResultSet) stmt.getObject(1);
-                ResultSetMetaData metaData = rs.getMetaData();
-                int columnCount = metaData.getColumnCount();
-
-                // Write headers to CSV if not already written
-                if (!headersWritten) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        csvWriter.append(metaData.getColumnName(i));
-                        if (i < columnCount) csvWriter.append(";");
-                    }
-                    csvWriter.append("\n");
-                    headersWritten = true;
-                }
-
-                // Write data rows to CSV
-                while (rs.next()) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        csvWriter.append(rs.getString(i) != null ? rs.getString(i) : "");
-                        if (i < columnCount) csvWriter.append(";");
-                    }
-                    csvWriter.append("\n");
-                }
-            }
-
-            System.out.println("All product operations data exported to " + fileName);
-
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void exportWorkstationsToCSV(String fileName) {
-        String query = "SELECT W.Workstation_ID, MO.Operation_Description, W.Workstation_Time " +
-                "FROM Workstation W " +
-                "JOIN Type_Industry TI ON W.Workstation_Type_ID = TI.Workstation_Type_ID " +
-                "JOIN Manufacturing_Operation MO ON TI.Manufacturing_Operation_ID = MO.Manufacturing_Operation_ID " +
-                "ORDER BY W.Workstation_ID";
-        exportToCSV(query, fileName, ";");
-    }
-
-    private void exportToCSV(String query, String fileName, String delimiter) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             FileWriter csvWriter = new FileWriter(fileName)) {
-
-            ResultSet rs = pstmt.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            // Write headers to CSV
-            for (int i = 1; i <= columnCount; i++) {
-                csvWriter.append(metaData.getColumnName(i));
-                if (i < columnCount) csvWriter.append(delimiter);
-            }
-            csvWriter.append("\n");
-
-            // Write data rows to CSV
+            // Write the data rows
             while (rs.next()) {
-                for (int i = 1; i <= columnCount; i++) {
-                    csvWriter.append(rs.getString(i) != null ? rs.getString(i) : "");
-                    if (i < columnCount) csvWriter.append(delimiter);
-                }
-                csvWriter.append("\n");
+                String opId = rs.getString("op_id");
+                String opName = rs.getString("op_name");
+
+                csvWriter.append(opId).append(";").append(opName).append("\n");
             }
 
-            System.out.println("Data exported to " + fileName);
+            System.out.println("Operations data exported successfully to " + file);
 
-        } catch (SQLException | IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
+
+    public static void exportItemsToCSV(String file) {
+        String query =
+                "SELECT 'Product' AS item_type, Product_ID AS id_item, Product_Name AS item_name " +
+                        "FROM Product " +
+                        "UNION ALL " +
+                        "SELECT 'Raw Material', CAST(Raw_Material_ID AS VARCHAR2(255)), Raw_Material_Name " +
+                        "FROM Raw_Material " +
+                        "UNION ALL " +
+                        "SELECT 'Part', Part_ID, Part_Description " +
+                        "FROM Part " +
+                        "UNION ALL " +
+                        "SELECT 'Component', Component_ID, Component_Description " +
+                        "FROM Component";
+
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query);
+             FileWriter csvWriter = new FileWriter(file)) {
+
+            // Write the header
+            csvWriter.append("id_item;item_name\n");
+
+            // Write the data rows
+            while (rs.next()) {
+                String idItem = rs.getString("id_item");
+                String itemName = rs.getString("item_name");
+
+                csvWriter.append(idItem).append(";").append(itemName).append("\n");
+            }
+
+            System.out.println("Data exported successfully to " + file);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
