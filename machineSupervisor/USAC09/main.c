@@ -3,7 +3,7 @@
 
 int main(void){
 	
-	int vec[] = {3,2,1,4,5};
+	int vec[] = {1000};
 	int length = sizeof(vec) / sizeof(vec[0]);
 	char order = 1;
 			
