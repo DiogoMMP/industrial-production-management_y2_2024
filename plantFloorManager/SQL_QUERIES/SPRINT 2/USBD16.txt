@@ -11,7 +11,68 @@ CREATE OR REPLACE FUNCTION add_product (
     p_part_id             IN Product.Part_ID%TYPE DEFAULT NULL
 ) RETURN VARCHAR2 IS
     v_result VARCHAR2(200) := 'Inserted successfully';
+    dummy NUMBER(10);
+
+    -- Exception declarations
+    PRODUCT_EXIST EXCEPTION;
+    PRODUCT_FAMILY_NOT_EXIST EXCEPTION;
+    PRODUCT_FACTORY_NOT_EXIST EXCEPTION;
+    PRODUCT_NAME_ID_NULL EXCEPTION;
+    PRODUCT_DESCRIPTION_NULL EXCEPTION;
+    FACTORY_PLANT_ID_NULL EXCEPTION;
+    FAMILY_ID_NULL EXCEPTION;
+    NEGATIVE_VALUES_EXCEPTION EXCEPTION;
 BEGIN
+
+    -- Validate that mandatory fields are not null
+    IF p_product_name IS NULL THEN
+        RAISE PRODUCT_NAME_ID_NULL;
+    END IF;
+
+    IF p_product_description IS NULL THEN
+            RAISE PRODUCT_DESCRIPTION_NULL;
+        END IF;
+
+    IF p_factory_plant_id IS NULL THEN
+        RAISE FACTORY_PLANT_ID_NULL;
+    END IF;
+
+    IF p_family_id IS NULL THEN
+        RAISE FAMILY_ID_NULL;
+    END IF;
+
+    -- Check if any of the numeric values are negative
+    IF p_market_demand < 0 OR p_optimization < 0 OR p_production_cost < 0 OR p_flexibility < 0 THEN
+        RAISE NEGATIVE_VALUES_EXCEPTION;
+    END IF;
+
+    -- Check if the product already exists
+    SELECT count(*) INTO dummy
+    FROM Product
+    WHERE Product_ID = p_product_id;
+
+    IF dummy = 1 THEN
+        RAISE PRODUCT_EXIST;
+    END IF;
+
+    -- Check if the family ID exists
+    SELECT count(*) INTO dummy
+    FROM Product_Family
+    WHERE Family_ID = p_family_id;
+
+    IF dummy = 0 THEN
+        RAISE PRODUCT_FAMILY_NOT_EXIST;
+    END IF;
+
+    -- Check if the factory plant ID exists
+    SELECT count(*) INTO dummy
+    FROM Factory_Plant
+    WHERE Factory_Plant_ID = p_factory_plant_id;
+
+    IF dummy = 0 THEN
+        RAISE PRODUCT_FACTORY_NOT_EXIST;
+    END IF;
+
     -- Attempt to insert the new product
     INSERT INTO Product (
         Product_ID, Product_Name, Product_Description, Factory_Plant_ID,
@@ -25,23 +86,187 @@ BEGIN
 
     RETURN v_result;  -- Returns "Inserted successfully" if the insertion is successful
 EXCEPTION
+    WHEN PRODUCT_EXIST THEN
+        RETURN 'Error: Product with ID "' || p_product_id || '" already exists.';
+    WHEN PRODUCT_FAMILY_NOT_EXIST THEN
+        RETURN 'Error: Family with ID "' || p_family_id || '" does not exist.';
+    WHEN PRODUCT_FACTORY_NOT_EXIST THEN
+        RETURN 'Error: Factory Plant with ID "' || p_factory_plant_id || '" does not exist.';
+    WHEN PRODUCT_NAME_ID_NULL THEN
+        RETURN 'Error: Product Name cannot be NULL.';
+    WHEN PRODUCT_DESCRIPTION_NULL THEN
+        RETURN 'Error: Product Description cannot be NULL.';
+    WHEN FACTORY_PLANT_ID_NULL THEN
+        RETURN 'Error: Factory Plant ID cannot be NULL.';
+    WHEN FAMILY_ID_NULL THEN
+        RETURN 'Error: Family ID cannot be NULL.';
+    WHEN NEGATIVE_VALUES_EXCEPTION THEN
+        RETURN 'Error: Market Demand, Optimization, Production Cost, and Flexibility cannot be negative.';
     WHEN OTHERS THEN
-        -- Capture and return the specific error message
-        v_result := 'Not inserted: ' || SQLERRM;
-        RETURN v_result;
+        RETURN 'Not inserted: ' || SQLERRM;
 END add_product;
 /
 
 
 
-
 -- Test the add_product function
+
+-- Scenario 1: Successful insertion
 DECLARE
     v_result VARCHAR2(50);
 BEGIN
     v_result := add_product(
-        'P001', 'Test Product', 'Description of Test Product', 1, 100, 80, 200, 50, 125
+        'P001', -- Product ID
+        'Test Product', -- Product Name
+        'Description of Test Product', -- Product Description
+        1, -- Factory Plant ID
+        100, -- Market Demand
+        80, -- Optimization
+        200, -- Production Cost
+        50, -- Flexibility
+        125, -- Family ID
+        NULL -- Part ID (optional)
     );
-    DBMS_OUTPUT.PUT_LINE('Result: ' || v_result);
+    DBMS_OUTPUT.PUT_LINE('Scenario 1 - Successful Insertion: ' || v_result);
+END;
+/
+
+-- Scenario 2: Duplicate Product_ID
+DECLARE
+    v_result VARCHAR2(200);
+BEGIN
+    v_result := add_product(
+        'P001', -- Duplicate Product ID
+        'Product B', -- Product Name
+        'Description for Product B', -- Product Description
+        2, -- Factory Plant ID
+        400, -- Market Demand
+        60, -- Optimization
+        250, -- Production Cost
+        15, -- Flexibility
+        125, -- Family ID
+        NULL -- Part ID
+    );
+    DBMS_OUTPUT.PUT_LINE('Scenario 2 - Duplicate Product_ID: ' || v_result);
+END;
+/
+
+-- Scenario 3: Null Product_Name (not allowed)
+DECLARE
+    v_result VARCHAR2(200);
+BEGIN
+    v_result := add_product(
+        'P002', -- Product ID
+        NULL, -- Product Name (should fail)
+        'Description for Product C', -- Product Description
+        3, -- Factory Plant ID
+        300, -- Market Demand
+        50, -- Optimization
+        200, -- Production Cost
+        10, -- Flexibility
+        125, -- Family ID
+        NULL -- Part ID
+    );
+    DBMS_OUTPUT.PUT_LINE('Scenario 3 - Null Product_Name: ' || v_result);
+END;
+/
+
+-- Scenario 4: Product Description is NULL (should fail)
+DECLARE
+    v_result VARCHAR2(50);
+BEGIN
+    v_result := add_product(
+        'P002', -- Product ID
+        'Product B', -- Product Name
+        NULL, -- Product Description (should fail)
+        1, -- Factory Plant ID
+        100, -- Market Demand
+        80, -- Optimization
+        200, -- Production Cost
+        50, -- Flexibility
+        125, -- Family ID
+        NULL -- Part ID
+    );
+    DBMS_OUTPUT.PUT_LINE('Scenario 4 - Null Product Description: ' || v_result);
+END;
+/
+
+-- Scenario 5: Invalid Factory_Plant_ID (not existing in the related table)
+DECLARE
+    v_result VARCHAR2(200);
+BEGIN
+    v_result := add_product(
+        'P003', -- Product ID
+        'Product D', -- Product Name
+        'Description for Product D', -- Product Description
+        9999, -- Invalid Factory Plant ID
+        200, -- Market Demand
+        40, -- Optimization
+        150, -- Production Cost
+        5, -- Flexibility
+        125, -- Family ID
+        NULL -- Part ID
+    );
+    DBMS_OUTPUT.PUT_LINE('Scenario 5 - Invalid Factory_Plant_ID: ' || v_result);
+END;
+/
+
+-- Scenario 6: Violation of data constraints (e.g., negative Production_Cost)
+DECLARE
+    v_result VARCHAR2(200);
+BEGIN
+    v_result := add_product(
+        'P004', -- Product ID
+        'Product E', -- Product Name
+        'Description for Product E', -- Product Description
+        2, -- Factory Plant ID
+        100, -- Market Demand
+        30, -- Optimization
+        -100, -- Negative Production Cost (should fail)
+        0, -- Flexibility
+        125, -- Family ID
+        NULL -- Part ID
+    );
+    DBMS_OUTPUT.PUT_LINE('Scenario 6 - Negative Production_Cost: ' || v_result);
+END;
+/
+
+-- Scenario 7: Family ID is NULL (should fail)
+DECLARE
+    v_result VARCHAR2(50);
+BEGIN
+    v_result := add_product(
+        'P003', -- Product ID
+        'Product C', -- Product Name
+        'Description for Product C', -- Product Description
+        1, -- Factory Plant ID
+        100, -- Market Demand
+        80, -- Optimization
+        200, -- Production Cost
+        50, -- Flexibility
+        NULL, -- Family ID (should fail because Family ID is NULL)
+        NULL -- Part ID
+    );
+    DBMS_OUTPUT.PUT_LINE('Scenario 7 - Null Family ID: ' || v_result);
+END;
+/
+
+-- Scenario 8: Family ID does not exist in the Product_Family table (should fail)
+DECLARE
+    v_result VARCHAR2(50);
+BEGIN
+    v_result := add_product(
+        'P004', -- Product ID
+        'Product D', -- Product Name
+        'Description for Product D', -- Product Description
+        1, -- Factory Plant ID
+        100, -- Market Demand
+        80, -- Optimization
+        200, -- Production Cost
+        50, -- Flexibility
+        9999, -- Non-existing Family ID (should fail because this Family ID does not exist)
+        NULL -- Part ID
+    );
+    DBMS_OUTPUT.PUT_LINE('Scenario 8 - Non-existing Family ID: ' || v_result);
 END;
 /
