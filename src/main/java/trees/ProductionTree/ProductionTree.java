@@ -1,32 +1,34 @@
 package trees.ProductionTree;
 
+import prodPlanSimulator.InputFileReader;
+import prodPlanSimulator.repository.BOORepository;
+import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.ItemsRepository;
+import prodPlanSimulator.repository.OperationsMapRepository;
 import trees.AVL_BST.AVL;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
-import trees.heap.Entry;
 import trees.heap.HeapPriorityQueue;
 
 
 public class ProductionTree {
+
+    private ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
+    private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
+    private BOORepository booRepository = Instances.getInstance().getBOORepository();
+
     private TreeNode<String> root;
     private Map<String, TreeNode<String>> nodesMap = new HashMap<>();
     private HeapPriorityQueue<Integer, String> qualityCheckQueue; // Priority Queue for Quality Checks
     private Map<Integer, Integer> depthPriorityMap; // Maps depth to priority
     private int nextPriority; // Counter for the next available priority
-    private Map<Integer, Integer> depthToPriorityMap = new HashMap<>();
-    private int currentPriority = 1;
-    private static final String FILES_PATH = "src/main/resources/";
 
     /**
      * Constructs a production tree with the specified main objective.
      *
      */
     public ProductionTree() {
-
         this.root = null;
         this.qualityCheckQueue = new HeapPriorityQueue<>();
         this.depthPriorityMap = new HashMap<>();
@@ -50,22 +52,16 @@ public class ProductionTree {
     }
 
     /**
-     * Builds the production tree from three CSV files: BOO, items, and operations.
-     * @param booFileName the path to the CSV file with the Bill of Operations
-     * @param itemsFileName the path to the CSV file with the items
-     * @param operationFileName the path to the CSV file with the operations
-     * @return the root of the production tree
+     * Builds the production tree with the specified main objective.
+     * @param mainObjectiveID the ID of the main objective
      */
     public TreeNode<String> buildProductionTree(
-            String booFileName,
-            String itemsFileName,
-            String operationFileName,
             String mainObjectiveID
     ) {
-        // Read the data from the files
-        List<String[]> booData = readCsvFile(booFileName);
-        Map<String, String> itemNames = readMaterials(itemsFileName);
-        Map<String, String> operationDescriptions = readOperations(operationFileName);
+
+        List<String[]> booData = booRepository.getBOORepository();
+        Map<String, String> itemNames = itemsRepository.getItemsRepository();
+        Map<String, String> operationDescriptions = operationsMapRepository.getOperationsMapRepository();
 
         // Identifies the operation associated with mainObjectiveID in BOO
         String initialOperationID = null;
@@ -138,9 +134,6 @@ public class ProductionTree {
                     productNode.addChild(subOperationNode);
 
                     nodesMap.put(subOperationId, subOperationNode);
-
-                    addQualityCheck(subOperationNode);
-
 
                     buildSubTree(subOperationId, subOperationNode, booData, itemNames, operationDescriptions);
                 }
@@ -266,108 +259,6 @@ public class ProductionTree {
     }
 
     /**
-     * Reads the materials from a CSV file and returns a map of item IDs to item names.
-     * @param itemsFileName the path to the CSV file with the items
-     * @return a map of item IDs to item names
-     */
-    private Map<String, String> readMaterials(String itemsFileName) {
-        List<String[]> itemsData = readCsvFile(itemsFileName);
-        Map<String, String> itemNames = new HashMap<>();
-        for (String[] item : itemsData) {
-            if (item.length >= 2) {
-                itemNames.put(item[0], item[1]);
-            }
-        }
-        return itemNames;
-    }
-
-    /**
-     * Reads the operations from a CSV file and returns a map of operation IDs to operation descriptions.
-     * @param operationFileName the path to the CSV file with the operations
-     * @return a map of operation IDs to operation descriptions
-     */
-    private Map<String, String> readOperations(String operationFileName) {
-        List<String[]> operationsData = readCsvFile(operationFileName);
-        Map<String, String> operationDescriptions = new HashMap<>();
-        for (String[] operation : operationsData) {
-            if (operation.length >= 2) {
-                operationDescriptions.put(operation[0], operation[1]);
-            }
-        }
-        return operationDescriptions;
-    }
-
-
-    private void addQualityCheck(TreeNode<String> operationNode) {
-        if (operationNode.getType() == NodeType.OPERATION) {
-            int depth = calculateDepth(operationNode);
-            int relativePriority = mapDepthToPriority(depth);
-            qualityCheckQueue.insert(relativePriority, operationNode.getValue());
-        }
-    }
-
-    private int mapDepthToPriority(int depth) {
-        if (!depthToPriorityMap.containsKey(depth)) {
-            depthToPriorityMap.put(depth, currentPriority++);
-        }
-        return depthToPriorityMap.get(depth);
-    }
-
-    /**
-     * Returns a string representation of the production tree with the specified main objective.
-     * Only includes children of the root.
-     * @return a string representation of the production tree
-     */
-    public String toIndentedStringForObjective() {
-        StringBuilder builder = new StringBuilder();
-        toIndentedStringHelper(root, builder, 0);
-        return builder.toString();
-    }
-
-
-    /**
-     * Generates a string representation of the production tree with a custom indentation.
-     * @param node the node to start the string representation from recursively
-     * @param builder the string builder to append the string representation to recursively
-     * @param level the current level of the tree recursively
-     */
-    private void toIndentedStringHelper(TreeNode<String> node, StringBuilder builder, int level) {
-        if (node == null) {
-            return;
-        }
-        if (level > 0) {
-            builder.append("    ".repeat(level - 1)).append("|___");
-        }
-        builder.append(node.getValue());
-        if (node.getType() != null) {
-            builder.append(" (").append(node.getType()).append(")");
-        }
-        builder.append("\n");
-        for (TreeNode<String> child : node.getChildren()) {
-            toIndentedStringHelper(child, builder, level + 1);
-        }
-    }
-
-    /**
-     * Reads a CSV file and returns its data as a list of string arrays.
-     * @param filePath the path to the CSV file
-     * @return a list of string arrays representing the data in the CSV file
-     */
-    private List<String[]> readCsvFile(String filePath) {
-        List<String[]> data = new ArrayList<>();
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(FILES_PATH + filePath));
-            for (int i = 1; i < lines.size(); i++) {
-                String[] values = lines.get(i).split(";");
-                data.add(values);
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the CSV file: " + e.getMessage());
-        }
-        return data;
-    }
-
-    /**
      * Searches for a node in the production tree by its ID or name.
      * @param idOrName the ID or name of the operation or material to search for
      * @return a map with details such as type, quantity (for materials), and parent operation if applicable
@@ -429,58 +320,14 @@ public class ProductionTree {
         return "Unknown quantity";
     }
 
-
-    public void prioritizeCriticalPath(TreeNode<String> root) {
-        if (root == null) {
-            System.out.println("Production tree is empty.");
-            return;
+    private int calculatePriorityLevel(TreeNode<String> node) {
+        int depth = 0;
+        while (node != null) {
+            depth++;
+            node = node.getParent();
         }
-
-        // Priority Queue to store operations by depth
-        HeapPriorityQueue<Integer, TreeNode<String>> criticalPathQueue = new HeapPriorityQueue<>();
-
-        // Recursive function to traverse and calculate depth
-        traverseAndAddToHeap(root, criticalPathQueue);
-
-        // Display the critical path in order
-        System.out.println("Critical Path (in order of importance):");
-        while (!criticalPathQueue.isEmpty()) {
-            Entry<Integer, TreeNode<String>> entry = criticalPathQueue.removeMin();
-            TreeNode<String> node = entry.getValue();
-            System.out.println("Operation: " + node.getValue() + " (Depth: " + -entry.getKey() + ")");
-        }
+        return depth; // Use depth as priority (lower depth = higher priority)
     }
-
-
-    public void displayCriticalPathInSequence(TreeNode<String> root) {
-        System.out.println("Critical Path Sequence:");
-        traverseCriticalPath(root);
-    }
-
-    // Recursive function to traverse and print the critical path
-    private void traverseCriticalPath(TreeNode<String> node) {
-        if (node == null) return;
-        if (node.getType() == NodeType.OPERATION) {
-            System.out.println(node.getValue());
-        }
-        for (TreeNode<String> child : node.getChildren()) {
-            traverseCriticalPath(child);
-        }
-    }
-
-
-    // Traverse the tree and add operations to the heap
-    private void traverseAndAddToHeap(TreeNode<String> node, HeapPriorityQueue<Integer, TreeNode<String>> queue) {
-        if (node.getType() == NodeType.OPERATION) {
-            int depth = calculateDepth(node);
-            // Use negative depth to simulate max-heap behavior
-            queue.insert(-depth, node);
-        }
-        for (TreeNode<String> child : node.getChildren()) {
-            traverseAndAddToHeap(child, queue);
-        }
-    }
-
 
     private int calculateDepth(TreeNode<String> node) {
         int depth = 0;
@@ -491,7 +338,13 @@ public class ProductionTree {
         return depth;
     }
 
-
+    private int getPriorityForDepth(int depth) {
+        // Assign a unique priority to each depth level
+        if (!depthPriorityMap.containsKey(depth)) {
+            depthPriorityMap.put(depth, nextPriority++);
+        }
+        return depthPriorityMap.get(depth);
+    }
 
     public void viewQualityChecksInOrder() {
         System.out.println("Quality Checks in Order of Priority:");
@@ -562,12 +415,17 @@ public class ProductionTree {
 
     // main para testar!! Depois apagar
     public static void main(String[] args) {
+
+        // Ler os ficheiros CSV
+        List<String[]> booData = InputFileReader.readCsvFile("boo_v2.csv");
+        Map<String, String> itemNames = InputFileReader.readItems("items.csv");
+        Map<String, String> operationDescriptions = InputFileReader.readOperations("operations.csv");
+
         // Criar uma árvore de produção a partir dos ficheiros CSV
         ProductionTree productionTree = new ProductionTree();
-        productionTree.buildProductionTree("boo_v2.csv", "items.csv", "operations.csv", "1006");
+        productionTree.buildProductionTree("1006");
 
-        // Exibir a árvore de produção de forma indentada
-        System.out.println("Árvore de Produção:\n" + productionTree.toIndentedStringForObjective());
+        // Exibir a árvore de produção de forma indenta
 
         // Secção de testes de pesquisa
         System.out.println("\nResultados da Pesquisa:");
@@ -595,14 +453,6 @@ public class ProductionTree {
         // Simular a produção completa
         System.out.println("\nSimulando Produção:");
         productionTree.simulateProduction(productionTree.getRoot());
-
-        // Identify and prioritize critical path
-        System.out.println("\nIdentifying Critical Path:");
-        productionTree.prioritizeCriticalPath(productionTree.getRoot());
-
-        // Display the critical path in sequence
-        System.out.println("\nDisplaying Critical Path in Sequence:");
-        productionTree.displayCriticalPathInSequence(productionTree.getRoot());
 
         // Calcular a quantidade total de materiais e tempo necessários para a produção
         Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());

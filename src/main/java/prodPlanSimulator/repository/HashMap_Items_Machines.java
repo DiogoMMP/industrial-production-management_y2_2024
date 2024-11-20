@@ -33,8 +33,8 @@ public class HashMap_Items_Machines {
      * @param articlesPath   path to items
      * @param machinesPath path to machines
      */
-    public void addAll(String articlesPath, String machinesPath, String billOfOpPath, String itemsPath, String operationsPath) throws FileNotFoundException {
-        List<Operation> operations = InputFileReader.readOperations(operationsPath);
+    public void addAll(String articlesPath, String machinesPath, String itemsPath, String operationsPath) throws FileNotFoundException {
+        List<Operation> operations = InputFileReader.readListOperations(operationsPath);
         Map<String, String> items = InputFileReader.readItems(itemsPath);
         Map<Integer, Item> articles = InputFileReader.readArticles(articlesPath, operations, items);
         Map<Integer, Workstation> machines = InputFileReader.readMachines(machinesPath, operations);

@@ -2,6 +2,10 @@ package prodPlanSimulator.trees.ProductionTree;
 
 import org.junit.Before;
 import org.junit.Test;
+import prodPlanSimulator.repository.BOORepository;
+import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.ItemsRepository;
+import prodPlanSimulator.repository.OperationsMapRepository;
 import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
@@ -14,31 +18,34 @@ import static org.junit.Assert.*;
 public class ProductionTreeTest {
     private ProductionTree productionTree;
 
+    private ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
+    private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
+    private BOORepository booRepository = Instances.getInstance().getBOORepository();
+
+
     // Files for testing
     private static final String BOO_FILE = "boo_v2.csv";
     private static final String ITEMS_FILE = "items.csv";
     private static final String OPERATIONS_FILE = "operations.csv";
 
+
     @Before
     public void setUp() {
         productionTree = new ProductionTree();
         productionTree.setRoot(new TreeNode<>("finished bench"));
+
+        itemsRepository.addItems(ITEMS_FILE);
+        operationsMapRepository.addOperations(OPERATIONS_FILE);
+        booRepository.addBOOList(BOO_FILE);
+
     }
 
     @Test
     public void testBuildProductionTree() {
-        TreeNode<String> root = productionTree.buildProductionTree(BOO_FILE, ITEMS_FILE, OPERATIONS_FILE, "1006");
+        TreeNode<String> root = productionTree.buildProductionTree("1006");
         assertNotNull(root);
         assertEquals("varnish bench  (Quantity: 1)", root.getValue());
         assertFalse(root.getChildren().isEmpty());
-    }
-
-    @Test
-    public void testToIndentedStringForObjective() {
-        productionTree.buildProductionTree(BOO_FILE, ITEMS_FILE, OPERATIONS_FILE, "1006");
-        String treeString = productionTree.toIndentedStringForObjective();
-        assertNotNull(treeString);
-        assertTrue(treeString.contains("finished bench"));
     }
 
     @Test
@@ -57,7 +64,7 @@ public class ProductionTreeTest {
 
     @Test
     public void testSearchNode() {
-        productionTree.buildProductionTree(BOO_FILE, ITEMS_FILE, OPERATIONS_FILE, "1006");
+        productionTree.buildProductionTree("1006");
         Map<String, String> result = productionTree.searchNode("1006");
         assertNotNull(result);
         assertEquals("Material", result.get("Type"));
@@ -66,7 +73,7 @@ public class ProductionTreeTest {
 
     @Test
     public void testCalculateTotalMaterialsAndOperations() {
-        productionTree.buildProductionTree(BOO_FILE, ITEMS_FILE, OPERATIONS_FILE, "1006");
+        productionTree.buildProductionTree( "1006");
         TreeNode<String> root = productionTree.getRoot();
         Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(root);
 

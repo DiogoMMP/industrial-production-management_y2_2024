@@ -13,6 +13,9 @@ public class Instances {
     private BST bst;
     private HeapPriorityQueue heap;
     private OperationsRepository operationsRepository;
+    private OperationsMapRepository operationsMapRepository;
+    private ItemsRepository itemsRepository;
+    private BOORepository booRepository;
     private ProductionTree productionTree;
 
     /**
@@ -24,6 +27,9 @@ public class Instances {
         bst = new BST();
         heap = new HeapPriorityQueue();
         operationsRepository = new OperationsRepository();
+        operationsMapRepository = new OperationsMapRepository();
+        itemsRepository = new ItemsRepository();
+        booRepository = new BOORepository();
         productionTree = new ProductionTree();
     }
 
@@ -85,5 +91,15 @@ public class Instances {
         return productionTree;
     }
 
+    public ItemsRepository getItemsRepository() {
+        return itemsRepository;
+    }
 
+    public OperationsMapRepository getOperationsMapRepository() {
+        return operationsMapRepository;
+    }
+
+    public BOORepository getBOORepository() {
+        return booRepository;
+    }
 }

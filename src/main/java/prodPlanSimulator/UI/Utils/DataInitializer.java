@@ -1,13 +1,15 @@
 package prodPlanSimulator.UI.Utils;
 import prodPlanSimulator.UI.Simulators.ChooseSimulatorUI;
-import prodPlanSimulator.repository.HashMap_Items_Machines;
-import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.*;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class DataInitializer implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
+    private ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
+    private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
+    private BOORepository booRepository = Instances.getInstance().getBOORepository();
 
     /**
      * Initialize the data
@@ -15,8 +17,12 @@ public class DataInitializer implements Runnable {
      * @param pathWor path to the workstations file
      * @throws FileNotFoundException if the file is not found
      */
-    public void init(String pathArt, String pathWor, String pathBOO, String pathItems, String pathOp) throws FileNotFoundException {
-        map.addAll(pathArt, pathWor, pathBOO, pathItems, pathOp);
+    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp) throws FileNotFoundException {
+        map.addAll(pathArt, pathWor, pathItems, pathOp);
+        itemsRepository.addItems(pathItems);
+        operationsMapRepository.addOperations(pathOp);
+        booRepository.addBOOList(pathBoo);
+
     }
 
     /**
@@ -36,7 +42,8 @@ public class DataInitializer implements Runnable {
             while (!success) {
                 System.out.println("\n\n--- DATA --------------------------");
                 System.out.println("1. Use default file paths");
-                System.out.println("2. Enter file paths manually");
+                System.out.println("2. Use exported files from the database");
+                System.out.println("3. Enter file paths manually");
 
                 System.out.print("\n\nType your option: ");
                 String input = scanner.nextLine();
@@ -58,6 +65,13 @@ public class DataInitializer implements Runnable {
                         pathOp = "operations.csv";
                         break;
                     case 2:
+                        pathArt = "articles.csv";
+                        pathWor = "workstations_exported.csv";
+                        pathBOO = "boo_exported.csv";
+                        pathItems = "items_exported.csv";
+                        pathOp = "operations_exported.csv";
+                        break;
+                    case 3:
                         pathArt = Utils.readLineFromConsole("Articles: ");
                         pathWor = Utils.readLineFromConsole("Workstations: ");
                         pathBOO = Utils.readLineFromConsole("Bill of Operations: ");

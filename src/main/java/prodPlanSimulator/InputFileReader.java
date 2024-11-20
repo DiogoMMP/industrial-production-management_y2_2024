@@ -8,10 +8,15 @@ import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.OperationsRepository;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class InputFileReader {
+
+    private static final String FILES_PATH = "src/main/resources/";
 
     /**
      * Reads the items from the file and returns a map with the items
@@ -102,7 +107,7 @@ public class InputFileReader {
         return machines;
     }
 
-    public static List<Operation> readOperations(String operationsPath) {
+    public static List<Operation> readListOperations(String operationsPath) {
         List<Operation> operations = new ArrayList<>();
         InputStream inputStream = InputFileReader.class.getResourceAsStream("/" + operationsPath);
         if (inputStream == null) {
@@ -127,24 +132,56 @@ public class InputFileReader {
         return operations;
     }
 
-    public static Map<String, String> readItems(String itemsPath) {
-        Map<String, String> items = new HashMap<>();
-        InputStream inputStream = InputFileReader.class.getResourceAsStream("/" + itemsPath);
-        if (inputStream == null) {
-            throw new IllegalArgumentException("File not found: " + itemsPath);
+    /**
+     * Reads the materials from a CSV file and returns a map of item IDs to item names.
+     * @param itemsFileName the path to the CSV file with the items
+     * @return a map of item IDs to item names
+     */
+    public static Map<String, String> readItems(String itemsFileName) {
+        List<String[]> itemsData = readCsvFile(itemsFileName);
+        Map<String, String> itemNames = new HashMap<>();
+        for (String[] item : itemsData) {
+            if (item.length >= 2) {
+                itemNames.put(item[0], item[1]);
+            }
         }
+        return itemNames;
+    }
 
-        try (Scanner scanner = new Scanner(inputStream)) {
-            scanner.nextLine();
-
-            while (scanner.hasNextLine()) {
-                String[] data = scanner.nextLine().split(";");
-                String id = data[0];
-                String description = data[1];
-                items.put(id, description);
+    /**
+     * Reads the operations from a CSV file and returns a map of operation IDs to operation descriptions.
+     * @param operationFileName the path to the CSV file with the operations
+     * @return a map of operation IDs to operation descriptions
+     */
+    public static Map<String, String> readOperations(String operationFileName) {
+        List<String[]> operationsData = readCsvFile(operationFileName);
+        Map<String, String> operationDescriptions = new HashMap<>();
+        for (String[] operation : operationsData) {
+            if (operation.length >= 2) {
+                operationDescriptions.put(operation[0], operation[1]);
             }
         }
 
-        return items;
+        return operationDescriptions;
     }
+
+    /**
+     * Reads a CSV file and returns its data as a list of string arrays.
+     * @param filePath the path to the CSV file
+     * @return a list of string arrays representing the data in the CSV file
+     */
+    public static List<String[]> readCsvFile(String filePath) {
+        List<String[]> data = new ArrayList<>();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(FILES_PATH + filePath));
+            for (int i = 1; i < lines.size(); i++) {
+                String[] values = lines.get(i).split(";");
+                data.add(values);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the CSV file: " + e.getMessage());
+        }
+        return data;
+    }
+
 }
