@@ -452,8 +452,8 @@ public class Simulator {
         }
         String value = node.getValue();
         if (node.getType().equals(NodeType.OPERATION)) {
-            int startIndex = value.lastIndexOf('(');
-            int endIndex = value.lastIndexOf('x');
+            int startIndex = value.indexOf("(Quantity: ");
+            int endIndex = value.indexOf(')', startIndex);
             String operationName = value.substring(0, startIndex).trim();
             double quantity = Double.parseDouble(value.substring(startIndex + 1, endIndex).trim());
             bombooTree.insert(new BOMBOO(quantity, operationName));

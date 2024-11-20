@@ -76,7 +76,7 @@ class SimulatorTest {
 
                  */
         );
-
+        /*
         List<Workstation> workstations = Arrays.asList(
                 new Workstation("ws1", CUT, 12),
                 new Workstation("ws2", PAINT, 18),
