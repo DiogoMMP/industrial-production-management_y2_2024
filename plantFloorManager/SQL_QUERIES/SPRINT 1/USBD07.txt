@@ -1,10 +1,9 @@
 SELECT
+    p.Product_ID,
     p.Product_Name,
-    p.Product_Description,
-    pi.Part_Description AS Component_Description,
-    SUM(bi.Quantity * ppo.Quantity_Ordered) AS Quantity_Required,
-    rm.Raw_Material_Name,
-    crm.Raw_Material_Quantity * SUM(bi.Quantity * ppo.Quantity_Ordered) AS Total_Raw_Material_Required
+    pr.Part_ID,
+    pr.Part_Description,
+    SUM(bi.Quantity * ppo.Quantity_Ordered) AS Quantity_Required
 FROM
     Production_Order po
 JOIN
@@ -20,21 +19,14 @@ JOIN
 JOIN
     BOO_Input bi ON b.Product_ID = bi.Product_ID AND b.Operation_ID = bi.Operation_ID
 JOIN
-    Part pi ON bi.Part_ID = pi.Part_ID
-JOIN
-    Component c ON pi.Part_ID = c.Part_ID
-JOIN
-    Component_Raw_Material crm ON c.Component_ID = crm.Component_ID
-JOIN
-    Raw_Material rm ON crm.Raw_Material_ID = rm.Raw_Material_ID
+    Part pr ON bi.Part_ID = pr.Part_ID
 WHERE
     po.Order_ID = 1001
 GROUP BY
+    p.Product_ID,
     p.Product_Name,
-    p.Product_Description,
-    pi.Part_Description,
-    rm.Raw_Material_Name,
-    crm.Raw_Material_Quantity
+    pr.Part_ID,
+    pr.Part_Description
 ORDER BY
     p.Product_Name,
-    pi.Part_Description;
+    pr.Part_Description;
