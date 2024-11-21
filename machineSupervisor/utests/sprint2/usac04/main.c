@@ -39,7 +39,7 @@ void test_Null()
 }
 void test_One()
 { 
-    run_test(" cmd ",23,1,"CMD,1,0,1,1,1"); 
+    run_test(" op ",23,1,"OP,1,0,1,1,1"); 
 
 }
 void test_Zero()
@@ -78,6 +78,10 @@ void test_Offy2()
 { 
     run_test("Off y  2   ",0,0,"");  
 }
+void test_CMD()
+{ 
+    run_test("CmD   ",0,0,"");  
+}
 
 int main()
   { 
@@ -94,6 +98,7 @@ int main()
     RUN_TEST(test_Forty);
     RUN_TEST(test_Offy);
     RUN_TEST(test_Offy2);
+    RUN_TEST(test_CMD);
     return UNITY_END();  
 
   } 
