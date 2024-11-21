@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class DataInitializer implements Runnable {
     private HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
+    private HashMap_Items_Machines_Sprint1 map2 = Instances.getInstance().getHashMapItemsWorkstationsSprint1();
     private ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
     private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
     private BOORepository booRepository = Instances.getInstance().getBOORepository();
@@ -17,11 +18,20 @@ public class DataInitializer implements Runnable {
      * @param pathWor path to the workstations file
      * @throws FileNotFoundException if the file is not found
      */
-    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp) throws FileNotFoundException {
-        map.addAll(pathArt, pathWor, pathItems, pathOp);
-        itemsRepository.addItems(pathItems);
-        operationsMapRepository.addOperations(pathOp);
-        booRepository.addBOOList(pathBoo);
+    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp, Integer option) throws FileNotFoundException {
+        if (option == 1){
+            map2.addAll(pathArt, pathWor);
+            map.addAll(pathOp, pathItems);
+            itemsRepository.addItems(pathItems);
+            operationsMapRepository.addOperations(pathOp);
+            booRepository.addBOOList(pathBoo);
+        } else {
+            map.addAll(pathArt, pathWor, pathItems, pathOp);
+            itemsRepository.addItems(pathItems);
+            operationsMapRepository.addOperations(pathOp);
+            booRepository.addBOOList(pathBoo);
+        }
+
 
     }
 
@@ -37,6 +47,8 @@ public class DataInitializer implements Runnable {
             String pathItems;
             String pathArt;
             String pathWor;
+            String pathArt2;
+            String pathWor2;
             boolean success = false;
 
             while (!success) {
@@ -65,7 +77,7 @@ public class DataInitializer implements Runnable {
                         pathOp = "operations.csv";
                         break;
                     case 2:
-                        pathArt = "articles.csv";
+                        pathArt = "articles_exported.csv";
                         pathWor = "workstations_exported.csv";
                         pathBOO = "boo_exported.csv";
                         pathItems = "items_exported.csv";
@@ -84,7 +96,7 @@ public class DataInitializer implements Runnable {
                 }
 
                 try {
-                    init(pathArt, pathWor, pathBOO, pathItems, pathOp);
+                    init(pathArt, pathWor, pathBOO, pathItems, pathOp, choice);
                     success = true;
                 } catch (FileNotFoundException e) {
                     System.err.println("Error: File not found. Please check the file path and try again.");

@@ -8,6 +8,7 @@ import trees.heap.HeapPriorityQueue;
 public class Instances {
 
     private HashMap_Items_Machines hashMapItemsWorkstations;
+    private HashMap_Items_Machines_Sprint1 hashMapItemsWorkstationsSprint1;
     private static Instances instance;
     private Simulator simulator;
     private BST bst;
@@ -75,5 +76,13 @@ public class Instances {
 
     public BOORepository getBOORepository() {
         return booRepository;
+    }
+
+    public HashMap_Items_Machines_Sprint1 getHashMapItemsWorkstationsSprint1() {
+        return hashMapItemsWorkstationsSprint1;
+    }
+
+    public void setHashMapItemsWorkstationsSprint1(HashMap_Items_Machines_Sprint1 hashMapItemsWorkstationsSprint1) {
+        this.hashMapItemsWorkstationsSprint1 = hashMapItemsWorkstationsSprint1;
     }
 }

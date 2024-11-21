@@ -502,6 +502,13 @@ public class Item implements Comparable<Item> {
         this.operationsRequired.add(operationObj);
     }
 
+    public void addOperations(Operation operation) {
+        if (this.operationsRequired == null || this.operationsRequired.isEmpty()) {
+            this.operationsRequired = new ArrayList<>();
+        }
+        this.operationsRequired.add(operation);
+    }
+
     /**
      * Compares this object with the specified object to verify if they are equal.
      *
