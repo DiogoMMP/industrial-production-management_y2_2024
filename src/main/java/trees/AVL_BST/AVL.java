@@ -5,6 +5,9 @@
  */
 package trees.AVL_BST;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author DEI-ESINF
@@ -179,15 +182,19 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
         return equals(root, second.root);
     }
 
-    public void inOrderTraversal() {
-        inOrderTraversal(root);
+    public List<E> inOrderTraversal(Node<E> node) {
+        List<E> elements = new ArrayList<>();
+        inOrderTraversal(node, elements);
+        return elements;
     }
 
-    private void inOrderTraversal(Node<E> node) {
+
+
+    private void inOrderTraversal(Node<E> node, List<E> elements) {
         if (node != null) {
-            inOrderTraversal(node.getLeft());
-            System.out.println(node.getElement());
-            inOrderTraversal(node.getRight());
+            inOrderTraversal(node.getLeft(), elements);
+            elements.add(node.getElement());
+            inOrderTraversal(node.getRight(), elements);
         }
     }
 
@@ -215,20 +222,24 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
      * @param element element to search for
      * @return the element if it is found, null otherwise
      */
-    public BOMBOO search(E element) {
+    public BOO search(E element) {
         return search(root, element);
     }
 
-    private BOMBOO search(Node<E> node, E element) {
+    private BOO search(Node<E> node, E element) {
         if (node == null) {
             return null;
         }
         if (element.compareTo(node.getElement()) == 0) {
-            return (BOMBOO) node.getElement();
+            return (BOO) node.getElement();
         }
         if (element.compareTo(node.getElement()) < 0) {
             return search(node.getLeft(), element);
         }
         return search(node.getRight(), element);
+    }
+
+    public Node<E> getRoot() {
+        return root();
     }
 }

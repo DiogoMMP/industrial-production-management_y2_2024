@@ -28,6 +28,15 @@ public class ItemsRepository {
         return items.get(key);
     }
 
+    public String getItemValue(String value) {
+        for (Map.Entry<String, String> entry : items.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     public void addItem(String key, String value) {
         items.put(key, value);
     }
@@ -74,4 +83,6 @@ public class ItemsRepository {
         }
 
     }
+
+
 }

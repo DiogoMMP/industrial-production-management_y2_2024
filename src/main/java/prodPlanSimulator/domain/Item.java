@@ -14,7 +14,6 @@ public class Item implements Comparable<Item> {
     private String description;
     private Priority priority;
     private Double quantity;
-    private int idParent;
     private List<Operation> operationsRequired;
     private List<Item> itemsRequired;
     private int currentOperationIndex;
@@ -24,25 +23,6 @@ public class Item implements Comparable<Item> {
     private Map<String, Integer> waitingTimes = new HashMap<>();
     private static Simulator simulator = Instances.getInstance().getSimulator();
 
-    /**
-     * Item Builder
-     *
-     * @param id                 Item ID
-     * @param priority           Item priority
-     * @param operationsRequired Item operations
-     * @param idParent           Item parent ID
-     */
-    public Item(String id, Priority priority, List<Operation> operationsRequired, int idParent, List<Item> itemsRequired) {
-        this.id = id;
-        this.description = "";
-        this.quantity = 0.0;
-        this.priority = priority;
-        this.itemsRequired = itemsRequired;
-        this.operationsRequired = operationsRequired;
-        this.currentOperationIndex = 0;
-        this.lowestTimes = new LinkedHashMap<>();
-        this.idParent = idParent;
-    }
 
     /**
      * Item Builder
@@ -111,15 +91,6 @@ public class Item implements Comparable<Item> {
     }
 
     // Getters e Setters
-
-    /**
-     * Gets the ID of the parent
-     *
-     * @return ID of the parent
-     */
-    public int getIdParent() {
-        return idParent;
-    }
 
     /**
      * Gets the ID of the product
@@ -224,10 +195,6 @@ public class Item implements Comparable<Item> {
      *
      * @param idParent new ID of the parent
      */
-    public void setIdParent(int idParent) {
-        this.idParent = idParent;
-    }
-
     /**
      * Gets the items required for the item
      *
