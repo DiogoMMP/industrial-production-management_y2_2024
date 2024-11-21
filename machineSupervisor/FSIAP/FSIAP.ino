@@ -1,7 +1,7 @@
 #include "DHT.h"
 #include <arduino-timer.h>
 
-#define DHTPIN 2
+#define DHTPIN 16
 #define DHTTYPE DHT11
 
 #define NR_SOIL_HUMIDITY_SENSORS 1
