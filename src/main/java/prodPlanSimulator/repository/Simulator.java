@@ -13,7 +13,6 @@ import java.util.*;
 
 public class Simulator {
     private LinkedHashMap<String, Double> timeOperations;
-    private ProductionTree productionTree = Instances.getInstance().getProductionTree();
 
     /**
      * US2: Simulate the process of all the items present in the system.
@@ -428,6 +427,7 @@ public class Simulator {
     }
 
     public LinkedHashMap<String, Double> simulateBOMBOO() {
+        ProductionTree productionTree = Instances.getInstance().getProductionTree();
         TreeNode<String> root = productionTree.getRoot();
         AVL<BOO> bombooTree = new AVL<>();
         LinkedHashMap<Integer, BOO> materials = new LinkedHashMap<>();

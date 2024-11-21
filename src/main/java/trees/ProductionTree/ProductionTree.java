@@ -14,9 +14,6 @@ import trees.heap.HeapPriorityQueue;
 
 public class ProductionTree {
 
-    private ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
-    private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
-    private BOORepository booRepository = Instances.getInstance().getBOORepository();
 
     private TreeNode<String> root;
     private Map<String, TreeNode<String>> nodesMap = new HashMap<>();
@@ -58,7 +55,9 @@ public class ProductionTree {
     public TreeNode<String> buildProductionTree(
             String mainObjectiveID
     ) {
-
+        BOORepository booRepository = Instances.getInstance().getBOORepository();
+        ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
+        OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
         List<String[]> booData = booRepository.getBOORepository();
         Map<String, String> itemNames = itemsRepository.getItemsRepository();
         Map<String, String> operationDescriptions = operationsMapRepository.getOperationsMapRepository();
