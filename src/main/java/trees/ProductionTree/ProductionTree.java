@@ -1,6 +1,7 @@
 package trees.ProductionTree;
 
 import prodPlanSimulator.InputFileReader;
+import prodPlanSimulator.domain.Material;
 import prodPlanSimulator.repository.BOORepository;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.ItemsRepository;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import trees.heap.Entry;
+import trees.MaterialsBST.MaterialsBST;
 import trees.heap.HeapPriorityQueue;
 
 
@@ -490,6 +492,10 @@ public class ProductionTree {
         //productionTree.viewQualityChecksInOrder();
         productionTree.performQualityChecksInteractively();
 
+        // Create and print the BST with material quantities
+        System.out.println("\nMaterial Quantities in Order:");
+        productionTree.printMaterialQuantitiesInAscendingOrder();
+
         // Simular a produção completa
         System.out.println("\nSimulando Produção:");
         productionTree.simulateProduction(productionTree.getRoot());
@@ -569,5 +575,55 @@ public class ProductionTree {
         for (TreeNode<String> child : node.getChildren()) {
             traverseTree(child, materialQuantities, operationQuantities);
         }
+    }
+
+    public List<Map.Entry<Material, Double>> getMaterialQuantityPairs() {
+        List<Map.Entry<Material, Double>> materialQuantityPairs = new ArrayList<>();
+        for (Map.Entry<String, TreeNode<String>> entry : nodesMap.entrySet()) {
+            TreeNode<String> node = entry.getValue();
+            if (node.getType() == NodeType.MATERIAL) {
+                String value = node.getValue();
+                int startIndex = value.indexOf("(Quantity: ");
+                int endIndex = value.indexOf(')', startIndex);
+                if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                    String materialID = entry.getKey();
+                    String materialName = value.substring(0, startIndex).trim();
+                    String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+                    double quantity = Double.parseDouble(quantityStr);
+                    Material material = new Material(materialID, materialName, quantityStr);
+                    if (materialQuantityPairs.contains(material)) {
+                        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
+                            if (pair.getKey().equals(material)) {
+                                pair.setValue(pair.getValue() + quantity);
+                            }
+                        }
+                    } else {
+                        materialQuantityPairs.add(new AbstractMap.SimpleEntry<>(material, quantity));
+                    }
+                }
+            }
+        }
+        return materialQuantityPairs;
+    }
+
+    public void printMaterialQuantitiesInAscendingOrder() {
+        MaterialsBST materialQuantityBST = new MaterialsBST();
+        List<Map.Entry<Material, Double>> materialQuantityPairs = getMaterialQuantityPairs();
+        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
+            List<String> materialNames = new ArrayList<>();
+            materialNames.add(pair.getKey().getName());
+            MaterialsBST.insert(materialNames, pair.getValue());
+        }
+        materialQuantityBST.inorder();
+    }
+    public void printMaterialQuantitiesInDescendingOrder() {
+        MaterialsBST materialQuantityBST = new MaterialsBST();
+        List<Map.Entry<Material, Double>> materialQuantityPairs = getMaterialQuantityPairs();
+        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
+            List<String> materialNames = new ArrayList<>();
+            materialNames.add(pair.getKey().getName());
+            MaterialsBST.insert(materialNames, pair.getValue());
+        }
+        materialQuantityBST.reverseInorder();
     }
 }

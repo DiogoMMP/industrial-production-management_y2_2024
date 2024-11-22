@@ -1,6 +1,6 @@
 package prodPlanSimulator.domain;
 
-public class Material {
+public class Material implements Comparable<Material> {
     private String ID;
     private String name;
     private String quantity;
@@ -72,5 +72,10 @@ public class Material {
     @Override
     public String toString() {
         return quantity + "x " + name;
+    }
+
+    @Override
+    public int compareTo(Material o) {
+        return this.getID().compareTo(o.getID());
     }
 }
