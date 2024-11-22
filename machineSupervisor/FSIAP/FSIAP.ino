@@ -4,85 +4,28 @@
 #define DHTPIN 16
 #define DHTTYPE DHT11
 
-#define NR_SOIL_HUMIDITY_SENSORS 1
-#define NR_ATMOSPHERIC_HUMIDITY_SENSORS 4 // Sensor IDs: 3, 4, 5, 6
-#define NR_ATMOSPHERIC_TEMPERATURE_SENSORS 4 // Sensor IDs: 7, 8, 9, 10
-
-#define DATA_LENGTH 100
-#define TYPE_NAME_LENGTH 30
-#define UNIT_NAME_LENGTH 30
+#define LED_TEMP_PIN 4    // LED ligado ao GP4
+#define LED_HUMIDITY_PIN 10 // LED ligado ao GP10
 
 #define TOGGLE_LED_PERIOD 1000 // milliseconds
-#define SOIL_HUMIDITY_PERIOD 5000
-#define ATMOSPHERIC_HUMIDITY_PERIOD 2000
-#define ATMOSPHERIC_TEMPERATURE_PERIOD 2000
-
-char sensor_types[][TYPE_NAME_LENGTH] = {
-    "soil_humidity",
-    "atmospheric_humidity",
-    "atmospheric_temperature"
-};
-
-enum sensor_type {
-    SOIL_HUMIDITY = 0,
-    ATMOSPHERIC_HUMIDITY,
-    ATMOSPHERIC_TEMPERATURE
-};
-
-char sensor_units[][UNIT_NAME_LENGTH] = {
-    "percentage",
-    "celsius"
-};
-
-enum sensor_unit {
-    PERCENTAGE = 0,
-    CELSIUS
-};
+#define TEMP_CHECK_PERIOD 2000
+#define HUMIDITY_CHECK_PERIOD 2000
+#define DATA_LENGTH 100
 
 DHT dht(DHTPIN, DHTTYPE);
 auto timer = timer_create_default(); // Create a timer with default settings
 
-bool toggle_led(void *) {
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN)); // Toggle the LED
-    return true; // Keep the timer active
-}
+float initialTemperature = -1000;  // Value to store the initial temperature
+float initialHumidity = -1000;     // Value to store the initial humidity
 
-int get_sensor_id(int min, int max) {
-    return random(min, max); // Generate a random value in [min, max)
-}
+bool temperatureLedOn = false; // Track if temperature LED is already on
+bool humidityLedOn = false;    // Track if humidity LED is already on
 
-bool read_soil_humidity(void *) {
-    int min = 1;
-    int max = min + NR_SOIL_HUMIDITY_SENSORS;
-    int id = get_sensor_id(min, max);
-    float r = dht.readHumidity();
-    if (!isnan(r)) {
-        send_data(id, SOIL_HUMIDITY, r, PERCENTAGE, millis());
-    }
-    return true;
-}
+enum sensor_type { TEMPERATURE, HUMIDITY };
+enum sensor_unit { CELSIUS, PERCENT };
 
-bool read_atmospheric_humidity(void *) {
-    int min = NR_SOIL_HUMIDITY_SENSORS + 1;
-    int max = min + NR_ATMOSPHERIC_HUMIDITY_SENSORS;
-    int id = get_sensor_id(min, max);
-    float r = dht.readHumidity();
-    if (!isnan(r)) {
-        send_data(id, ATMOSPHERIC_HUMIDITY, r, PERCENTAGE, millis());
-    }
-    return true;
-}
-
-bool read_atmospheric_temperature(void *) {
-    int min = NR_SOIL_HUMIDITY_SENSORS + NR_ATMOSPHERIC_HUMIDITY_SENSORS + 1;
-    int max = min + NR_ATMOSPHERIC_TEMPERATURE_SENSORS;
-    int id = get_sensor_id(min, max);
-    float r = dht.readTemperature();
-    if (!isnan(r)) {
-        send_data(id, ATMOSPHERIC_TEMPERATURE, r, CELSIUS, millis());
-    }
-    return true;
-}
+const char *sensor_types[] = { "TEMPERATURE", "HUMIDITY" };
+const char *sensor_units[] = { "C", "%" };
 
 void send_data(int id, sensor_type t, float r, sensor_unit u, unsigned long m) {
     char buffer[DATA_LENGTH];
@@ -92,20 +35,71 @@ void send_data(int id, sensor_type t, float r, sensor_unit u, unsigned long m) {
     Serial.println(buffer);
 }
 
+bool check_temperature(void *) {
+    float currentTemp = dht.readTemperature();
+    if (!isnan(currentTemp)) {
+        // Enviar dados do sensor para o Serial
+        send_data(1, TEMPERATURE, currentTemp, CELSIUS, millis());
+
+        // Set the initial temperature if not yet initialized
+        if (initialTemperature == -1000) {
+            initialTemperature = currentTemp;
+        }
+
+        // Check if the temperature increased by 5 or more
+        if (currentTemp >= initialTemperature + 5) {
+            if (!temperatureLedOn) { // Only print "LED ON" when turning on
+                Serial.println("Temperature LED ON (increased 5ºC) ");
+                temperatureLedOn = true;
+            }
+            digitalWrite(LED_TEMP_PIN, HIGH); // Turn on temperature LED
+        } else if (currentTemp < initialTemperature + 5) {
+            temperatureLedOn = false; // Reset the flag when below threshold
+            Serial.println("Temperature LED OFF");
+            digitalWrite(LED_TEMP_PIN, LOW); // Turn off temperature LED
+        }
+    }
+    return true; // Keep the timer active
+}
+
+bool check_humidity(void *) {
+    float currentHumidity = dht.readHumidity();
+    if (!isnan(currentHumidity)) {
+        // Enviar dados do sensor para o Serial
+        send_data(2, HUMIDITY, currentHumidity, PERCENT, millis());
+
+        // Set the initial humidity if not yet initialized
+        if (initialHumidity == -1000) {
+            initialHumidity = currentHumidity;
+        }
+
+        // Check if the humidity increased by 5% or more
+        if (currentHumidity >= initialHumidity + 5) {
+            if (!humidityLedOn) { // Only print "LED ON" when turning on
+                Serial.println("Humidity LED ON (increased 5%)");
+                humidityLedOn = true;
+            }
+            digitalWrite(LED_HUMIDITY_PIN, HIGH); // Turn on humidity LED
+        } else if (currentHumidity < initialHumidity + 5) {
+            humidityLedOn = false; // Reset the flag when below threshold
+            Serial.println("Humidity LED OFF");
+            digitalWrite(LED_HUMIDITY_PIN, LOW); // Turn off humidity LED
+        }
+    }
+    return true; // Keep the timer active
+}
+
 void setup() {
-    // Initialize digital pin LED_BUILTIN as an output
-    pinMode(LED_BUILTIN, OUTPUT);
-    randomSeed(analogRead(0));
+    pinMode(LED_TEMP_PIN, OUTPUT);       // Configure temperature LED pin as output
+    pinMode(LED_HUMIDITY_PIN, OUTPUT);   // Configure humidity LED pin as output
     Serial.begin(9600);
     dht.begin();
 
     // Set up periodic tasks
-    timer.every(TOGGLE_LED_PERIOD, toggle_led);
-    timer.every(ATMOSPHERIC_TEMPERATURE_PERIOD, read_atmospheric_temperature);
-    timer.every(ATMOSPHERIC_HUMIDITY_PERIOD, read_atmospheric_humidity);
-    timer.every(SOIL_HUMIDITY_PERIOD, read_soil_humidity);
+    timer.every(TEMP_CHECK_PERIOD, check_temperature);
+    timer.every(HUMIDITY_CHECK_PERIOD, check_humidity);
 }
 
 void loop() {
-    timer.tick(); // Tick the timer
+    timer.tick(); // Process scheduled tasks
 }
