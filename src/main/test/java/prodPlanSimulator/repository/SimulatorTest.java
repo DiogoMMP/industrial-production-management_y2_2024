@@ -18,15 +18,15 @@ import static org.junit.Assert.assertEquals;
 class SimulatorTest {
     private static final String FILE_PATH_ITEMS = "test_files/articles.csv";
     private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
-    private static HashMap_Items_Machines hashMap = Instances.getInstance().getHashMapItemsWorkstations();
+    private static HashMap_Items_Machines_Sprint1 hashMap = Instances.getInstance().getHashMapItemsWorkstationsSprint1();
     private static Simulator simulator = Instances.getInstance().getSimulator();
     private static Operation CUT, SCREW, PAINT, DRILL, POLISH, VARNISH, PACK, SAND, GLUE, WELD, ASSEMBLE, INSPECT, FINISH;
 
     @BeforeAll
     static void setUp() throws FileNotFoundException {
-        /*
+
         hashMap.addAll(FILE_PATH_ITEMS, FILE_PATH_MACHINES);
-        */
+
         // Define all operations used in tests
         CUT = new Operation("CUT1", "cut", 10.0);
         SCREW = new Operation("SCREW2", "screw", 20.0);
