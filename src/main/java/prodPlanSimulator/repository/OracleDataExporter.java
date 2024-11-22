@@ -33,7 +33,10 @@ public class OracleDataExporter implements Runnable{
         exportArticlesToCSV();
         exportWorkstationsToCSV();
     }
-
+    public static void main(String[] args) {
+        OracleDataExporter exporter = new OracleDataExporter();
+        exporter.run();
+    }
     private static void exportWorkstationsToCSV() {
         String query =
                 "SELECT DISTINCT " +
@@ -172,46 +175,53 @@ public class OracleDataExporter implements Runnable{
     }
 
     public static void exportBOOToCSV() {
-        // SQL Query to gather BOO data
         String query =
-                "SELECT " +
-                        "  BOO.Operation_ID AS operation_id, " +
-                        "  BOO_Output.Part_ID AS item_id, " +
-                        "  BOO_Output.Quantity AS item_quantity, " +
-                        "  BOO_Output.Unit AS item_unit, " +
-                        "  LISTAGG(BOO.Next_Operation_ID || ';' || NULL, ';') WITHIN GROUP (ORDER BY BOO.Next_Operation_ID) AS dependencies, " +
-                        "  LISTAGG(BOO_Input.Part_ID || ';' || BOO_Input.Quantity || ' ' || BOO_Input.Unit, ';') WITHIN GROUP (ORDER BY BOO_Input.Part_ID) AS inputs " +
-                        "FROM BOO " +
-                        "LEFT JOIN BOO_Output ON BOO.Product_ID = BOO_Output.Product_ID AND BOO.Operation_ID = BOO_Output.Operation_ID " +
-                        "LEFT JOIN BOO_Input ON BOO.Product_ID = BOO_Input.Product_ID AND BOO.Operation_ID = BOO_Input.Operation_ID " +
-                        "GROUP BY BOO.Operation_ID, BOO_Output.Part_ID, BOO_Output.Quantity, BOO_Output.Unit";
+                "WITH BOO_DETAILED AS (" +
+                        "  SELECT " +
+                        "    BOO.Operation_ID AS operation_id, " +
+                        "    BOO_Output.Part_ID AS item_id, " +
+                        "    BOO_Output.Quantity AS item_quantity, " +
+                        "    BOO.Next_Operation_ID AS next_op, " +
+                        "    BOO_Input.Part_ID AS input_part, " +
+                        "    BOO_Input.Quantity AS input_quantity " +
+                        "  FROM BOO " +
+                        "  LEFT JOIN BOO_Output ON BOO.Product_ID = BOO_Output.Product_ID AND BOO.Operation_ID = BOO_Output.Operation_ID " +
+                        "  LEFT JOIN BOO_Input ON BOO.Product_ID = BOO_Input.Product_ID AND BOO.Operation_ID = BOO_Input.Operation_ID " +
+                        ") " +
+                        "SELECT " +
+                        "  operation_id, " +
+                        "  item_id, " +
+                        "  item_quantity, " +
+                        "  LISTAGG(DISTINCT next_op, ';') WITHIN GROUP (ORDER BY next_op) AS dependencies, " +
+                        "  LISTAGG(input_part || ';' || input_quantity, ';') WITHIN GROUP (ORDER BY input_part) AS inputs " +
+                        "FROM BOO_DETAILED " +
+                        "GROUP BY operation_id, item_id, item_quantity " +
+                        "ORDER BY operation_id";
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query);
              FileWriter csvWriter = new FileWriter(FILE_BOO_PATH)) {
 
-            // Write the CSV header
-            csvWriter.append("operation_id;item_id;item_quantity;dependencies;inputs\n");
-
-            // Write data row by row
             while (resultSet.next()) {
                 int operationId = resultSet.getInt("operation_id");
                 String itemId = resultSet.getString("item_id");
                 double itemQuantity = resultSet.getDouble("item_quantity");
-                String itemUnit = resultSet.getString("item_unit");
                 String dependencies = resultSet.getString("dependencies");
                 String inputs = resultSet.getString("inputs");
 
-                // Format dependencies and inputs with parentheses
-                dependencies = dependencies != null ? "(;" + dependencies + ";)" : "(;;;;;;;)";
-                inputs = inputs != null ? "(;" + inputs + ";)" : "(;;;;;;;)";
+                // Format item quantity with comma as decimal separator
+                String formattedQuantity = String.format("%.1f", itemQuantity).replace('.', ',');
 
-                // Format item quantity with unit
-                String formattedQuantity = itemQuantity + " " + (itemUnit != null ? itemUnit : "");
+                // Format dependencies
+                String formattedDependencies = formatDependenciesOrInputs(dependencies, true);
+
+                // Format inputs
+                String formattedInputs = formatDependenciesOrInputs(inputs, false);
 
                 // Write the formatted data to the CSV file
-                csvWriter.append(operationId + ";" + itemId + ";" + formattedQuantity + ";" + dependencies + ";" + inputs + "\n");
+                csvWriter.append(String.format("%d;%s;%s;%s;%s\n",
+                        operationId, itemId, formattedQuantity, formattedDependencies, formattedInputs));
             }
 
         } catch (Exception e) {
@@ -219,6 +229,26 @@ public class OracleDataExporter implements Runnable{
         }
     }
 
+    private static String formatDependenciesOrInputs(String input, boolean isDependencies) {
+        if (input == null || input.trim().isEmpty()) {
+            return isDependencies ? "(;;;;;)" : "(;;;;;;;)";
+        }
+
+        // Split the input by semicolon
+        String[] parts = input.split(";");
+
+        // Pad or trim to ensure consistent formatting
+        StringBuilder formatted = new StringBuilder("(;");
+        for (int i = 0; i < (isDependencies ? 5 : 6); i++) {
+            if (i < parts.length) {
+                formatted.append(parts[i]);
+            }
+            formatted.append(";");
+        }
+        formatted.append(")");
+
+        return formatted.toString();
+    }
     public static void exportOperationsToCSV() {
         String query =
                 "SELECT Operation_Type_ID AS op_id, Operation_Description AS op_name " +

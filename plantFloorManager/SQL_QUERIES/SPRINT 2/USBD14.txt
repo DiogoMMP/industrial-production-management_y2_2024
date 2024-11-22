@@ -1,6 +1,8 @@
 
-INSERT INTO Product (Product_ID, Product_Name, Product_Description, Factory_Plant_ID, Family_ID)
-VALUES ('NEWPROD001', 'All Workstations Pot', 'A product that uses all workstation types', 1, 125);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID,Part_ID)
+VALUES ('NEWPROD001', 'All Workstations Pot', 1, 125, 'PN12344A21')
+
+
 
 INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)
 VALUES (5672, 'Packaging for large items');
@@ -121,6 +123,7 @@ INSERT INTO Type_Industry (Type_Industry_ID, Type_Industry, Operation_Type_ID, W
 VALUES (1028, 'Glass trimming', 5674, 'G9274');
 
 
+
 SELECT p.Product_ID, p.Product_Name
 FROM Product p
 WHERE p.Product_ID IN (
@@ -133,6 +136,7 @@ WHERE p.Product_ID IN (
         SELECT COUNT(DISTINCT Workstation_Type_ID) FROM Workstation_Type
     )
 );
+
 
 
 
