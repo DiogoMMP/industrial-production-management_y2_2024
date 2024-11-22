@@ -81,7 +81,7 @@ public class DataInitializer implements Runnable {
                         pathOp = Utils.readLineFromConsole("Operations: ");
                         break;
                     default:
-                        System.err.println("Error: Invalid option. Please enter 1 or 2.");
+                        System.err.println("Error: Invalid option. Please enter 1, 2 or 3.");
                         continue;
                 }
 

@@ -268,7 +268,7 @@ public class ProductionTree {
         // Find the node with the specified ID or name
         TreeNode<String> node = nodesMap.get(idOrName);
         if (node == null) {
-            result.put("Error", "Material or Operation not found.");
+            result.put("Error", "Leaf not found on Production Tree.");
             return result;
         }
 
@@ -424,26 +424,6 @@ public class ProductionTree {
         ProductionTree productionTree = new ProductionTree();
         productionTree.buildProductionTree("1006");
 
-        // Exibir a árvore de produção de forma indenta
-
-        // Secção de testes de pesquisa
-        System.out.println("\nResultados da Pesquisa:");
-
-        // Teste 1: Procurar uma operação existente pelo ID
-        String operationId = "11";
-        System.out.println("Teste 1 - Pesquisa por Operação com ID " + operationId + ":");
-        executeAndPrintSearch(productionTree, operationId);
-
-        // Teste 2: Procurar um material existente pelo ID
-        String materialId = "1004";
-        System.out.println("Teste 2 - Pesquisa por Material com ID " + materialId + ":");
-        executeAndPrintSearch(productionTree, materialId);
-
-        // Teste 3: Procurar por um ID ou nome inexistente
-        String nonExistentId = "500";
-        System.out.println("Teste 3 - Pesquisa por ID ou Nome " + nonExistentId + " (não existe):");
-        executeAndPrintSearch(productionTree, nonExistentId);
-
         // Realizar verificações de qualidade
         System.out.println("\nRealizando Verificações de Qualidade:");
         productionTree.viewQualityChecksInOrder();
@@ -477,25 +457,6 @@ public class ProductionTree {
                 System.out.println("Total Operation Quantity: " + totalOperationQuantity);
             }
         }
-    }
-
-    /**
-     * Helper method to execute and print the search results in a readable format.
-     */
-    private static void executeAndPrintSearch(ProductionTree productionTree, String id) {
-        Map<String, String> result = productionTree.searchNode(id);
-        if (result.containsKey("Error")) {
-            System.out.println("Error: Material or operation not found!");
-        } else {
-            System.out.println("Type: " + result.get("Type"));
-            System.out.println("Description and Quantity: " + result.get("Description"));
-            if (result.get("Type").equals("Material")) {
-                System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
-            } else {
-                System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
-            }
-        }
-        System.out.println();
     }
 
     /**

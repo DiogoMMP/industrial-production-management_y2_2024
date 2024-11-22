@@ -20,7 +20,7 @@ public class MainMenuUITree implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("Structural Information of Production", new showTreeUI()));
+            options.add(new MenuItem("Show Production Tree", new showTreeUI()));
             options.add(new MenuItem("Search Materials and Operations", new SearchUI()));
             options.add(new MenuItem("Tracking Materials Quantities", new TrackingQuantitiesUI()));
             options.add(new MenuItem("Quality Checks", new QualityChecksUI()));
@@ -39,7 +39,7 @@ public class MainMenuUITree implements Runnable {
                 }
             } while (option != -1);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }

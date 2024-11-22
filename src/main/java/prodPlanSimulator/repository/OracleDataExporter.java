@@ -79,7 +79,6 @@ public class OracleDataExporter implements Runnable{
             }
 
             csvPrinter.flush();
-            System.out.println("Workstations exported successfully to " + FILE_WORKSTATIONS_PATH);
 
         } catch (SQLException | IOException e) {
             System.err.println("Error exporting workstations to CSV: " + e.getMessage());
@@ -165,7 +164,6 @@ public class OracleDataExporter implements Runnable{
 
             // Flush and close CSVPrinter
             csvPrinter.flush();
-            System.out.println("Articles exported successfully to " + FILE_ARTICLES_PATH);
 
         } catch (SQLException | IOException e) {
             System.err.println("Error exporting articles to CSV: " + e.getMessage());
@@ -216,8 +214,6 @@ public class OracleDataExporter implements Runnable{
                 csvWriter.append(operationId + ";" + itemId + ";" + formattedQuantity + ";" + dependencies + ";" + inputs + "\n");
             }
 
-            System.out.println("BOO exported successfully to " + FILE_BOO_PATH);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -243,8 +239,6 @@ public class OracleDataExporter implements Runnable{
 
                 csvWriter.append(opId).append(";").append(opName).append("\n");
             }
-
-            System.out.println("Operations data exported successfully to " + FILE_OPERATIONS_PATH);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -284,8 +278,6 @@ public class OracleDataExporter implements Runnable{
 
                 csvWriter.append(idItem).append(";").append(itemName).append("\n");
             }
-
-            System.out.println("Items exported successfully to " + FILE_ITEMS_PATH);
 
         } catch (Exception e) {
             e.printStackTrace();
