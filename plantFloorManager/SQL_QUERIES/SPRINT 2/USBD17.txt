@@ -1,25 +1,26 @@
 CREATE OR REPLACE FUNCTION Register_Customer_Order(
-    p_customer_id        IN NUMBER,
-    p_product_id         IN VARCHAR2,
-    p_quantity           IN NUMBER,
-    p_order_date         IN DATE,
-    p_delivery_date      IN DATE,
-	p_product_priority   IN VARCHAR2
+    p_customer_id       IN NUMBER,
+    p_order_date        IN DATE,
+    p_delivery_date     IN DATE,
+    p_location          IN VARCHAR2,
+    p_product_ids        IN SYS.ODCIVARCHAR2LIST,  -- List of product IDs
+    p_quantities         IN SYS.ODCINUMBERLIST,    -- List of quantities
+    p_priorities         IN SYS.ODCIVARCHAR2LIST   -- List of product priorities
 ) RETURN NUMBER IS
-    v_customer_order_id  NUMBER;
+  	    v_customer_order_id  NUMBER;
     v_active_status      VARCHAR2(255);
     v_product_exists     NUMBER;
 	v_customer_exists    NUMBER;
 BEGIN
-
      -- Check if customer exists
-    Select Customer_id INTO v_customer_exists
+    SELECT COUNT(*)
+    INTO v_customer_exists
     FROM Customer
     WHERE Customer_ID = p_customer_id;
 
-	IF v_customer_exists = 0 THEN
-        RAISE_APPLICATION_ERROR(-20001, 'Customer doesn''t exist.');
-	END IF;
+    IF v_customer_exists = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Customer does not exist.');
+    END IF;
 
      -- Check if the order date is before the current date
     IF p_order_date < SYSDATE THEN
@@ -31,7 +32,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20003, 'Delivery date can''t be before new order date');
 	END IF;
 
-    -- Step 1: Check if the customer is active
+    -- Check if the customer is active
     SELECT Status INTO v_active_status
     FROM Customer
     WHERE Customer_ID = p_customer_id;
@@ -40,32 +41,34 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20004, 'Customer is not active.');
     END IF;
 
-    -- Step 2: Check if the product exists in the current lineup
-    SELECT COUNT(*)
-    INTO v_product_exists
-    FROM Product
-    WHERE Product_ID = p_product_id;
-
-    IF v_product_exists = 0 THEN
-        RAISE_APPLICATION_ERROR(-20005, 'Product does not exist in the current lineup.');
-    END IF;
-
-    -- Step 3: Insert into Customer_Order
-	Select max(Customer_Order_ID) + 1 into v_customer_order_id from customer_order;
-
+    -- Step 2: Insert into Customer_Order (creating a new order)
+    SELECT MAX(Customer_Order_ID) + 1 INTO v_customer_order_id FROM Customer_Order;
 
     INSERT INTO Customer_Order (
-        Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID
+        Customer_Order_ID, Order_Date, Delivery_Date, Location, Customer_ID
     ) VALUES (
-        v_customer_order_id, p_order_date, p_delivery_date, p_customer_id
+        v_customer_order_id, p_order_date, p_delivery_date, p_location, p_customer_id
     );
 
-    -- Step 4: Insert into Customer_Order_Product
-    INSERT INTO Customer_Order_Product (
-        Customer_Order_ID, Product_ID, Quantity, Product_Priority
-    ) VALUES (
-        v_customer_order_id, p_product_id, p_quantity, p_product_priority
-    );
+    -- Insert multiple products into Customer_Order_Product
+    FOR i IN 1 .. p_product_ids.COUNT LOOP
+        -- Check if each product exists
+        SELECT COUNT(*)
+        INTO v_product_exists
+        FROM Product
+        WHERE Product_ID = p_product_ids(i);
+
+        IF v_product_exists = 0 THEN
+            RAISE_APPLICATION_ERROR(-20005, 'Product with ID ' || p_product_ids(i) || ' does not exist.');
+        END IF;
+
+        -- Insert each product into Customer_Order_Product
+        INSERT INTO Customer_Order_Product (
+            Customer_Order_ID, Product_ID, Quantity, Product_Priority
+        ) VALUES (
+            v_customer_order_id, p_product_ids(i), p_quantities(i), p_priorities(i)
+        );
+    END LOOP;
 
     -- Return the new Customer_Order_ID
     RETURN v_customer_order_id;
@@ -75,131 +78,110 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20006, 'Error creating order: ' || SQLERRM);
 END;
 /
-
-
-    --Valid test
-DECLARE
-    v_order_id NUMBER;
+-- Valid test
+    DECLARE
+  v_order_id NUMBER;
 BEGIN
-    -- Test the Register_Customer_Order function
-    v_order_id := Register_Customer_Order(
-        p_customer_id   => 456,         	-- Customer_ID
-        p_product_id    => 'AS12945S22',    -- Product_ID
-        p_quantity      => 10,           	-- Example quantity
-        p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7, 	-- Delivery date
-    	p_product_priority => 'High'		-- Product priority
-    );
+  v_order_id := Register_Customer_Order(
+    p_customer_id => 456,
+    p_order_date => SYSDATE,
+    p_delivery_date => SYSDATE + 7,
+    p_location => 'New York',
+    p_product_ids => SYS.ODCIVARCHAR2LIST('AS12946S22', 'AS12945S20', 'AS12945S17'),
+    p_quantities => SYS.ODCINUMBERLIST(10, 5, 2),
+    p_priorities => SYS.ODCIVARCHAR2LIST('High', 'Normal', 'Low')
+  );
 
-    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+  DBMS_OUTPUT.PUT_LINE('New Order ID: ' || v_order_id);
 END;
 /
 
-    --Test with wrong product
-DECLARE
-    v_order_id NUMBER;
+    -- Invalid test, no customer
+    DECLARE
+  v_order_id NUMBER;
 BEGIN
-    -- Test the Register_Customer_Order function
-    v_order_id := Register_Customer_Order(
-        p_customer_id   => 456,         	-- Customer_ID
-        p_product_id    => 'invalid',    	-- Product_ID
-        p_quantity      => 10,           	-- Example quantity
-        p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7,  	-- Delivery date
-    	p_product_priority => 'High'		-- Product priority
-    );
+  v_order_id := Register_Customer_Order(
+    p_customer_id => 496,
+    p_order_date => SYSDATE,
+    p_delivery_date => SYSDATE + 7,
+    p_location => 'New York',
+    p_product_ids => SYS.ODCIVARCHAR2LIST('AS12946S22', 'AS12945S20', 'AS12945S17'),
+    p_quantities => SYS.ODCINUMBERLIST(10, 5, 2),
+    p_priorities => SYS.ODCIVARCHAR2LIST('High', 'Normal', 'Low')
+  );
 
-    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+  DBMS_OUTPUT.PUT_LINE('New Order ID: ' || v_order_id);
 END;
 /
 
-    --Test with invalid customer
-DECLARE
-    v_order_id NUMBER;
+        -- Invalid test, customer deactivated
+    DECLARE
+  v_order_id NUMBER;
 BEGIN
-    -- Test the Register_Customer_Order function
-    v_order_id := Register_Customer_Order(
-        p_customer_id   => 999,         	-- Customer_ID
-        p_product_id    => 'AS12945S22',    -- Product_ID
-        p_quantity      => 10,           	-- Example quantity
-        p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7,  	-- Delivery date
-    	p_product_priority => 'High'		-- Product priority
-    );
+  v_order_id := Register_Customer_Order(
+    p_customer_id => 999,
+    p_order_date => SYSDATE,
+    p_delivery_date => SYSDATE + 7,
+    p_location => 'New York',
+    p_product_ids => SYS.ODCIVARCHAR2LIST('AS12946S22', 'AS12945S20', 'AS12945S17'),
+    p_quantities => SYS.ODCINUMBERLIST(10, 5, 2),
+    p_priorities => SYS.ODCIVARCHAR2LIST('High', 'Normal', 'Low')
+  );
 
-    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+  DBMS_OUTPUT.PUT_LINE('New Order ID: ' || v_order_id);
 END;
 /
 
-
-    --Test with invalid date
-DECLARE
-    v_order_id NUMBER;
+            -- Invalid test, invalid product
+    DECLARE
+  v_order_id NUMBER;
 BEGIN
-    -- Test the Register_Customer_Order function
-    v_order_id := Register_Customer_Order(
-        p_customer_id   => 456,         	-- Customer_ID
-        p_product_id    => 'AS12945S22',    -- Product_ID
-        p_quantity      => 10,           	-- Example quantity
-        p_order_date    => SYSDATE - 2,     -- Date for the order
-        p_delivery_date => SYSDATE + 7,  	-- Delivery date
-    	p_product_priority => 'High'		-- Product priority
-    );
+  v_order_id := Register_Customer_Order(
+    p_customer_id => 456,
+    p_order_date => SYSDATE,
+    p_delivery_date => SYSDATE + 7,
+    p_location => 'New York',
+    p_product_ids => SYS.ODCIVARCHAR2LIST('Prod2', 'AS12945S20', 'AS12945S17'),
+    p_quantities => SYS.ODCINUMBERLIST(10, 5, 2),
+    p_priorities => SYS.ODCIVARCHAR2LIST('High', 'Normal', 'Low')
+  );
 
-    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+  DBMS_OUTPUT.PUT_LINE('New Order ID: ' || v_order_id);
 END;
 /
 
-    --Test with invalid date
-DECLARE
-    v_order_id NUMBER;
+    -- Invalid test, invalid order date
+    DECLARE
+  v_order_id NUMBER;
 BEGIN
-    -- Test the Register_Customer_Order function
-    v_order_id := Register_Customer_Order(
-        p_customer_id   => 456,         	-- Customer_ID
-        p_product_id    => 'AS12945S22',    -- Product_ID
-        p_quantity      => 10,           	-- Example quantity
-        p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE - 2,      -- Delivery date
-    	p_product_priority => 'High'		-- Product priority
-    );
+  v_order_id := Register_Customer_Order(
+    p_customer_id => 456,
+    p_order_date => SYSDATE - 2,
+    p_delivery_date => SYSDATE + 7,
+    p_location => 'New York',
+    p_product_ids => SYS.ODCIVARCHAR2LIST('AS12945S20', 'AS12945S20', 'AS12945S17'),
+    p_quantities => SYS.ODCINUMBERLIST(10, 5, 2),
+    p_priorities => SYS.ODCIVARCHAR2LIST('High', 'Normal', 'Low')
+  );
 
-    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+  DBMS_OUTPUT.PUT_LINE('New Order ID: ' || v_order_id);
 END;
 /
 
-    --Test with invalid costumer
-DECLARE
-    v_order_id NUMBER;
+    -- Invalid test, invalid delivery date
+    DECLARE
+  v_order_id NUMBER;
 BEGIN
-    -- Test the Register_Customer_Order function
-    v_order_id := Register_Customer_Order(
-        p_customer_id   => 1000,         	-- Customer_ID
-        p_product_id    => 'AS12945S22',    -- Product_ID
-        p_quantity      => 10,           	-- Example quantity
-        p_order_date    => SYSDATE,      	-- Date for the order
-        p_delivery_date => SYSDATE + 7,      -- Delivery date
-    	p_product_priority => 'High'		-- Product priority
-    );
+  v_order_id := Register_Customer_Order(
+    p_customer_id => 456,
+    p_order_date => SYSDATE + 3,
+    p_delivery_date => SYSDATE,
+    p_location => 'New York',
+    p_product_ids => SYS.ODCIVARCHAR2LIST('AS12945S20', 'AS12945S20', 'AS12945S17'),
+    p_quantities => SYS.ODCINUMBERLIST(10, 5, 2),
+    p_priorities => SYS.ODCIVARCHAR2LIST('High', 'Normal', 'Low')
+  );
 
-    DBMS_OUTPUT.PUT_LINE('Order created successfully. Order ID: ' || v_order_id);
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+  DBMS_OUTPUT.PUT_LINE('New Order ID: ' || v_order_id);
 END;
 /
