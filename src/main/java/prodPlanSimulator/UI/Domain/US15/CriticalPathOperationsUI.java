@@ -1,11 +1,15 @@
 package prodPlanSimulator.UI.Domain.US15;
 
+import prodPlanSimulator.repository.Instances;
+import trees.ProductionTree.ProductionTree;
+
 public class CriticalPathOperationsUI implements Runnable {
-    public CriticalPathOperationsUI() {
-    }
+    private ProductionTree productionTree = Instances.getInstance().getProductionTree();
+
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        productionTree.prioritizeCriticalPath(productionTree.getRoot());
+        //productionTree.displayCriticalPathInSequence(productionTree.getRoot());
     }
 }

@@ -9,6 +9,7 @@ import trees.AVL_BST.AVL;
 import java.math.BigDecimal;
 import java.util.*;
 
+import trees.heap.Entry;
 import trees.heap.HeapPriorityQueue;
 
 
@@ -131,6 +132,10 @@ public class ProductionTree {
                     subOperationNode.setType(NodeType.OPERATION);
                     subOperationNode.setOperationParent(parent); // Define the parent
                     productNode.addChild(subOperationNode);
+
+                    int depth = calculateDepth(subOperationNode);
+                    int priority = getPriorityForDepth(depth);
+                    qualityCheckQueue.insert(priority, subOperationDescription);
 
                     nodesMap.put(subOperationId, subOperationNode);
 
@@ -346,8 +351,9 @@ public class ProductionTree {
     }
 
     public void viewQualityChecksInOrder() {
-        System.out.println("Quality Checks in Order of Priority:");
         HeapPriorityQueue<Integer, String> tempQueue = qualityCheckQueue.clone();
+        System.out.println("Quality Checks in Order of Priority:");
+        System.out.println("Heap Size"+ tempQueue.size());
         while (!tempQueue.isEmpty()) {
             var check = tempQueue.removeMin();
             System.out.println("Quality Check: " + check.getValue() + " [Priority: " + check.getKey() + "]");
@@ -392,6 +398,11 @@ public class ProductionTree {
 
 
     public void simulateProduction(TreeNode<String> productionTreeRoot) {
+        if (productionTreeRoot == null) {
+            System.out.println("Production tree root is null. Cannot simulate production.");
+            return;
+        }
+
         AVL<String> avl = new AVL<>();
 
         // Populate AVL Tree with operations from the production tree
@@ -410,6 +421,56 @@ public class ProductionTree {
             populateAVL(child, avlTree);
         }
     }
+    public void prioritizeCriticalPath(TreeNode<String> root) {
+        if (root == null) {
+            System.out.println("Production tree is empty.");
+            return;
+        }
+
+        // Priority Queue to store operations by depth
+        HeapPriorityQueue<Integer, TreeNode<String>> criticalPathQueue = new HeapPriorityQueue<>();
+
+        // Recursive function to traverse and calculate depth
+        traverseAndAddToHeap(root, criticalPathQueue);
+
+        // Display the critical path in order
+        System.out.println("Critical Path (in order of the most important to the least important):");
+        while (!criticalPathQueue.isEmpty()) {
+            Entry<Integer, TreeNode<String>> entry = criticalPathQueue.removeMin();
+            TreeNode<String> node = entry.getValue();
+            System.out.println("Operation: " + node.getValue() + " (Depth: " + -entry.getKey() + ")");
+        }
+    }
+
+    // Traverse the tree and add operations to the heap
+    private void traverseAndAddToHeap(TreeNode<String> node, HeapPriorityQueue<Integer, TreeNode<String>> queue) {
+        if (node.getType() == NodeType.OPERATION) {
+            int depth = calculateDepth(node);
+            // Use negative depth to simulate max-heap behavior
+            queue.insert(-depth, node);
+        }
+        for (TreeNode<String> child : node.getChildren()) {
+            traverseAndAddToHeap(child, queue);
+        }
+    }
+
+    public void displayCriticalPathInSequence(TreeNode<String> root) {
+        System.out.println("Critical Path Sequence:");
+        traverseCriticalPath(root);
+    }
+
+    // Recursive function to traverse and print the critical path
+    private void traverseCriticalPath(TreeNode<String> node) {
+        if (node == null) return;
+        if (node.getType() == NodeType.OPERATION) {
+            System.out.println(node.getValue());
+        }
+        for (TreeNode<String> child : node.getChildren()) {
+            traverseCriticalPath(child);
+        }
+    }
+
+
 
 
     // main para testar!! Depois apagar
@@ -426,7 +487,7 @@ public class ProductionTree {
 
         // Realizar verificações de qualidade
         System.out.println("\nRealizando Verificações de Qualidade:");
-        productionTree.viewQualityChecksInOrder();
+        //productionTree.viewQualityChecksInOrder();
         productionTree.performQualityChecksInteractively();
 
         // Simular a produção completa
