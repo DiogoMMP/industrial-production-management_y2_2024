@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import prodPlanSimulator.domain.Item;
 
 
 public class OracleDataExporter implements Runnable{
@@ -19,17 +18,23 @@ public class OracleDataExporter implements Runnable{
     private static final String USER = "SYS as SYSDBA";
     private static final String PASS = "LAPR3";
 
+    private static final String FILE_PATH = "src/main/resources/";
+    private static final String FILE_ITEMS_PATH = FILE_PATH + "items_exported.csv";
+    private static final String FILE_OPERATIONS_PATH = FILE_PATH + "operations_exported.csv";
+    private static final String FILE_BOO_PATH = FILE_PATH + "boo_exported.csv";
+    private static final String FILE_ARTICLES_PATH = FILE_PATH + "articles_exported.csv";
+    private static final String FILE_WORKSTATIONS_PATH = FILE_PATH + "workstations_exported.csv";
+
     @Override
     public void run() {
-        exportItemsToCSV("src/main/resources/items_exported.csv");
-        exportOperationsToCSV("src/main/resources/operations_exported.csv");
-        // exportBOOToCSV("src/main/resources/boo_exported.csv");
-        // BOO Still not working
-        exportArticlesToCSV("src/main/resources/articles_exported.csv");
-        exportWorkstationsToCSV("src/main/resources/workstations_exported.csv");
+        exportItemsToCSV();
+        exportOperationsToCSV();
+        exportBOOToCSV();
+        exportArticlesToCSV();
+        exportWorkstationsToCSV();
     }
 
-    private static void exportWorkstationsToCSV(String file) {
+    private static void exportWorkstationsToCSV() {
         String query =
                 "SELECT DISTINCT " +
                         "w.Workstation_ID AS workstation, " +
@@ -43,7 +48,7 @@ public class OracleDataExporter implements Runnable{
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query);
-             FileWriter fileWriter = new FileWriter(file);
+             FileWriter fileWriter = new FileWriter(FILE_WORKSTATIONS_PATH);
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
 
             // Track seen combinations to eliminate duplicates
@@ -74,7 +79,7 @@ public class OracleDataExporter implements Runnable{
             }
 
             csvPrinter.flush();
-            System.out.println("Workstations exported successfully to " + file);
+            System.out.println("Workstations exported successfully to " + FILE_WORKSTATIONS_PATH);
 
         } catch (SQLException | IOException e) {
             System.err.println("Error exporting workstations to CSV: " + e.getMessage());
@@ -82,13 +87,7 @@ public class OracleDataExporter implements Runnable{
         }
     }
 
-
-
-
-
-
-
-    private static void exportArticlesToCSV(String file) {
+    private static void exportArticlesToCSV() {
         String query = "SELECT DISTINCT " +
                 "p.Product_ID AS article, " +
                 "cop.Product_Priority AS priority, " +
@@ -103,7 +102,7 @@ public class OracleDataExporter implements Runnable{
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query);
-             FileWriter fileWriter = new FileWriter(file);
+             FileWriter fileWriter = new FileWriter(FILE_ARTICLES_PATH);
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
 
             // Maps to store the operations and priority for each product
@@ -166,7 +165,7 @@ public class OracleDataExporter implements Runnable{
 
             // Flush and close CSVPrinter
             csvPrinter.flush();
-            System.out.println("Articles exported successfully to " + file);
+            System.out.println("Articles exported successfully to " + FILE_ARTICLES_PATH);
 
         } catch (SQLException | IOException e) {
             System.err.println("Error exporting articles to CSV: " + e.getMessage());
@@ -174,96 +173,57 @@ public class OracleDataExporter implements Runnable{
         }
     }
 
+    public static void exportBOOToCSV() {
+        // SQL Query to gather BOO data
+        String query =
+                "SELECT " +
+                        "  BOO.Operation_ID AS operation_id, " +
+                        "  BOO_Output.Part_ID AS item_id, " +
+                        "  BOO_Output.Quantity AS item_quantity, " +
+                        "  BOO_Output.Unit AS item_unit, " +
+                        "  LISTAGG(BOO.Next_Operation_ID || ';' || NULL, ';') WITHIN GROUP (ORDER BY BOO.Next_Operation_ID) AS dependencies, " +
+                        "  LISTAGG(BOO_Input.Part_ID || ';' || BOO_Input.Quantity || ' ' || BOO_Input.Unit, ';') WITHIN GROUP (ORDER BY BOO_Input.Part_ID) AS inputs " +
+                        "FROM BOO " +
+                        "LEFT JOIN BOO_Output ON BOO.Product_ID = BOO_Output.Product_ID AND BOO.Operation_ID = BOO_Output.Operation_ID " +
+                        "LEFT JOIN BOO_Input ON BOO.Product_ID = BOO_Input.Product_ID AND BOO.Operation_ID = BOO_Input.Operation_ID " +
+                        "GROUP BY BOO.Operation_ID, BOO_Output.Part_ID, BOO_Output.Quantity, BOO_Output.Unit";
 
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
+             FileWriter csvWriter = new FileWriter(FILE_BOO_PATH)) {
 
+            // Write the CSV header
+            csvWriter.append("operation_id;item_id;item_quantity;dependencies;inputs\n");
 
-    public static void exportBOOToCSV(String file) {
-        // Maps to hold data
-        Map<String, List<String>> operationDetails = new HashMap<>();
-        Map<String, List<String>> inputItemDetails = new HashMap<>();
-        String operationQuery = "SELECT " +
-                "b.Operation_ID AS op_id, " +
-                "b.Product_ID AS main_item_id, " +
-                "1 AS main_item_qtd," +
-                "b.Next_Operation_ID AS next_op_id, " +
-                "i.Part_ID AS input_item_id, " +
-                "i.Quantity AS input_item_qtd " +
-                "FROM " +
-                "BOO b " +
-                "LEFT JOIN BOO_Input i ON b.Product_ID = i.Product_ID AND b.Operation_ID = i.Operation_ID " +
-                "ORDER BY b.Product_ID, b.Operation_ID, i.Part_ID";
+            // Write data row by row
+            while (resultSet.next()) {
+                int operationId = resultSet.getInt("operation_id");
+                String itemId = resultSet.getString("item_id");
+                double itemQuantity = resultSet.getDouble("item_quantity");
+                String itemUnit = resultSet.getString("item_unit");
+                String dependencies = resultSet.getString("dependencies");
+                String inputs = resultSet.getString("inputs");
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             Statement stmt = conn.createStatement()) {
+                // Format dependencies and inputs with parentheses
+                dependencies = dependencies != null ? "(;" + dependencies + ";)" : "(;;;;;;;)";
+                inputs = inputs != null ? "(;" + inputs + ";)" : "(;;;;;;;)";
 
-            // Fetch operation
+                // Format item quantity with unit
+                String formattedQuantity = itemQuantity + " " + (itemUnit != null ? itemUnit : "");
 
-            ResultSet operationRS = stmt.executeQuery(operationQuery);
-
-            while (operationRS.next()) {
-                String opId = operationRS.getString("Operation_ID");
-                String nextOpId = operationRS.getString("Next_Operation_ID");
-
-                // Add operation details
-                operationDetails.computeIfAbsent(opId, k -> new ArrayList<>());
-                if (nextOpId != null) {
-                    operationDetails.get(opId).add(nextOpId + ";1");
-                }
+                // Write the formatted data to the CSV file
+                csvWriter.append(operationId + ";" + itemId + ";" + formattedQuantity + ";" + dependencies + ";" + inputs + "\n");
             }
 
-            // Fetch input items
-            String inputQuery = "SELECT Operation_ID, Part_ID, Quantity FROM BOO_Input";
-            ResultSet inputRS = stmt.executeQuery(inputQuery);
-
-            while (inputRS.next()) {
-                String opId = inputRS.getString("Operation_ID");
-                String inputItemId = inputRS.getString("Part_ID");
-                String inputItemQtd = inputRS.getString("Quantity");
-
-                // Add input item details
-                inputItemDetails.computeIfAbsent(opId, k -> new ArrayList<>());
-                inputItemDetails.get(opId).add(inputItemId + ";" + inputItemQtd);
-            }
-
-            // Write to CSV
-            try (FileWriter csvWriter = new FileWriter(file)) {
-                csvWriter.append("op_id;item_id;item_qtd;(;op1;op_qtd1;...;opN;op_qtdN;);(;item_id1;item_qtd1;...;item_idN;item_qtdN;)\n");
-
-                for (String opId : operationDetails.keySet()) {
-                    String itemId = opId; // Assuming operation ID matches the product ID
-                    String itemQtd = "1"; // Default quantity
-
-                    // Format operation details
-                    StringBuilder opDetails = new StringBuilder("(;");
-                    for (String detail : operationDetails.getOrDefault(opId, new ArrayList<>())) {
-                        opDetails.append(detail).append(";");
-                    }
-                    opDetails.append(")");
-
-                    // Format input item details
-                    StringBuilder itemDetails = new StringBuilder("(;");
-                    for (String detail : inputItemDetails.getOrDefault(opId, new ArrayList<>())) {
-                        itemDetails.append(detail).append(";");
-                    }
-                    itemDetails.append(")");
-
-                    // Write row
-                    csvWriter.append(opId).append(";")
-                            .append(itemId).append(";")
-                            .append(itemQtd).append(";")
-                            .append(opDetails).append(";")
-                            .append(itemDetails).append("\n");
-                }
-            }
-
-            System.out.println("BOO V2 data exported successfully to " + file);
+            System.out.println("BOO exported successfully to " + FILE_BOO_PATH);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void exportOperationsToCSV(String file) {
+    public static void exportOperationsToCSV() {
         String query =
                 "SELECT Operation_Type_ID AS op_id, Operation_Description AS op_name " +
                         "FROM Operation_Type";
@@ -271,7 +231,7 @@ public class OracleDataExporter implements Runnable{
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query);
-             FileWriter csvWriter = new FileWriter(file)) {
+             FileWriter csvWriter = new FileWriter(FILE_OPERATIONS_PATH)) {
 
             // Write the header
             csvWriter.append("op_id;op_name\n");
@@ -284,32 +244,35 @@ public class OracleDataExporter implements Runnable{
                 csvWriter.append(opId).append(";").append(opName).append("\n");
             }
 
-            System.out.println("Operations data exported successfully to " + file);
+            System.out.println("Operations data exported successfully to " + FILE_OPERATIONS_PATH);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void exportItemsToCSV(String file) {
+    public static void exportItemsToCSV() {
         String query =
                 "SELECT 'Product' AS item_type, Product_ID AS id_item, Product_Name AS item_name " +
                         "FROM Product " +
                         "UNION ALL " +
-                        "SELECT 'Raw Material', CAST(Raw_Material_ID AS VARCHAR2(255)), Raw_Material_Name " +
-                        "FROM Raw_Material " +
+                        "SELECT 'Raw Material' AS item_type, RM.Part_ID AS id_item, P.Part_Description AS item_name " +
+                        "FROM Raw_Material RM " +
+                        "JOIN Part P ON RM.Part_ID = P.Part_ID " +
                         "UNION ALL " +
-                        "SELECT 'Part', Part_ID, Part_Description " +
-                        "FROM Part " +
+                        "SELECT 'Intermediate Product' AS item_type, IP.Part_ID AS id_item, P.Part_Description AS item_name " +
+                        "FROM Intermediate_Product IP " +
+                        "JOIN Part P ON IP.Part_ID = P.Part_ID " +
                         "UNION ALL " +
-                        "SELECT 'Component', Component_ID, Component_Description " +
-                        "FROM Component";
+                        "SELECT 'Component' AS item_type, C.Part_ID AS id_item, P.Part_Description AS item_name " +
+                        "FROM Component C " +
+                        "JOIN Part P ON C.Part_ID = P.Part_ID";
 
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query);
-             FileWriter csvWriter = new FileWriter(file)) {
+             FileWriter csvWriter = new FileWriter(FILE_ITEMS_PATH)) {
 
             // Write the header
             csvWriter.append("id_item;item_name\n");
@@ -322,7 +285,7 @@ public class OracleDataExporter implements Runnable{
                 csvWriter.append(idItem).append(";").append(itemName).append("\n");
             }
 
-            System.out.println("Data exported successfully to " + file);
+            System.out.println("Items exported successfully to " + FILE_ITEMS_PATH);
 
         } catch (Exception e) {
             e.printStackTrace();

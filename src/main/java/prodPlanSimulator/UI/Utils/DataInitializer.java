@@ -18,20 +18,12 @@ public class DataInitializer implements Runnable {
      * @param pathWor path to the workstations file
      * @throws FileNotFoundException if the file is not found
      */
-    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp, Integer option) throws FileNotFoundException {
-        if (option == 1){
+    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp) throws FileNotFoundException {
             map2.addAll(pathArt, pathWor);
             map.addAll(pathOp, pathItems);
             itemsRepository.addItems(pathItems);
             operationsMapRepository.addOperations(pathOp);
             booRepository.addBOOList(pathBoo);
-        } else {
-            map.addAll(pathArt, pathWor, pathItems, pathOp);
-            itemsRepository.addItems(pathItems);
-            operationsMapRepository.addOperations(pathOp);
-            booRepository.addBOOList(pathBoo);
-        }
-
 
     }
 
@@ -47,8 +39,6 @@ public class DataInitializer implements Runnable {
             String pathItems;
             String pathArt;
             String pathWor;
-            String pathArt2;
-            String pathWor2;
             boolean success = false;
 
             while (!success) {
@@ -70,15 +60,15 @@ public class DataInitializer implements Runnable {
 
                 switch (choice) {
                     case 1:
-                        pathArt = "articles.csv";
-                        pathWor = "workstations.csv";
+                        pathArt = "articles_sprint1.csv";
+                        pathWor = "workstations_sprint1.csv";
                         pathBOO = "boo_v2.csv";
                         pathItems = "items.csv";
                         pathOp = "operations.csv";
                         break;
                     case 2:
-                        pathArt = "articles_exported.csv";
-                        pathWor = "workstations_exported.csv";
+                        pathArt = "articles_sprint1.csv";
+                        pathWor = "workstations_sprint1.csv";
                         pathBOO = "boo_exported.csv";
                         pathItems = "items_exported.csv";
                         pathOp = "operations_exported.csv";
@@ -96,7 +86,7 @@ public class DataInitializer implements Runnable {
                 }
 
                 try {
-                    init(pathArt, pathWor, pathBOO, pathItems, pathOp, choice);
+                    init(pathArt, pathWor, pathBOO, pathItems, pathOp);
                     success = true;
                 } catch (FileNotFoundException e) {
                     System.err.println("Error: File not found. Please check the file path and try again.");

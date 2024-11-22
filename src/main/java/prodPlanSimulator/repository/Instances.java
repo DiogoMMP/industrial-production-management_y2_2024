@@ -21,6 +21,7 @@ public class Instances {
 
     private Instances() {
         hashMapItemsWorkstations = new HashMap_Items_Machines();
+        hashMapItemsWorkstationsSprint1 = new HashMap_Items_Machines_Sprint1();
         simulator = new Simulator();
         bst = new BST();
         heap = new HeapPriorityQueue();
