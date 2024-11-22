@@ -1,0 +1,1367 @@
+15:37:38.998 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:8026
+15:37:38.998 -> Humidity LED OFF
+15:37:38.998 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:8027
+15:37:38.998 -> Temperature LED OFF
+15:37:41.017 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:10026
+15:37:41.017 -> Humidity LED OFF
+15:37:41.017 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:10027
+15:37:41.017 -> Temperature LED OFF
+15:37:42.998 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:12026
+15:37:43.039 -> Humidity LED OFF
+15:37:43.039 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:12027
+15:37:43.039 -> Temperature LED OFF
+15:37:45.025 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:14026
+15:37:45.025 -> Humidity LED OFF
+15:37:45.025 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:14027
+15:37:45.025 -> Temperature LED OFF
+15:37:47.011 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:16026
+15:37:47.011 -> Humidity LED OFF
+15:37:47.011 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:16027
+15:37:47.011 -> Temperature LED OFF
+15:37:48.997 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:18026
+15:37:48.997 -> Humidity LED OFF
+15:37:48.997 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:18027
+15:37:48.997 -> Temperature LED OFF
+15:37:51.040 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:20026
+15:37:51.040 -> Humidity LED OFF
+15:37:51.040 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:20027
+15:37:51.040 -> Temperature LED OFF
+15:37:53.017 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:22026
+15:37:53.017 -> Humidity LED OFF
+15:37:53.017 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:22027
+15:37:53.017 -> Temperature LED OFF
+15:37:54.997 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:24026
+15:37:54.997 -> Humidity LED OFF
+15:37:54.997 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:24027
+15:37:54.997 -> Temperature LED OFF
+15:37:57.026 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:26026
+15:37:57.026 -> Humidity LED OFF
+15:37:57.026 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:26027
+15:37:57.026 -> Temperature LED OFF
+15:37:59.017 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:28026
+15:37:59.017 -> Humidity LED OFF
+15:37:59.017 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:28027
+15:37:59.017 -> Temperature LED OFF
+15:38:01.009 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:30026
+15:38:01.009 -> Humidity LED OFF
+15:38:01.009 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:30027
+15:38:01.009 -> Temperature LED OFF
+15:38:03.033 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:32026
+15:38:03.033 -> Humidity LED OFF
+15:38:03.033 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:32027
+15:38:03.033 -> Temperature LED OFF
+15:38:05.024 -> sensor_id:2#type:HUMIDITY#value:49.00#unit:%#time:34026
+15:38:05.024 -> Humidity LED OFF
+15:38:05.024 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:34027
+15:38:05.024 -> Temperature LED OFF
+15:38:13.036 -> sensor_id:2#type:HUMIDITY#value:78.00#unit:%#time:42027
+15:38:13.036 -> Humidity LED ON (increased 5%)
+15:38:13.205 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:42234
+15:38:13.205 -> Temperature LED OFF
+15:38:15.020 -> sensor_id:2#type:HUMIDITY#value:81.00#unit:%#time:44026
+15:38:15.240 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:44234
+15:38:15.240 -> Temperature LED OFF
+15:38:16.998 -> sensor_id:2#type:HUMIDITY#value:82.00#unit:%#time:46026
+15:38:17.214 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:46234
+15:38:17.214 -> Temperature LED OFF
+15:38:18.998 -> sensor_id:2#type:HUMIDITY#value:83.00#unit:%#time:48027
+15:38:19.223 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:48234
+15:38:19.223 -> Temperature LED OFF
+15:38:21.015 -> sensor_id:2#type:HUMIDITY#value:84.00#unit:%#time:50026
+15:38:21.205 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:50234
+15:38:21.205 -> Temperature LED OFF
+15:38:23.015 -> sensor_id:2#type:HUMIDITY#value:88.00#unit:%#time:52026
+15:38:23.233 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:52234
+15:38:23.233 -> Temperature LED OFF
+15:38:25.023 -> sensor_id:2#type:HUMIDITY#value:94.00#unit:%#time:54026
+15:38:25.205 -> sensor_id:1#type:TEMPERATURE#value:27.80#unit:C#time:54234
+15:38:25.205 -> Temperature LED OFF
+15:38:27.030 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:56026
+15:38:27.212 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:56234
+15:38:27.212 -> Temperature LED OFF
+15:38:29.034 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:58026
+15:38:29.222 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:58234
+15:38:29.222 -> Temperature LED ON (increased 5ºC)
+15:38:30.998 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:60026
+15:38:31.230 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:60234
+15:38:33.037 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:62026
+15:38:33.205 -> sensor_id:1#type:TEMPERATURE#value:31.30#unit:C#time:62234
+15:38:34.999 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:64026
+15:38:35.206 -> sensor_id:1#type:TEMPERATURE#value:31.30#unit:C#time:64234
+15:38:37.024 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:66026
+15:38:37.206 -> sensor_id:1#type:TEMPERATURE#value:30.90#unit:C#time:66234
+15:38:39.031 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:68026
+15:38:39.220 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:68234
+15:38:41.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:70026
+15:38:41.224 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:70234
+15:38:43.024 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:72026
+15:38:43.238 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:72234
+15:38:45.043 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:74026
+15:38:45.216 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:74234
+15:38:45.216 -> Temperature LED OFF
+15:38:47.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:76026
+15:38:47.229 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:76234
+15:38:47.229 -> Temperature LED OFF
+15:38:49.026 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:78026
+15:38:49.206 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:78234
+15:38:49.206 -> Temperature LED OFF
+15:38:50.999 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:80026
+15:38:51.233 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:80234
+15:38:51.233 -> Temperature LED OFF
+15:38:53.014 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:82026
+15:38:53.206 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:82234
+15:38:53.206 -> Temperature LED OFF
+15:38:55.046 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:84026
+15:38:55.234 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:84234
+15:38:55.234 -> Temperature LED OFF
+15:38:57.030 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:86026
+15:38:57.214 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:86234
+15:38:57.214 -> Temperature LED OFF
+15:38:59.025 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:88026
+15:38:59.206 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:88234
+15:38:59.206 -> Temperature LED OFF
+15:39:00.999 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:90026
+15:39:01.217 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:90234
+15:39:01.217 -> Temperature LED OFF
+15:39:03.026 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:92026
+15:39:03.207 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:92234
+15:39:03.207 -> Temperature LED OFF
+15:39:05.010 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:94026
+15:39:05.245 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:94234
+15:39:05.245 -> Temperature LED OFF
+15:39:07.030 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:96026
+15:39:07.206 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:96234
+15:39:07.206 -> Temperature LED OFF
+15:39:09.000 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:98026
+15:39:09.243 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:98234
+15:39:09.243 -> Temperature LED OFF
+15:39:11.031 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:100026
+15:39:11.235 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:100234
+15:39:11.235 -> Temperature LED OFF
+15:39:13.046 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:102026
+15:39:13.230 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:102234
+15:39:13.230 -> Temperature LED OFF
+15:39:15.000 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:104026
+15:39:15.224 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:104234
+15:39:15.224 -> Temperature LED OFF
+15:39:17.030 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:106026
+15:39:17.207 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:106234
+15:39:17.207 -> Temperature LED OFF
+15:39:21.028 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:110026
+15:39:21.247 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:110234
+15:39:21.247 -> Temperature LED OFF
+15:39:23.018 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:112026
+15:39:23.241 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:112234
+15:39:23.241 -> Temperature LED OFF
+15:39:25.020 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:114026
+15:39:25.223 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:114234
+15:39:25.223 -> Temperature LED OFF
+15:39:27.043 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:116026
+15:39:27.228 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:116234
+15:39:27.228 -> Temperature LED OFF
+15:39:29.030 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:118026
+15:39:29.207 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:118234
+15:39:29.207 -> Temperature LED OFF
+15:39:31.013 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:120026
+15:39:31.208 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:120234
+15:39:31.208 -> Temperature LED OFF
+15:39:33.015 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:122026
+15:39:33.228 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:122234
+15:39:33.228 -> Temperature LED OFF
+15:39:35.024 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:124026
+15:39:35.244 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:124234
+15:39:35.244 -> Temperature LED OFF
+15:39:37.014 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:126026
+15:39:37.199 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:126234
+15:39:37.199 -> Temperature LED OFF
+15:39:38.993 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:128026
+15:39:39.200 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:128234
+15:39:39.200 -> Temperature LED OFF
+15:39:41.028 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:130026
+15:39:41.200 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:130234
+15:39:41.200 -> Temperature LED OFF
+15:39:43.030 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:132026
+15:39:43.218 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:132234
+15:39:43.218 -> Temperature LED OFF
+15:39:44.993 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:134026
+15:39:45.241 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:134234
+15:39:45.241 -> Temperature LED OFF
+15:39:46.993 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:136026
+15:39:47.216 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:136234
+15:39:47.216 -> Temperature LED OFF
+15:39:49.036 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:138026
+15:39:49.200 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:138234
+15:39:49.200 -> Temperature LED OFF
+15:39:50.993 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:140026
+15:39:51.200 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:140234
+15:39:51.200 -> Temperature LED OFF
+15:39:53.022 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:142026
+15:39:53.232 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:142234
+15:39:53.232 -> Temperature LED OFF
+15:39:54.993 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:144026
+15:39:55.218 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:144234
+15:39:55.218 -> Temperature LED ON (increased 5ºC)
+15:39:57.018 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:146026
+15:39:57.215 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:146234
+15:39:59.020 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:148026
+15:39:59.239 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:148234
+15:40:00.994 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:150026
+15:40:01.220 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:150234
+15:40:03.009 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:152026
+15:40:03.228 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:152234
+15:40:05.023 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:154026
+15:40:05.200 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:154234
+15:40:07.016 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:156026
+15:40:07.233 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:156234
+15:40:09.006 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:158026
+15:40:09.213 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:158234
+15:40:11.011 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:160026
+15:40:11.246 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:160234
+15:40:11.246 -> Temperature LED OFF
+15:40:14.994 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:164026
+15:40:15.200 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:164234
+15:40:15.200 -> Temperature LED OFF
+15:40:17.034 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:166026
+15:40:17.201 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:166234
+15:40:17.201 -> Temperature LED OFF
+15:40:19.015 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:168026
+15:40:19.201 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:168234
+15:40:19.201 -> Temperature LED OFF
+15:40:20.994 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:170026
+15:40:21.227 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:170234
+15:40:21.227 -> Temperature LED OFF
+15:40:22.994 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:172026
+15:40:23.211 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:172234
+15:40:23.211 -> Temperature LED OFF
+15:40:25.040 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:174026
+15:40:25.225 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:174234
+15:40:25.225 -> Temperature LED OFF
+15:40:26.994 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:176026
+15:40:27.201 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:176234
+15:40:27.201 -> Temperature LED OFF
+15:40:29.021 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:178026
+15:40:29.214 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:178234
+15:40:29.214 -> Temperature LED OFF
+15:40:31.029 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:180026
+15:40:31.249 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:180234
+15:40:31.249 -> Temperature LED OFF
+15:40:33.021 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:182026
+15:40:33.229 -> sensor_id:1#type:TEMPERATURE#value:29.10#unit:C#time:182234
+15:40:33.229 -> Temperature LED OFF
+15:40:35.036 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:184026
+15:40:35.207 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:184234
+15:40:35.207 -> Temperature LED OFF
+15:40:37.043 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:186026
+15:40:37.243 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:186234
+15:40:37.243 -> Temperature LED OFF
+15:40:39.044 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:188026
+15:40:39.232 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:188234
+15:40:39.232 -> Temperature LED OFF
+15:40:41.001 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:190026
+15:40:41.217 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:190234
+15:40:41.217 -> Temperature LED OFF
+15:40:43.000 -> sensor_id:2#type:HUMIDITY#value:96.00#unit:%#time:192026
+15:40:43.206 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:192234
+15:40:43.206 -> Temperature LED OFF
+15:40:45.000 -> sensor_id:2#type:HUMIDITY#value:95.00#unit:%#time:194026
+15:40:45.207 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:194234
+15:40:45.207 -> Temperature LED OFF
+15:40:47.000 -> sensor_id:2#type:HUMIDITY#value:94.00#unit:%#time:196027
+15:40:47.235 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:196234
+15:40:47.235 -> Temperature LED OFF
+15:40:49.000 -> sensor_id:2#type:HUMIDITY#value:93.00#unit:%#time:198026
+15:40:49.229 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:198234
+15:40:49.229 -> Temperature LED OFF
+15:40:51.028 -> sensor_id:2#type:HUMIDITY#value:92.00#unit:%#time:200026
+15:40:51.207 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:200234
+15:40:51.207 -> Temperature LED OFF
+15:40:53.033 -> sensor_id:2#type:HUMIDITY#value:91.00#unit:%#time:202026
+15:40:53.231 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:202234
+15:40:53.231 -> Temperature LED OFF
+15:40:55.020 -> sensor_id:2#type:HUMIDITY#value:89.00#unit:%#time:204026
+15:40:55.239 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:204234
+15:40:55.239 -> Temperature LED OFF
+15:40:57.041 -> sensor_id:2#type:HUMIDITY#value:88.00#unit:%#time:206026
+15:40:57.228 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:206234
+15:40:57.228 -> Temperature LED OFF
+15:40:59.020 -> sensor_id:2#type:HUMIDITY#value:88.00#unit:%#time:208026
+15:40:59.208 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:208234
+15:40:59.208 -> Temperature LED OFF
+15:41:01.029 -> sensor_id:2#type:HUMIDITY#value:86.00#unit:%#time:210027
+15:41:01.249 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:210234
+15:41:01.249 -> Temperature LED OFF
+15:41:03.000 -> sensor_id:2#type:HUMIDITY#value:85.00#unit:%#time:212027
+15:41:03.230 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:212234
+15:41:03.230 -> Temperature LED OFF
+15:41:05.034 -> sensor_id:2#type:HUMIDITY#value:83.00#unit:%#time:214026
+15:41:05.208 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:214234
+15:41:05.208 -> Temperature LED OFF
+15:41:07.033 -> sensor_id:2#type:HUMIDITY#value:81.00#unit:%#time:216026
+15:41:07.208 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:216234
+15:41:07.208 -> Temperature LED OFF
+15:41:09.044 -> sensor_id:2#type:HUMIDITY#value:81.00#unit:%#time:218026
+15:41:09.231 -> sensor_id:1#type:TEMPERATURE#value:27.20#unit:C#time:218234
+15:41:09.231 -> Temperature LED OFF
+15:41:11.019 -> sensor_id:2#type:HUMIDITY#value:80.00#unit:%#time:220026
+15:41:11.254 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:220234
+15:41:11.254 -> Temperature LED OFF
+15:41:13.046 -> sensor_id:2#type:HUMIDITY#value:79.00#unit:%#time:222027
+15:41:13.218 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:222234
+15:41:13.218 -> Temperature LED OFF
+15:41:15.010 -> sensor_id:2#type:HUMIDITY#value:78.00#unit:%#time:224026
+15:41:15.240 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:224234
+15:41:15.240 -> Temperature LED OFF
+15:41:17.045 -> sensor_id:2#type:HUMIDITY#value:77.00#unit:%#time:226026
+15:41:17.232 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:226234
+15:41:17.232 -> Temperature LED OFF
+15:41:19.027 -> sensor_id:2#type:HUMIDITY#value:76.00#unit:%#time:228026
+15:41:19.208 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:228234
+15:41:19.208 -> Temperature LED OFF
+15:41:21.001 -> sensor_id:2#type:HUMIDITY#value:75.00#unit:%#time:230026
+15:41:21.227 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:230234
+15:41:21.227 -> Temperature LED OFF
+15:41:23.008 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:232026
+15:41:23.227 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:232234
+15:41:23.227 -> Temperature LED OFF
+15:41:25.001 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:234026
+15:41:25.211 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:234234
+15:41:25.211 -> Temperature LED OFF
+15:41:27.048 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:236026
+15:41:27.234 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:236234
+15:41:27.234 -> Temperature LED OFF
+15:41:29.021 -> sensor_id:2#type:HUMIDITY#value:72.00#unit:%#time:238026
+15:41:29.256 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:238234
+15:41:29.256 -> Temperature LED OFF
+15:41:31.028 -> sensor_id:2#type:HUMIDITY#value:72.00#unit:%#time:240026
+15:41:31.245 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:240234
+15:41:31.245 -> Temperature LED OFF
+15:41:33.019 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:242026
+15:41:33.258 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:242234
+15:41:33.258 -> Temperature LED OFF
+15:41:35.011 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:244026
+15:41:35.239 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:244234
+15:41:35.239 -> Temperature LED OFF
+15:41:37.050 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:246026
+15:41:37.221 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:246234
+15:41:37.221 -> Temperature LED OFF
+15:41:39.004 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:248026
+15:41:39.228 -> sensor_id:1#type:TEMPERATURE#value:26.30#unit:C#time:248234
+15:41:39.228 -> Temperature LED OFF
+15:41:41.014 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:250026
+15:41:41.243 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:250234
+15:41:41.243 -> Temperature LED OFF
+15:41:43.004 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:252026
+15:41:43.232 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:252234
+15:41:43.232 -> Temperature LED OFF
+15:41:45.046 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:254026
+15:41:45.234 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:254234
+15:41:45.234 -> Temperature LED OFF
+15:41:47.004 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:256026
+15:41:47.230 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:256234
+15:41:47.230 -> Temperature LED OFF
+15:41:49.032 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:258026
+15:41:49.234 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:258234
+15:41:49.235 -> Temperature LED OFF
+15:41:51.005 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:260026
+15:41:51.211 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:260234
+15:41:51.211 -> Temperature LED OFF
+15:41:53.013 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:262026
+15:41:53.244 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:262234
+15:41:53.244 -> Temperature LED OFF
+15:41:55.045 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:264026
+15:41:55.231 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:264234
+15:41:55.231 -> Temperature LED OFF
+15:41:57.022 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:266026
+15:41:57.242 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:266234
+15:41:57.242 -> Temperature LED OFF
+15:41:59.004 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:268026
+15:41:59.214 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:268234
+15:41:59.214 -> Temperature LED OFF
+15:42:01.031 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:270026
+15:42:01.211 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:270234
+15:42:01.211 -> Temperature LED OFF
+15:42:03.040 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:272026
+15:42:03.222 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:272234
+15:42:03.222 -> Temperature LED OFF
+15:42:05.029 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:274026
+15:42:05.212 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:274234
+15:42:05.212 -> Temperature LED OFF
+15:42:07.007 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:276026
+15:42:07.242 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:276234
+15:42:07.242 -> Temperature LED OFF
+15:42:09.004 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:278026
+15:42:09.254 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:278234
+15:42:09.254 -> Temperature LED OFF
+15:42:11.031 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:280026
+15:42:11.221 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:280234
+15:42:11.221 -> Temperature LED OFF
+15:42:13.028 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:282026
+15:42:13.248 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:282234
+15:42:13.248 -> Temperature LED OFF
+15:42:15.005 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:284026
+15:42:15.230 -> sensor_id:1#type:TEMPERATURE#value:25.90#unit:C#time:284234
+15:42:15.230 -> Temperature LED OFF
+15:42:17.005 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:286026
+15:42:17.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:286234
+15:42:17.212 -> Temperature LED OFF
+15:42:19.026 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:288026
+15:42:19.246 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:288234
+15:42:19.246 -> Temperature LED OFF
+15:42:21.039 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:290026
+15:42:21.228 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:290234
+15:42:21.228 -> Temperature LED OFF
+15:42:23.042 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:292026
+15:42:23.237 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:292234
+15:42:23.237 -> Temperature LED OFF
+15:42:25.046 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:294026
+15:42:25.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:294234
+15:42:25.212 -> Temperature LED OFF
+15:42:27.005 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:296026
+15:42:27.236 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:296234
+15:42:27.236 -> Temperature LED OFF
+15:42:29.012 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:298026
+15:42:29.228 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:298234
+15:42:29.228 -> Temperature LED OFF
+15:42:31.005 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:300026
+15:42:31.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:300234
+15:42:31.212 -> Temperature LED OFF
+15:42:33.031 -> sensor_id:2#type:HUMIDITY#value:75.00#unit:%#time:302026
+15:42:33.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:302234
+15:42:33.212 -> Temperature LED OFF
+15:42:35.030 -> sensor_id:2#type:HUMIDITY#value:74.00#unit:%#time:304026
+15:42:35.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:304234
+15:42:35.212 -> Temperature LED OFF
+15:42:37.036 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:306026
+15:42:37.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:306234
+15:42:37.212 -> Temperature LED OFF
+15:42:39.005 -> sensor_id:2#type:HUMIDITY#value:72.00#unit:%#time:308026
+15:42:39.236 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:308234
+15:42:39.236 -> Temperature LED OFF
+15:42:41.042 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:310026
+15:42:41.222 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:310234
+15:42:41.222 -> Temperature LED OFF
+15:42:43.011 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:312026
+15:42:43.229 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:312234
+15:42:43.229 -> Temperature LED OFF
+15:42:45.047 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:314026
+15:42:45.236 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:314234
+15:42:45.236 -> Temperature LED OFF
+15:42:47.022 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:316026
+15:42:47.241 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:316234
+15:42:47.241 -> Temperature LED OFF
+15:42:49.005 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:318026
+15:42:49.229 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:318234
+15:42:49.229 -> Temperature LED OFF
+15:42:51.049 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:320026
+15:42:51.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:320234
+15:42:51.212 -> Temperature LED OFF
+15:42:53.006 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:322026
+15:42:53.240 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:322234
+15:42:53.240 -> Temperature LED OFF
+15:42:55.025 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:324026
+15:42:55.244 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:324234
+15:42:55.244 -> Temperature LED OFF
+15:42:57.037 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:326026
+15:42:57.238 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:326234
+15:42:57.238 -> Temperature LED OFF
+15:42:59.046 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:328026
+15:42:59.212 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:328234
+15:42:59.212 -> Temperature LED OFF
+15:43:01.030 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:330026
+15:43:01.255 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:330234
+15:43:01.255 -> Temperature LED OFF
+15:43:03.027 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:332026
+15:43:03.213 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:332234
+15:43:03.213 -> Temperature LED OFF
+15:43:05.018 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:334026
+15:43:05.213 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:334234
+15:43:05.213 -> Temperature LED OFF
+15:43:07.046 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:336027
+15:43:07.253 -> sensor_id:1#type:TEMPERATURE#value:25.70#unit:C#time:336234
+15:43:07.253 -> Temperature LED OFF
+15:43:09.031 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:338027
+15:43:09.212 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:338234
+15:43:09.212 -> Temperature LED OFF
+15:43:11.006 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:340027
+15:43:11.232 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:340234
+15:43:11.232 -> Temperature LED OFF
+15:43:13.046 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:342026
+15:43:13.235 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:342234
+15:43:13.235 -> Temperature LED OFF
+15:43:15.035 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:344026
+15:43:15.255 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:344234
+15:43:15.255 -> Temperature LED OFF
+15:43:17.036 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:346027
+15:43:17.213 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:346234
+15:43:17.213 -> Temperature LED OFF
+15:43:19.006 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:348026
+15:43:19.213 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:348234
+15:43:19.259 -> Temperature LED OFF
+15:43:21.030 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:350026
+15:43:21.213 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:350234
+15:43:21.213 -> Temperature LED OFF
+15:43:23.051 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:352026
+15:43:23.236 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:352234
+15:43:23.236 -> Temperature LED OFF
+15:43:25.042 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:354026
+15:43:25.214 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:354234
+15:43:25.214 -> Temperature LED OFF
+15:43:27.038 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:356026
+15:43:27.257 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:356234
+15:43:27.257 -> Temperature LED OFF
+15:43:29.039 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:358026
+15:43:29.222 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:358234
+15:43:29.222 -> Temperature LED OFF
+15:43:31.043 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:360026
+15:43:31.213 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:360234
+15:43:31.213 -> Temperature LED OFF
+15:43:33.045 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:362026
+15:43:33.258 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:362234
+15:43:33.258 -> Temperature LED OFF
+15:43:35.025 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:364026
+15:43:35.256 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:364234
+15:43:35.256 -> Temperature LED OFF
+15:43:37.007 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:366026
+15:43:37.229 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:366234
+15:43:37.229 -> Temperature LED OFF
+15:43:39.007 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:368026
+15:43:39.234 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:368234
+15:43:39.234 -> Temperature LED OFF
+15:43:41.023 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:370026
+15:43:41.260 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:370234
+15:43:41.260 -> Temperature LED OFF
+15:43:43.026 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:372027
+15:43:43.213 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:372234
+15:43:43.255 -> Temperature LED OFF
+15:43:45.007 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:374026
+15:43:45.242 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:374234
+15:43:45.242 -> Temperature LED OFF
+15:43:47.032 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:376026
+15:43:47.235 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:376234
+15:43:47.235 -> Temperature LED OFF
+15:43:49.024 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:378027
+15:43:49.260 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:378234
+15:43:49.260 -> Temperature LED OFF
+15:43:51.007 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:380027
+15:43:51.233 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:380234
+15:43:51.233 -> Temperature LED OFF
+15:43:53.051 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:382027
+15:43:53.237 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:382234
+15:43:53.237 -> Temperature LED OFF
+15:43:55.029 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:384027
+15:43:55.249 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:384234
+15:43:55.249 -> Temperature LED OFF
+15:43:57.028 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:386026
+15:43:57.248 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:386234
+15:43:57.248 -> Temperature LED OFF
+15:43:59.024 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:388026
+15:43:59.243 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:388234
+15:43:59.243 -> Temperature LED OFF
+15:44:01.029 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:390026
+15:44:01.255 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:390234
+15:44:01.255 -> Temperature LED OFF
+15:44:03.013 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:392026
+15:44:03.244 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:392234
+15:44:03.244 -> Temperature LED OFF
+15:44:05.049 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:394026
+15:44:05.234 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:394234
+15:44:05.234 -> Temperature LED OFF
+15:44:07.024 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:396026
+15:44:07.257 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:396234
+15:44:07.257 -> Temperature LED OFF
+15:44:09.033 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:398026
+15:44:09.254 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:398234
+15:44:09.254 -> Temperature LED OFF
+15:44:11.040 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:400026
+15:44:11.232 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:400234
+15:44:11.232 -> Temperature LED OFF
+15:44:13.054 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:402026
+15:44:13.214 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:402234
+15:44:13.214 -> Temperature LED OFF
+15:44:15.008 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:404026
+15:44:15.237 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:404234
+15:44:15.237 -> Temperature LED OFF
+15:44:17.054 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:406026
+15:44:17.242 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:406234
+15:44:17.242 -> Temperature LED OFF
+15:44:19.027 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:408026
+15:44:19.252 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:408234
+15:44:19.252 -> Temperature LED OFF
+15:44:21.008 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:410026
+15:44:21.239 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:410234
+15:44:21.239 -> Temperature LED OFF
+15:44:23.014 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:412026
+15:44:23.236 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:412234
+15:44:23.236 -> Temperature LED OFF
+15:44:25.008 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:414026
+15:44:25.237 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:414234
+15:44:25.237 -> Temperature LED OFF
+15:44:27.019 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:416026
+15:44:27.257 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:416234
+15:44:27.257 -> Temperature LED OFF
+15:44:29.011 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:418026
+15:44:29.239 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:418234
+15:44:29.239 -> Temperature LED OFF
+15:44:31.008 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:420026
+15:44:31.215 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:420234
+15:44:31.215 -> Temperature LED OFF
+15:44:33.044 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:422026
+15:44:33.233 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:422234
+15:44:33.233 -> Temperature LED OFF
+15:44:35.008 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:424026
+15:44:35.231 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:424234
+15:44:35.231 -> Temperature LED OFF
+15:44:37.029 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:426026
+15:44:37.245 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:426234
+15:44:37.245 -> Temperature LED OFF
+15:44:39.026 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:428026
+15:44:39.215 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:428234
+15:44:39.215 -> Temperature LED OFF
+15:44:41.051 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:430026
+15:44:41.238 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:430234
+15:44:41.238 -> Temperature LED OFF
+15:44:43.041 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:432026
+15:44:43.215 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:432234
+15:44:43.215 -> Temperature LED OFF
+15:44:45.053 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:434026
+15:44:45.240 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:434234
+15:44:45.240 -> Temperature LED OFF
+15:44:47.036 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:436026
+15:44:47.215 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:436234
+15:44:47.215 -> Temperature LED OFF
+15:44:49.051 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:438026
+15:44:49.215 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:438234
+15:44:49.215 -> Temperature LED OFF
+15:44:51.050 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:440026
+15:44:51.256 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:440234
+15:44:51.256 -> Temperature LED OFF
+15:44:53.042 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:442026
+15:44:53.246 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:442234
+15:44:53.246 -> Temperature LED OFF
+15:44:55.048 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:444026
+15:44:55.234 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:444234
+15:44:55.234 -> Temperature LED OFF
+15:44:57.028 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:446026
+15:44:57.257 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:446234
+15:44:57.257 -> Temperature LED OFF
+15:44:59.055 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:448027
+15:44:59.242 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:448234
+15:44:59.242 -> Temperature LED OFF
+15:45:01.028 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:450026
+15:45:01.247 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:450234
+15:45:01.247 -> Temperature LED OFF
+15:45:03.049 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:452026
+15:45:03.215 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:452234
+15:45:03.254 -> Temperature LED OFF
+15:45:05.054 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:454026
+15:45:05.260 -> sensor_id:1#type:TEMPERATURE#value:25.40#unit:C#time:454234
+15:45:05.260 -> Temperature LED OFF
+15:45:07.046 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:456027
+15:45:07.221 -> sensor_id:1#type:TEMPERATURE#value:25.70#unit:C#time:456234
+15:45:07.221 -> Temperature LED OFF
+15:45:09.008 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:458026
+15:45:09.240 -> sensor_id:1#type:TEMPERATURE#value:25.70#unit:C#time:458234
+15:45:09.240 -> Temperature LED OFF
+15:45:11.009 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:460026
+15:45:11.262 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:460234
+15:45:11.262 -> Temperature LED OFF
+15:45:13.012 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:462026
+15:45:13.215 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:462234
+15:45:13.215 -> Temperature LED OFF
+15:45:15.040 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:464026
+15:45:15.236 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:464234
+15:45:15.236 -> Temperature LED OFF
+15:45:17.055 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:466026
+15:45:17.241 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:466234
+15:45:17.241 -> Temperature LED OFF
+15:45:19.025 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:468026
+15:45:19.258 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:468234
+15:45:19.258 -> Temperature LED OFF
+15:45:21.027 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:470026
+15:45:21.260 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:470234
+15:45:21.260 -> Temperature LED OFF
+15:45:23.043 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:472026
+15:45:23.223 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:472234
+15:45:23.223 -> Temperature LED OFF
+15:45:25.051 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:474026
+15:45:25.216 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:474234
+15:45:25.216 -> Temperature LED OFF
+15:45:27.021 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:476026
+15:45:27.247 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:476234
+15:45:27.247 -> Temperature LED OFF
+15:45:29.028 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:478026
+15:45:29.262 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:478234
+15:45:29.262 -> Temperature LED OFF
+15:45:31.051 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:480026
+15:45:31.238 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:480234
+15:45:31.238 -> Temperature LED OFF
+15:45:33.039 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:482026
+15:45:33.233 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:482234
+15:45:33.233 -> Temperature LED OFF
+15:45:35.031 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:484026
+15:45:35.218 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:484234
+15:45:35.218 -> Temperature LED OFF
+15:45:37.011 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:486027
+15:45:37.245 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:486234
+15:45:37.245 -> Temperature LED OFF
+15:45:39.045 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:488027
+15:45:39.233 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:488234
+15:45:39.233 -> Temperature LED OFF
+15:45:41.055 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:490027
+15:45:41.245 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:490234
+15:45:41.245 -> Temperature LED OFF
+15:45:43.028 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:492027
+15:45:43.260 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:492234
+15:45:43.260 -> Temperature LED OFF
+15:45:45.011 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:494027
+15:45:45.218 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:494234
+15:45:45.218 -> Temperature LED OFF
+15:45:47.016 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:496027
+15:45:47.261 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:496234
+15:45:47.261 -> Temperature LED OFF
+15:45:49.011 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:498027
+15:45:49.235 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:498234
+15:45:49.235 -> Temperature LED OFF
+15:45:51.023 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:500027
+15:45:51.239 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:500234
+15:45:51.239 -> Temperature LED OFF
+15:45:53.011 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:502027
+15:45:53.218 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:502234
+15:45:53.218 -> Temperature LED OFF
+15:45:55.011 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:504026
+15:45:55.237 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:504234
+15:45:55.237 -> Temperature LED OFF
+15:45:57.038 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:506026
+15:45:57.258 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:506234
+15:45:57.258 -> Temperature LED OFF
+15:45:59.016 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:508026
+15:45:59.245 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:508234
+15:45:59.245 -> Temperature LED OFF
+15:46:01.035 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:510026
+15:46:01.218 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:510234
+15:46:01.218 -> Temperature LED OFF
+15:46:03.012 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:512026
+15:46:03.246 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:512234
+15:46:03.246 -> Temperature LED OFF
+15:46:05.012 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:514026
+15:46:05.240 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:514234
+15:46:05.240 -> Temperature LED OFF
+15:46:07.012 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:516026
+15:46:07.253 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:516234
+15:46:07.253 -> Temperature LED OFF
+15:46:09.038 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:518026
+15:46:09.226 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:518234
+15:46:09.226 -> Temperature LED OFF
+15:46:11.011 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:520026
+15:46:11.218 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:520234
+15:46:11.218 -> Temperature LED OFF
+15:46:13.027 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:522026
+15:46:13.254 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:522234
+15:46:13.254 -> Temperature LED OFF
+15:46:15.047 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:524026
+15:46:15.235 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:524234
+15:46:15.235 -> Temperature LED OFF
+15:46:17.044 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:526026
+15:46:17.225 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:526234
+15:46:17.225 -> Temperature LED OFF
+15:46:19.032 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:528026
+15:46:19.236 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:528234
+15:46:19.236 -> Temperature LED OFF
+15:46:21.042 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:530026
+15:46:21.249 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:530234
+15:46:21.249 -> Temperature LED OFF
+15:46:23.034 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:532026
+15:46:23.219 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:532234
+15:46:23.219 -> Temperature LED OFF
+15:46:25.056 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:534026
+15:46:25.242 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:534234
+15:46:25.242 -> Temperature LED OFF
+15:46:27.040 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:536026
+15:46:27.219 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:536234
+15:46:27.219 -> Temperature LED OFF
+15:46:29.012 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:538026
+15:46:29.220 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:538234
+15:46:29.220 -> Temperature LED OFF
+15:46:31.038 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:540026
+15:46:31.219 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:540234
+15:46:31.219 -> Temperature LED OFF
+15:46:33.038 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:542026
+15:46:33.252 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:542234
+15:46:33.252 -> Temperature LED OFF
+15:46:35.029 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:544026
+15:46:35.265 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:544234
+15:46:35.265 -> Temperature LED OFF
+15:46:37.050 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:546026
+15:46:37.223 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:546234
+15:46:37.223 -> Temperature LED OFF
+15:46:39.046 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:548026
+15:46:39.264 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:548234
+15:46:39.264 -> Temperature LED OFF
+15:46:41.012 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:550026
+15:46:41.239 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:550234
+15:46:41.239 -> Temperature LED OFF
+15:46:43.012 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:552026
+15:46:43.248 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:552234
+15:46:43.248 -> Temperature LED OFF
+15:46:45.036 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:554026
+15:46:45.219 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:554234
+15:46:45.219 -> Temperature LED OFF
+15:46:47.040 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:556026
+15:46:47.236 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:556234
+15:46:47.236 -> Temperature LED OFF
+15:46:49.026 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:558026
+15:46:49.261 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:558234
+15:46:49.261 -> Temperature LED OFF
+15:46:51.041 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:560026
+15:46:51.234 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:560234
+15:46:51.234 -> Temperature LED OFF
+15:46:53.043 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:562026
+15:46:53.233 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:562234
+15:46:53.233 -> Temperature LED OFF
+15:46:55.012 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:564026
+15:46:55.244 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:564234
+15:46:55.244 -> Temperature LED OFF
+15:46:57.012 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:566026
+15:46:57.219 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:566234
+15:46:57.219 -> Temperature LED OFF
+15:46:59.052 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:568026
+15:46:59.242 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:568234
+15:46:59.242 -> Temperature LED OFF
+15:47:01.048 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:570026
+15:47:01.219 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:570234
+15:47:01.219 -> Temperature LED OFF
+15:47:03.037 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:572026
+15:47:03.250 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:572234
+15:47:03.250 -> Temperature LED OFF
+15:47:05.036 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:574026
+15:47:05.220 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:574234
+15:47:05.220 -> Temperature LED OFF
+15:47:07.050 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:576026
+15:47:07.254 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:576234
+15:47:07.254 -> Temperature LED OFF
+15:47:09.044 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:578026
+15:47:09.249 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:578234
+15:47:09.249 -> Temperature LED OFF
+15:47:11.038 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:580026
+15:47:11.220 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:580234
+15:47:11.220 -> Temperature LED OFF
+15:47:13.013 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:582026
+15:47:13.240 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:582234
+15:47:13.240 -> Temperature LED OFF
+15:47:15.026 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:584026
+15:47:15.260 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:584234
+15:47:15.260 -> Temperature LED OFF
+15:47:17.029 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:586026
+15:47:17.244 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:586234
+15:47:17.244 -> Temperature LED OFF
+15:47:19.037 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:588026
+15:47:19.257 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:588234
+15:47:19.257 -> Temperature LED OFF
+15:47:21.013 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:590026
+15:47:21.258 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:590234
+15:47:21.258 -> Temperature LED OFF
+15:47:23.037 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:592026
+15:47:23.220 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:592234
+15:47:23.220 -> Temperature LED OFF
+15:47:25.037 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:594026
+15:47:25.220 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:594234
+15:47:25.220 -> Temperature LED OFF
+15:47:27.055 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:596026
+15:47:27.259 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:596234
+15:47:27.259 -> Temperature LED OFF
+15:47:29.013 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:598026
+15:47:29.243 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:598234
+15:47:29.243 -> Temperature LED OFF
+15:47:31.044 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:600027
+15:47:31.221 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:600234
+15:47:31.221 -> Temperature LED OFF
+15:47:33.059 -> sensor_id:2#type:HUMIDITY#value:62.00#unit:%#time:602027
+15:47:33.245 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:602234
+15:47:33.245 -> Temperature LED OFF
+15:47:35.040 -> sensor_id:2#type:HUMIDITY#value:61.00#unit:%#time:604026
+15:47:35.241 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:604234
+15:47:35.241 -> Temperature LED OFF
+15:47:37.044 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:606026
+15:47:37.221 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:606234
+15:47:37.221 -> Temperature LED OFF
+15:47:39.043 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:608026
+15:47:39.252 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:608234
+15:47:39.252 -> Temperature LED OFF
+15:47:41.039 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:610026
+15:47:41.237 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:610234
+15:47:41.237 -> Temperature LED OFF
+15:47:43.060 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:612026
+15:47:43.221 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:612234
+15:47:43.221 -> Temperature LED OFF
+15:47:45.030 -> sensor_id:2#type:HUMIDITY#value:59.00#unit:%#time:614026
+15:47:45.256 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:614234
+15:47:45.256 -> Temperature LED OFF
+15:47:47.017 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:616026
+15:47:47.252 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:616234
+15:47:47.252 -> Temperature LED OFF
+15:47:49.036 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:618026
+15:47:49.223 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:618234
+15:47:49.223 -> Temperature LED OFF
+15:47:51.014 -> sensor_id:2#type:HUMIDITY#value:58.00#unit:%#time:620026
+15:47:51.246 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:620234
+15:47:51.246 -> Temperature LED OFF
+15:47:53.014 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:622026
+15:47:53.236 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:622234
+15:47:53.236 -> Temperature LED OFF
+15:47:55.041 -> sensor_id:2#type:HUMIDITY#value:57.00#unit:%#time:624026
+15:47:55.259 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:624234
+15:47:55.259 -> Temperature LED OFF
+15:47:57.048 -> sensor_id:2#type:HUMIDITY#value:56.00#unit:%#time:626026
+15:47:57.269 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:626234
+15:47:57.269 -> Temperature LED OFF
+15:47:59.014 -> sensor_id:2#type:HUMIDITY#value:56.00#unit:%#time:628026
+15:47:59.245 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:628234
+15:47:59.245 -> Temperature LED OFF
+15:48:01.039 -> sensor_id:2#type:HUMIDITY#value:55.00#unit:%#time:630026
+15:48:01.237 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:630234
+15:48:01.237 -> Temperature LED OFF
+15:48:03.034 -> sensor_id:2#type:HUMIDITY#value:55.00#unit:%#time:632026
+15:48:03.268 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:632234
+15:48:03.268 -> Temperature LED OFF
+15:48:05.032 -> sensor_id:2#type:HUMIDITY#value:54.00#unit:%#time:634026
+15:48:05.254 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:634234
+15:48:05.254 -> Temperature LED OFF
+15:48:07.015 -> sensor_id:2#type:HUMIDITY#value:54.00#unit:%#time:636026
+15:48:07.222 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:636234
+15:48:07.222 -> Temperature LED OFF
+15:48:09.015 -> sensor_id:2#type:HUMIDITY#value:54.00#unit:%#time:638026
+15:48:09.252 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:638234
+15:48:09.252 -> Temperature LED OFF
+15:48:11.015 -> sensor_id:2#type:HUMIDITY#value:54.00#unit:%#time:640026
+15:48:11.223 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:640234
+15:48:11.223 -> Temperature LED OFF
+15:48:13.040 -> sensor_id:2#type:HUMIDITY#value:54.00#unit:%#time:642026
+15:48:13.237 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:642234
+15:48:13.237 -> Temperature LED OFF
+15:48:15.015 -> sensor_id:2#type:HUMIDITY#value:54.00#unit:%#time:644026
+15:48:15.257 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:644234
+15:48:15.257 -> Temperature LED OFF
+15:48:17.058 -> sensor_id:2#type:HUMIDITY#value:53.00#unit:%#time:646026
+15:48:17.058 -> Humidity LED OFF
+15:48:17.246 -> sensor_id:1#type:TEMPERATURE#value:25.90#unit:C#time:646234
+15:48:17.246 -> Temperature LED OFF
+15:48:19.032 -> sensor_id:2#type:HUMIDITY#value:53.00#unit:%#time:648026
+15:48:19.032 -> Humidity LED OFF
+15:48:19.266 -> sensor_id:1#type:TEMPERATURE#value:26.00#unit:C#time:648234
+15:48:19.266 -> Temperature LED OFF
+15:48:21.047 -> sensor_id:2#type:HUMIDITY#value:53.00#unit:%#time:650026
+15:48:21.047 -> Humidity LED OFF
+15:48:21.263 -> sensor_id:1#type:TEMPERATURE#value:26.10#unit:C#time:650234
+15:48:21.263 -> Temperature LED OFF
+15:48:23.015 -> sensor_id:2#type:HUMIDITY#value:53.00#unit:%#time:652026
+15:48:23.015 -> Humidity LED OFF
+15:48:23.230 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:652234
+15:48:23.230 -> Temperature LED OFF
+15:48:25.048 -> sensor_id:2#type:HUMIDITY#value:53.00#unit:%#time:654026
+15:48:25.048 -> Humidity LED OFF
+15:48:25.267 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:654234
+15:48:25.267 -> Temperature LED OFF
+15:48:27.036 -> sensor_id:2#type:HUMIDITY#value:53.00#unit:%#time:656026
+15:48:27.036 -> Humidity LED OFF
+15:48:27.257 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:656234
+15:48:27.257 -> Temperature LED OFF
+15:48:29.016 -> sensor_id:2#type:HUMIDITY#value:52.00#unit:%#time:658026
+15:48:29.016 -> Humidity LED OFF
+15:48:29.246 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:658234
+15:48:29.246 -> Temperature LED OFF
+15:48:31.016 -> sensor_id:2#type:HUMIDITY#value:52.00#unit:%#time:660026
+15:48:31.016 -> Humidity LED OFF
+15:48:31.240 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:660234
+15:48:31.240 -> Temperature LED OFF
+15:48:33.047 -> sensor_id:2#type:HUMIDITY#value:52.00#unit:%#time:662026
+15:48:33.047 -> Humidity LED OFF
+15:48:33.229 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:662234
+15:48:33.229 -> Temperature LED OFF
+15:48:35.015 -> sensor_id:2#type:HUMIDITY#value:52.00#unit:%#time:664026
+15:48:35.015 -> Humidity LED OFF
+15:48:35.244 -> sensor_id:1#type:TEMPERATURE#value:26.10#unit:C#time:664234
+15:48:35.244 -> Temperature LED OFF
+15:48:37.043 -> sensor_id:2#type:HUMIDITY#value:52.00#unit:%#time:666026
+15:48:37.043 -> Humidity LED OFF
+15:48:37.236 -> sensor_id:1#type:TEMPERATURE#value:25.90#unit:C#time:666234
+15:48:37.236 -> Temperature LED OFF
+15:48:39.056 -> sensor_id:2#type:HUMIDITY#value:56.00#unit:%#time:668026
+15:48:39.056 -> Humidity LED ON (increased 5%)
+15:48:39.245 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:668234
+15:48:39.245 -> Temperature LED OFF
+15:48:41.047 -> sensor_id:2#type:HUMIDITY#value:60.00#unit:%#time:670026
+15:48:41.222 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:670234
+15:48:41.222 -> Temperature LED OFF
+15:48:43.057 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:672026
+15:48:43.223 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:672234
+15:48:43.223 -> Temperature LED OFF
+15:48:45.015 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:674026
+15:48:45.242 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:674234
+15:48:45.242 -> Temperature LED OFF
+15:48:47.016 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:676026
+15:48:47.261 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:676234
+15:48:47.261 -> Temperature LED OFF
+15:48:49.044 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:678026
+15:48:49.231 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:678234
+15:48:49.231 -> Temperature LED OFF
+15:48:51.016 -> sensor_id:2#type:HUMIDITY#value:75.00#unit:%#time:680026
+15:48:51.238 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:680234
+15:48:51.238 -> Temperature LED OFF
+15:48:53.016 -> sensor_id:2#type:HUMIDITY#value:90.00#unit:%#time:682026
+15:48:53.244 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:682234
+15:48:53.244 -> Temperature LED OFF
+15:48:55.062 -> sensor_id:2#type:HUMIDITY#value:96.00#unit:%#time:684026
+15:48:55.248 -> sensor_id:1#type:TEMPERATURE#value:27.80#unit:C#time:684234
+15:48:55.248 -> Temperature LED OFF
+15:48:57.035 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:686026
+15:48:57.223 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:686234
+15:48:57.223 -> Temperature LED OFF
+15:48:59.021 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:688026
+15:48:59.256 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:688234
+15:48:59.256 -> Temperature LED OFF
+15:49:01.057 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:690026
+15:49:01.246 -> sensor_id:1#type:TEMPERATURE#value:29.00#unit:C#time:690234
+15:49:01.246 -> Temperature LED OFF
+15:49:03.036 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:692026
+15:49:03.255 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:692234
+15:49:03.255 -> Temperature LED OFF
+15:49:05.055 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:694026
+15:49:05.245 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:694234
+15:49:05.245 -> Temperature LED OFF
+15:49:07.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:696026
+15:49:07.223 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:696234
+15:49:07.223 -> Temperature LED OFF
+15:49:09.016 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:698026
+15:49:09.231 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:698234
+15:49:09.231 -> Temperature LED OFF
+15:49:11.016 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:700026
+15:49:11.250 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:700234
+15:49:11.250 -> Temperature LED OFF
+15:49:13.027 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:702026
+15:49:13.241 -> sensor_id:1#type:TEMPERATURE#value:29.00#unit:C#time:702234
+15:49:13.242 -> Temperature LED OFF
+15:49:15.043 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:704026
+15:49:15.271 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:704234
+15:49:15.271 -> Temperature LED OFF
+15:49:17.016 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:706026
+15:49:17.240 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:706234
+15:49:17.240 -> Temperature LED OFF
+15:49:19.045 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:708026
+15:49:19.239 -> sensor_id:1#type:TEMPERATURE#value:29.00#unit:C#time:708234
+15:49:19.239 -> Temperature LED OFF
+15:49:21.017 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:710026
+15:49:21.241 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:710234
+15:49:21.241 -> Temperature LED OFF
+15:49:23.024 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:712026
+15:49:23.250 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:712234
+15:49:23.250 -> Temperature LED OFF
+15:49:25.051 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:714026
+15:49:25.224 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:714234
+15:49:25.224 -> Temperature LED OFF
+15:49:27.047 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:716026
+15:49:27.224 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:716234
+15:49:27.224 -> Temperature LED OFF
+15:49:29.016 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:718026
+15:49:29.240 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:718234
+15:49:29.240 -> Temperature LED OFF
+15:49:31.017 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:720026
+15:49:31.250 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:720234
+15:49:31.250 -> Temperature LED OFF
+15:49:33.064 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:722026
+15:49:33.253 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:722234
+15:49:33.253 -> Temperature LED OFF
+15:49:35.038 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:724026
+15:49:35.224 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:724234
+15:49:37.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:726026
+15:49:37.234 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:726234
+15:49:37.234 -> Temperature LED OFF
+15:49:39.036 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:728026
+15:49:39.254 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:728234
+15:49:39.254 -> Temperature LED ON (increased 5ºC)
+15:49:41.053 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:730026
+15:49:41.271 -> sensor_id:1#type:TEMPERATURE#value:31.30#unit:C#time:730234
+15:49:43.058 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:732026
+15:49:43.245 -> sensor_id:1#type:TEMPERATURE#value:31.80#unit:C#time:732234
+15:49:45.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:734026
+15:49:45.225 -> sensor_id:1#type:TEMPERATURE#value:31.80#unit:C#time:734234
+15:49:47.026 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:736026
+15:49:47.261 -> sensor_id:1#type:TEMPERATURE#value:31.80#unit:C#time:736234
+15:49:49.052 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:738026
+15:49:49.225 -> sensor_id:1#type:TEMPERATURE#value:31.80#unit:C#time:738234
+15:49:51.041 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:740026
+15:49:51.258 -> sensor_id:1#type:TEMPERATURE#value:31.80#unit:C#time:740234
+15:49:53.065 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:742026
+15:49:53.244 -> sensor_id:1#type:TEMPERATURE#value:31.80#unit:C#time:742234
+15:49:55.063 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:744026
+15:49:55.250 -> sensor_id:1#type:TEMPERATURE#value:31.40#unit:C#time:744234
+15:49:57.036 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:746026
+15:49:57.265 -> sensor_id:1#type:TEMPERATURE#value:31.30#unit:C#time:746234
+15:49:59.063 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:748026
+15:49:59.225 -> sensor_id:1#type:TEMPERATURE#value:31.30#unit:C#time:748234
+15:50:01.042 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:750026
+15:50:01.225 -> sensor_id:1#type:TEMPERATURE#value:31.30#unit:C#time:750234
+15:50:03.046 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:752026
+15:50:03.264 -> sensor_id:1#type:TEMPERATURE#value:31.30#unit:C#time:752234
+15:50:05.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:754026
+15:50:05.256 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:754234
+15:50:07.018 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:756026
+15:50:07.225 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:756234
+15:50:09.044 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:758026
+15:50:09.239 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:758234
+15:50:11.049 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:760026
+15:50:11.254 -> sensor_id:1#type:TEMPERATURE#value:30.80#unit:C#time:760234
+15:50:13.047 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:762026
+15:50:13.226 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:762234
+15:50:13.226 -> Temperature LED OFF
+15:50:15.043 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:764026
+15:50:15.226 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:764234
+15:50:15.226 -> Temperature LED OFF
+15:50:17.019 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:766026
+15:50:17.226 -> sensor_id:1#type:TEMPERATURE#value:30.20#unit:C#time:766234
+15:50:17.272 -> Temperature LED OFF
+15:50:19.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:768026
+15:50:19.271 -> sensor_id:1#type:TEMPERATURE#value:29.90#unit:C#time:768234
+15:50:19.271 -> Temperature LED OFF
+15:50:21.037 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:770026
+15:50:21.250 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:770234
+15:50:21.250 -> Temperature LED OFF
+15:50:23.039 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:772026
+15:50:23.257 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:772234
+15:50:23.257 -> Temperature LED OFF
+15:50:25.056 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:774026
+15:50:25.246 -> sensor_id:1#type:TEMPERATURE#value:29.80#unit:C#time:774234
+15:50:25.246 -> Temperature LED OFF
+15:50:27.058 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:776026
+15:50:27.245 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:776234
+15:50:27.245 -> Temperature LED OFF
+15:50:29.019 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:778026
+15:50:29.226 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:778234
+15:50:29.226 -> Temperature LED OFF
+15:50:31.051 -> sensor_id:2#type:HUMIDITY#value:98.00#unit:%#time:780026
+15:50:31.226 -> sensor_id:1#type:TEMPERATURE#value:29.30#unit:C#time:780234
+15:50:31.226 -> Temperature LED OFF
+15:50:33.044 -> sensor_id:2#type:HUMIDITY#value:95.00#unit:%#time:782026
+15:50:33.224 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:782234
+15:50:33.224 -> Temperature LED OFF
+15:50:35.052 -> sensor_id:2#type:HUMIDITY#value:95.00#unit:%#time:784026
+15:50:35.258 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:784234
+15:50:35.258 -> Temperature LED OFF
+15:50:37.044 -> sensor_id:2#type:HUMIDITY#value:94.00#unit:%#time:786026
+15:50:37.263 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:786234
+15:50:37.263 -> Temperature LED OFF
+15:50:39.039 -> sensor_id:2#type:HUMIDITY#value:93.00#unit:%#time:788026
+15:50:39.225 -> sensor_id:1#type:TEMPERATURE#value:28.90#unit:C#time:788234
+15:50:39.225 -> Temperature LED OFF
+15:50:41.060 -> sensor_id:2#type:HUMIDITY#value:92.00#unit:%#time:790027
+15:50:41.247 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:790234
+15:50:41.247 -> Temperature LED OFF
+15:50:43.038 -> sensor_id:2#type:HUMIDITY#value:92.00#unit:%#time:792027
+15:50:43.225 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:792234
+15:50:43.225 -> Temperature LED OFF
+15:50:45.058 -> sensor_id:2#type:HUMIDITY#value:91.00#unit:%#time:794027
+15:50:45.225 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:794234
+15:50:45.225 -> Temperature LED OFF
+15:50:47.050 -> sensor_id:2#type:HUMIDITY#value:89.00#unit:%#time:796026
+15:50:47.225 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:796234
+15:50:47.225 -> Temperature LED OFF
+15:50:49.018 -> sensor_id:2#type:HUMIDITY#value:88.00#unit:%#time:798026
+15:50:49.244 -> sensor_id:1#type:TEMPERATURE#value:28.50#unit:C#time:798234
+15:50:49.244 -> Temperature LED OFF
+15:50:51.018 -> sensor_id:2#type:HUMIDITY#value:87.00#unit:%#time:800026
+15:50:51.246 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:800234
+15:50:51.246 -> Temperature LED OFF
+15:50:53.018 -> sensor_id:2#type:HUMIDITY#value:86.00#unit:%#time:802026
+15:50:53.243 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:802234
+15:50:53.243 -> Temperature LED OFF
+15:50:55.018 -> sensor_id:2#type:HUMIDITY#value:85.00#unit:%#time:804026
+15:50:55.247 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:804234
+15:50:55.247 -> Temperature LED OFF
+15:50:57.049 -> sensor_id:2#type:HUMIDITY#value:84.00#unit:%#time:806026
+15:50:57.225 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:806234
+15:50:57.225 -> Temperature LED OFF
+15:50:59.018 -> sensor_id:2#type:HUMIDITY#value:83.00#unit:%#time:808026
+15:50:59.241 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:808234
+15:50:59.241 -> Temperature LED OFF
+15:51:01.047 -> sensor_id:2#type:HUMIDITY#value:81.00#unit:%#time:810026
+15:51:01.265 -> sensor_id:1#type:TEMPERATURE#value:28.00#unit:C#time:810234
+15:51:01.265 -> Temperature LED OFF
+15:51:03.053 -> sensor_id:2#type:HUMIDITY#value:81.00#unit:%#time:812026
+15:51:03.250 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:812234
+15:51:03.250 -> Temperature LED OFF
+15:51:05.062 -> sensor_id:2#type:HUMIDITY#value:81.00#unit:%#time:814026
+15:51:05.249 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:814234
+15:51:05.249 -> Temperature LED OFF
+15:51:07.056 -> sensor_id:2#type:HUMIDITY#value:80.00#unit:%#time:816026
+15:51:07.235 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:816234
+15:51:07.235 -> Temperature LED OFF
+15:51:09.048 -> sensor_id:2#type:HUMIDITY#value:79.00#unit:%#time:818026
+15:51:09.226 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:818234
+15:51:09.226 -> Temperature LED OFF
+15:51:11.055 -> sensor_id:2#type:HUMIDITY#value:77.00#unit:%#time:820027
+15:51:11.236 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:820234
+15:51:11.236 -> Temperature LED OFF
+15:51:13.038 -> sensor_id:2#type:HUMIDITY#value:77.00#unit:%#time:822027
+15:51:13.257 -> sensor_id:1#type:TEMPERATURE#value:27.60#unit:C#time:822234
+15:51:13.257 -> Temperature LED OFF
+15:51:15.036 -> sensor_id:2#type:HUMIDITY#value:76.00#unit:%#time:824026
+15:51:15.269 -> sensor_id:1#type:TEMPERATURE#value:27.20#unit:C#time:824234
+15:51:15.269 -> Temperature LED OFF
+15:51:17.057 -> sensor_id:2#type:HUMIDITY#value:74.00#unit:%#time:826026
+15:51:17.245 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:826234
+15:51:17.245 -> Temperature LED OFF
+15:51:19.034 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:828026
+15:51:19.270 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:828234
+15:51:19.270 -> Temperature LED OFF
+15:51:21.061 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:830026
+15:51:21.237 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:830234
+15:51:21.237 -> Temperature LED OFF
+15:51:23.059 -> sensor_id:2#type:HUMIDITY#value:73.00#unit:%#time:832026
+15:51:23.246 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:832234
+15:51:23.246 -> Temperature LED OFF
+15:51:25.058 -> sensor_id:2#type:HUMIDITY#value:72.00#unit:%#time:834026
+15:51:25.245 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:834234
+15:51:25.245 -> Temperature LED OFF
+15:51:27.045 -> sensor_id:2#type:HUMIDITY#value:72.00#unit:%#time:836026
+15:51:27.226 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:836234
+15:51:27.226 -> Temperature LED OFF
+15:51:29.038 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:838026
+15:51:29.251 -> sensor_id:1#type:TEMPERATURE#value:27.10#unit:C#time:838234
+15:51:29.251 -> Temperature LED OFF
+15:51:31.055 -> sensor_id:2#type:HUMIDITY#value:71.00#unit:%#time:840026
+15:51:31.251 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:840234
+15:51:31.251 -> Temperature LED OFF
+15:51:33.063 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:842026
+15:51:33.228 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:842234
+15:51:33.228 -> Temperature LED OFF
+15:51:35.021 -> sensor_id:2#type:HUMIDITY#value:70.00#unit:%#time:844026
+15:51:35.227 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:844234
+15:51:35.227 -> Temperature LED OFF
+15:51:37.043 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:846026
+15:51:37.228 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:846234
+15:51:37.228 -> Temperature LED OFF
+15:51:39.021 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:848026
+15:51:39.250 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:848234
+15:51:39.250 -> Temperature LED OFF
+15:51:41.051 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:850026
+15:51:41.272 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:850234
+15:51:41.272 -> Temperature LED OFF
+15:51:43.047 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:852026
+15:51:43.228 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:852234
+15:51:43.228 -> Temperature LED OFF
+15:51:45.049 -> sensor_id:2#type:HUMIDITY#value:69.00#unit:%#time:854026
+15:51:45.268 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:854234
+15:51:45.268 -> Temperature LED OFF
+15:51:47.040 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:856026
+15:51:47.257 -> sensor_id:1#type:TEMPERATURE#value:26.70#unit:C#time:856234
+15:51:47.257 -> Temperature LED OFF
+15:51:49.043 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:858026
+15:51:49.274 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:858234
+15:51:49.274 -> Temperature LED OFF
+15:51:51.045 -> sensor_id:2#type:HUMIDITY#value:68.00#unit:%#time:860026
+15:51:51.265 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:860234
+15:51:51.265 -> Temperature LED OFF
+15:51:53.067 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:862026
+15:51:53.228 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:862234
+15:51:53.228 -> Temperature LED OFF
+15:51:55.023 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:864026
+15:51:55.249 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:864234
+15:51:55.249 -> Temperature LED OFF
+15:51:57.021 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:866026
+15:51:57.248 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:866234
+15:51:57.248 -> Temperature LED OFF
+15:51:59.051 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:868026
+15:51:59.234 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:868234
+15:51:59.234 -> Temperature LED OFF
+15:52:01.044 -> sensor_id:2#type:HUMIDITY#value:67.00#unit:%#time:870026
+15:52:01.243 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:870234
+15:52:01.243 -> Temperature LED OFF
+15:52:03.046 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:872026
+15:52:03.228 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:872234
+15:52:03.228 -> Temperature LED OFF
+15:52:05.037 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:874026
+15:52:05.271 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:874234
+15:52:05.271 -> Temperature LED OFF
+15:52:07.060 -> sensor_id:2#type:HUMIDITY#value:66.00#unit:%#time:876026
+15:52:07.251 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:876234
+15:52:07.251 -> Temperature LED OFF
+15:52:09.040 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:878026
+15:52:09.276 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:878234
+15:52:09.276 -> Temperature LED OFF
+15:52:11.052 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:880026
+15:52:11.255 -> sensor_id:1#type:TEMPERATURE#value:26.20#unit:C#time:880234
+15:52:11.255 -> Temperature LED OFF
+15:52:13.043 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:882026
+15:52:13.229 -> sensor_id:1#type:TEMPERATURE#value:26.00#unit:C#time:882234
+15:52:13.229 -> Temperature LED OFF
+15:52:15.058 -> sensor_id:2#type:HUMIDITY#value:65.00#unit:%#time:884026
+15:52:15.232 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:884234
+15:52:15.232 -> Temperature LED OFF
+15:52:17.062 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:886026
+15:52:17.269 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:886234
+15:52:17.269 -> Temperature LED OFF
+15:52:19.068 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:888026
+15:52:19.256 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:888234
+15:52:19.256 -> Temperature LED OFF
+15:52:21.046 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:890026
+15:52:21.229 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:890234
+15:52:21.229 -> Temperature LED OFF
+15:52:23.022 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:892026
+15:52:23.252 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:892234
+15:52:23.252 -> Temperature LED OFF
+15:52:25.022 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:894026
+15:52:25.229 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:894234
+15:52:25.229 -> Temperature LED OFF
+15:52:27.036 -> sensor_id:2#type:HUMIDITY#value:64.00#unit:%#time:896026
+15:52:27.249 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:896234
+15:52:27.249 -> Temperature LED OFF
+15:52:29.046 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:898026
+15:52:29.264 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:898234
+15:52:29.264 -> Temperature LED OFF
+15:52:31.047 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:900026
+15:52:31.242 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:900234
+15:52:31.242 -> Temperature LED OFF
+15:52:33.058 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:902026
+15:52:33.229 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:902234
+15:52:33.229 -> Temperature LED OFF
+15:52:35.046 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:904026
+15:52:35.238 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:904234
+15:52:35.238 -> Temperature LED OFF
+15:52:37.047 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:906026
+15:52:37.251 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:906234
+15:52:37.251 -> Temperature LED OFF
+15:52:39.045 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:908026
+15:52:39.276 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:908234
+15:52:39.276 -> Temperature LED OFF
+15:52:41.022 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:910026
+15:52:41.246 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:910234
+15:52:41.246 -> Temperature LED OFF
+15:52:43.038 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:912026
+15:52:43.255 -> sensor_id:1#type:TEMPERATURE#value:25.80#unit:C#time:912234
+15:52:43.255 -> Temperature LED OFF
+15:52:45.022 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:914027
+15:52:45.254 -> sensor_id:1#type:TEMPERATURE#value:25.70#unit:C#time:914234
+15:52:45.254 -> Temperature LED OFF
+15:52:47.040 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:916027
+15:52:47.242 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:916234
+15:52:47.242 -> Temperature LED OFF
+15:52:49.042 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:918027
+15:52:49.277 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:918234
+15:52:49.277 -> Temperature LED OFF
+15:52:51.043 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:920027
+15:52:51.274 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:920234
+15:52:51.274 -> Temperature LED OFF
+15:52:53.051 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:922027
+15:52:53.230 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:922234
+15:52:53.230 -> Temperature LED OFF
+15:52:55.043 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:924027
+15:52:55.263 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:924234
+15:52:55.263 -> Temperature LED OFF
+15:52:57.023 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:926027
+15:52:57.248 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:926234
+15:52:57.248 -> Temperature LED OFF
+15:52:59.050 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:928027
+15:52:59.230 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:928234
+15:52:59.230 -> Temperature LED OFF
+15:53:01.024 -> sensor_id:2#type:HUMIDITY#value:63.00#unit:%#time:930027
+15:53:01.237 -> sensor_id:1#type:TEMPERATURE#value:25.30#unit:C#time:930234
+15:53:01.237 -> Temperature LED OFF
