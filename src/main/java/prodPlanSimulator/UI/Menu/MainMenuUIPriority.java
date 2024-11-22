@@ -36,7 +36,7 @@ public class MainMenuUIPriority implements Runnable {
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 }
-            } while (option != -1);
+            } while (option == -1);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

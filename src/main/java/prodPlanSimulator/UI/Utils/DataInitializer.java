@@ -47,7 +47,6 @@ public class DataInitializer implements Runnable {
                 System.out.println("2. Use exported files from the database");
                 System.out.println("3. Enter file paths manually");
                 System.out.println("0. Exit");
-                System.out.println("-----------------------------------");
                 System.out.print("\n\nType your option: ");
                 String input = scanner.nextLine();
                 int choice;

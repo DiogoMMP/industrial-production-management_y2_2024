@@ -187,8 +187,15 @@ public class Utils {
         int value;
         do {
             input = Utils.readLineFromConsole("Type your option: ");
+
             try {
                 value = Integer.valueOf(input);
+
+                if (value < 0 || value > list.size()) {
+                    System.err.println("Invalid option. Please try again.");
+                    return -1;
+                }
+
             } catch (NumberFormatException ex) {
                 value = -1;
             }
