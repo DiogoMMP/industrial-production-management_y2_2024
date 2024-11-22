@@ -10,7 +10,15 @@ public class StartMenuUI implements Runnable {
         System.out.println("Welcome to the Production Plan Simulator!");
         System.out.printf("%n");
         System.out.println("-------------------------------------------");
-        DataInitializer dataInitializer = new DataInitializer();
-        dataInitializer.run();
+        boolean success = false;
+        while (!success){
+            try {
+                DataInitializer dataInitializer = new DataInitializer();
+                dataInitializer.run();
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+
     }
 }

@@ -46,7 +46,8 @@ public class DataInitializer implements Runnable {
                 System.out.println("1. Use default file paths");
                 System.out.println("2. Use exported files from the database");
                 System.out.println("3. Enter file paths manually");
-
+                System.out.println("0. Exit");
+                System.out.println("-----------------------------------");
                 System.out.print("\n\nType your option: ");
                 String input = scanner.nextLine();
                 int choice;
@@ -80,6 +81,8 @@ public class DataInitializer implements Runnable {
                         pathItems = Utils.readLineFromConsole("Items: ");
                         pathOp = Utils.readLineFromConsole("Operations: ");
                         break;
+                    case 0:
+                        System.exit(0);
                     default:
                         System.err.println("Error: Invalid option. Please enter 1, 2 or 3.");
                         continue;
