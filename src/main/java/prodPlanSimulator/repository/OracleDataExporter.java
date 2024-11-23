@@ -175,69 +175,95 @@ public class OracleDataExporter implements Runnable{
     }
 
     public static void exportBOOToCSV() {
+        String countQuery =
+                "SELECT COUNT(DISTINCT Product_ID || Operation_Type_ID) as total_boos FROM BOO";
+
         String query =
-                "WITH BOO_DETAILED AS (" +
-                        "  SELECT " +
-                        "    BOO.Operation_ID AS operation_id, " +
-                        "    BOO_Output.Part_ID AS item_id, " +
-                        "    BOO_Output.Quantity AS item_quantity, " +
-                        "    BOO.Next_Operation_ID AS next_op, " +
-                        "    BOO_Input.Part_ID AS input_part, " +
-                        "    BOO_Input.Quantity AS input_quantity " +
-                        "  FROM BOO " +
-                        "  LEFT JOIN BOO_Output ON BOO.Product_ID = BOO_Output.Product_ID AND BOO.Operation_ID = BOO_Output.Operation_ID " +
-                        "  LEFT JOIN BOO_Input ON BOO.Product_ID = BOO_Input.Product_ID AND BOO.Operation_ID = BOO_Input.Operation_ID " +
+                "WITH ALL_BOOS AS ( " +
+                        "    SELECT DISTINCT b.Product_ID, b.Operation_ID, b.Operation_Type_ID " +
+                        "    FROM BOO b " +
+                        "), " +
+                        "NEXT_OPS AS ( " +
+                        "    SELECT b1.Product_ID, b1.Operation_ID, " +
+                        "           LISTAGG(b2.Operation_Type_ID || ';1', ';') WITHIN GROUP (ORDER BY b2.Operation_Type_ID) as next_ops " +
+                        "    FROM BOO b1 " +
+                        "    LEFT JOIN BOO b2 ON b1.Product_ID = b2.Product_ID " +
+                        "    GROUP BY b1.Product_ID, b1.Operation_ID " +
+                        "), " +
+                        "FORMATTED_INPUTS AS ( " +
+                        "    SELECT " +
+                        "        Product_ID, Operation_ID, Part_ID, " +
+                        "        TRIM(TO_CHAR(Quantity, 'FM999999999')) || COALESCE(Unit, '') AS formatted_input " +
+                        "    FROM BOO_Input " +
+                        "), " +
+                        "FORMATTED_OUTPUTS AS ( " +
+                        "    SELECT " +
+                        "        Product_ID, Operation_ID, Part_ID, " +
+                        "        TRIM(TO_CHAR(Quantity, 'FM999999999')) || COALESCE(Unit, '') AS formatted_output " +
+                        "    FROM BOO_Output " +
                         ") " +
                         "SELECT " +
-                        "  operation_id, " +
-                        "  item_id, " +
-                        "  item_quantity, " +
-                        "  LISTAGG(DISTINCT next_op, ';') WITHIN GROUP (ORDER BY next_op) AS dependencies, " +
-                        "  LISTAGG(input_part || ';' || input_quantity, ';') WITHIN GROUP (ORDER BY input_part) AS inputs " +
-                        "FROM BOO_DETAILED " +
-                        "GROUP BY operation_id, item_id, item_quantity " +
-                        "ORDER BY operation_id";
+                        "    ab.Operation_Type_ID || ';' || " +
+                        "    COALESCE(fo.Part_ID, '') || ';' || COALESCE(fo.formatted_output, '1') || ';(;' || " +
+                        "    COALESCE(n.next_ops, '') || " +
+                        "    RPAD(';', " +
+                        "        (10 - 2 * (LENGTH(COALESCE(n.next_ops, '')) - LENGTH(REPLACE(COALESCE(n.next_ops, ''), ';', '')))) * 2, " +
+                        "        ';' " +
+                        "    ) || ';);(;' || " +
+                        "    COALESCE( " +
+                        "        LISTAGG(fi.Part_ID || ';' || fi.formatted_input, ';') WITHIN GROUP (ORDER BY fi.Part_ID), " +
+                        "        '' " +
+                        "    ) || RPAD(';', (6 - 2 * COUNT(DISTINCT fi.Part_ID)) * 2, ';') || ';)' AS boo_line " +
+                        "FROM ALL_BOOS ab " +
+                        "LEFT JOIN FORMATTED_OUTPUTS fo ON " +
+                        "    ab.Product_ID = fo.Product_ID AND " +
+                        "    ab.Operation_ID = fo.Operation_ID " +
+                        "LEFT JOIN FORMATTED_INPUTS fi ON " +
+                        "    ab.Product_ID = fi.Product_ID AND " +
+                        "    ab.Operation_ID = fi.Operation_ID " +
+                        "LEFT JOIN NEXT_OPS n ON " +
+                        "    ab.Product_ID = n.Product_ID AND " +
+                        "    ab.Operation_ID = n.Operation_ID " +
+                        "GROUP BY " +
+                        "    ab.Product_ID, " +
+                        "    ab.Operation_Type_ID, " +
+                        "    ab.Operation_ID, " +
+                        "    fo.Part_ID, " +
+                        "    fo.formatted_output, " +
+                        "    n.next_ops " +
+                        "ORDER BY ab.Operation_Type_ID";
 
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query);
-             FileWriter csvWriter = new FileWriter(FILE_BOO_PATH)) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS)) {
 
-            csvWriter.append("op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id2;item_qtd2;item_idN;item_qtdN;)\n");
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(query);
+                 FileWriter csvWriter = new FileWriter(FILE_BOO_PATH)) {
 
-            while (resultSet.next()) {
-                int operationId = resultSet.getInt("operation_id");
-                String itemId = resultSet.getString("item_id");
-                double itemQuantity = resultSet.getDouble("item_quantity");
-                String dependencies = resultSet.getString("dependencies");
-                String inputs = resultSet.getString("inputs");
+                csvWriter.append("op_id;item_id;item_qtd unity;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1 unity;item_id2;item_qtd2 unity;item_id3;item_qtd3 unity;)\n");
 
-                // Format item quantity with comma as decimal separator
-                String formattedQuantity = String.format("%.1f", itemQuantity).replace('.', ',');
-
-                // Format dependencies
-                String formattedDependencies = formatDependenciesOrInputs(dependencies, true);
-
-                // Format inputs
-                String formattedInputs = formatDependenciesOrInputs(inputs, false);
-
-                // Write the formatted data to the CSV file
-                csvWriter.append(String.format("%d;%s;%s;%s;%s\n",
-                        operationId, itemId, formattedQuantity, formattedDependencies, formattedInputs));
+                while (resultSet.next()) {
+                    String booLine = resultSet.getString("boo_line");
+                    booLine = booLine.replaceAll("(\\d+)\\.(\\d+)", "$1,$2");
+                    csvWriter.append(booLine).append("\n");
+                }
             }
 
         } catch (Exception e) {
+            System.err.println("Error exporting BOO to CSV: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private static String formatDependenciesOrInputs(String input, boolean isDependencies) {
         if (input == null || input.trim().isEmpty()) {
-            return isDependencies ? "(;;;;;)" : "(;;;;;;;)";  // Adjusted for your CSV format
+            return isDependencies ? "(;;;;;)" : "(;;;;;;;)";
         }
 
+        // Split the input by semicolon
         String[] parts = input.split(";");
-        StringBuilder formatted = new StringBuilder("(");
+
+        // Pad or trim to ensure consistent formatting
+        StringBuilder formatted = new StringBuilder("(;");
         for (int i = 0; i < (isDependencies ? 5 : 6); i++) {
             if (i < parts.length) {
                 formatted.append(parts[i]);
