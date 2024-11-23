@@ -1,6 +1,7 @@
 package prodPlanSimulator.UI.Simulators;
 
 import prodPlanSimulator.UI.Menu.MenuItem;
+import prodPlanSimulator.UI.Utils.DataInitializer;
 import prodPlanSimulator.UI.Utils.Utils;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ChooseSimulatorUI implements Runnable{
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    break;
+                    new DataInitializer().run();
                 }
 
             } while (true);
