@@ -2,6 +2,7 @@ package prodPlanSimulator.trees.ProductionTree;
 
 import org.junit.Before;
 import org.junit.Test;
+import prodPlanSimulator.domain.Material;
 import prodPlanSimulator.repository.BOORepository;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.ItemsRepository;
@@ -10,7 +11,10 @@ import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -122,5 +126,74 @@ public class ProductionTreeTest {
         assertTrue(operationTimes.containsKey("assemble bench"));
         assertEquals(1.0, materialQuantities.get("finished bench"), 0.001);
         assertEquals(2.0, operationTimes.get("assemble bench"), 0.001);
+    }
+
+    @Test
+    public void testUpdateQuantities() {
+        productionTree.buildProductionTree("1006");
+        productionTree.updateQuantities("1006", 2.0);
+        TreeNode<String> root = productionTree.getRoot();
+        assertEquals("finished bench (Quantity: 2.0)", root.getChildren().get(0).getValue());
+
+        productionTree.updateQuantities("1006", 1.0);
+        assertEquals("finished bench (Quantity: 1.0)", root.getChildren().get(0).getValue());
+
+        productionTree.updateQuantities("1006", 0.0);
+        assertEquals("finished bench (Quantity: 0.0)", root.getChildren().get(0).getValue());
+    }
+
+    @Test
+    public void testGetMaterialQuantityPairs() {
+        productionTree.buildProductionTree("1006");
+        List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
+        assertNotNull(materialQuantityPairs);
+        assertFalse(((List<?>) materialQuantityPairs).isEmpty());
+
+        // Add specific assertions based on the expected values in your CSV files
+        boolean found = false;
+        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
+            if (pair.getKey().getName().equals("finished bench")) {
+                assertEquals(1.0, pair.getValue(), 0.001);
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+    }
+
+    @Test
+    public void testPrintMaterialQuantitiesInAscendingOrder() {
+        productionTree.buildProductionTree("1006");
+        // Redirect output to a stream to capture it
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        productionTree.printMaterialQuantitiesInAscendingOrder();
+
+        // Check if the output contains the expected material quantities in ascending order
+        String output = outContent.toString();
+        assertTrue(output.contains("finished bench"));
+        // Add more assertions based on the expected order of materials
+
+        // Reset the standard output
+        System.setOut(System.out);
+    }
+
+    @Test
+    public void testPrintMaterialQuantitiesInDescendingOrder() {
+        productionTree.buildProductionTree("1006");
+        // Redirect output to a stream to capture it
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        productionTree.printMaterialQuantitiesInDescendingOrder();
+
+        // Check if the output contains the expected material quantities in descending order
+        String output = outContent.toString();
+        assertTrue(output.contains("finished bench"));
+        // Add more assertions based on the expected order of materials
+
+        // Reset the standard output
+        System.setOut(System.out);
     }
 }

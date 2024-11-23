@@ -99,4 +99,8 @@ public class TreeNode<T> {
     public void setOperationParent(TreeNode<T> operationParent) {
         this.operationParent = operationParent;
     }
+
+    public void setValue(T value) {
+        this.value = value;
+    }
 }
