@@ -5,11 +5,11 @@ CC = gcc
 CFLAGS = -g -Wall -Wextra -fanalyzer
 
 # Source files
-C_SRCS = main.c usac01.c usac02.c usac03.c usac04.c usac05.c usac06.c usac07.c usac08.c usac09.c usac10.c
+C_SRCS = main.c
 ASM_SRCS = usac01.s usac02.s usac03.s usac04.s usac05.s usac06.s usac07.s usac08.s usac09.s usac10.s
 
 # Header files
-HEADERS = usac.h usac01.h usac02.h usac03.h usac04.h usac05.h usac06.h usac07.h usac08.h usac09.h usac10.h
+HEADERS = usac.h
 
 # Object files
 C_OBJS = $(C_SRCS:.c=.o)
