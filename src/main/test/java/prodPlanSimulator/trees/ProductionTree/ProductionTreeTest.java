@@ -11,7 +11,9 @@ import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +50,7 @@ public class ProductionTreeTest {
     public void testBuildProductionTree() {
         TreeNode<String> root = productionTree.buildProductionTree("1006");
         assertNotNull(root);
-        assertEquals("varnish bench(Quantity: 1)", root.getValue());
+        assertEquals("varnish bench (Quantity: 1)", root.getValue());
         assertFalse(root.getChildren().isEmpty());
     }
 
@@ -196,4 +198,144 @@ public class ProductionTreeTest {
         // Reset the standard output
         System.setOut(System.out);
     }
+
+    @Test
+    public void testPrioritizeCriticalPath() {
+        // Setup the tree with nodes for testing
+        TreeNode<String> root = new TreeNode<>("Start Operation (Quantity: 1)", NodeType.OPERATION);
+        TreeNode<String> operation1 = new TreeNode<>("Operation 1 (Quantity: 2)", NodeType.OPERATION);
+        TreeNode<String> operation2 = new TreeNode<>("Operation 2 (Quantity: 3)", NodeType.OPERATION);
+        TreeNode<String> material1 = new TreeNode<>("Material A (Quantity: 5)", NodeType.MATERIAL);
+
+        root.addChild(operation1);
+        operation1.addChild(operation2);
+        operation2.addChild(material1);
+
+        productionTree.setRoot(root);
+
+        // Test prioritizing the critical path
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        productionTree.prioritizeCriticalPath(root);
+
+        // Verify the output contains the expected critical path
+        String output = outContent.toString();
+        assertTrue(output.contains("Start Operation (Quantity: 1)"));
+        assertTrue(output.contains("Operation: Operation 1 (Quantity: 2)"));
+        assertTrue(output.contains("Operation: Operation 2 (Quantity: 3)"));
+        assertFalse(output.contains("Material A (Quantity: 5)")); // Materials shouldn't be included
+
+        // Reset standard output
+        System.setOut(System.out);
+    }
+
+    @Test
+    public void testQualityChecksCreation() {
+        // Build the tree which should populate the quality check queue
+        productionTree.buildProductionTree("1006");
+
+        // Redirect System.out to capture output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        // View the quality checks
+        productionTree.viewQualityChecksInOrder();
+
+        // Restore original System.out
+        System.setOut(originalOut);
+
+        // Get the output and verify it contains expected content
+        String output = outContent.toString();
+        assertTrue("Output should indicate quality checks", output.contains("Quality Checks in Order of Priority:"));
+        assertTrue("Output should contain quality check entries", output.contains("Quality Check:"));
+    }
+
+    @Test
+    public void testQualityCheckPriorities() {
+        // Build the tree
+        productionTree.buildProductionTree("1006");
+
+        // Redirect System.out to capture output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        // View the quality checks
+        productionTree.viewQualityChecksInOrder();
+
+        // Restore original System.out
+        System.setOut(originalOut);
+
+        // Get the output and analyze priority order
+        String output = outContent.toString();
+        String[] lines = output.split("\n");
+
+        int previousPriority = -1;
+        boolean prioritiesAreOrdered = true;
+
+        for (String line : lines) {
+            if (line.contains("[Priority:")) {
+                int priority = extractPriority(line);
+                if (previousPriority != -1 && priority < previousPriority) {
+                    prioritiesAreOrdered = false;
+                    break;
+                }
+                previousPriority = priority;
+            }
+        }
+
+        assertTrue("Quality checks should be ordered by priority", prioritiesAreOrdered);
+    }
+
+    // Helper method to extract priority from output line
+    private int extractPriority(String line) {
+        int start = line.indexOf("[Priority:") + 10;
+        int end = line.indexOf("]", start);
+        return Integer.parseInt(line.substring(start, end).trim());
+    }
+
+    @Test
+    public void testQualityCheckDepthCalculation() {
+        // Build a simple test tree with known depths
+        TreeNode<String> root = new TreeNode<>("Root Operation", NodeType.OPERATION);
+        TreeNode<String> child1 = new TreeNode<>("Child Operation 1", NodeType.OPERATION);
+        TreeNode<String> child2 = new TreeNode<>("Child Operation 2", NodeType.OPERATION);
+        TreeNode<String> grandchild = new TreeNode<>("Grandchild Operation", NodeType.OPERATION);
+
+        root.addChild(child1);
+        root.addChild(child2);
+        child1.addChild(grandchild);
+
+        productionTree.setRoot(root);
+
+        // Calculate depth for each node
+        assertEquals(1, productionTree.calculateDepth(root));
+        assertEquals(2, productionTree.calculateDepth(child1));
+        assertEquals(2, productionTree.calculateDepth(child2));
+        assertEquals(3, productionTree.calculateDepth(grandchild));
+    }
+
+    @Test
+    public void testEmptyQualityChecks() {
+        // Create a new empty tree
+        ProductionTree emptyTree = new ProductionTree();
+
+        // Redirect System.out to capture output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        // View quality checks for empty tree
+        emptyTree.viewQualityChecksInOrder();
+
+        // Restore original System.out
+        System.setOut(originalOut);
+
+        // Verify output
+        String output = outContent.toString();
+        assertTrue("Should show empty quality checks", output.contains("Quality Checks in Order of Priority:"));
+    }
+
 }

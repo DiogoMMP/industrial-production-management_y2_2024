@@ -335,7 +335,7 @@ public class ProductionTree {
         return depth; // Use depth as priority (lower depth = higher priority)
     }
 
-    private int calculateDepth(TreeNode<String> node) {
+    public int calculateDepth(TreeNode<String> node) {
         int depth = 0;
         while (node != null) {
             depth++;
@@ -355,7 +355,6 @@ public class ProductionTree {
     public void viewQualityChecksInOrder() {
         HeapPriorityQueue<Integer, String> tempQueue = qualityCheckQueue.clone();
         System.out.println("Quality Checks in Order of Priority:");
-        System.out.println("Heap Size"+ tempQueue.size());
         while (!tempQueue.isEmpty()) {
             var check = tempQueue.removeMin();
             System.out.println("Quality Check: " + check.getValue() + " [Priority: " + check.getKey() + "]");
@@ -395,7 +394,7 @@ public class ProductionTree {
             System.out.println("All Quality Checks have been completed.");
         }
 
-        scanner.close();
+
     }
 
 
@@ -461,17 +460,19 @@ public class ProductionTree {
         traverseCriticalPath(root);
     }
 
-    // Recursive function to traverse and print the critical path
     public void traverseCriticalPath(TreeNode<String> node) {
         if (node == null) return;
-        if (node.getType() == NodeType.OPERATION) {
-            System.out.println(node.getValue());
-        }
+
+        // Perform a reverse traversal of the children first
         for (TreeNode<String> child : node.getChildren()) {
             traverseCriticalPath(child);
         }
-    }
 
+        // Visit the current node
+        if (node.getType() == NodeType.OPERATION) {
+            System.out.println(node.getValue());
+        }
+    }
 
 
 

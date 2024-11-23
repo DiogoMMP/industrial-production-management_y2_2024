@@ -1,5 +1,6 @@
 package prodPlanSimulator.UI.Domain.US15;
 
+import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.repository.Instances;
 import trees.ProductionTree.ProductionTree;
 
@@ -10,6 +11,7 @@ public class CriticalPathOperationsUI implements Runnable {
     @Override
     public void run() {
         productionTree.prioritizeCriticalPath(productionTree.getRoot());
-        //productionTree.displayCriticalPathInSequence(productionTree.getRoot());
+
+        Utils.goBackAndWait();
     }
 }
