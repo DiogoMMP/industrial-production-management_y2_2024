@@ -48,7 +48,7 @@ public class ProductionTreeTest {
     public void testBuildProductionTree() {
         TreeNode<String> root = productionTree.buildProductionTree("1006");
         assertNotNull(root);
-        assertEquals("varnish bench  (Quantity: 1)", root.getValue());
+        assertEquals("varnish bench(Quantity: 1)", root.getValue());
         assertFalse(root.getChildren().isEmpty());
     }
 

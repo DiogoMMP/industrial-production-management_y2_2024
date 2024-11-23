@@ -462,7 +462,7 @@ public class ProductionTree {
     }
 
     // Recursive function to traverse and print the critical path
-    private void traverseCriticalPath(TreeNode<String> node) {
+    public void traverseCriticalPath(TreeNode<String> node) {
         if (node == null) return;
         if (node.getType() == NodeType.OPERATION) {
             System.out.println(node.getValue());

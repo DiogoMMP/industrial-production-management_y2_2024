@@ -6,6 +6,9 @@ import prodPlanSimulator.domain.Item;
 import prodPlanSimulator.domain.Operation;
 import prodPlanSimulator.domain.Workstation;
 import prodPlanSimulator.enums.Priority;
+import trees.ProductionTree.NodeType;
+import trees.ProductionTree.ProductionTree;
+import trees.ProductionTree.TreeNode;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -18,10 +21,18 @@ import static org.junit.Assert.assertEquals;
 class SimulatorTest {
     private static final String FILE_PATH_ITEMS = "test_files/articles.csv";
     private static final String FILE_PATH_MACHINES = "test_files/workstations.csv";
+    private static final String FILE_PATH_MACHINES2 = "workstations_sprint2.csv";
     private static HashMap_Items_Machines_Sprint1 hashMap = Instances.getInstance().getHashMapItemsWorkstationsSprint1();
     private static Simulator simulator = Instances.getInstance().getSimulator();
     private static Operation CUT, SCREW, PAINT, DRILL, POLISH, VARNISH, PACK, SAND, GLUE, WELD, ASSEMBLE, INSPECT, FINISH;
-
+    private static final String BOO_FILE = "boo_v2.csv";
+    private static final String ITEMS_FILE = "items.csv";
+    private static final String OPERATIONS_FILE = "operations.csv";
+    private static ProductionTree productionTree;
+    private static HashMap_Items_Machines hashMapItemsWorkstations = Instances.getInstance().getHashMapItemsWorkstations();
+    private static ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
+    private static OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
+    private static BOORepository booRepository = Instances.getInstance().getBOORepository();
     @BeforeAll
     static void setUp() throws FileNotFoundException {
 
@@ -42,7 +53,12 @@ class SimulatorTest {
         INSPECT = new Operation("INSPECT1", "inspect", 8.0);
         FINISH = new Operation("FINISH1", "finish", 11.0);
 
-
+        productionTree = Instances.getInstance().getProductionTree();
+        itemsRepository.addItems(ITEMS_FILE);
+        operationsMapRepository.addOperations(OPERATIONS_FILE);
+        booRepository.addBOOList(BOO_FILE);
+        productionTree.buildProductionTree("1006");
+        hashMapItemsWorkstations.addAll(OPERATIONS_FILE, ITEMS_FILE, FILE_PATH_MACHINES2);
     }
 
     @Test
@@ -182,29 +198,31 @@ class SimulatorTest {
                 .map(item -> String.valueOf(item.getId()))
                 .collect(Collectors.toList());
     }
+
     @Test
     void simulateProcessUS16() {
-        // Setup test data for items with predefined operations
-        List<Item> items = Arrays.asList(
-
-        );
-
-        List<Workstation> workstations = Arrays.asList(
-
-        );
-
         LinkedHashMap<String, Double> result = simulator.simulateBOMBOO();
-        int expectedSize = 0;
-        for (Item item : items) {
-            for (Operation operation : item.getOperationsRequired()) {
-                expectedSize++;
-            }
-        }
+        int expectedSize = countMaterialNodes(productionTree.getRoot());
         assertEquals(expectedSize, result.size());
+    }
 
-        // Collect item IDs as strings
-        List<String> itemIds = items.stream()
-                .map(item -> String.valueOf(item.getId()))
-                .collect(Collectors.toList());
+    private int countMaterialNodes(TreeNode<String> node) {
+        int count = 0;
+        if (node.getType().equals(NodeType.MATERIAL)) {
+            count++;
+        }
+        for (TreeNode<String> child : node.getChildren()) {
+            count += countMaterialNodes(child);
+        }
+        return count;
+    }
+    public void printProductionTree(TreeNode<String> node, String indent) {
+        if (node == null) {
+            return;
+        }
+        System.out.println(indent + node.getValue() + " (" + node.getType() + ")");
+        for (TreeNode<String> child : node.getChildren()) {
+            printProductionTree(child, indent + "  ");
+        }
     }
 }

@@ -18,9 +18,9 @@ public class DataInitializer implements Runnable {
      * @param pathWor path to the workstations file
      * @throws FileNotFoundException if the file is not found
      */
-    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp) throws FileNotFoundException {
+    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp, String pathWor2) throws FileNotFoundException {
             map2.addAll(pathArt, pathWor);
-            map.addAll(pathOp, pathItems);
+            map.addAll(pathOp, pathItems, pathWor2);
             itemsRepository.addItems(pathItems);
             operationsMapRepository.addOperations(pathOp);
             booRepository.addBOOList(pathBoo);
@@ -36,6 +36,7 @@ public class DataInitializer implements Runnable {
             Scanner scanner = new Scanner(System.in);
             String pathOp;
             String pathBOO;
+            String pathWor2;
             String pathItems;
             String pathArt;
             String pathWor;
@@ -62,6 +63,7 @@ public class DataInitializer implements Runnable {
                     case 1:
                         pathArt = "articles_sprint1.csv";
                         pathWor = "workstations_sprint1.csv";
+                        pathWor2 = "workstations_sprint2.csv";
                         pathBOO = "boo_v2.csv";
                         pathItems = "items.csv";
                         pathOp = "operations.csv";
@@ -69,13 +71,15 @@ public class DataInitializer implements Runnable {
                     case 2:
                         pathArt = "articles_sprint1.csv";
                         pathWor = "workstations_sprint1.csv";
+                        pathWor2 = "workstations_sprint2.csv";
                         pathBOO = "boo_exported.csv";
                         pathItems = "items_exported.csv";
                         pathOp = "operations_exported.csv";
                         break;
                     case 3:
                         pathArt = Utils.readLineFromConsole("Articles: ");
-                        pathWor = Utils.readLineFromConsole("Workstations: ");
+                        pathWor = Utils.readLineFromConsole("Workstations for the simulator: ");
+                        pathWor2 = Utils.readLineFromConsole("Workstations for the database: ");
                         pathBOO = Utils.readLineFromConsole("Bill of Operations: ");
                         pathItems = Utils.readLineFromConsole("Items: ");
                         pathOp = Utils.readLineFromConsole("Operations: ");
@@ -88,7 +92,7 @@ public class DataInitializer implements Runnable {
                 }
 
                 try {
-                    init(pathArt, pathWor, pathBOO, pathItems, pathOp);
+                    init(pathArt, pathWor, pathBOO, pathItems, pathOp, pathWor2);
                     success = true;
                 } catch (FileNotFoundException e) {
                     System.err.println("Error: File not found. Please check the file path and try again.");

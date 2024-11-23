@@ -30,11 +30,11 @@ public class ItemsRepository {
 
     public String getItemValue(String value) {
         for (Map.Entry<String, String> entry : items.entrySet()) {
-            if (entry.getValue().equals(value)) {
-                return entry.getKey();
+            if (entry.getKey().equalsIgnoreCase(value)) {
+                return entry.getValue();
             }
         }
-        return null;
+        return "";
     }
 
     public void addItem(String key, String value) {

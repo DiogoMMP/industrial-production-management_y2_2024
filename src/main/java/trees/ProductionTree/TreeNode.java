@@ -103,4 +103,18 @@ public class TreeNode<T> {
     public void setValue(T value) {
         this.value = value;
     }
+
+    public TreeNode<T> getLeft() {
+        if (!children.isEmpty()) {
+            return children.get(0);
+        }
+        return null;
+    }
+
+    public TreeNode<T> getRight() {
+        if (!children.isEmpty() && children.size() > 1) {
+            return children.get(1);
+        }
+        return null;
+    }
 }

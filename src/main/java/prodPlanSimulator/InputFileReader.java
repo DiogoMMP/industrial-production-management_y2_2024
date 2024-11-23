@@ -93,7 +93,7 @@ public class InputFileReader {
                 Workstation workstation = new Workstation();
                 workstation.setId(id);
                 for (Operation op : operationList) {
-                    if (op.getId().equals(operation)) {
+                    if (op.getDescription().equalsIgnoreCase(operation)) {
                         workstation.setOperation(op);
                         break;
                     }
@@ -119,8 +119,8 @@ public class InputFileReader {
 
             while (scanner.hasNextLine()) {
                 String[] data = scanner.nextLine().split(";");
-                String id = data[0];
-                String description = data[1];
+                String id = data[0].trim();
+                String description = data[1].trim();
                 Operation operation = new Operation(id, description, 0.0);
                 operations.add(operation);
             }
@@ -158,7 +158,9 @@ public class InputFileReader {
         Map<String, String> operationDescriptions = new HashMap<>();
         for (String[] operation : operationsData) {
             if (operation.length >= 2) {
-                operationDescriptions.put(operation[0], operation[1]);
+                String id = operation[0].trim();
+                String description = operation[1].trim();
+                operationDescriptions.put(id, description);
             }
         }
 

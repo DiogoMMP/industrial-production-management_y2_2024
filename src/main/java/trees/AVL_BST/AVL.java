@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class AVL <E extends Comparable<E>> extends BST<E> {
 
-
+    private Node<E> latestInsertedNode;
     /**
      * Returns the balance factor of a given node
      * @param node node to calculate the balance factor
@@ -116,9 +116,11 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
     public void insert(E element){
         root = insert(element, root);
     }
+
     private Node<E> insert(E element, Node<E> node){
         if (node == null) {
-            return new Node<>(element, null, null);
+            latestInsertedNode = new Node<>(element, null, null);
+            return latestInsertedNode;
         }
         if (element.compareTo(node.getElement()) < 0) {
             node.setLeft(insert(element, node.getLeft()));
@@ -199,6 +201,25 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
     }
 
     /**
+     * Performs a post-order traversal of the AVL tree
+     * @param node root of the subtree to be traversed
+     * @return list of elements in post-order
+     */
+    public List<E> postOrderTraversal(Node<E> node) {
+        List<E> elements = new ArrayList<>();
+        postOrderTraversal(node, elements);
+        return elements;
+    }
+
+    private void postOrderTraversal(Node<E> node, List<E> elements) {
+        if (node != null) {
+            postOrderTraversal(node.getLeft(), elements);
+            postOrderTraversal(node.getRight(), elements);
+            elements.add(node.getElement());
+        }
+    }
+
+    /**
      * Compares two AVL trees for equality
      * @param root1 node of the first AVL tree
      * @param root2 node of the second AVL tree
@@ -241,5 +262,13 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
 
     public Node<E> getRoot() {
         return root();
+    }
+
+    public E getElem(Node<E> node) {
+        return node.getElement();
+    }
+
+    public Node<E> getLatestInsertedNode() {
+        return latestInsertedNode;
     }
 }

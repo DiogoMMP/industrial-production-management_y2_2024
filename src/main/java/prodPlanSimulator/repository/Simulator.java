@@ -106,8 +106,8 @@ public class Simulator {
         }
     }
 
-    private static void fillOperationsQueue(ArrayList<Material> materials, LinkedHashMap<String, LinkedList<Material>> operationsQueue, AVL<BOO> booTree) {
-        for (BOO boo : booTree.inOrderTraversal(booTree.getRoot())) {
+    private static void fillOperationsQueue(ArrayList<Material> materials, LinkedHashMap<String, LinkedList<Material>> operationsQueue, List<BOO> postOrderElements) {
+        for (BOO boo : postOrderElements) {
             String operation = boo.getOperation();
             for (String itemName : boo.getItems()) {
                 for (Material material : materials) {
@@ -271,7 +271,7 @@ public class Simulator {
                 int currentItem = timeOperations.size() + 1;
                 workstation.setHasItem(true);
                 quantMachines--;
-                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Item: " + material.getID() + " - Time: " + workstation.getTime() + " - Quantity: " + material.getQuantity();
+                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Item: " + material.getName() + " - Time: " + workstation.getTime() + " - Quantity: " + material.getQuantity();
                 timeOperations.put(operation1, (double) workstation.getTime());
                 operationsQueue.get(workstation.getOperation().getDescription()).remove(material);
                 return quantMachines;
@@ -431,16 +431,16 @@ public class Simulator {
         TreeNode<String> root = productionTree.getRoot();
         AVL<BOO> bombooTree = new AVL<>();
         LinkedHashMap<Integer, BOO> materials = new LinkedHashMap<>();
-        createBOMBOOTree(root, bombooTree, materials);
+        List<BOO> postOrderElements = createBOMBOOTree(root, bombooTree, materials);
         timeOperations = new LinkedHashMap<>();
-        HashMap_Items_Machines HashMap_Items_Workstations = Instances.getInstance().getHashMapItemsWorkstations();
-        HashMap<Item, Workstation> ProdPlan = HashMap_Items_Workstations.getProdPlan();
+        WorkstationRepository workstationRepository = Instances.getInstance().getWorkstationRepository();
+        HashMap<Integer, Workstation> workstationsMap = (HashMap<Integer, Workstation>) workstationRepository.getWorkstations();
         LinkedHashMap<String, LinkedList<Material>> operationsQueue = new LinkedHashMap<>();
-        ArrayList<Workstation> workstations = new ArrayList<>(ProdPlan.values());
+        ArrayList<Workstation> workstations = new ArrayList<>(workstationsMap.values());
         removeNullMachines(workstations);
         ArrayList<Material> filteredMaterials = new ArrayList<>();
         fillItemsWithMaterials(materials, filteredMaterials);
-        fillOperationsQueue(filteredMaterials, operationsQueue, bombooTree);
+        fillOperationsQueue(filteredMaterials, operationsQueue, postOrderElements);
         fillUpMachinesUS16(operationsQueue, workstations, filteredMaterials);
         return SimulatorResetUS16(workstations, filteredMaterials);
     }
@@ -466,20 +466,26 @@ public class Simulator {
         }
     }
 
-
-    private void createBOMBOOTree(TreeNode<String> node, AVL<BOO> bombooTree, LinkedHashMap<Integer, BOO> materials) {
-        createBOMBOOTree(node, bombooTree, materials, 1);
+    private List<BOO> createBOMBOOTree(TreeNode<String> node, AVL<BOO> bombooTree, LinkedHashMap<Integer, BOO> materials) {
+        createBOMBOOTree(node, bombooTree);
+        List<BOO> postOrderElements = bombooTree.postOrderTraversal(bombooTree.getRoot());
+        fillMaterials(materials, postOrderElements);
+        return postOrderElements;
     }
 
-    private void createBOMBOOTree(TreeNode<String> node, AVL<BOO> bombooTree, LinkedHashMap<Integer, BOO> materials, int stageIndex) {
+    private void fillMaterials(LinkedHashMap<Integer, BOO> materials, List<BOO> postOrderElements) {
+        int index = postOrderElements.size();
+        int i = 1;
+        for (BOO boo : postOrderElements) {
+            materials.put(index - (postOrderElements.size() - i), boo);
+            i++;
+        }
+    }
+
+    private void createBOMBOOTree(TreeNode<String> node, AVL<BOO> bombooTree) {
         if (node == null) {
             return;
         }
-        // Process all children first (post-order traversal)
-        for (TreeNode<String> child : node.getChildren()) {
-            createBOMBOOTree(child, bombooTree, materials, stageIndex);
-        }
-
         // Process the current node
         String value = node.getValue();
         int startIndex = value.indexOf("(Quantity: ");
@@ -487,21 +493,39 @@ public class Simulator {
 
         if (startIndex != -1 && endIndex != -1) {
             String name = value.substring(0, startIndex).trim();
-            double quantity = Double.parseDouble(value.substring(startIndex + 11, endIndex).trim());
-
-            if (node.getType().equals(NodeType.OPERATION)) {
+            String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+            double quantity = Double.parseDouble(quantityStr);
+            if (node.getType() == NodeType.OPERATION) {
                 BOO operation = new BOO(quantity, name);
                 bombooTree.insert(operation);
-                bombooTree.search(operation).setType(NodeType.OPERATION);
-                bombooTree.search(operation).setItems(materials.getOrDefault(stageIndex, new BOO()).getItems());
-                bombooTree.search(operation).setQuantityItems(materials.getOrDefault(stageIndex, new BOO()).getQuantityItems());
-                stageIndex++;
-            } else if (node.getType().equals(NodeType.MATERIAL)) {
-                BOO material = materials.getOrDefault(stageIndex, new BOO());
-                material.addItems(name);
-                material.addQuantity(quantity);
-                materials.put(stageIndex, material);
+                BOO insertedOperation = bombooTree.search(operation);
+                insertedOperation.setType(NodeType.OPERATION);
+            } else if (node.getType() == NodeType.MATERIAL) {
+                BOO latestOperation = bombooTree.search(bombooTree.getElem(bombooTree.getLatestInsertedNode()));
+                if (latestOperation != null) {
+                    latestOperation.addItems(name);
+                    latestOperation.addQuantity(quantity);
+                }
             }
+        }
+
+        List<TreeNode<String>> materialChildren = new ArrayList<>();
+        List<TreeNode<String>> operationChildren = new ArrayList<>();
+
+        for (TreeNode<String> child : node.getChildren()) {
+            if (child.getType() == NodeType.MATERIAL) {
+                materialChildren.add(child);
+            } else if (child.getType() == NodeType.OPERATION) {
+                operationChildren.add(child);
+            }
+        }
+
+        for (TreeNode<String> materialChild : materialChildren) {
+            createBOMBOOTree(materialChild, bombooTree);
+        }
+
+        for (TreeNode<String> operationChild : operationChildren) {
+            createBOMBOOTree(operationChild, bombooTree);
         }
     }
 

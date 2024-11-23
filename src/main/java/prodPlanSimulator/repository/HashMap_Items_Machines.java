@@ -12,7 +12,7 @@ import java.util.*;
 public class HashMap_Items_Machines {
     private HashMap<Item, Workstation> ProdPlan;
     private static Simulator simulator = Instances.getInstance().getSimulator();
-
+    private WorkstationRepository workstationRepository;
     public HashMap_Items_Machines() {
         this.ProdPlan = new HashMap<>();
     }
@@ -26,33 +26,15 @@ public class HashMap_Items_Machines {
         this.ProdPlan = ProdPlan;
     }
 
-    /**
-     * Add all items and machines to the map
-     *
-     * @param articlesPath   path to items
-     * @param machinesPath path to machines
-     */
-    public void addAll(String articlesPath, String machinesPath, String itemsPath, String operationsPath) throws FileNotFoundException {
+
+
+
+    public void addAll(String operationsPath, String itemsPath, String workstationsPath) throws FileNotFoundException {
         List<Operation> operations = InputFileReader.readListOperations(operationsPath);
         Map<String, String> items = InputFileReader.readItems(itemsPath);
-        Map<Integer, Item> articles = InputFileReader.readArticles(articlesPath, operations, items);
-        Map<Integer, Workstation> machines = InputFileReader.readMachines(machinesPath, operations);
-
-        try {
-            if (articles.isEmpty() || machines.isEmpty()) {
-                throw new Exception("Items or Machines not found");
-            }
-            fillMap(articles, machines);
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-    }
-
-    public void addAll(String operationsPath, String itemsPath) throws FileNotFoundException {
-        List<Operation> operations = InputFileReader.readListOperations(operationsPath);
-        Map<String, String> items = InputFileReader.readItems(itemsPath);
+        Map<Integer,Workstation> workstations = InputFileReader.readMachines(workstationsPath, operations);
+        workstationRepository = Instances.getInstance().getWorkstationRepository();
+        workstationRepository.setWorkstations(workstations);
         HashMap_Items_Machines_Sprint1 hashMapItemsWorkstationsSprint1 = Instances.getInstance().getHashMapItemsWorkstationsSprint1();
         ProdPlan = hashMapItemsWorkstationsSprint1.getProdPlan();
     }

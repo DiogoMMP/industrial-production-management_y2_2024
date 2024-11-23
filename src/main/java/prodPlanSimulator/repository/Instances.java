@@ -18,6 +18,7 @@ public class Instances {
     private ItemsRepository itemsRepository;
     private BOORepository booRepository;
     private ProductionTree productionTree;
+    private WorkstationRepository workstationRepository;
 
     private Instances() {
         hashMapItemsWorkstations = new HashMap_Items_Machines();
@@ -30,6 +31,7 @@ public class Instances {
         itemsRepository = new ItemsRepository();
         booRepository = new BOORepository();
         productionTree = new ProductionTree();
+        workstationRepository = new WorkstationRepository();
     }
 
     public static Instances getInstance() {
@@ -83,7 +85,11 @@ public class Instances {
         return hashMapItemsWorkstationsSprint1;
     }
 
-    public void setHashMapItemsWorkstationsSprint1(HashMap_Items_Machines_Sprint1 hashMapItemsWorkstationsSprint1) {
-        this.hashMapItemsWorkstationsSprint1 = hashMapItemsWorkstationsSprint1;
+    public BOORepository getBooRepository() {
+        return booRepository;
+    }
+
+    public WorkstationRepository getWorkstationRepository() {
+        return workstationRepository;
     }
 }
