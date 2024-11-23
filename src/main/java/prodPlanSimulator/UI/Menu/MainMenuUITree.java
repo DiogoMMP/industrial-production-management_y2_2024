@@ -8,6 +8,7 @@ import prodPlanSimulator.UI.Domain.US12.QualityChecksUI;
 import prodPlanSimulator.UI.Domain.US13.UpdateMaterialQuantitiesUI;
 import prodPlanSimulator.UI.Domain.US14.TotalQuantityMaterialsAndOperationsUI;
 import prodPlanSimulator.UI.Domain.US16.SimulateProcessTreeUI;
+import prodPlanSimulator.UI.Simulators.ChooseSimulatorUI;
 import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.UI.graphGenerator.ProductOperationsGraphUI;
 import prodPlanSimulator.UI.graphGenerator.ProductStructureGraphUI;
@@ -36,8 +37,11 @@ public class MainMenuUITree implements Runnable {
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
+                } else if (option == -1) {
+                    new ChooseSimulatorUI().run();
                 }
-            } while (option == -1);
+
+            } while (true);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }

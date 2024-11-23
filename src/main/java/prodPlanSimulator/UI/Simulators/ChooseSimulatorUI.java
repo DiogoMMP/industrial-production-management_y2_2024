@@ -20,9 +20,11 @@ public class ChooseSimulatorUI implements Runnable{
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
+                } else if (option == -1) {
+                    break;
                 }
 
-            } while (option == -1);
+            } while (true);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

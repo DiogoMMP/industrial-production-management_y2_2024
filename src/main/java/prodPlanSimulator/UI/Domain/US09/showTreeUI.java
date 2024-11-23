@@ -37,8 +37,7 @@ public class showTreeUI implements Runnable {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
                     clearConsole();
-                    String itemId = choice.split(" ")[1];
-                    showTree(itemId);
+                    showTree(options.get(option).toString().split(" ")[1]);
                     Utils.goBackAndWait();
                 }
             }
@@ -54,8 +53,8 @@ public class showTreeUI implements Runnable {
         System.out.flush();
     }
 
-    public void showTree(String mainObjectiveUI) {
-        productionTree.buildProductionTree(mainObjectiveUI);
+    public void showTree(String mainObjectiveID) {
+        productionTree.buildProductionTree(mainObjectiveID);
         toIndentedStringForObjective();
     }
 

@@ -6,6 +6,7 @@ import prodPlanSimulator.UI.Domain.US03.TotalTimeUI;
 import prodPlanSimulator.UI.Domain.US05.WorkstationTimeUI;
 import prodPlanSimulator.UI.Domain.US06.AverageAndWaitingTimesUI;
 import prodPlanSimulator.UI.Domain.US07.FlowDependencyUI;
+import prodPlanSimulator.UI.Simulators.ChooseSimulatorUI;
 import prodPlanSimulator.UI.Utils.Utils;
 import prodPlanSimulator.UI.graphGenerator.ProductStructureGraphUI;
 
@@ -35,8 +36,11 @@ public class MainMenuUITime implements Runnable {
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
+                } else if (option == -1) {
+                    new ChooseSimulatorUI().run();
                 }
-            } while (option == -1);
+
+            } while (true);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
