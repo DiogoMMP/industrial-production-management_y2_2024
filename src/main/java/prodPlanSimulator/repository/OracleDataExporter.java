@@ -203,6 +203,8 @@ public class OracleDataExporter implements Runnable{
              ResultSet resultSet = statement.executeQuery(query);
              FileWriter csvWriter = new FileWriter(FILE_BOO_PATH)) {
 
+            csvWriter.append("op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id2;item_qtd2;item_idN;item_qtdN;)\n");
+
             while (resultSet.next()) {
                 int operationId = resultSet.getInt("operation_id");
                 String itemId = resultSet.getString("item_id");
@@ -231,14 +233,11 @@ public class OracleDataExporter implements Runnable{
 
     private static String formatDependenciesOrInputs(String input, boolean isDependencies) {
         if (input == null || input.trim().isEmpty()) {
-            return isDependencies ? "(;;;;;)" : "(;;;;;;;)";
+            return isDependencies ? "(;;;;;)" : "(;;;;;;;)";  // Adjusted for your CSV format
         }
 
-        // Split the input by semicolon
         String[] parts = input.split(";");
-
-        // Pad or trim to ensure consistent formatting
-        StringBuilder formatted = new StringBuilder("(;");
+        StringBuilder formatted = new StringBuilder("(");
         for (int i = 0; i < (isDependencies ? 5 : 6); i++) {
             if (i < parts.length) {
                 formatted.append(parts[i]);
@@ -249,6 +248,7 @@ public class OracleDataExporter implements Runnable{
 
         return formatted.toString();
     }
+
     public static void exportOperationsToCSV() {
         String query =
                 "SELECT Operation_Type_ID AS op_id, Operation_Description AS op_name " +
