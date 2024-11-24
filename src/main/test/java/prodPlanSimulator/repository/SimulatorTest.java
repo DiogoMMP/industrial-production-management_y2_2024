@@ -203,6 +203,9 @@ class SimulatorTest {
     void simulateProcessUS16() {
         LinkedHashMap<String, Double> result = simulator.simulateBOMBOO();
         int expectedSize = countMaterialNodes(productionTree.getRoot());
+        for (String key : result.keySet()) {
+            System.out.println(key);
+        }
         assertEquals(expectedSize, result.size());
     }
 
@@ -216,13 +219,5 @@ class SimulatorTest {
         }
         return count;
     }
-    public void printProductionTree(TreeNode<String> node, String indent) {
-        if (node == null) {
-            return;
-        }
-        System.out.println(indent + node.getValue() + " (" + node.getType() + ")");
-        for (TreeNode<String> child : node.getChildren()) {
-            printProductionTree(child, indent + "  ");
-        }
-    }
+
 }
