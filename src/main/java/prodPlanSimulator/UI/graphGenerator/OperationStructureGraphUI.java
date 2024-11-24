@@ -1,15 +1,15 @@
 package prodPlanSimulator.UI.graphGenerator;
 
-
-import projectManager.ProductStructureGraph;
+import projectManager.OperationStructureGraph;
 
 import java.io.FileNotFoundException;
 
-public class ProductStructureGraphUI implements Runnable{
-    private ProductStructureGraph productStructureGraph = new ProductStructureGraph();
+public class OperationStructureGraphUI implements Runnable {
+    private OperationStructureGraph operationStructureGraph = new OperationStructureGraph();
     public void init() throws FileNotFoundException {
-        productStructureGraph.generateGraph();
+        operationStructureGraph.generateGraph();
     }
+
     @Override
     public void run() {
         boolean success = false;

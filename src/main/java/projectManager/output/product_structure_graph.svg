@@ -1,0 +1,193 @@
+<svg width="773px" height="575px"
+ viewBox="0.00 0.00 772.62 575.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 571.0)">
+<title>Product Structure Graph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-571 768.62,-571 768.62,4 -4,4"/>
+<!-- finished bench -->
+<g id="node1" class="node">
+<title>finished bench</title>
+<ellipse fill="none" stroke="black" cx="417.6" cy="-549" rx="65.17" ry="18"/>
+<text text-anchor="middle" x="417.6" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">finished bench</text>
+</g>
+<!-- raw bench -->
+<g id="node2" class="node">
+<title>raw bench</title>
+<ellipse fill="none" stroke="black" cx="361.6" cy="-460.5" rx="49.3" ry="18"/>
+<text text-anchor="middle" x="361.6" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">raw bench</text>
+</g>
+<!-- finished bench&#45;&#45;raw bench -->
+<g id="edge1" class="edge">
+<title>finished bench&#45;&#45;raw bench</title>
+<path fill="none" stroke="black" d="M406.53,-530.91C396.65,-515.65 382.26,-493.42 372.45,-478.26"/>
+<text text-anchor="middle" x="397.99" y="-499.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- varnish -->
+<g id="node16" class="node">
+<title>varnish</title>
+<polygon fill="none" stroke="black" points="516.53,-460.5 494.56,-478.5 450.63,-478.5 428.67,-460.5 450.63,-442.5 494.56,-442.5 516.53,-460.5"/>
+<text text-anchor="middle" x="472.6" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">varnish</text>
+</g>
+<!-- finished bench&#45;&#45;varnish -->
+<g id="edge2" class="edge">
+<title>finished bench&#45;&#45;varnish</title>
+<path fill="none" stroke="black" d="M428.46,-530.91C438.04,-515.84 451.93,-493.99 461.56,-478.85"/>
+<text text-anchor="middle" x="465.4" y="-499.7" font-family="Times New Roman,serif" font-size="14.00">0.125</text>
+</g>
+<!-- bench seat w/nut -->
+<g id="node3" class="node">
+<title>bench seat w/nut</title>
+<ellipse fill="none" stroke="black" cx="279.6" cy="-372" rx="73.36" ry="18"/>
+<text text-anchor="middle" x="279.6" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">bench seat w/nut</text>
+</g>
+<!-- raw bench&#45;&#45;bench seat w/nut -->
+<g id="edge3" class="edge">
+<title>raw bench&#45;&#45;bench seat w/nut</title>
+<path fill="none" stroke="black" d="M346.17,-443.23C331.7,-427.96 310.14,-405.22 295.51,-389.79"/>
+<text text-anchor="middle" x="331.31" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- bench leg w/bolt -->
+<g id="node10" class="node">
+<title>bench leg w/bolt</title>
+<ellipse fill="none" stroke="black" cx="489.6" cy="-372" rx="72.85" ry="18"/>
+<text text-anchor="middle" x="489.6" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">bench leg w/bolt</text>
+</g>
+<!-- raw bench&#45;&#45;bench leg w/bolt -->
+<g id="edge4" class="edge">
+<title>raw bench&#45;&#45;bench leg w/bolt</title>
+<path fill="none" stroke="black" d="M384.18,-444.23C407.01,-428.81 442.14,-405.07 465.49,-389.29"/>
+<text text-anchor="middle" x="440.44" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- bench seat w/holes -->
+<g id="node4" class="node">
+<title>bench seat w/holes</title>
+<ellipse fill="none" stroke="black" cx="83.6" cy="-283.5" rx="81.04" ry="18"/>
+<text text-anchor="middle" x="83.6" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">bench seat w/holes</text>
+</g>
+<!-- bench seat w/nut&#45;&#45;bench seat w/holes -->
+<g id="edge5" class="edge">
+<title>bench seat w/nut&#45;&#45;bench seat w/holes</title>
+<path fill="none" stroke="black" d="M245.01,-355.73C209.51,-340.07 154.56,-315.82 118.83,-300.05"/>
+<text text-anchor="middle" x="202.53" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- nut M16 -->
+<g id="node8" class="node">
+<title>nut M16</title>
+<polygon fill="none" stroke="black" points="282.44,-283.5 257.52,-301.5 207.68,-301.5 182.76,-283.5 207.68,-265.5 257.52,-265.5 282.44,-283.5"/>
+<text text-anchor="middle" x="232.6" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">nut M16</text>
+</g>
+<!-- bench seat w/nut&#45;&#45;nut M16 -->
+<g id="edge6" class="edge">
+<title>bench seat w/nut&#45;&#45;nut M16</title>
+<path fill="none" stroke="black" d="M270.31,-353.91C262.12,-338.84 250.25,-316.99 242.02,-301.85"/>
+<text text-anchor="middle" x="263.68" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">4</text>
+</g>
+<!-- bolt M6 -->
+<g id="node9" class="node">
+<title>bolt M6</title>
+<polygon fill="none" stroke="black" points="395.07,-283.5 371.33,-301.5 323.86,-301.5 300.12,-283.5 323.86,-265.5 371.33,-265.5 395.07,-283.5"/>
+<text text-anchor="middle" x="347.6" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">bolt M6</text>
+</g>
+<!-- bench seat w/nut&#45;&#45;bolt M6 -->
+<g id="edge7" class="edge">
+<title>bench seat w/nut&#45;&#45;bolt M6</title>
+<path fill="none" stroke="black" d="M293.03,-353.91C304.87,-338.84 322.05,-316.99 333.96,-301.85"/>
+<text text-anchor="middle" x="326.44" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">12</text>
+</g>
+<!-- polished bench seat -->
+<g id="node5" class="node">
+<title>polished bench seat</title>
+<ellipse fill="none" stroke="black" cx="83.6" cy="-195" rx="83.6" ry="18"/>
+<text text-anchor="middle" x="83.6" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">polished bench seat</text>
+</g>
+<!-- bench seat w/holes&#45;&#45;polished bench seat -->
+<g id="edge8" class="edge">
+<title>bench seat w/holes&#45;&#45;polished bench seat</title>
+<path fill="none" stroke="black" d="M83.6,-265.41C83.6,-250.34 83.6,-228.49 83.6,-213.35"/>
+<text text-anchor="middle" x="86.97" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- raw bench seat -->
+<g id="node6" class="node">
+<title>raw bench seat</title>
+<ellipse fill="none" stroke="black" cx="83.6" cy="-106.5" rx="66.19" ry="18"/>
+<text text-anchor="middle" x="83.6" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">raw bench seat</text>
+</g>
+<!-- polished bench seat&#45;&#45;raw bench seat -->
+<g id="edge9" class="edge">
+<title>polished bench seat&#45;&#45;raw bench seat</title>
+<path fill="none" stroke="black" d="M83.6,-176.91C83.6,-161.84 83.6,-139.99 83.6,-124.85"/>
+<text text-anchor="middle" x="86.97" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- wood 3cm -->
+<g id="node7" class="node">
+<title>wood 3cm</title>
+<polygon fill="none" stroke="black" points="141.71,-18 112.65,-36 54.54,-36 25.48,-18 54.54,0 112.65,0 141.71,-18"/>
+<text text-anchor="middle" x="83.6" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">wood 3cm</text>
+</g>
+<!-- raw bench seat&#45;&#45;wood 3cm -->
+<g id="edge10" class="edge">
+<title>raw bench seat&#45;&#45;wood 3cm</title>
+<path fill="none" stroke="black" d="M83.6,-88.41C83.6,-73.34 83.6,-51.49 83.6,-36.35"/>
+<text text-anchor="middle" x="102.35" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">0.0576</text>
+</g>
+<!-- bench leg &#160;w/hole -->
+<g id="node11" class="node">
+<title>bench leg &#160;w/hole</title>
+<ellipse fill="none" stroke="black" cx="489.6" cy="-283.5" rx="76.94" ry="18"/>
+<text text-anchor="middle" x="489.6" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">bench leg &#160;w/hole</text>
+</g>
+<!-- bench leg w/bolt&#45;&#45;bench leg &#160;w/hole -->
+<g id="edge11" class="edge">
+<title>bench leg w/bolt&#45;&#45;bench leg &#160;w/hole</title>
+<path fill="none" stroke="black" d="M489.6,-353.91C489.6,-338.84 489.6,-316.99 489.6,-301.85"/>
+<text text-anchor="middle" x="492.97" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- threaded rod M16 -->
+<g id="node15" class="node">
+<title>threaded rod M16</title>
+<polygon fill="none" stroke="black" points="764.62,-283.5 719.61,-301.5 629.58,-301.5 584.57,-283.5 629.58,-265.5 719.61,-265.5 764.62,-283.5"/>
+<text text-anchor="middle" x="674.6" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">threaded rod M16</text>
+</g>
+<!-- bench leg w/bolt&#45;&#45;threaded rod M16 -->
+<g id="edge12" class="edge">
+<title>bench leg w/bolt&#45;&#45;threaded rod M16</title>
+<path fill="none" stroke="black" d="M522.67,-355.54C554.89,-340.47 603.79,-317.61 637.36,-301.91"/>
+<text text-anchor="middle" x="602.04" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- polished bench leg -->
+<g id="node12" class="node">
+<title>polished bench leg</title>
+<ellipse fill="none" stroke="black" cx="489.6" cy="-195" rx="80.52" ry="18"/>
+<text text-anchor="middle" x="489.6" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">polished bench leg</text>
+</g>
+<!-- bench leg &#160;w/hole&#45;&#45;polished bench leg -->
+<g id="edge13" class="edge">
+<title>bench leg &#160;w/hole&#45;&#45;polished bench leg</title>
+<path fill="none" stroke="black" d="M489.6,-265.41C489.6,-250.34 489.6,-228.49 489.6,-213.35"/>
+<text text-anchor="middle" x="492.97" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- raw bench leg -->
+<g id="node13" class="node">
+<title>raw bench leg</title>
+<ellipse fill="none" stroke="black" cx="489.6" cy="-106.5" rx="63.12" ry="18"/>
+<text text-anchor="middle" x="489.6" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">raw bench leg</text>
+</g>
+<!-- polished bench leg&#45;&#45;raw bench leg -->
+<g id="edge14" class="edge">
+<title>polished bench leg&#45;&#45;raw bench leg</title>
+<path fill="none" stroke="black" d="M489.6,-176.91C489.6,-161.84 489.6,-139.99 489.6,-124.85"/>
+<text text-anchor="middle" x="492.97" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- wood pole 4cm -->
+<g id="node14" class="node">
+<title>wood pole 4cm</title>
+<polygon fill="none" stroke="black" points="568.98,-18 529.29,-36 449.9,-36 410.21,-18 449.9,0 529.29,0 568.98,-18"/>
+<text text-anchor="middle" x="489.6" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">wood pole 4cm</text>
+</g>
+<!-- raw bench leg&#45;&#45;wood pole 4cm -->
+<g id="edge15" class="edge">
+<title>raw bench leg&#45;&#45;wood pole 4cm</title>
+<path fill="none" stroke="black" d="M489.6,-88.41C489.6,-73.34 489.6,-51.49 489.6,-36.35"/>
+<text text-anchor="middle" x="501.6" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">0.28</text>
+</g>
+</g>
+</svg>

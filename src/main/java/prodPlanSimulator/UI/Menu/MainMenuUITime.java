@@ -29,7 +29,6 @@ public class MainMenuUITime implements Runnable {
             options.add(new MenuItem("Execution Time", new ListExecutionTimeUI()));
             options.add(new MenuItem("Average and waiting times", new AverageAndWaitingTimesUI()));
             options.add(new MenuItem("Flow Dependency", new FlowDependencyUI()));
-            options.add(new MenuItem("Product Structure Graph", new ProductStructureGraphUI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");

@@ -10,7 +10,7 @@ import prodPlanSimulator.UI.Domain.US14.TotalQuantityMaterialsAndOperationsUI;
 import prodPlanSimulator.UI.Domain.US16.SimulateProcessTreeUI;
 import prodPlanSimulator.UI.Simulators.ChooseSimulatorUI;
 import prodPlanSimulator.UI.Utils.Utils;
-import prodPlanSimulator.UI.graphGenerator.ProductOperationsGraphUI;
+import prodPlanSimulator.UI.graphGenerator.OperationStructureGraphUI;
 import prodPlanSimulator.UI.graphGenerator.ProductStructureGraphUI;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class MainMenuUITree implements Runnable {
             options.add(new MenuItem("Critical Path Operations", new CriticalPathOperationsUI()));
             options.add(new MenuItem("Show Simulation", new SimulateProcessTreeUI()));
             options.add(new MenuItem("Product Structure Graph", new ProductStructureGraphUI()));
-            options.add(new MenuItem("Product Operations Graph", new ProductOperationsGraphUI()));
+            options.add(new MenuItem("Operation Structure Graph ", new OperationStructureGraphUI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");
