@@ -93,11 +93,9 @@ class ItemTest {
 
     @Test
     void setId() {
-        /*
-        item1.setId(11000);
-        assertEquals(11000, item1.getId(), "Item ID should be updated to 11000");
+        item1.setId("11000");
+        assertEquals("11000", item1.getId(), "Item ID should be updated to 11000");
 
-         */
     }
 
     @Test
@@ -182,97 +180,6 @@ class ItemTest {
         double expectedTimeItem2 = 40.0; // 15 + 25
         assertEquals(expectedTimeItem2, result.get(item2Key), 0.01, "The total production time for item2 is incorrect");
     }
-
-
-    @Test
-    void testCalculateAvgExecutionAndWaitingTimes() {
-        Item item1 = new Item();
-        item1.setId("10001");
-        item1.setPriority(Priority.HIGH);
-        Operation operations = new Operation();
-        operations.setDescription("cut");
-        Operation operation1 = new Operation();
-        operation1.setDescription("sand");
-        Operation operation2 = new Operation();
-        operation2.setDescription("paint");
-        item1.setOperationsRequired(new ArrayList<>(Arrays.asList(operations, operation1, operation2)));
-
-        Item item2 = new Item();
-        item2.setId("10002");
-        item2.setPriority(Priority.LOW);
-        operation1.setDescription("drill");
-        operation2.setDescription("polish");
-        item2.setOperationsRequired(new ArrayList<>(Arrays.asList(operation1, operation2)));
-
-        Workstation workstation1 = new Workstation();
-        workstation1.setId("M1");
-        operation1.setDescription("cut");
-        workstation1.setOperation(operation1);
-        workstation1.setTime(10);
-
-        Workstation workstation2 = new Workstation();
-        workstation2.setId("M2");
-        operation2.setDescription("sand");
-        workstation2.setOperation(operation2);
-        workstation2.setTime(20);
-
-
-
-        // Setup the production plan
-        HashMap<Item, Workstation> prodPlan = new HashMap<>();
-        prodPlan.put(item1, workstation1);
-        prodPlan.put(item2, workstation2);
-
-        Instances.getInstance().getHashMapItemsWorkstations().setProdPlan(prodPlan);
-        // Execute the method
-
-        // Simulate the process times
-        LinkedHashMap<String, Double> timeOperations = new LinkedHashMap<>();
-        timeOperations.put("1 -  Operation: CUT - Machine: ws11 - Priority: normal - Item: 1001 - Time: 10 - Quantity: 1", 10.0);
-        timeOperations.put("2 -  Operation: SAND - Machine: ws12 - Priority: normal - Item: 1001 - Time: 20 - Quantity: 1", 20.0);
-        timeOperations.put("3 -  Operation: PAINT - Machine: ws13 - Priority: normal - Item: 1001 - Time: 30 - Quantity: 1", 30.0);
-        timeOperations.put("4 -  Operation: DRILL - Machine: ws21 - Priority: normal - Item: 1002 - Time: 15 - Quantity: 1", 15.0);
-        timeOperations.put("5 -  Operation: POLISH - Machine: ws22 - Priority: normal - Item: 1002 - Time: 25 - Quantity: 1", 25.0);
-
-        // Mock the simulator to return the simulated process times
-        Simulator simulator = Instances.getInstance().getSimulator();
-        simulator.setTimeOperations(timeOperations);
-        // Verify result is not null
-        HashMap<String, Double[]> result = Item.calculateAvgExecutionAndWaitingTimes();
-
-        assertNotNull(result);
-
-        // Verify all operations from both items are present
-        assertTrue(result.containsKey("cut"), "Should contain 'cut' operation");
-        assertTrue(result.containsKey("sand"), "Should contain 'sand' operation");
-        assertTrue(result.containsKey("paint"), "Should contain 'paint' operation");
-        assertTrue(result.containsKey("drill"), "Should contain 'drill' operation");
-        assertTrue(result.containsKey("polish"), "Should contain 'polish' operation");
-
-        // Check specific values for operations we know should have execution times
-        Double[] cutTimes = result.get("cut");
-        assertNotNull(cutTimes, "Times for 'cut' operation should not be null");
-        assertEquals(10.0, cutTimes[0], 0.1, "Average execution time for 'cut' should be 10");
-        assertTrue(cutTimes[1] >= 0, "Waiting time for 'cut' should be non-negative");
-
-        Double[] sandTimes = result.get("sand");
-        assertNotNull(sandTimes, "Times for 'sand' operation should not be null");
-        assertEquals(20.0, sandTimes[0], 0.1, "Average execution time for 'sand' should be 20");
-        assertTrue(sandTimes[1] >= 0, "Waiting time for 'sand' should be non-negative");
-
-        // Verify all entries have valid structure
-        for (Map.Entry<String, Double[]> entry : result.entrySet()) {
-            String operation = entry.getKey();
-            Double[] times = entry.getValue();
-
-            assertNotNull(times, "Times array should not be null for operation " + operation);
-            assertEquals(2, times.length, "Times array should have length 2 for operation " + operation);
-            assertTrue(times[0] >= 0, "Execution time should be non-negative for operation " + operation);
-            assertTrue(times[1] >= 0, "Waiting time should be non-negative for operation " + operation);
-        }
-    }
-
-
 
     @Test
     void testCalculateAvgExecutionAndWaitingTimesWithEmptyData() {

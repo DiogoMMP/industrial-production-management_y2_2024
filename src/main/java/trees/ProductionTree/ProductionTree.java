@@ -15,7 +15,6 @@ import trees.heap.HeapPriorityQueue;
 
 public class ProductionTree {
 
-
     private TreeNode<String> root;
     private Map<String, TreeNode<String>> nodesMap = new HashMap<>();
     private HeapPriorityQueue<Integer, String> qualityCheckQueue; // Priority Queue for Quality Checks
@@ -47,6 +46,22 @@ public class ProductionTree {
      */
     public void setRoot(TreeNode<String> root) {
         this.root = root;
+    }
+
+    /**
+     * Returns the priority queue for quality checks.
+     * @return the priority queue for quality checks
+     */
+    public HeapPriorityQueue<Integer, String> getQualityCheckQueue() {
+        return qualityCheckQueue;
+    }
+
+    /**
+     * Sets the priority queue for quality checks.
+     * @param qualityCheckQueue the priority queue for quality checks
+     */
+    public void setQualityCheckQueue(HeapPriorityQueue<Integer, String> qualityCheckQueue) {
+        this.qualityCheckQueue = qualityCheckQueue;
     }
 
     /**
@@ -341,20 +356,6 @@ public class ProductionTree {
     }
 
     /**
-     * Calculates the priority level of a node in the production tree.
-     * @param node the node to calculate the priority level
-     * @return the priority level of the node
-     */
-    private int calculatePriorityLevel(TreeNode<String> node) {
-        int depth = 0;
-        while (node != null) {
-            depth++;
-            node = node.getParent();
-        }
-        return depth; // Use depth as priority (lower depth = higher priority)
-    }
-
-    /**
      * Displays the production tree in a human-readable format.
      * @param node the current node in the production tree
      * @return the string representation of the production tree
@@ -427,40 +428,6 @@ public class ProductionTree {
         }
 
 
-    }
-
-    /**
-     * Simulates the production process by traversing the production tree in order.
-     * @param productionTreeRoot the root of the production tree
-     */
-    public void simulateProduction(TreeNode<String> productionTreeRoot) {
-        if (productionTreeRoot == null) {
-            System.out.println("Production tree root is null. Cannot simulate production.");
-            return;
-        }
-
-        AVL<String> avl = new AVL<>();
-
-        // Populate AVL Tree with operations from the production tree
-        populateAVL(productionTreeRoot, avl);
-
-        // Traverse AVL Tree and simulate operations
-        System.out.println("Simulating Production Process (In-Order):");
-        avl.printInOrder();
-    }
-
-    /**
-     * Populates an AVL tree with operations from the production tree.
-     * @param node the current node in the production tree
-     * @param avlTree the AVL tree to populate with operations
-     */
-    private void populateAVL(TreeNode<String> node, AVL<String> avlTree) {
-        if (node.getType() == NodeType.OPERATION) {
-            avlTree.insert(node.getValue());
-        }
-        for (TreeNode<String> child : node.getChildren()) {
-            populateAVL(child, avlTree);
-        }
     }
 
     /**
