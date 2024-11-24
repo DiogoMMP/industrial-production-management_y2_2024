@@ -138,12 +138,21 @@ public class ProductionTree {
             Map<String, String> itemNames,
             Map<String, String> operationDescriptions
     ) {
+        Set<String> visitedNodes = new HashSet<>(); // Keeps track of visited nodes
+
         for (String[] booEntry : booData) {
             if (booEntry.length >= 2 && booEntry[0].equals(currentOperationID)) {
                 String productID = booEntry[1];
-                String productQuantity = booEntry[2];
 
+                // Check if this productID has already been added
+                if (visitedNodes.contains(productID)) {
+                    continue; // Skip duplicate
+                }
+                visitedNodes.add(productID);
+
+                String productQuantity = booEntry[2];
                 String productName = itemNames.getOrDefault(productID, "Unknown Product");
+
                 TreeNode<String> productNode = new TreeNode<>(productName + " (Quantity: " + productQuantity + ")", NodeType.MATERIAL);
                 productNode.setOperationParent(parent); // Define the parent
                 parent.addChild(productNode);
@@ -180,6 +189,12 @@ public class ProductionTree {
                     String materialId = booEntry[j];
                     String quantity = booEntry[j + 1];
                     String materialName = itemNames.getOrDefault(materialId, "Unknown Material");
+
+                    // Check if this materialId has already been added
+                    if (visitedNodes.contains(materialId)) {
+                        continue; // Skip duplicate
+                    }
+                    visitedNodes.add(materialId);
 
                     TreeNode<String> materialNode = new TreeNode<>(materialName + " (Quantity: " + quantity + ")");
                     materialNode.setType(NodeType.MATERIAL);

@@ -60,7 +60,7 @@ public class OperationStructureGraph {
                 graphNode = mutNode(nodeName)
                         .add(Label.lines(nodeName))
                         .add(Shape.RECTANGLE);
-                if (lastOperationNode != null && parentTreeNode != null && parentTreeNode.getType() == NodeType.MATERIAL) {
+                if (lastOperationNode != null) {
                     lastOperationNode.addLink(to(graphNode).with(Label.of(extractQuantity(node.getValue().toString()))));
                 }
                 lastOperationNode = graphNode; // Update the last operation
@@ -89,16 +89,10 @@ public class OperationStructureGraph {
 
         graph.add(graphNode);
 
-        // Connections between operations
-        if (parentNode != null && nodeTypeGraph == NodeTypeGraph.OPERATION) {
-            parentNode.addLink(to(graphNode).with(Label.of(extractQuantity(node.getValue().toString()))));
-        }
-
         for (Object child : node.getChildren()) {
             addNodesToGraph((TreeNode) child, graph, graphNode, lastOperationNode, node, nodeTypeGraph);
         }
     }
-
     private NodeTypeGraph getNodeTypeGraph(TreeNode node) {
         if (node.getType() == NodeType.OPERATION) {
             return NodeTypeGraph.OPERATION;
