@@ -272,7 +272,7 @@ public class Simulator {
                 int currentItem = timeOperations.size() + 1;
                 workstation.setHasItem(true);
                 quantMachines--;
-                String operation1 = currentItem + " - " + " Operation: " + operation + " - Machine: " + workstation.getId() + " - Item: " + material.getName() + " - Time: " + workstation.getTime() + " - Quantity: " + material.getQuantity();
+                String operation1 = currentItem + " - " + "Operation: " + operation + " - Machine: " + workstation.getId() + " - Item: " + material.getName() + " - Time: " + workstation.getTime() + " - Quantity: " + material.getQuantity();
                 timeOperations.put(operation1, (double) workstation.getTime());
                 operationsQueue.get(workstation.getOperation().getDescription()).remove(material);
                 return quantMachines;
@@ -469,11 +469,20 @@ public class Simulator {
 
     private List<BOO> createBOMBOOTree(TreeNode<String> node,LinkedHashMap<Integer, BOO> materials) {
         createBOMBOOTree(node);
-        Iterable<BOO> postOrderElements = bombooTree.posOrder();
+        List<BOO> postOrder = bombooTree.getAllNodes();
+        Iterable<BOO> postOrderElements = changeOrder(postOrder);
         fillMaterials(materials, postOrderElements);
         List<BOO> postOrderList = new ArrayList<>();
         postOrderElements.forEach(postOrderList::add);
         return postOrderList;
+    }
+
+    private Iterable<BOO> changeOrder(List<BOO> postOrder) {
+        List<BOO> postOrderElements = new ArrayList<>();
+        for (int i = postOrder.size() - 1; i >= 0; i--) {
+            postOrderElements.add(postOrder.get(i));
+        }
+        return postOrderElements;
     }
 
     private void fillMaterials(LinkedHashMap<Integer, BOO> materials, Iterable<BOO> postOrderElements) {
