@@ -53,9 +53,7 @@ public class ProductionTree {
      * Builds the production tree with the specified main objective.
      * @param mainObjectiveID the ID of the main objective
      */
-    public TreeNode<String> buildProductionTree(
-            String mainObjectiveID
-    ) {
+    public TreeNode<String> buildProductionTree(String mainObjectiveID) {
         BOORepository booRepository = Instances.getInstance().getBOORepository();
         ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
         OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
@@ -63,34 +61,52 @@ public class ProductionTree {
         Map<String, String> itemNames = itemsRepository.getItemsRepository();
         Map<String, String> operationDescriptions = operationsMapRepository.getOperationsMapRepository();
 
-        // Identifies the operation associated with mainObjectiveID in BOO
-        String initialOperationID = null;
-        String quantityOperation = null;
-
+        // Locate the root material
+        String rootMaterialID = null;
+        String rootMaterialQuantity = null;
         for (String[] entry : booData) {
-            if (entry.length >= 2 && entry[1].equals(mainObjectiveID)) {
-                initialOperationID = entry[0];
-                quantityOperation = entry[2];
+            if (entry[1].equals(mainObjectiveID)) {
+                rootMaterialID = entry[1];
+                rootMaterialQuantity = entry[2];
                 break;
             }
         }
 
-        if (initialOperationID == null) {
+        if (rootMaterialID == null) {
             System.out.println("Main objective not found in the Bill of Operations.");
-            return null; // Returns null if the main objective is not found
+            return null;
         }
 
-        // Get the description of the initial operation
-        String mainOperationDescription = operationDescriptions.getOrDefault(initialOperationID, "Unknown Operation");
+        // Create the root material node
+        String rootMaterialName = itemNames.getOrDefault(rootMaterialID, "Unknown Material");
+        root = new TreeNode<>(rootMaterialName + " (Quantity: " + rootMaterialQuantity + ")", NodeType.MATERIAL);
 
-        // Create the root node as the main operation
-        root = new TreeNode<>(mainOperationDescription + " (Quantity: " + quantityOperation + ")", NodeType.OPERATION);
+        // Locate and attach the first operation
+        String varnishOperationID = null;
+        String varnishQuantity = null;
+        for (String[] entry : booData) {
+            if (entry.length >= 2 && entry[1].equals(rootMaterialID)) {
+                varnishOperationID = entry[0];
+                varnishQuantity = entry[2];
+                break;
+            }
+        }
 
-        // Build the production tree recursively
-        buildSubTree(initialOperationID, root, booData, itemNames, operationDescriptions);
+        if (varnishOperationID != null) {
+            String varnishDescription = operationDescriptions.getOrDefault(varnishOperationID, "Unknown Operation");
+            TreeNode<String> varnishOperationNode = new TreeNode<>(
+                    varnishDescription + " (Quantity: " + varnishQuantity + ")", NodeType.OPERATION
+            );
+            int depth = calculateDepth(varnishOperationNode);
+            int priority = getPriorityForDepth(depth);
+            qualityCheckQueue.insert(priority, varnishDescription);
+            root.addChild(varnishOperationNode);
+            buildSubTree(varnishOperationID, varnishOperationNode, booData, itemNames, operationDescriptions);
+        }
 
-        return root; // Returns the complete tree
+        return root;
     }
+
 
     /**
      * Builds the subtree of the production tree recursively.
