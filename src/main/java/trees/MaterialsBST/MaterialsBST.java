@@ -1,8 +1,6 @@
 package trees.MaterialsBST;
 
 import trees.AVL_BST.BST;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class MaterialsBST extends BST {

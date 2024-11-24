@@ -5,7 +5,6 @@ import prodPlanSimulator.repository.BOORepository;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.ItemsRepository;
 import prodPlanSimulator.repository.OperationsMapRepository;
-import trees.AVL_BST.AVL;
 import java.util.*;
 
 import trees.heap.Entry;

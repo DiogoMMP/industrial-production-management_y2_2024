@@ -10,11 +10,7 @@ import prodPlanSimulator.repository.OperationsMapRepository;
 import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
-import trees.heap.HeapPriorityQueue;
-
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.List;
