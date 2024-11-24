@@ -14,10 +14,12 @@ import org.apache.commons.csv.CSVPrinter;
 
 public class OracleDataExporter implements Runnable{
 
+    // JDBC driver name and database URL
     private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
     private static final String USER = "SYS as SYSDBA";
     private static final String PASS = "LAPR3";
 
+    // File paths
     private static final String FILE_PATH = "src/main/resources/";
     private static final String FILE_ITEMS_PATH = FILE_PATH + "items_exported.csv";
     private static final String FILE_OPERATIONS_PATH = FILE_PATH + "operations_exported.csv";
@@ -25,6 +27,9 @@ public class OracleDataExporter implements Runnable{
     private static final String FILE_ARTICLES_PATH = FILE_PATH + "articles_exported.csv";
     private static final String FILE_WORKSTATIONS_PATH = FILE_PATH + "workstations_exported.csv";
 
+    /**
+     * Export the Data Base to a CSV file
+     */
     @Override
     public void run() {
         exportItemsToCSV();
@@ -33,10 +38,19 @@ public class OracleDataExporter implements Runnable{
         exportArticlesToCSV();
         exportWorkstationsToCSV();
     }
+
+    /**
+     * Main method to run the exporter
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         OracleDataExporter exporter = new OracleDataExporter();
         exporter.run();
     }
+
+    /**
+     * Export the workstations to a CSV file
+     */
     private static void exportWorkstationsToCSV() {
         String query =
                 "SELECT DISTINCT " +
@@ -89,6 +103,9 @@ public class OracleDataExporter implements Runnable{
         }
     }
 
+    /**
+     * Export the articles to a CSV file
+     */
     private static void exportArticlesToCSV() {
         String query = "SELECT DISTINCT " +
                 "p.Product_ID AS article, " +
@@ -174,9 +191,10 @@ public class OracleDataExporter implements Runnable{
         }
     }
 
+    /**
+     * Export the Bill of Operations (BOO) to a CSV file
+     */
     public static void exportBOOToCSV() {
-        String countQuery =
-                "SELECT COUNT(DISTINCT Product_ID || Operation_Type_ID) as total_boos FROM BOO";
 
         String query =
                 "WITH ALL_BOOS AS ( " +
@@ -254,6 +272,12 @@ public class OracleDataExporter implements Runnable{
         }
     }
 
+    /**
+     * Format the dependencies or inputs for the BOO
+     * @param input The input to format
+     * @param isDependencies True if the input is dependencies, false if it is inputs
+     * @return The formatted input
+     */
     private static String formatDependenciesOrInputs(String input, boolean isDependencies) {
         if (input == null || input.trim().isEmpty()) {
             return isDependencies ? "(;;;;;)" : "(;;;;;;;)";
@@ -275,6 +299,9 @@ public class OracleDataExporter implements Runnable{
         return formatted.toString();
     }
 
+    /**
+     * Export the operations to a CSV file
+     */
     public static void exportOperationsToCSV() {
         String query =
                 "SELECT Operation_Type_ID AS op_id, Operation_Description AS op_name " +
@@ -301,6 +328,9 @@ public class OracleDataExporter implements Runnable{
         }
     }
 
+    /**
+     * Export the items to a CSV file
+     */
     public static void exportItemsToCSV() {
         String query =
                 "SELECT 'Product' AS item_type, Product_ID AS id_item, Product_Name AS item_name " +

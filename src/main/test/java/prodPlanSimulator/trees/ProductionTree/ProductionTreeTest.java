@@ -10,6 +10,7 @@ import prodPlanSimulator.repository.OperationsMapRepository;
 import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
+import trees.heap.HeapPriorityQueue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -336,6 +337,33 @@ public class ProductionTreeTest {
         // Verify output
         String output = outContent.toString();
         assertTrue("Should show empty quality checks", output.contains("Quality Checks in Order of Priority:"));
+    }
+
+    @Test
+    public void testTraverseCriticalPath() {
+        TreeNode<String> root = new TreeNode<>("Start Operation (Quantity: 1)", NodeType.OPERATION);
+        TreeNode<String> operation1 = new TreeNode<>("Operation 1 (Quantity: 2)", NodeType.OPERATION);
+        TreeNode<String> operation2 = new TreeNode<>("Operation 2 (Quantity: 3)", NodeType.OPERATION);
+        TreeNode<String> material1 = new TreeNode<>("Material A (Quantity: 5)", NodeType.MATERIAL);
+
+        root.addChild(operation1);
+        operation1.addChild(operation2);
+        operation2.addChild(material1);
+
+        productionTree.setRoot(root);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        productionTree.traverseCriticalPath(root);
+
+        String output = outContent.toString();
+        assertTrue(output.contains("Start Operation (Quantity: 1)"));
+        assertTrue(output.contains("Operation 1 (Quantity: 2)"));
+        assertTrue(output.contains("Operation 2 (Quantity: 3)"));
+        assertFalse(output.contains("Material A (Quantity: 5)"));
+
+        System.setOut(System.out);
     }
 
 }
