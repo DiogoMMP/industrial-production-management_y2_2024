@@ -1,367 +1,367 @@
-<svg width="816px" height="1018px"
- viewBox="0.00 0.00 816.28 1017.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 1013.5)">
+<svg width="842px" height="1021px"
+ viewBox="0.00 0.00 842.09 1020.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 1016.8)">
 <title>Operation Structure</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-1013.5 812.28,-1013.5 812.28,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1016.8 838.09,-1016.8 838.09,4 -4,4"/>
 <!-- varnish bench -->
 <g id="node1" class="node">
 <title>varnish bench</title>
-<polygon fill="none" stroke="black" points="482.99,-1009.5 391.24,-1009.5 391.24,-973.5 482.99,-973.5 482.99,-1009.5"/>
-<text text-anchor="middle" x="437.12" y="-986.45" font-family="Times New Roman,serif" font-size="14.00">varnish bench</text>
+<polygon fill="none" stroke="black" points="472.51,-1012.8 378.23,-1012.8 378.23,-976.8 472.51,-976.8 472.51,-1012.8"/>
+<text text-anchor="middle" x="425.37" y="-990.6" font-family="Times,serif" font-size="14.00">varnish bench</text>
 </g>
 <!-- finished bench -->
 <g id="node2" class="node">
 <title>finished bench</title>
-<polygon fill="none" stroke="black" points="401.37,-903 363.74,-921 288.49,-921 250.86,-903 288.49,-885 363.74,-885 401.37,-903"/>
-<text text-anchor="middle" x="326.12" y="-897.95" font-family="Times New Roman,serif" font-size="14.00">finished bench</text>
+<ellipse fill="none" stroke="black" cx="321.37" cy="-906" rx="67.74" ry="18"/>
+<text text-anchor="middle" x="321.37" y="-901.8" font-family="Times,serif" font-size="14.00">finished bench</text>
 </g>
 <!-- varnish bench&#45;&#45;finished bench -->
 <g id="edge1" class="edge">
 <title>varnish bench&#45;&#45;finished bench</title>
-<path fill="none" stroke="black" d="M414.92,-973.2C395.56,-958.12 367.62,-936.34 348.27,-921.27"/>
-<text text-anchor="middle" x="394.93" y="-942.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M404.82,-976.65C386.35,-961.24 359.4,-938.74 341.17,-923.52"/>
+<text text-anchor="middle" x="386.87" y="-946.2" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- assemble bench -->
 <g id="node3" class="node">
 <title>assemble bench</title>
-<polygon fill="none" stroke="black" points="433.24,-832.5 330.99,-832.5 330.99,-796.5 433.24,-796.5 433.24,-832.5"/>
-<text text-anchor="middle" x="382.12" y="-809.45" font-family="Times New Roman,serif" font-size="14.00">assemble bench</text>
+<polygon fill="none" stroke="black" points="425.61,-835.2 321.12,-835.2 321.12,-799.2 425.61,-799.2 425.61,-835.2"/>
+<text text-anchor="middle" x="373.37" y="-813" font-family="Times,serif" font-size="14.00">assemble bench</text>
 </g>
 <!-- varnish bench&#45;&#45;assemble bench -->
 <g id="edge2" class="edge">
 <title>varnish bench&#45;&#45;assemble bench</title>
-<path fill="none" stroke="black" d="M433.41,-973.12C428.75,-952.04 420.13,-915.54 410.12,-885 404.2,-866.95 395.92,-846.89 389.9,-832.97"/>
-<text text-anchor="middle" x="423.85" y="-897.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M421.47,-976.44C416.61,-955.36 407.8,-918.82 398.37,-888 392.79,-869.78 385.31,-849.3 379.99,-835.26"/>
+<text text-anchor="middle" x="411.87" y="-901.8" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- varnish -->
 <g id="node26" class="node">
 <title>varnish</title>
-<ellipse fill="none" stroke="black" cx="500.12" cy="-903" rx="38.04" ry="18"/>
-<text text-anchor="middle" x="500.12" y="-897.95" font-family="Times New Roman,serif" font-size="14.00">varnish</text>
+<polygon fill="none" stroke="black" points="542,-906 519.19,-924 473.55,-924 450.73,-906 473.55,-888 519.19,-888 542,-906"/>
+<text text-anchor="middle" x="496.37" y="-901.8" font-family="Times,serif" font-size="14.00">varnish</text>
 </g>
 <!-- varnish bench&#45;&#45;varnish -->
 <g id="edge3" class="edge">
 <title>varnish bench&#45;&#45;varnish</title>
-<path fill="none" stroke="black" d="M449.56,-973.41C460.75,-958.05 477.08,-935.63 488.12,-920.47"/>
-<text text-anchor="middle" x="489.63" y="-942.2" font-family="Times New Roman,serif" font-size="14.00">0,125</text>
+<path fill="none" stroke="black" d="M439.39,-976.65C451.84,-961.43 469.93,-939.32 482.37,-924.11"/>
+<text text-anchor="middle" x="482.12" y="-946.2" font-family="Times,serif" font-size="14.00">0,125</text>
 </g>
 <!-- finished bench&#45;&#45;assemble bench -->
 <g id="edge4" class="edge">
 <title>finished bench&#45;&#45;assemble bench</title>
-<path fill="none" stroke="black" d="M337.18,-884.91C346.93,-869.84 361.08,-847.99 370.88,-832.85"/>
-<text text-anchor="middle" x="362.51" y="-853.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M331.64,-887.85C340.76,-872.63 354.01,-850.52 363.12,-835.31"/>
+<text text-anchor="middle" x="355.87" y="-857.4" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- raw bench -->
 <g id="node4" class="node">
 <title>raw bench</title>
-<polygon fill="none" stroke="black" points="439.05,-726 410.58,-744 353.65,-744 325.18,-726 353.65,-708 410.58,-708 439.05,-726"/>
-<text text-anchor="middle" x="382.12" y="-720.95" font-family="Times New Roman,serif" font-size="14.00">raw bench</text>
+<ellipse fill="none" stroke="black" cx="373.37" cy="-728.4" rx="50.96" ry="18"/>
+<text text-anchor="middle" x="373.37" y="-724.2" font-family="Times,serif" font-size="14.00">raw bench</text>
 </g>
 <!-- assemble bench&#45;&#45;raw bench -->
 <g id="edge5" class="edge">
 <title>assemble bench&#45;&#45;raw bench</title>
-<path fill="none" stroke="black" d="M382.12,-796.41C382.12,-781.34 382.12,-759.49 382.12,-744.35"/>
-<text text-anchor="middle" x="385.49" y="-765.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M373.37,-799.05C373.37,-783.83 373.37,-761.72 373.37,-746.51"/>
+<text text-anchor="middle" x="376.87" y="-768.6" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- fix nut M16 21 -->
 <g id="node5" class="node">
 <title>fix nut M16 21</title>
-<polygon fill="none" stroke="black" points="349.74,-655.5 250.49,-655.5 250.49,-619.5 349.74,-619.5 349.74,-655.5"/>
-<text text-anchor="middle" x="300.12" y="-632.45" font-family="Times New Roman,serif" font-size="14.00">fix nut M16 21</text>
+<polygon fill="none" stroke="black" points="347.75,-657.6 246.98,-657.6 246.98,-621.6 347.75,-621.6 347.75,-657.6"/>
+<text text-anchor="middle" x="297.37" y="-635.4" font-family="Times,serif" font-size="14.00">fix nut M16 21</text>
 </g>
 <!-- assemble bench&#45;&#45;fix nut M16 21 -->
 <g id="edge6" class="edge">
 <title>assemble bench&#45;&#45;fix nut M16 21</title>
-<path fill="none" stroke="black" d="M355.93,-796.12C339.54,-783.69 319.65,-765.41 309.37,-744 295.67,-715.49 296.2,-677.67 298.03,-655.91"/>
-<text text-anchor="middle" x="312.74" y="-720.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M350.21,-799.12C334.92,-786.42 315.99,-767.67 306.37,-746.4 293.3,-717.51 293.73,-679.68 295.42,-657.97"/>
+<text text-anchor="middle" x="309.87" y="-724.2" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- fix bolt M16 22 -->
 <g id="node16" class="node">
 <title>fix bolt M16 22</title>
-<polygon fill="none" stroke="black" points="526.62,-655.5 423.62,-655.5 423.62,-619.5 526.62,-619.5 526.62,-655.5"/>
-<text text-anchor="middle" x="475.12" y="-632.45" font-family="Times New Roman,serif" font-size="14.00">fix bolt M16 22</text>
+<polygon fill="none" stroke="black" points="512.64,-657.6 408.09,-657.6 408.09,-621.6 512.64,-621.6 512.64,-657.6"/>
+<text text-anchor="middle" x="460.37" y="-635.4" font-family="Times,serif" font-size="14.00">fix bolt M16 22</text>
 </g>
 <!-- assemble bench&#45;&#45;fix bolt M16 22 -->
 <g id="edge7" class="edge">
 <title>assemble bench&#45;&#45;fix bolt M16 22</title>
-<path fill="none" stroke="black" d="M403.55,-796.18C418.16,-783.26 436.84,-764.39 448.12,-744 463.85,-715.54 470.63,-677.7 473.38,-655.93"/>
-<text text-anchor="middle" x="465.83" y="-720.95" font-family="Times New Roman,serif" font-size="14.00">4</text>
+<path fill="none" stroke="black" d="M392.23,-798.98C405.58,-785.8 422.89,-766.53 433.37,-746.4 448.42,-717.48 455.44,-679.66 458.42,-657.96"/>
+<text text-anchor="middle" x="450.87" y="-724.2" font-family="Times,serif" font-size="14.00">4</text>
 </g>
 <!-- raw bench&#45;&#45;fix nut M16 21 -->
 <g id="edge8" class="edge">
 <title>raw bench&#45;&#45;fix nut M16 21</title>
-<path fill="none" stroke="black" d="M365.91,-707.91C351.63,-692.84 330.92,-670.99 316.56,-655.85"/>
-<text text-anchor="middle" x="351.83" y="-676.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M359.07,-711.07C345.74,-695.85 325.93,-673.23 312.38,-657.74"/>
+<text text-anchor="middle" x="345.87" y="-679.8" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- raw bench&#45;&#45;fix bolt M16 22 -->
 <g id="edge9" class="edge">
 <title>raw bench&#45;&#45;fix bolt M16 22</title>
-<path fill="none" stroke="black" d="M400.49,-707.91C416.69,-692.84 440.18,-670.99 456.46,-655.85"/>
-<text text-anchor="middle" x="440.32" y="-676.7" font-family="Times New Roman,serif" font-size="14.00">4</text>
+<path fill="none" stroke="black" d="M389.73,-711.07C404.99,-695.85 427.67,-673.23 443.18,-657.74"/>
+<text text-anchor="middle" x="428.87" y="-679.8" font-family="Times,serif" font-size="14.00">4</text>
 </g>
 <!-- bench seat wnut -->
 <g id="node6" class="node">
 <title>bench seat wnut</title>
-<polygon fill="none" stroke="black" points="263.87,-549 222.99,-567 141.24,-567 100.36,-549 141.24,-531 222.99,-531 263.87,-549"/>
-<text text-anchor="middle" x="182.12" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">bench seat wnut</text>
+<ellipse fill="none" stroke="black" cx="188.37" cy="-550.8" rx="73.5" ry="18"/>
+<text text-anchor="middle" x="188.37" y="-546.6" font-family="Times,serif" font-size="14.00">bench seat wnut</text>
 </g>
 <!-- fix nut M16 21&#45;&#45;bench seat wnut -->
 <g id="edge10" class="edge">
 <title>fix nut M16 21&#45;&#45;bench seat wnut</title>
-<path fill="none" stroke="black" d="M276.52,-619.2C255.94,-604.12 226.24,-582.34 205.67,-567.27"/>
-<text text-anchor="middle" x="255.06" y="-588.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M275.83,-621.45C256.48,-606.04 228.23,-583.54 209.12,-568.32"/>
+<text text-anchor="middle" x="256.87" y="-591" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- drill bench seat -->
 <g id="node7" class="node">
 <title>drill bench seat</title>
-<polygon fill="none" stroke="black" points="251.74,-478.5 152.49,-478.5 152.49,-442.5 251.74,-442.5 251.74,-478.5"/>
-<text text-anchor="middle" x="202.12" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">drill bench seat</text>
+<polygon fill="none" stroke="black" points="289.89,-480 188.84,-480 188.84,-444 289.89,-444 289.89,-480"/>
+<text text-anchor="middle" x="239.37" y="-457.8" font-family="Times,serif" font-size="14.00">drill bench seat</text>
 </g>
 <!-- fix nut M16 21&#45;&#45;drill bench seat -->
 <g id="edge11" class="edge">
 <title>fix nut M16 21&#45;&#45;drill bench seat</title>
-<path fill="none" stroke="black" d="M298.6,-619.36C296.04,-597.55 289.46,-559.33 273.12,-531 261.13,-510.23 241.23,-491.53 225.54,-478.77"/>
-<text text-anchor="middle" x="291.16" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M293.93,-621.48C289.47,-600.34 280.99,-563.43 270.37,-532.8 263.98,-514.39 254.71,-494.1 247.97,-480.17"/>
+<text text-anchor="middle" x="284.87" y="-546.6" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- nut M16 -->
 <g id="node14" class="node">
 <title>nut M16</title>
-<ellipse fill="none" stroke="black" cx="368.12" cy="-549" rx="43.16" ry="18"/>
-<text text-anchor="middle" x="368.12" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">nut M16</text>
+<polygon fill="none" stroke="black" points="424.06,-550.8 398.71,-568.8 348.02,-568.8 322.68,-550.8 348.02,-532.8 398.71,-532.8 424.06,-550.8"/>
+<text text-anchor="middle" x="373.37" y="-546.6" font-family="Times,serif" font-size="14.00">nut M16</text>
 </g>
 <!-- fix nut M16 21&#45;&#45;nut M16 -->
 <g id="edge12" class="edge">
 <title>fix nut M16 21&#45;&#45;nut M16</title>
-<path fill="none" stroke="black" d="M313.55,-619.41C325.63,-604.05 343.25,-581.63 355.17,-566.47"/>
-<text text-anchor="middle" x="343.58" y="-588.2" font-family="Times New Roman,serif" font-size="14.00">4</text>
+<path fill="none" stroke="black" d="M312.38,-621.45C325.71,-606.23 345.07,-584.12 358.38,-568.91"/>
+<text text-anchor="middle" x="345.87" y="-591" font-family="Times,serif" font-size="14.00">4</text>
 </g>
 <!-- bolt M6 -->
 <g id="node15" class="node">
 <title>bolt M6</title>
-<ellipse fill="none" stroke="black" cx="41.12" cy="-549" rx="41.12" ry="18"/>
-<text text-anchor="middle" x="41.12" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">bolt M6</text>
+<polygon fill="none" stroke="black" points="96.6,-550.8 72.49,-568.8 24.25,-568.8 0.13,-550.8 24.25,-532.8 72.49,-532.8 96.6,-550.8"/>
+<text text-anchor="middle" x="48.37" y="-546.6" font-family="Times,serif" font-size="14.00">bolt M6</text>
 </g>
 <!-- fix nut M16 21&#45;&#45;bolt M6 -->
 <g id="edge13" class="edge">
 <title>fix nut M16 21&#45;&#45;bolt M6</title>
-<path fill="none" stroke="black" d="M250.25,-620.02C207.89,-606 145.48,-585.28 91.12,-567 85.21,-565.01 78.91,-562.88 72.84,-560.82"/>
-<text text-anchor="middle" x="200.67" y="-588.2" font-family="Times New Roman,serif" font-size="14.00">12</text>
+<path fill="none" stroke="black" d="M248.47,-621.55C198.76,-604.23 123.16,-577.87 80.54,-563.01"/>
+<text text-anchor="middle" x="202.37" y="-591" font-family="Times,serif" font-size="14.00">12</text>
 </g>
 <!-- bench seat wnut&#45;&#45;drill bench seat -->
 <g id="edge14" class="edge">
 <title>bench seat wnut&#45;&#45;drill bench seat</title>
-<path fill="none" stroke="black" d="M186.07,-530.91C189.55,-515.84 194.6,-493.99 198.1,-478.85"/>
-<text text-anchor="middle" x="197.28" y="-499.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M198.44,-532.65C207.38,-517.43 220.38,-495.32 229.31,-480.11"/>
+<text text-anchor="middle" x="222.87" y="-502.2" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- bench seat wholes -->
 <g id="node8" class="node">
 <title>bench seat wholes</title>
-<polygon fill="none" stroke="black" points="223.73,-372 178.42,-390 87.81,-390 42.5,-372 87.81,-354 178.42,-354 223.73,-372"/>
-<text text-anchor="middle" x="133.12" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">bench seat wholes</text>
+<ellipse fill="none" stroke="black" cx="203.37" cy="-373.2" rx="81.08" ry="18"/>
+<text text-anchor="middle" x="203.37" y="-369" font-family="Times,serif" font-size="14.00">bench seat wholes</text>
 </g>
 <!-- drill bench seat&#45;&#45;bench seat wholes -->
 <g id="edge15" class="edge">
 <title>drill bench seat&#45;&#45;bench seat wholes</title>
-<path fill="none" stroke="black" d="M188.48,-442.41C176.46,-427.34 159.04,-405.49 146.96,-390.35"/>
-<text text-anchor="middle" x="177.17" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M232.26,-443.85C225.94,-428.63 216.77,-406.52 210.47,-391.31"/>
+<text text-anchor="middle" x="228.87" y="-413.4" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- polish bench seat -->
 <g id="node9" class="node">
 <title>polish bench seat</title>
-<polygon fill="none" stroke="black" points="251.99,-301.5 142.24,-301.5 142.24,-265.5 251.99,-265.5 251.99,-301.5"/>
-<text text-anchor="middle" x="197.12" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">polish bench seat</text>
+<polygon fill="none" stroke="black" points="333.79,-302.4 220.95,-302.4 220.95,-266.4 333.79,-266.4 333.79,-302.4"/>
+<text text-anchor="middle" x="277.37" y="-280.2" font-family="Times,serif" font-size="14.00">polish bench seat</text>
 </g>
 <!-- drill bench seat&#45;&#45;polish bench seat -->
 <g id="edge16" class="edge">
 <title>drill bench seat&#45;&#45;polish bench seat</title>
-<path fill="none" stroke="black" d="M213.07,-442.09C224.8,-421.28 240.75,-385.35 233.12,-354 228.48,-334.99 217.67,-315.37 209.1,-301.85"/>
-<text text-anchor="middle" x="238.48" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M258.04,-443.77C270.71,-430.74 286.38,-411.64 293.37,-391.2 303.64,-361.14 293.05,-324.03 284.88,-302.7"/>
+<text text-anchor="middle" x="301.87" y="-369" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- bench seat wholes&#45;&#45;polish bench seat -->
 <g id="edge17" class="edge">
 <title>bench seat wholes&#45;&#45;polish bench seat</title>
-<path fill="none" stroke="black" d="M145.76,-353.91C156.91,-338.84 173.07,-316.99 184.28,-301.85"/>
-<text text-anchor="middle" x="174.22" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M217.64,-355.46C230.57,-340.29 249.56,-318.02 262.64,-302.68"/>
+<text text-anchor="middle" x="250.87" y="-324.6" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- polished bench seat -->
 <g id="node10" class="node">
 <title>polished bench seat</title>
-<polygon fill="none" stroke="black" points="200.64,-195 152.38,-213 55.85,-213 7.59,-195 55.85,-177 152.38,-177 200.64,-195"/>
-<text text-anchor="middle" x="104.12" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">polished bench seat</text>
+<ellipse fill="none" stroke="black" cx="213.37" cy="-195.6" rx="86.82" ry="18"/>
+<text text-anchor="middle" x="213.37" y="-191.4" font-family="Times,serif" font-size="14.00">polished bench seat</text>
 </g>
 <!-- polish bench seat&#45;&#45;polished bench seat -->
 <g id="edge18" class="edge">
 <title>polish bench seat&#45;&#45;polished bench seat</title>
-<path fill="none" stroke="black" d="M178.74,-265.41C162.54,-250.34 139.05,-228.49 122.77,-213.35"/>
-<text text-anchor="middle" x="162.32" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M264.72,-266.25C253.43,-250.94 236.99,-228.63 225.77,-213.42"/>
+<text text-anchor="middle" x="254.87" y="-235.8" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- cut bench seat -->
 <g id="node11" class="node">
 <title>cut bench seat</title>
-<polygon fill="none" stroke="black" points="272.74,-124.5 179.49,-124.5 179.49,-88.5 272.74,-88.5 272.74,-124.5"/>
-<text text-anchor="middle" x="226.12" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">cut bench seat</text>
+<polygon fill="none" stroke="black" points="347.17,-124.8 251.57,-124.8 251.57,-88.8 347.17,-88.8 347.17,-124.8"/>
+<text text-anchor="middle" x="299.37" y="-102.6" font-family="Times,serif" font-size="14.00">cut bench seat</text>
 </g>
 <!-- polish bench seat&#45;&#45;cut bench seat -->
 <g id="edge19" class="edge">
 <title>polish bench seat&#45;&#45;cut bench seat</title>
-<path fill="none" stroke="black" d="M200.54,-265.11C203.26,-251.07 207.1,-230.79 210.12,-213 215.37,-181.95 220.7,-145.61 223.69,-124.71"/>
-<text text-anchor="middle" x="219.21" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M287.72,-266.35C295.39,-252.64 305.22,-232.62 309.37,-213.6 316.1,-182.78 309.37,-145.93 304.17,-124.85"/>
+<text text-anchor="middle" x="315.87" y="-191.4" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- polished bench seat&#45;&#45;cut bench seat -->
 <g id="edge20" class="edge">
 <title>polished bench seat&#45;&#45;cut bench seat</title>
-<path fill="none" stroke="black" d="M128.51,-176.7C149.79,-161.62 180.5,-139.84 201.76,-124.77"/>
-<text text-anchor="middle" x="179.42" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M229.95,-177.86C244.98,-162.69 267.05,-140.42 282.25,-125.08"/>
+<text text-anchor="middle" x="267.87" y="-147" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- raw bench seat -->
 <g id="node12" class="node">
 <title>raw bench seat</title>
-<polygon fill="none" stroke="black" points="181.55,-18 143.33,-36 66.9,-36 28.68,-18 66.9,0 143.33,0 181.55,-18"/>
-<text text-anchor="middle" x="105.12" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">raw bench seat</text>
+<ellipse fill="none" stroke="black" cx="259.37" cy="-18" rx="68.32" ry="18"/>
+<text text-anchor="middle" x="259.37" y="-13.8" font-family="Times,serif" font-size="14.00">raw bench seat</text>
 </g>
 <!-- cut bench seat&#45;&#45;raw bench seat -->
 <g id="edge21" class="edge">
 <title>cut bench seat&#45;&#45;raw bench seat</title>
-<path fill="none" stroke="black" d="M201.92,-88.2C180.82,-73.12 150.36,-51.34 129.27,-36.27"/>
-<text text-anchor="middle" x="179.83" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M291.46,-88.65C284.45,-73.43 274.26,-51.32 267.25,-36.11"/>
+<text text-anchor="middle" x="286.87" y="-58.2" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- wood 3cm -->
 <g id="node13" class="node">
 <title>wood 3cm</title>
-<ellipse fill="none" stroke="black" cx="250.12" cy="-18" rx="50.33" ry="18"/>
-<text text-anchor="middle" x="250.12" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">wood 3cm</text>
+<polygon fill="none" stroke="black" points="464.88,-18 435.12,-36 375.61,-36 345.85,-18 375.61,0 435.12,0 464.88,-18"/>
+<text text-anchor="middle" x="405.37" y="-13.8" font-family="Times,serif" font-size="14.00">wood 3cm</text>
 </g>
 <!-- cut bench seat&#45;&#45;wood 3cm -->
 <g id="edge22" class="edge">
 <title>cut bench seat&#45;&#45;wood 3cm</title>
-<path fill="none" stroke="black" d="M230.86,-88.41C235.04,-73.34 241.1,-51.49 245.3,-36.35"/>
-<text text-anchor="middle" x="259.01" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">0,0576</text>
+<path fill="none" stroke="black" d="M320.31,-88.65C338.89,-73.43 365.9,-51.32 384.47,-36.11"/>
+<text text-anchor="middle" x="381.62" y="-58.2" font-family="Times,serif" font-size="14.00">0,0576</text>
 </g>
 <!-- bench leg wbolt -->
 <g id="node17" class="node">
 <title>bench leg wbolt</title>
-<polygon fill="none" stroke="black" points="808.28,-549 767.7,-567 686.53,-567 645.95,-549 686.53,-531 767.7,-531 808.28,-549"/>
-<text text-anchor="middle" x="727.12" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">bench leg wbolt</text>
+<ellipse fill="none" stroke="black" cx="761.37" cy="-550.8" rx="72.94" ry="18"/>
+<text text-anchor="middle" x="761.37" y="-546.6" font-family="Times,serif" font-size="14.00">bench leg wbolt</text>
 </g>
 <!-- fix bolt M16 22&#45;&#45;bench leg wbolt -->
 <g id="edge23" class="edge">
 <title>fix bolt M16 22&#45;&#45;bench leg wbolt</title>
-<path fill="none" stroke="black" d="M525.81,-619.1C571.51,-603.41 638.1,-580.55 682,-565.49"/>
-<text text-anchor="middle" x="627.06" y="-588.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M512.8,-623.48C570.23,-606.92 661.42,-580.62 715.93,-564.9"/>
+<text text-anchor="middle" x="640.87" y="-591" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- drill bench leg -->
 <g id="node18" class="node">
 <title>drill bench leg</title>
-<polygon fill="none" stroke="black" points="521.49,-478.5 426.74,-478.5 426.74,-442.5 521.49,-442.5 521.49,-478.5"/>
-<text text-anchor="middle" x="474.12" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">drill bench leg</text>
+<polygon fill="none" stroke="black" points="566.73,-480 470,-480 470,-444 566.73,-444 566.73,-480"/>
+<text text-anchor="middle" x="518.37" y="-457.8" font-family="Times,serif" font-size="14.00">drill bench leg</text>
 </g>
 <!-- fix bolt M16 22&#45;&#45;drill bench leg -->
 <g id="edge24" class="edge">
 <title>fix bolt M16 22&#45;&#45;drill bench leg</title>
-<path fill="none" stroke="black" d="M469.03,-619.05C464.52,-605.15 458.76,-585.09 456.37,-567 454.26,-551.14 454.37,-546.88 456.37,-531 458.63,-512.96 464.09,-492.89 468.36,-478.98"/>
-<text text-anchor="middle" x="459.74" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M459.14,-621.53C458.2,-600.12 458.54,-562.6 469.37,-532.8 476.6,-512.9 491.04,-493.45 502.38,-480.16"/>
+<text text-anchor="middle" x="472.87" y="-546.6" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- threaded rod M16 -->
 <g id="node25" class="node">
 <title>threaded rod M16</title>
-<ellipse fill="none" stroke="black" cx="550.12" cy="-549" rx="77.97" ry="18"/>
-<text text-anchor="middle" x="550.12" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">threaded rod M16</text>
+<polygon fill="none" stroke="black" points="671.13,-550.8 624.75,-568.8 531.99,-568.8 485.6,-550.8 531.99,-532.8 624.75,-532.8 671.13,-550.8"/>
+<text text-anchor="middle" x="578.37" y="-546.6" font-family="Times,serif" font-size="14.00">threaded rod M16</text>
 </g>
 <!-- fix bolt M16 22&#45;&#45;threaded rod M16 -->
 <g id="edge25" class="edge">
 <title>fix bolt M16 22&#45;&#45;threaded rod M16</title>
-<path fill="none" stroke="black" d="M489.93,-619.41C503.08,-604.25 522.19,-582.21 535.33,-567.05"/>
-<text text-anchor="middle" x="522.71" y="-588.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M483.68,-621.45C504.37,-606.23 534.43,-584.12 555.1,-568.91"/>
+<text text-anchor="middle" x="532.87" y="-591" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- bench leg wbolt&#45;&#45;drill bench leg -->
 <g id="edge26" class="edge">
 <title>bench leg wbolt&#45;&#45;drill bench leg</title>
-<path fill="none" stroke="black" d="M681.88,-532.54C636.83,-517.13 567.92,-493.57 521.97,-477.86"/>
-<text text-anchor="middle" x="626.65" y="-499.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M721.78,-535.66C679.29,-520.48 611.76,-496.36 566.29,-480.12"/>
+<text text-anchor="middle" x="664.87" y="-502.2" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- bench leg &#160;whole -->
 <g id="node19" class="node">
 <title>bench leg &#160;whole</title>
-<polygon fill="none" stroke="black" points="465.01,-372 422.06,-390 336.17,-390 293.23,-372 336.17,-354 422.06,-354 465.01,-372"/>
-<text text-anchor="middle" x="379.12" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">bench leg &#160;whole</text>
+<ellipse fill="none" stroke="black" cx="483.37" cy="-373.2" rx="76.97" ry="18"/>
+<text text-anchor="middle" x="483.37" y="-369" font-family="Times,serif" font-size="14.00">bench leg &#160;whole</text>
 </g>
 <!-- drill bench leg&#45;&#45;bench leg &#160;whole -->
 <g id="edge27" class="edge">
 <title>drill bench leg&#45;&#45;bench leg &#160;whole</title>
-<path fill="none" stroke="black" d="M455.35,-442.41C438.8,-427.34 414.8,-405.49 398.17,-390.35"/>
-<text text-anchor="middle" x="438.5" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M511.45,-443.85C505.32,-428.63 496.4,-406.52 490.27,-391.31"/>
+<text text-anchor="middle" x="506.87" y="-413.4" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- polish bench leg -->
 <g id="node20" class="node">
 <title>polish bench leg</title>
-<polygon fill="none" stroke="black" points="517.74,-301.5 412.49,-301.5 412.49,-265.5 517.74,-265.5 517.74,-301.5"/>
-<text text-anchor="middle" x="465.12" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">polish bench leg</text>
+<polygon fill="none" stroke="black" points="626.13,-302.4 518.61,-302.4 518.61,-266.4 626.13,-266.4 626.13,-302.4"/>
+<text text-anchor="middle" x="572.37" y="-280.2" font-family="Times,serif" font-size="14.00">polish bench leg</text>
 </g>
 <!-- drill bench leg&#45;&#45;polish bench leg -->
 <g id="edge28" class="edge">
 <title>drill bench leg&#45;&#45;polish bench leg</title>
-<path fill="none" stroke="black" d="M474.79,-442.3C475.46,-421.4 476.12,-385.07 474.12,-354 472.96,-336.15 470.17,-315.89 467.99,-301.86"/>
-<text text-anchor="middle" x="478.75" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M535.6,-443.8C547.53,-430.63 562.47,-411.36 569.37,-391.2 579.6,-361.3 577.44,-323.82 574.92,-302.44"/>
+<text text-anchor="middle" x="578.87" y="-369" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- bench leg &#160;whole&#45;&#45;polish bench leg -->
 <g id="edge29" class="edge">
 <title>bench leg &#160;whole&#45;&#45;polish bench leg</title>
-<path fill="none" stroke="black" d="M396.11,-353.91C411.09,-338.84 432.81,-316.99 447.87,-301.85"/>
-<text text-anchor="middle" x="433.19" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M500.53,-355.46C516.09,-340.29 538.92,-318.02 554.65,-302.68"/>
+<text text-anchor="middle" x="538.87" y="-324.6" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- polished bench leg -->
 <g id="node21" class="node">
 <title>polished bench leg</title>
-<polygon fill="none" stroke="black" points="448.1,-195 401.61,-213 308.62,-213 262.13,-195 308.62,-177 401.61,-177 448.1,-195"/>
-<text text-anchor="middle" x="355.12" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">polished bench leg</text>
+<ellipse fill="none" stroke="black" cx="489.37" cy="-195.6" rx="83.39" ry="18"/>
+<text text-anchor="middle" x="489.37" y="-191.4" font-family="Times,serif" font-size="14.00">polished bench leg</text>
 </g>
 <!-- polish bench leg&#45;&#45;polished bench leg -->
 <g id="edge30" class="edge">
 <title>polish bench leg&#45;&#45;polished bench leg</title>
-<path fill="none" stroke="black" d="M443.12,-265.2C423.93,-250.12 396.25,-228.34 377.07,-213.27"/>
-<text text-anchor="middle" x="423.34" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M555.97,-266.25C541.32,-250.94 520,-228.63 505.45,-213.42"/>
+<text text-anchor="middle" x="540.87" y="-235.8" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- cut bench leg -->
 <g id="node22" class="node">
 <title>cut bench leg</title>
-<polygon fill="none" stroke="black" points="511.49,-124.5 422.74,-124.5 422.74,-88.5 511.49,-88.5 511.49,-124.5"/>
-<text text-anchor="middle" x="467.12" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">cut bench leg</text>
+<polygon fill="none" stroke="black" points="638.51,-124.8 548.23,-124.8 548.23,-88.8 638.51,-88.8 638.51,-124.8"/>
+<text text-anchor="middle" x="593.37" y="-102.6" font-family="Times,serif" font-size="14.00">cut bench leg</text>
 </g>
 <!-- polish bench leg&#45;&#45;cut bench leg -->
 <g id="edge31" class="edge">
 <title>polish bench leg&#45;&#45;cut bench leg</title>
-<path fill="none" stroke="black" d="M465.31,-265.08C465.7,-231.54 466.53,-158.34 466.92,-124.85"/>
-<text text-anchor="middle" x="469.69" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M574.66,-266.2C576.52,-252.08 579.19,-231.55 581.37,-213.6 585.15,-182.4 589.2,-145.98 591.49,-125.04"/>
+<text text-anchor="middle" x="588.87" y="-191.4" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- polished bench leg&#45;&#45;cut bench leg -->
 <g id="edge32" class="edge">
 <title>polished bench leg&#45;&#45;cut bench leg</title>
-<path fill="none" stroke="black" d="M377.51,-176.7C397.05,-161.62 425.24,-139.84 444.76,-124.77"/>
-<text text-anchor="middle" x="424.52" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M509.42,-177.86C527.6,-162.69 554.29,-140.42 572.67,-125.08"/>
+<text text-anchor="middle" x="553.87" y="-147" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- raw bench leg -->
 <g id="node23" class="node">
 <title>raw bench leg</title>
-<polygon fill="none" stroke="black" points="493,-18 456.56,-36 383.67,-36 347.23,-18 383.67,0 456.56,0 493,-18"/>
-<text text-anchor="middle" x="420.12" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">raw bench leg</text>
+<ellipse fill="none" stroke="black" cx="578.37" cy="-18" rx="65.39" ry="18"/>
+<text text-anchor="middle" x="578.37" y="-13.8" font-family="Times,serif" font-size="14.00">raw bench leg</text>
 </g>
 <!-- cut bench leg&#45;&#45;raw bench leg -->
 <g id="edge33" class="edge">
 <title>cut bench leg&#45;&#45;raw bench leg</title>
-<path fill="none" stroke="black" d="M457.83,-88.41C449.64,-73.34 437.77,-51.49 429.54,-36.35"/>
-<text text-anchor="middle" x="451.2" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<path fill="none" stroke="black" d="M590.4,-88.65C587.77,-73.43 583.95,-51.32 581.32,-36.11"/>
+<text text-anchor="middle" x="589.87" y="-58.2" font-family="Times,serif" font-size="14.00">1</text>
 </g>
 <!-- wood pole 4cm -->
 <g id="node24" class="node">
 <title>wood pole 4cm</title>
-<ellipse fill="none" stroke="black" cx="580.12" cy="-18" rx="68.75" ry="18"/>
-<text text-anchor="middle" x="580.12" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">wood pole 4cm</text>
+<polygon fill="none" stroke="black" points="824.86,-18 784.11,-36 702.62,-36 661.88,-18 702.62,0 784.11,0 824.86,-18"/>
+<text text-anchor="middle" x="743.37" y="-13.8" font-family="Times,serif" font-size="14.00">wood pole 4cm</text>
 </g>
 <!-- cut bench leg&#45;&#45;wood pole 4cm -->
 <g id="edge34" class="edge">
 <title>cut bench leg&#45;&#45;wood pole 4cm</title>
-<path fill="none" stroke="black" d="M489.71,-88.2C509.81,-72.82 538.98,-50.49 558.71,-35.39"/>
-<text text-anchor="middle" x="545.74" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">0,28</text>
+<path fill="none" stroke="black" d="M623,-88.65C649.3,-73.43 687.52,-51.32 713.79,-36.11"/>
+<text text-anchor="middle" x="693.62" y="-58.2" font-family="Times,serif" font-size="14.00">0,28</text>
 </g>
 </g>
 </svg>

@@ -1,8 +1,6 @@
 package prodPlanSimulator.UI;
 
 import prodPlanSimulator.UI.Menu.StartMenuUI;
-import prodPlanSimulator.UI.Simulators.ChooseSimulatorUI;
-import prodPlanSimulator.UI.Utils.DataInitializer;
 import prodPlanSimulator.repository.OracleDataExporter;
 
 public class MainUI {

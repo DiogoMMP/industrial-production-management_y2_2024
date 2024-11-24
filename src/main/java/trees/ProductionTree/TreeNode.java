@@ -117,4 +117,16 @@ public class TreeNode<T> {
         }
         return null;
     }
+
+    public TreeNode<T> getNextSibling() {
+
+        if (parent != null) {
+            List<TreeNode<T>> siblings = parent.getChildren();
+            int index = siblings.indexOf(this);
+            if (index < siblings.size() - 1) {
+                return siblings.get(index + 1);
+            }
+        }
+        return null;
+    }
 }

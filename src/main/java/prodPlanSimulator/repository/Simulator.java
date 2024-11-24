@@ -13,6 +13,7 @@ import java.util.*;
 
 public class Simulator {
     private LinkedHashMap<String, Double> timeOperations;
+    private AVL<BOO> bombooTree;
 
     /**
      * US2: Simulate the process of all the items present in the system.
@@ -429,9 +430,9 @@ public class Simulator {
     public LinkedHashMap<String, Double> simulateBOMBOO() {
         ProductionTree productionTree = Instances.getInstance().getProductionTree();
         TreeNode<String> root = productionTree.getRoot();
-        AVL<BOO> bombooTree = new AVL<>();
+        bombooTree = new AVL<>();
         LinkedHashMap<Integer, BOO> materials = new LinkedHashMap<>();
-        List<BOO> postOrderElements = createBOMBOOTree(root, bombooTree, materials);
+        List<BOO> postOrderElements = createBOMBOOTree(root, materials);
         timeOperations = new LinkedHashMap<>();
         WorkstationRepository workstationRepository = Instances.getInstance().getWorkstationRepository();
         HashMap<Integer, Workstation> workstationsMap = (HashMap<Integer, Workstation>) workstationRepository.getWorkstations();
@@ -466,23 +467,23 @@ public class Simulator {
         }
     }
 
-    private List<BOO> createBOMBOOTree(TreeNode<String> node, AVL<BOO> bombooTree, LinkedHashMap<Integer, BOO> materials) {
-        createBOMBOOTree(node, bombooTree);
-        List<BOO> postOrderElements = bombooTree.postOrderTraversal(bombooTree.getRoot());
+    private List<BOO> createBOMBOOTree(TreeNode<String> node,LinkedHashMap<Integer, BOO> materials) {
+        createBOMBOOTree(node);
+        Iterable<BOO> postOrderElements = bombooTree.posOrder();
         fillMaterials(materials, postOrderElements);
-        return postOrderElements;
+        List<BOO> postOrderList = new ArrayList<>();
+        postOrderElements.forEach(postOrderList::add);
+        return postOrderList;
     }
 
-    private void fillMaterials(LinkedHashMap<Integer, BOO> materials, List<BOO> postOrderElements) {
-        int index = postOrderElements.size();
-        int i = 1;
+    private void fillMaterials(LinkedHashMap<Integer, BOO> materials, Iterable<BOO> postOrderElements) {
+        int index = 0;
         for (BOO boo : postOrderElements) {
-            materials.put(index - (postOrderElements.size() - i), boo);
-            i++;
+            materials.put(index++, boo);
         }
     }
 
-    private void createBOMBOOTree(TreeNode<String> node, AVL<BOO> bombooTree) {
+    private void createBOMBOOTree(TreeNode<String> node) {
         if (node == null) {
             return;
         }
@@ -521,11 +522,11 @@ public class Simulator {
         }
 
         for (TreeNode<String> materialChild : materialChildren) {
-            createBOMBOOTree(materialChild, bombooTree);
+            createBOMBOOTree(materialChild);
         }
 
         for (TreeNode<String> operationChild : operationChildren) {
-            createBOMBOOTree(operationChild, bombooTree);
+            createBOMBOOTree(operationChild);
         }
     }
 

@@ -202,21 +202,27 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
 
     /**
      * Performs a post-order traversal of the AVL tree
-     * @param node root of the subtree to be traversed
-     * @return list of elements in post-order
+     * @return iterable collection of elements in post-order
      */
-    public List<E> postOrderTraversal(Node<E> node) {
-        List<E> elements = new ArrayList<>();
-        postOrderTraversal(node, elements);
-        return elements;
+    public Iterable<E> posOrder() {
+        List<E> snapshot = new ArrayList<>();
+        if (root != null) {
+            posOrderSubtree(root, snapshot);
+        }
+        return snapshot;
     }
 
-    private void postOrderTraversal(Node<E> node, List<E> elements) {
-        if (node != null) {
-            postOrderTraversal(node.getLeft(), elements);
-            postOrderTraversal(node.getRight(), elements);
-            elements.add(node.getElement());
-        }
+    /**
+     * Adds elements of the subtree rooted at Node node to the given
+     * snapshot using a post-order traversal
+     * @param node Node serving as the root of a subtree
+     * @param snapshot a list to which results are appended
+     */
+    private void posOrderSubtree(Node<E> node, List<E> snapshot) {
+        if (node == null) return;
+        posOrderSubtree(node.getLeft(), snapshot);
+        posOrderSubtree(node.getRight(), snapshot);
+        snapshot.add(node.getElement());
     }
 
     /**

@@ -33,7 +33,7 @@ public class OperationStructureGraph {
         TreeNode root = productionTree.getRoot();
 
         if (root != null) {
-            addNodesToGraph(root, graph, null, null);
+            addNodesToGraph(root, graph, null, null, null, null);
         } else {
             System.out.println("Could not generate diagram - invalid main objective ID");
             return;
@@ -49,40 +49,36 @@ public class OperationStructureGraph {
         }
     }
 
-    private void addNodesToGraph(TreeNode node, MutableGraph graph, MutableNode parentNode, MutableNode lastOperationNode) {
+    private void addNodesToGraph(TreeNode node, MutableGraph graph, MutableNode parentNode, MutableNode lastOperationNode, TreeNode parentTreeNode, NodeTypeGraph parentNodeTypeGraph) {
         String nodeName = sanitizeNodeName(node.getValue().toString());
         MutableNode graphNode;
         NodeTypeGraph nodeTypeGraph = getNodeTypeGraph(node);
 
-        // Define a forma baseada no tipo de nó
+        // Define the shape based on the node type
         switch (nodeTypeGraph) {
             case OPERATION:
                 graphNode = mutNode(nodeName)
                         .add(Label.lines(nodeName))
                         .add(Shape.RECTANGLE);
-
-                if (lastOperationNode != null) {
+                if (lastOperationNode != null && parentTreeNode != null && parentTreeNode.getType() == NodeType.MATERIAL) {
                     lastOperationNode.addLink(to(graphNode).with(Label.of(extractQuantity(node.getValue().toString()))));
                 }
-
-                lastOperationNode = graphNode; // Atualiza a última operação
+                lastOperationNode = graphNode; // Update the last operation
                 break;
             case MATERIAL:
                 graphNode = mutNode(nodeName)
                         .add(Label.lines(nodeName))
-                        .add(Shape.HEXAGON);
-
-                // Materiais ligam-se à última operação
-                if (lastOperationNode != null) {
+                        .add(Shape.ELLIPSE);
+                // Materials connect to the last operation
+                if (lastOperationNode != null && parentTreeNode != null && parentTreeNode.getType() == NodeType.OPERATION) {
                     lastOperationNode.addLink(to(graphNode).with(Label.of(extractQuantity(node.getValue().toString()))));
                 }
                 break;
             case RAW_MATERIAL:
                 graphNode = mutNode(nodeName)
                         .add(Label.lines(nodeName))
-                        .add(Shape.ELLIPSE);
-
-                // Materiais brutos ligam-se à última operação
+                        .add(Shape.HEXAGON);
+                // Raw materials connect to the last operation
                 if (lastOperationNode != null) {
                     lastOperationNode.addLink(to(graphNode).with(Label.of(extractQuantity(node.getValue().toString()))));
                 }
@@ -93,15 +89,14 @@ public class OperationStructureGraph {
 
         graph.add(graphNode);
 
-        // Ligações entre operações e materiais
-        if (parentNode != null && nodeTypeGraph != NodeTypeGraph.MATERIAL && nodeTypeGraph != NodeTypeGraph.RAW_MATERIAL) {
+        // Connections between operations
+        if (parentNode != null && nodeTypeGraph == NodeTypeGraph.OPERATION) {
             parentNode.addLink(to(graphNode).with(Label.of(extractQuantity(node.getValue().toString()))));
         }
 
         for (Object child : node.getChildren()) {
-            addNodesToGraph((TreeNode) child, graph, graphNode, lastOperationNode);
+            addNodesToGraph((TreeNode) child, graph, graphNode, lastOperationNode, node, nodeTypeGraph);
         }
-
     }
 
     private NodeTypeGraph getNodeTypeGraph(TreeNode node) {
