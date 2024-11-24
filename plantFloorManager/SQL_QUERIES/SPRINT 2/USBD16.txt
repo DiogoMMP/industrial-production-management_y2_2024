@@ -1,7 +1,7 @@
-CREATE OR REPLACE FUNCTION add_product (
+CREATE OR REPLACE FUNCTION add_product(
     p_product_id          IN Product.Product_ID%TYPE,
     p_product_name        IN Product.Product_Name%TYPE,
-    p_part_description 	  IN Part.Part_Description%TYPE,
+    p_part_description    IN Part.Part_Description%TYPE,
     p_factory_plant_id    IN Product.Factory_Plant_ID%TYPE,
     p_market_demand       IN Product.Market_Demand%TYPE DEFAULT NULL,
     p_optimization        IN Product.Optimization%TYPE DEFAULT NULL,
@@ -17,24 +17,22 @@ CREATE OR REPLACE FUNCTION add_product (
     PRODUCT_FAMILY_NOT_EXIST EXCEPTION;
     PRODUCT_FACTORY_NOT_EXIST EXCEPTION;
     PRODUCT_NAME_NULL EXCEPTION;
-	PRODUCT_DESCRIPTION_NULL EXCEPTION;
-	PRODUCT_ID_NULL EXCEPTION;
+    PRODUCT_DESCRIPTION_NULL EXCEPTION;
+    PRODUCT_ID_NULL EXCEPTION;
     FACTORY_PLANT_ID_NULL EXCEPTION;
     FAMILY_ID_NULL EXCEPTION;
-	PART_EXIST EXCEPTION;
 
 BEGIN
-    -- Validate that mandatory fields are not null
-
-	IF p_product_id IS NULL THEN
-    	RAISE PRODUCT_ID_NULL;
-	END IF;
+    -- Validate mandatory fields are not NULL
+    IF p_product_id IS NULL THEN
+        RAISE PRODUCT_ID_NULL;
+    END IF;
 
     IF p_product_name IS NULL THEN
         RAISE PRODUCT_NAME_NULL;
     END IF;
 
-	IF p_part_description IS NULL THEN
+    IF p_part_description IS NULL THEN
         RAISE PRODUCT_DESCRIPTION_NULL;
     END IF;
 
@@ -74,7 +72,8 @@ BEGIN
     END IF;
 
     -- Insert the new product as a part
-    INSERT INTO Part (Part_ID, Part_Description) VALUES (p_product_id, p_part_description);
+    INSERT INTO Part (Part_ID, Part_Description)
+    VALUES (p_product_id, p_part_description);
 
     -- Insert the new product
     INSERT INTO Product (
@@ -87,28 +86,43 @@ BEGIN
         p_family_id, p_product_id
     );
 
-    RETURN v_result;  -- Returns "Inserted successfully" if the insertion is successful
+    -- Commit the transaction
+    COMMIT;
+
+    -- Return success message
+    RETURN v_result;
+
 EXCEPTION
     WHEN PRODUCT_EXIST THEN
+        ROLLBACK;
         RETURN 'Error: Product with ID "' || p_product_id || '" already exists.';
     WHEN PRODUCT_FAMILY_NOT_EXIST THEN
+        ROLLBACK;
         RETURN 'Error: Family with ID "' || p_family_id || '" does not exist.';
     WHEN PRODUCT_FACTORY_NOT_EXIST THEN
+        ROLLBACK;
         RETURN 'Error: Factory Plant with ID "' || p_factory_plant_id || '" does not exist.';
     WHEN PRODUCT_NAME_NULL THEN
+        ROLLBACK;
         RETURN 'Error: Product Name cannot be NULL.';
-	WHEN PRODUCT_DESCRIPTION_NULL THEN
+    WHEN PRODUCT_DESCRIPTION_NULL THEN
+        ROLLBACK;
         RETURN 'Error: Product Description cannot be NULL.';
     WHEN FACTORY_PLANT_ID_NULL THEN
+        ROLLBACK;
         RETURN 'Error: Factory Plant ID cannot be NULL.';
     WHEN FAMILY_ID_NULL THEN
+        ROLLBACK;
         RETURN 'Error: Family ID cannot be NULL.';
-	WHEN PRODUCT_ID_NULL THEN
-        RETURN 'Error: Product ID cannot be NULL';
+    WHEN PRODUCT_ID_NULL THEN
+        ROLLBACK;
+        RETURN 'Error: Product ID cannot be NULL.';
     WHEN OTHERS THEN
+        ROLLBACK;
         RETURN 'Not inserted: ' || SQLERRM;
 END add_product;
 /
+
 
 
 
