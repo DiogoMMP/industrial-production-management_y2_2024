@@ -16,6 +16,7 @@ import java.util.List;
 public class AVL <E extends Comparable<E>> extends BST<E> {
 
     private Node<E> latestInsertedNode;
+    private List<E> allNodes = new ArrayList<>();
     /**
      * Returns the balance factor of a given node
      * @param node node to calculate the balance factor
@@ -120,6 +121,7 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
     private Node<E> insert(E element, Node<E> node){
         if (node == null) {
             latestInsertedNode = new Node<>(element, null, null);
+            allNodes.add(latestInsertedNode.getElement());
             return latestInsertedNode;
         }
         if (element.compareTo(node.getElement()) < 0) {
@@ -276,5 +278,9 @@ public class AVL <E extends Comparable<E>> extends BST<E> {
 
     public Node<E> getLatestInsertedNode() {
         return latestInsertedNode;
+    }
+
+    public List<E> getAllNodes() {
+        return allNodes;
     }
 }
