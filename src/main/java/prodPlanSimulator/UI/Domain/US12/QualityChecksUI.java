@@ -21,8 +21,10 @@ public class QualityChecksUI implements Runnable {
 
         if (interactive) {
             productionTree.performQualityChecksInteractively();
+            Utils.goBackAndWait();
         } else {
             productionTree.viewQualityChecksInOrder();
+            Utils.goBackAndWait();
 
         }
 
