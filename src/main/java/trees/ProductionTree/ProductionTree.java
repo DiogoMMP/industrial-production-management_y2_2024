@@ -637,7 +637,6 @@ public class ProductionTree {
             String materialName = value.substring(0, startIndex).trim();
             String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
             double oldQuantity = Double.parseDouble(quantityStr);
-            double difference = newQuantity - oldQuantity;
             value = materialName + " (Quantity: " + newQuantity + ")";
             node.setValue(value);
             System.out.println("Updated quantity for " + materialName + " from " + oldQuantity + " to " + newQuantity);

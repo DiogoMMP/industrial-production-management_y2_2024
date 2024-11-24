@@ -51,7 +51,7 @@ public class ProductionTreeTest {
     public void testBuildProductionTree() {
         TreeNode<String> root = productionTree.buildProductionTree("1006");
         assertNotNull(root);
-        assertEquals("varnish bench (Quantity: 1)", root.getValue());
+        assertEquals("finished bench (Quantity: 1)", root.getValue());
         assertFalse(root.getChildren().isEmpty());
     }
 
@@ -80,7 +80,7 @@ public class ProductionTreeTest {
 
     @Test
     public void testCalculateTotalMaterialsAndOperations() {
-        productionTree.buildProductionTree( "1006");
+        productionTree.buildProductionTree("1006");
         TreeNode<String> root = productionTree.getRoot();
         Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(root);
 
@@ -134,15 +134,18 @@ public class ProductionTreeTest {
     @Test
     public void testUpdateQuantities() {
         productionTree.buildProductionTree("1006");
-        productionTree.updateQuantities("1006", 2.0);
-        TreeNode<String> root = productionTree.getRoot();
-        assertEquals("finished bench (Quantity: 2.0)", root.getChildren().get(0).getValue());
+        productionTree.updateQuantities("1014", 2.0);
 
-        productionTree.updateQuantities("1006", 1.0);
-        assertEquals("finished bench (Quantity: 1.0)", root.getChildren().get(0).getValue());
+        Map<String, String> leafNode = productionTree.searchNode("1014");
+        assertEquals("varnish (Quantity: 2.0)", leafNode.get("Description"));
 
-        productionTree.updateQuantities("1006", 0.0);
-        assertEquals("finished bench (Quantity: 0.0)", root.getChildren().get(0).getValue());
+        productionTree.updateQuantities("1014", 1.0);
+        leafNode = productionTree.searchNode("1014");
+        assertEquals("varnish (Quantity: 1.0)", leafNode.get("Description"));
+
+        productionTree.updateQuantities("1014", 0.0);
+        leafNode = productionTree.searchNode("1014");
+        assertEquals("varnish (Quantity: 0.0)", leafNode.get("Description"));
     }
 
     @Test
