@@ -1,13 +1,11 @@
 package trees.ProductionTree;
 
-import prodPlanSimulator.InputFileReader;
 import prodPlanSimulator.domain.Material;
 import prodPlanSimulator.repository.BOORepository;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.ItemsRepository;
 import prodPlanSimulator.repository.OperationsMapRepository;
 import trees.AVL_BST.AVL;
-import java.math.BigDecimal;
 import java.util.*;
 
 import trees.heap.Entry;
@@ -326,6 +324,11 @@ public class ProductionTree {
         return "Unknown quantity";
     }
 
+    /**
+     * Calculates the priority level of a node in the production tree.
+     * @param node the node to calculate the priority level
+     * @return the priority level of the node
+     */
     private int calculatePriorityLevel(TreeNode<String> node) {
         int depth = 0;
         while (node != null) {
@@ -335,6 +338,11 @@ public class ProductionTree {
         return depth; // Use depth as priority (lower depth = higher priority)
     }
 
+    /**
+     * Displays the production tree in a human-readable format.
+     * @param node the current node in the production tree
+     * @return the string representation of the production tree
+     */
     public int calculateDepth(TreeNode<String> node) {
         int depth = 0;
         while (node != null) {
@@ -344,6 +352,11 @@ public class ProductionTree {
         return depth;
     }
 
+    /**
+     * Calculates the depth of a node in the production tree.
+     * @param depth the depth of the node
+     * @return the priority for the depth
+     */
     private int getPriorityForDepth(int depth) {
         // Assign a unique priority to each depth level
         if (!depthPriorityMap.containsKey(depth)) {
@@ -352,6 +365,9 @@ public class ProductionTree {
         return depthPriorityMap.get(depth);
     }
 
+    /**
+     * Displays the production tree in a human-readable format.
+     */
     public void viewQualityChecksInOrder() {
         HeapPriorityQueue<Integer, String> tempQueue = qualityCheckQueue.clone();
         System.out.println("Quality Checks in Order of Priority:");
@@ -397,7 +413,10 @@ public class ProductionTree {
 
     }
 
-
+    /**
+     * Simulates the production process by traversing the production tree in order.
+     * @param productionTreeRoot the root of the production tree
+     */
     public void simulateProduction(TreeNode<String> productionTreeRoot) {
         if (productionTreeRoot == null) {
             System.out.println("Production tree root is null. Cannot simulate production.");
@@ -414,6 +433,11 @@ public class ProductionTree {
         avl.printInOrder();
     }
 
+    /**
+     * Populates an AVL tree with operations from the production tree.
+     * @param node the current node in the production tree
+     * @param avlTree the AVL tree to populate with operations
+     */
     private void populateAVL(TreeNode<String> node, AVL<String> avlTree) {
         if (node.getType() == NodeType.OPERATION) {
             avlTree.insert(node.getValue());
@@ -422,6 +446,11 @@ public class ProductionTree {
             populateAVL(child, avlTree);
         }
     }
+
+    /**
+     * Prioritizes the critical path of the production tree based on the depth of operations.
+     * @param root the root of the production tree
+     */
     public void prioritizeCriticalPath(TreeNode<String> root) {
         if (root == null) {
             System.out.println("Production tree is empty.");
@@ -443,7 +472,11 @@ public class ProductionTree {
         }
     }
 
-    // Traverse the tree and add operations to the heap
+    /**
+     * Traverses the production tree and adds operations to a priority queue based on depth.
+     * @param node the current node in the production tree
+     * @param queue the priority queue to store operations by depth
+     */
     private void traverseAndAddToHeap(TreeNode<String> node, HeapPriorityQueue<Integer, TreeNode<String>> queue) {
         if (node.getType() == NodeType.OPERATION) {
             int depth = calculateDepth(node);
@@ -455,11 +488,19 @@ public class ProductionTree {
         }
     }
 
+    /**
+     * Displays the critical path of the production tree in sequence.
+     * @param root the root of the production tree
+     */
     public void displayCriticalPathInSequence(TreeNode<String> root) {
         System.out.println("Critical Path Sequence:");
         traverseCriticalPath(root);
     }
 
+    /**
+     * Traverses the critical path of the production tree in reverse order.
+     * @param node the current node in the production tree
+     */
     public void traverseCriticalPath(TreeNode<String> node) {
         if (node == null) return;
 
@@ -471,59 +512,6 @@ public class ProductionTree {
         // Visit the current node
         if (node.getType() == NodeType.OPERATION) {
             System.out.println(node.getValue());
-        }
-    }
-
-
-
-    // main para testar!! Depois apagar
-    public static void main(String[] args) {
-
-        // Ler os ficheiros CSV
-        List<String[]> booData = InputFileReader.readCsvFile("boo_v2.csv");
-        Map<String, String> itemNames = InputFileReader.readItems("items.csv");
-        Map<String, String> operationDescriptions = InputFileReader.readOperations("operations.csv");
-
-        // Criar uma árvore de produção a partir dos ficheiros CSV
-        ProductionTree productionTree = new ProductionTree();
-        productionTree.buildProductionTree("1006");
-
-        // Realizar verificações de qualidade
-        System.out.println("\nRealizando Verificações de Qualidade:");
-        //productionTree.viewQualityChecksInOrder();
-        productionTree.performQualityChecksInteractively();
-
-        // Create and print the BST with material quantities
-        System.out.println("\nMaterial Quantities in Order:");
-        productionTree.printMaterialQuantitiesInAscendingOrder();
-
-        // Simular a produção completa
-        System.out.println("\nSimulando Produção:");
-        productionTree.simulateProduction(productionTree.getRoot());
-
-        // Calcular a quantidade total de materiais e tempo necessários para a produção
-        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
-        BigDecimal totalMaterialQuantity = BigDecimal.ZERO;
-        BigDecimal totalOperationQuantity = BigDecimal.ZERO;
-
-        for (Map.Entry<String, Object> entry : totals.entrySet()) {
-            if (entry.getKey().equals("materialQuantities")) {
-                System.out.println("\nQuantidade total por Material:\n");
-                Map<String, Double> materialQuantities = (Map<String, Double>) entry.getValue();
-                for (Map.Entry<String, Double> materialEntry : materialQuantities.entrySet()) {
-                    System.out.println(materialEntry.getKey() + ": " + materialEntry.getValue());
-                    totalMaterialQuantity = totalMaterialQuantity.add(BigDecimal.valueOf(materialEntry.getValue()));
-                }
-                System.out.println("Total Material Quantity: " + totalMaterialQuantity);
-            } else if (entry.getKey().equals("operationTimes")) {
-                System.out.println("\nQuantidade total por Operação:\n");
-                Map<String, Double> operationTimes = (Map<String, Double>) entry.getValue();
-                for (Map.Entry<String, Double> operationEntry : operationTimes.entrySet()) {
-                    System.out.println(operationEntry.getKey() + ": " + operationEntry.getValue());
-                    totalOperationQuantity = totalOperationQuantity.add(BigDecimal.valueOf(operationEntry.getValue()));
-                }
-                System.out.println("Total Operation Quantity: " + totalOperationQuantity);
-            }
         }
     }
 
@@ -543,10 +531,22 @@ public class ProductionTree {
         return result;
     }
 
+    /**
+     * Calculates the total quantity of materials and time needed for the production.
+     * @param materialQuantities the map to store the total quantity of materials
+     * @param operationQuantities the map to store the total time needed for operations
+     * @param root the root of the production tree
+     */
     public void calculateTotals(Map<String, Double> materialQuantities, Map<String, Double> operationQuantities, TreeNode<String> root) {
         traverseTree(root, materialQuantities, operationQuantities);
     }
 
+    /**
+     * Traverses the production tree and calculates the total quantity of materials and time needed.
+     * @param node the current node in the production tree
+     * @param materialQuantities the map to store the total quantity of materials
+     * @param operationQuantities the map to store the total time needed for operations
+     */
     public void traverseTree(TreeNode<String> node, Map<String, Double> materialQuantities, Map<String, Double> operationQuantities) {
         if (node == null) {
             return;
@@ -607,6 +607,9 @@ public class ProductionTree {
         return materialQuantityPairs;
     }
 
+    /**
+     * Prints the total quantity of materials needed for the production.
+     */
     public void printMaterialQuantitiesInAscendingOrder() {
         MaterialsBST materialQuantityBST = new MaterialsBST();
         List<Map.Entry<Material, Double>> materialQuantityPairs = getMaterialQuantityPairs();
@@ -617,6 +620,10 @@ public class ProductionTree {
         }
         materialQuantityBST.inorder();
     }
+
+    /**
+     * Prints the total quantity of materials needed for the production in descending order.
+     */
     public void printMaterialQuantitiesInDescendingOrder() {
         MaterialsBST materialQuantityBST = new MaterialsBST();
         List<Map.Entry<Material, Double>> materialQuantityPairs = getMaterialQuantityPairs();
@@ -628,6 +635,11 @@ public class ProductionTree {
         materialQuantityBST.reverseInorder();
     }
 
+    /**
+     * Updates the quantities of materials in the production tree.
+     * @param materialID the ID of the material to update
+     * @param newQuantity the new quantity of the material
+     */
     public void updateQuantities(String materialID, double newQuantity) {
         TreeNode<String> node = nodesMap.get(materialID);
         if (node == null) {
