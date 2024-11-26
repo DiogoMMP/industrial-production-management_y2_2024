@@ -510,6 +510,49 @@ public class Item implements Comparable<Item> {
     }
 
     /**
+     * List workstations by ascending order
+     */
+    public static void listWorkstationsByAscOrder() {
+        int totalExecutionTime = 0;
+        LinkedHashMap<String, Double> timeOperations = simulator.getTimeOperations();
+
+        // Calculate total execution time
+        for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
+            Double time = entry.getValue();
+            totalExecutionTime += time;
+        }
+
+        // Store workstations with total time
+        HashMap<String, Double> workstations = new HashMap<>();
+        for (String workstation : timeOperations.keySet()) {
+            double timeWkStation = 0;
+            Workstation ws = new Workstation();
+            String[] parts = workstation.split(" - ");
+            String workstationName = parts[2].split(": ")[1];
+            timeWkStation += timeOperations.get(workstation);
+            ws.setId(workstationName);
+            if (workstations.containsKey(workstationName)) {
+                workstations.put(workstationName, workstations.get(workstationName) + timeWkStation);
+            } else {
+                workstations.put(workstationName, timeWkStation);
+            }
+        }
+
+// Calculate the percentage of total time for each workstation
+        HashMap<String, Double> workstationPercentages = new HashMap<>();
+        for (Map.Entry<String, Double> entry : workstations.entrySet()) {
+            double time = entry.getValue();
+            double percentage = time / totalExecutionTime * 100;
+            workstationPercentages.put(entry.getKey(), percentage);
+        }
+
+// Print sorted workstations with total time and percentage
+        workstationPercentages.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEach(entry -> System.out.printf("%s - Total time: %.0f - Percentage: %.2f%%\n", entry.getKey(), workstations.get(entry.getKey()), entry.getValue()));
+    }
+
+    /**
      * Compares this object with the specified object to verify if they are equal.
      *
      * @param o the object to be compared.

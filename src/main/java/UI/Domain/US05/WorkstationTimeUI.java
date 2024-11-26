@@ -1,14 +1,24 @@
 package UI.Domain.US05;
 
 import UI.Utils.Utils;
-import prodPlanSimulator.repository.HashMap_Items_Machines;
-import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.domain.Item;
 
 public class WorkstationTimeUI implements Runnable {
-    HashMap_Items_Machines map = Instances.getInstance().getHashMapItemsWorkstations();
+
     @Override
     public void run() {
-        map.listWorkstationsByAscOrder();
+        clearConsole();
+        show();
         Utils.goBackAndWait();
+    }
+
+    private void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    private void show() {
+        System.out.println("\n\n--- Workstations by Ascending Order ------------");
+        Item.listWorkstationsByAscOrder();
     }
 }
