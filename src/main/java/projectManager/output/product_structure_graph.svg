@@ -9,6 +9,12 @@
 <ellipse fill="none" stroke="black" cx="428.66" cy="-550.8" rx="67.74" ry="18"/>
 <text text-anchor="middle" x="428.66" y="-546.6" font-family="Times,serif" font-size="14.00">finished bench</text>
 </g>
+<!-- finished bench&#45;&#45;finished bench -->
+<g id="edge3" class="edge">
+<title>finished bench&#45;&#45;finished bench</title>
+<path fill="none" stroke="black" d="M489.07,-558.9C503.55,-558.27 514.28,-555.57 514.28,-550.8 514.28,-546.03 503.55,-543.33 489.07,-542.7"/>
+<text text-anchor="middle" x="517.78" y="-546.6" font-family="Times,serif" font-size="14.00">1</text>
+</g>
 <!-- raw bench -->
 <g id="node2" class="node">
 <title>raw bench</title>
@@ -40,7 +46,7 @@
 <text text-anchor="middle" x="286.66" y="-369" font-family="Times,serif" font-size="14.00">bench seat w/nut</text>
 </g>
 <!-- raw bench&#45;&#45;bench seat w/nut -->
-<g id="edge3" class="edge">
+<g id="edge4" class="edge">
 <title>raw bench&#45;&#45;bench seat w/nut</title>
 <path fill="none" stroke="black" d="M354.86,-444.67C340.03,-429.35 317.95,-406.53 302.96,-391.05"/>
 <text text-anchor="middle" x="340.16" y="-413.4" font-family="Times,serif" font-size="14.00">1</text>
@@ -52,7 +58,7 @@
 <text text-anchor="middle" x="502.66" y="-369" font-family="Times,serif" font-size="14.00">bench leg w/bolt</text>
 </g>
 <!-- raw bench&#45;&#45;bench leg w/bolt -->
-<g id="edge4" class="edge">
+<g id="edge5" class="edge">
 <title>raw bench&#45;&#45;bench leg w/bolt</title>
 <path fill="none" stroke="black" d="M393.65,-445.88C417.29,-430.34 453.96,-406.22 478.14,-390.32"/>
 <text text-anchor="middle" x="452.16" y="-413.4" font-family="Times,serif" font-size="14.00">1</text>
@@ -64,7 +70,7 @@
 <text text-anchor="middle" x="86.66" y="-280.2" font-family="Times,serif" font-size="14.00">bench seat w/holes</text>
 </g>
 <!-- bench seat w/nut&#45;&#45;bench seat w/holes -->
-<g id="edge5" class="edge">
+<g id="edge6" class="edge">
 <title>bench seat w/nut&#45;&#45;bench seat w/holes</title>
 <path fill="none" stroke="black" d="M251.82,-357.08C215.45,-341.29 158.7,-316.67 122.11,-300.78"/>
 <text text-anchor="middle" x="208.16" y="-324.6" font-family="Times,serif" font-size="14.00">1</text>
@@ -76,7 +82,7 @@
 <text text-anchor="middle" x="239.66" y="-280.2" font-family="Times,serif" font-size="14.00">nut M16</text>
 </g>
 <!-- bench seat w/nut&#45;&#45;nut M16 -->
-<g id="edge6" class="edge">
+<g id="edge7" class="edge">
 <title>bench seat w/nut&#45;&#45;nut M16</title>
 <path fill="none" stroke="black" d="M277.37,-355.05C269.13,-339.83 257.16,-317.72 248.93,-302.51"/>
 <text text-anchor="middle" x="271.16" y="-324.6" font-family="Times,serif" font-size="14.00">4</text>
@@ -88,7 +94,7 @@
 <text text-anchor="middle" x="356.66" y="-280.2" font-family="Times,serif" font-size="14.00">bolt M6</text>
 </g>
 <!-- bench seat w/nut&#45;&#45;bolt M6 -->
-<g id="edge7" class="edge">
+<g id="edge8" class="edge">
 <title>bench seat w/nut&#45;&#45;bolt M6</title>
 <path fill="none" stroke="black" d="M300.16,-355.46C312.39,-340.29 330.35,-318.02 342.73,-302.68"/>
 <text text-anchor="middle" x="335.66" y="-324.6" font-family="Times,serif" font-size="14.00">12</text>
@@ -100,7 +106,7 @@
 <text text-anchor="middle" x="86.66" y="-191.4" font-family="Times,serif" font-size="14.00">polished bench seat</text>
 </g>
 <!-- bench seat w/holes&#45;&#45;polished bench seat -->
-<g id="edge8" class="edge">
+<g id="edge9" class="edge">
 <title>bench seat w/holes&#45;&#45;polished bench seat</title>
 <path fill="none" stroke="black" d="M86.66,-266.25C86.66,-251.03 86.66,-228.92 86.66,-213.71"/>
 <text text-anchor="middle" x="90.16" y="-235.8" font-family="Times,serif" font-size="14.00">1</text>
@@ -112,7 +118,7 @@
 <text text-anchor="middle" x="86.66" y="-102.6" font-family="Times,serif" font-size="14.00">raw bench seat</text>
 </g>
 <!-- polished bench seat&#45;&#45;raw bench seat -->
-<g id="edge9" class="edge">
+<g id="edge10" class="edge">
 <title>polished bench seat&#45;&#45;raw bench seat</title>
 <path fill="none" stroke="black" d="M86.66,-177.45C86.66,-162.23 86.66,-140.12 86.66,-124.91"/>
 <text text-anchor="middle" x="90.16" y="-147" font-family="Times,serif" font-size="14.00">1</text>
@@ -124,7 +130,7 @@
 <text text-anchor="middle" x="86.66" y="-13.8" font-family="Times,serif" font-size="14.00">wood 3cm</text>
 </g>
 <!-- raw bench seat&#45;&#45;wood 3cm -->
-<g id="edge10" class="edge">
+<g id="edge11" class="edge">
 <title>raw bench seat&#45;&#45;wood 3cm</title>
 <path fill="none" stroke="black" d="M86.66,-88.65C86.66,-73.43 86.66,-51.32 86.66,-36.11"/>
 <text text-anchor="middle" x="105.91" y="-58.2" font-family="Times,serif" font-size="14.00">0.0576</text>
@@ -136,7 +142,7 @@
 <text text-anchor="middle" x="502.66" y="-280.2" font-family="Times,serif" font-size="14.00">bench leg &#160;w/hole</text>
 </g>
 <!-- bench leg w/bolt&#45;&#45;bench leg &#160;w/hole -->
-<g id="edge11" class="edge">
+<g id="edge12" class="edge">
 <title>bench leg w/bolt&#45;&#45;bench leg &#160;w/hole</title>
 <path fill="none" stroke="black" d="M502.66,-355.05C502.66,-339.83 502.66,-317.72 502.66,-302.51"/>
 <text text-anchor="middle" x="506.16" y="-324.6" font-family="Times,serif" font-size="14.00">1</text>
@@ -148,7 +154,7 @@
 <text text-anchor="middle" x="692.66" y="-280.2" font-family="Times,serif" font-size="14.00">threaded rod M16</text>
 </g>
 <!-- bench leg w/bolt&#45;&#45;threaded rod M16 -->
-<g id="edge12" class="edge">
+<g id="edge13" class="edge">
 <title>bench leg w/bolt&#45;&#45;threaded rod M16</title>
 <path fill="none" stroke="black" d="M536.19,-356.88C569.54,-341.65 620.59,-318.33 655.23,-302.5"/>
 <text text-anchor="middle" x="618.16" y="-324.6" font-family="Times,serif" font-size="14.00">1</text>
@@ -160,7 +166,7 @@
 <text text-anchor="middle" x="502.66" y="-191.4" font-family="Times,serif" font-size="14.00">polished bench leg</text>
 </g>
 <!-- bench leg &#160;w/hole&#45;&#45;polished bench leg -->
-<g id="edge13" class="edge">
+<g id="edge14" class="edge">
 <title>bench leg &#160;w/hole&#45;&#45;polished bench leg</title>
 <path fill="none" stroke="black" d="M502.66,-266.25C502.66,-251.03 502.66,-228.92 502.66,-213.71"/>
 <text text-anchor="middle" x="506.16" y="-235.8" font-family="Times,serif" font-size="14.00">1</text>
@@ -172,7 +178,7 @@
 <text text-anchor="middle" x="502.66" y="-102.6" font-family="Times,serif" font-size="14.00">raw bench leg</text>
 </g>
 <!-- polished bench leg&#45;&#45;raw bench leg -->
-<g id="edge14" class="edge">
+<g id="edge15" class="edge">
 <title>polished bench leg&#45;&#45;raw bench leg</title>
 <path fill="none" stroke="black" d="M502.66,-177.45C502.66,-162.23 502.66,-140.12 502.66,-124.91"/>
 <text text-anchor="middle" x="506.16" y="-147" font-family="Times,serif" font-size="14.00">1</text>
@@ -184,7 +190,7 @@
 <text text-anchor="middle" x="502.66" y="-13.8" font-family="Times,serif" font-size="14.00">wood pole 4cm</text>
 </g>
 <!-- raw bench leg&#45;&#45;wood pole 4cm -->
-<g id="edge15" class="edge">
+<g id="edge16" class="edge">
 <title>raw bench leg&#45;&#45;wood pole 4cm</title>
 <path fill="none" stroke="black" d="M502.66,-88.65C502.66,-73.43 502.66,-51.32 502.66,-36.11"/>
 <text text-anchor="middle" x="514.91" y="-58.2" font-family="Times,serif" font-size="14.00">0.28</text>
