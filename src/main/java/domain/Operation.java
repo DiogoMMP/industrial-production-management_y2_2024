@@ -1,4 +1,4 @@
-package prodPlanSimulator.domain;
+package domain;
 
 public class Operation {
     private String id;

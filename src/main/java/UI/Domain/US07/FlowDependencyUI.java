@@ -1,7 +1,7 @@
 package UI.Domain.US07;
 
 import UI.Utils.Utils;
-import prodPlanSimulator.domain.Item;
+import domain.Item;
 
 import java.util.HashMap;
 import java.util.List;

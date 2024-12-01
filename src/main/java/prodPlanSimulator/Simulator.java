@@ -1,8 +1,12 @@
-package prodPlanSimulator.repository;
+package prodPlanSimulator;
 
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Material;
-import prodPlanSimulator.domain.Workstation;
+import domain.Item;
+import domain.Material;
+import domain.Workstation;
+import prodPlanSimulator.repository.HashMap_Items_Machines;
+import prodPlanSimulator.repository.Instances;
+import prodPlanSimulator.repository.ItemsRepository;
+import prodPlanSimulator.repository.WorkstationRepository;
 import trees.AVL_BST.AVL;
 import trees.AVL_BST.BOO;
 import trees.ProductionTree.NodeType;

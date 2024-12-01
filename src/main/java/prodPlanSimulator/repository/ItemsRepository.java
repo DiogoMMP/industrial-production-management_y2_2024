@@ -1,6 +1,6 @@
 package prodPlanSimulator.repository;
 
-import prodPlanSimulator.InputFileReader;
+import importer_and_exporter.InputFileReader;
 
 import java.util.HashMap;
 import java.util.Map;

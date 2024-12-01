@@ -1,4 +1,4 @@
-package prodPlanSimulator.repository;
+package importer_and_exporter;
 
 import java.sql.*;
 import java.io.FileWriter;

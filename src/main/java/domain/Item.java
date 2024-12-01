@@ -1,10 +1,10 @@
-package prodPlanSimulator.domain;
+package domain;
 
-import prodPlanSimulator.enums.Priority;
+import enums.Priority;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.OperationsRepository;
-import prodPlanSimulator.repository.Simulator;
+import prodPlanSimulator.Simulator;
 
 import java.util.*;
 import java.util.stream.Collectors;

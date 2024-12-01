@@ -1,4 +1,4 @@
-package projectManager;
+package graphic_representation;
 
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Shape;

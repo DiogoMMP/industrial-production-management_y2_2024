@@ -3,7 +3,7 @@ package UI.Domain.US04;
 import UI.Utils.Utils;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.domain.Item;
+import domain.Item;
 
 import java.util.HashMap;
 import java.util.Map;

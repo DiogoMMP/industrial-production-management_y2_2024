@@ -2,7 +2,7 @@ package UI.Simulators;
 
 import UI.Menu.MainMenuUIPriority;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.Simulator;
+import prodPlanSimulator.Simulator;
 
 public class ProcessByPriorityUI implements Runnable {
     protected Simulator simulator = Instances.getInstance().getSimulator();

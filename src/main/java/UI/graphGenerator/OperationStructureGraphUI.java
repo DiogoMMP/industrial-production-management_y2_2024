@@ -1,6 +1,6 @@
 package UI.graphGenerator;
 
-import projectManager.OperationStructureGraph;
+import graphic_representation.OperationStructureGraph;
 
 import java.io.FileNotFoundException;
 

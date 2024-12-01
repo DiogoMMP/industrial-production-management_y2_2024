@@ -1,6 +1,6 @@
 package prodPlanSimulator.repository;
 
-import prodPlanSimulator.domain.Workstation;
+import domain.Workstation;
 
 import java.util.HashMap;
 import java.util.Map;

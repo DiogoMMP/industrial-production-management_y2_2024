@@ -1,4 +1,4 @@
-package prodPlanSimulator.domain;
+package domain;
 
 public class Material implements Comparable<Material> {
     private String ID;

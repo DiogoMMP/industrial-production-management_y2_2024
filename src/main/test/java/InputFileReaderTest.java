@@ -1,10 +1,10 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import prodPlanSimulator.InputFileReader;
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Operation;
-import prodPlanSimulator.domain.Workstation;
-import prodPlanSimulator.enums.Priority;
+import importer_and_exporter.InputFileReader;
+import domain.Item;
+import domain.Operation;
+import domain.Workstation;
+import enums.Priority;
 
 import java.io.FileNotFoundException;
 import java.util.List;

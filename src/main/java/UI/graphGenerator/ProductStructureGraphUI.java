@@ -1,7 +1,7 @@
 package UI.graphGenerator;
 
 
-import projectManager.ProductStructureGraph;
+import graphic_representation.ProductStructureGraph;
 
 import java.io.FileNotFoundException;
 

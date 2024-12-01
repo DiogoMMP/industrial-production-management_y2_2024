@@ -2,7 +2,7 @@ package prodPlanSimulator.domain;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import prodPlanSimulator.domain.Operation;
+import domain.Operation;
 
 public class OperationTest {
 

@@ -3,7 +3,7 @@ package UI.Domain.US03;
 import UI.Domain.US08.SimulateProcessTimeAndPriorityUI;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
-import prodPlanSimulator.domain.Item;
+import domain.Item;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 

@@ -2,14 +2,13 @@ package prodPlanSimulator.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Operation;
-import prodPlanSimulator.domain.Workstation;
-import prodPlanSimulator.enums.Priority;
+import domain.Item;
+import domain.Operation;
+import domain.Workstation;
+import enums.Priority;
+import prodPlanSimulator.Simulator;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 

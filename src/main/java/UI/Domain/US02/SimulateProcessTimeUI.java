@@ -2,10 +2,10 @@ package UI.Domain.US02;
 
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
-import prodPlanSimulator.domain.Item;
+import domain.Item;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.Simulator;
+import prodPlanSimulator.Simulator;
 
 import java.util.*;
 

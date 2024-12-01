@@ -1,6 +1,6 @@
 package trees.ProductionTree;
 
-import prodPlanSimulator.domain.Material;
+import domain.Material;
 import prodPlanSimulator.repository.BOORepository;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.ItemsRepository;

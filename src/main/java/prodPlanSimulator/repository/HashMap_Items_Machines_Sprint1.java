@@ -1,9 +1,9 @@
 package prodPlanSimulator.repository;
 
-import prodPlanSimulator.InputFileReader;
-import prodPlanSimulator.InputFileReader_Sprint1;
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Workstation;
+import importer_and_exporter.InputFileReader_Sprint1;
+import domain.Item;
+import domain.Workstation;
+import prodPlanSimulator.Simulator;
 
 
 import java.io.FileNotFoundException;

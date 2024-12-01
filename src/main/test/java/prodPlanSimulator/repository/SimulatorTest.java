@@ -2,10 +2,11 @@ package prodPlanSimulator.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Operation;
-import prodPlanSimulator.domain.Workstation;
-import prodPlanSimulator.enums.Priority;
+import domain.Item;
+import domain.Operation;
+import domain.Workstation;
+import enums.Priority;
+import prodPlanSimulator.Simulator;
 import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;

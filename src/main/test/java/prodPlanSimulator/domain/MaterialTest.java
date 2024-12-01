@@ -2,7 +2,7 @@ package prodPlanSimulator.domain;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import prodPlanSimulator.domain.Material;
+import domain.Material;
 
 public class MaterialTest {
 

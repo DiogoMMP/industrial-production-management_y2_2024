@@ -1,6 +1,6 @@
 package prodPlanSimulator.repository;
 
-import prodPlanSimulator.domain.Operation;
+import domain.Operation;
 
 import java.util.ArrayList;
 import java.util.HashSet;

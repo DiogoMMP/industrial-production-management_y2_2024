@@ -1,10 +1,13 @@
 package prodPlanSimulator.domain;
 
+import domain.Item;
+import domain.Operation;
+import domain.Workstation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import prodPlanSimulator.enums.Priority;
+import enums.Priority;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.Simulator;
+import prodPlanSimulator.Simulator;
 
 import java.util.*;
 

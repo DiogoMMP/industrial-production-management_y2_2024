@@ -2,7 +2,7 @@ package prodPlanSimulator.trees.ProductionTree;
 
 import org.junit.Before;
 import org.junit.Test;
-import prodPlanSimulator.domain.Material;
+import domain.Material;
 import prodPlanSimulator.repository.BOORepository;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.ItemsRepository;

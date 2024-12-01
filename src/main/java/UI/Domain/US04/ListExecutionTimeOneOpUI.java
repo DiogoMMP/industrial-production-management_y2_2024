@@ -2,7 +2,7 @@ package UI.Domain.US04;
 
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
-import prodPlanSimulator.domain.Item;
+import domain.Item;
 import prodPlanSimulator.repository.HashMap_Items_Machines;
 import prodPlanSimulator.repository.Instances;
 

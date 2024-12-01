@@ -2,7 +2,7 @@ package UI.Domain.US16;
 
 import UI.Utils.Utils;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.Simulator;
+import prodPlanSimulator.Simulator;
 
 import java.util.LinkedHashMap;
 

@@ -2,7 +2,7 @@ package UI.Simulators;
 
 import UI.Menu.MainMenuUITime;
 import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.Simulator;
+import prodPlanSimulator.Simulator;
 
 public class ProcessByTimeUI implements Runnable {
     private Simulator simulator = Instances.getInstance().getSimulator();

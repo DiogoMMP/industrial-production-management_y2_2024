@@ -2,7 +2,7 @@ package UI.Domain.US06;
 
 
 import UI.Utils.Utils;
-import prodPlanSimulator.domain.Item;
+import domain.Item;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,9 +1,9 @@
-package prodPlanSimulator;
+package importer_and_exporter;
 
-import prodPlanSimulator.domain.Item;
-import prodPlanSimulator.domain.Operation;
-import prodPlanSimulator.domain.Workstation;
-import prodPlanSimulator.enums.Priority;
+import domain.Item;
+import domain.Operation;
+import domain.Workstation;
+import enums.Priority;
 import prodPlanSimulator.repository.Instances;
 import prodPlanSimulator.repository.OperationsRepository;
 

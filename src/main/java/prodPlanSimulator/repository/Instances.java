@@ -1,6 +1,6 @@
 package prodPlanSimulator.repository;
 
-import trees.AVL_BST.AVL;
+import prodPlanSimulator.Simulator;
 import trees.AVL_BST.BST;
 import trees.ProductionTree.ProductionTree;
 import trees.heap.HeapPriorityQueue;

@@ -1,7 +1,7 @@
 package UI.Domain.US05;
 
 import UI.Utils.Utils;
-import prodPlanSimulator.domain.Item;
+import domain.Item;
 
 public class WorkstationTimeUI implements Runnable {
 
