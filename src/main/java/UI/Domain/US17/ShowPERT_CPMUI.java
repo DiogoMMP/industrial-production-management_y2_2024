@@ -1,6 +1,5 @@
 package UI.Domain.US17;
 
-import domain.Activity;
 import graph.map.MapGraph;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -27,7 +26,7 @@ public class ShowPERT_CPMUI implements Runnable {
     public void run() {
         PERT_CPM pertCpm = new PERT_CPM();  // Get the PERT_CPM instance
         displayPERT_CPM(pertCpm);  // Display the graph
-        MapGraph<String, Integer> pertCpmGraph = pertCpm.getPert_CPM();
+        MapGraph<String, String> pertCpmGraph = pertCpm.getPert_CPM();
         generateGraph(pertCpmGraph);  // Generate the graph
         Utils.goBackAndWait();  // Wait for the user's action to go back
     }
@@ -68,12 +67,12 @@ public class ShowPERT_CPMUI implements Runnable {
         builder.append(node);
 
         // Check if the node has outgoing edges (dependencies)
-        Collection<Edge<String, Integer>> outgoingEdges = pertCpm.getPert_CPM().outgoingEdges(node);
+        Collection<Edge<String, String>> outgoingEdges = pertCpm.getPert_CPM().outgoingEdges(node);
         if (!outgoingEdges.isEmpty()) {
             builder.append(" -> ");
             boolean first = true;
             // Add the dependencies (arrows)
-            for (Edge<String, Integer> edge : outgoingEdges) {
+            for (Edge<String, String> edge : outgoingEdges) {
                 if (!first) builder.append(", "); // Add a comma between multiple destinations
                 builder.append(edge.getVDest());
                 first = false;
@@ -81,7 +80,7 @@ public class ShowPERT_CPMUI implements Runnable {
             builder.append("\n");
 
             // Recursively process the next nodes (dependencies)
-            for (Edge<String, Integer> edge : outgoingEdges) {
+            for (Edge<String, String> edge : outgoingEdges) {
                 displayPERT_CPMHelper(edge.getVDest(), builder, visited, pertCpm);
             }
         } else {
@@ -94,14 +93,14 @@ public class ShowPERT_CPMUI implements Runnable {
      *
      * @param pert_CPM The PERT_CPM graph to generate.
      */
-    public void generateGraph(MapGraph<String, Integer> pert_CPM) {
+    public void generateGraph(MapGraph<String, String> pert_CPM) {
         MutableGraph graph = mutGraph("PERT_CPM").setDirected(true);
         for (String vertex : pert_CPM.vertices()) {
             // Create nodes with durations included in their labels
             MutableNode node = mutNode(vertex);
             graph.add(node);
 
-            for (Edge<String, Integer> edge : pert_CPM.outgoingEdges(vertex)) {
+            for (Edge<String, String> edge : pert_CPM.outgoingEdges(vertex)) {
                 // Create edges without weights (duration is already in the node)
                 node.addLink(to(mutNode(edge.getVDest())));
             }

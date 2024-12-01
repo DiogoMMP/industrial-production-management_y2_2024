@@ -24,7 +24,7 @@ class PERT_CPMTest {
 
     @Test
     void testBuildPERT_CPM() {
-        MapGraph<String, Integer> graph = pertCPM.getPert_CPM();
+        MapGraph<String, String> graph = pertCPM.getPert_CPM();
         assertNotNull(graph);
         assertTrue(graph.vertices().contains("START"));
         assertTrue(graph.vertices().contains("END"));

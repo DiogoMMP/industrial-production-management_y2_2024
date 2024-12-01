@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class PERT_CPM {
 
-    MapGraph<String, Integer> pert_CPM;
+    MapGraph<String, String> pert_CPM;
     Map<String, Activity> activities;
     /**
      * Constructor for the PERT_CPM class.
@@ -33,18 +33,18 @@ public class PERT_CPM {
 
         for (Activity activity : activities.values()) {
             // Create the node label with duration
-            String nodeLabel = activity.getActId() + " (" + activity.getDuration() + ")";
+            String nodeLabel = activity.getActId() + " (" + activity.getDurationWithUnit() + ")";
             pert_CPM.addVertex(nodeLabel);
 
             // Connect "START" to activities without predecessors
             if (activity.getPrevActIds().isEmpty()) {
-                pert_CPM.addEdge("START", nodeLabel, 0);
+                pert_CPM.addEdge("START", nodeLabel, "0");
             }
 
             // Connect activities to their predecessors
             for (String dependencyId : activity.getPrevActIds()) {
-                String dependencyLabel = dependencyId + " (" + activities.get(dependencyId).getDuration() + ")";
-                pert_CPM.addEdge(dependencyLabel, nodeLabel, 0);
+                String dependencyLabel = dependencyId + " (" + activities.get(dependencyId).getDurationWithUnit() + ")";
+                pert_CPM.addEdge(dependencyLabel, nodeLabel, "0");
             }
         }
 
@@ -56,7 +56,7 @@ public class PERT_CPM {
             // A node without successors has an out-degree of 0
             if (pert_CPM.outDegree(vertex) == 0 && !vertex.equals("END") && !vertex.equals("START")) {
                 // Connect to "END"
-                pert_CPM.addEdge(vertex, "END", 0);
+                pert_CPM.addEdge(vertex, "END", "0");
             }
         }
     }
@@ -65,7 +65,7 @@ public class PERT_CPM {
      * Returns the PERT/CPM graph.
      * @return PERT/CPM graph.
      */
-    public MapGraph<String, Integer> getPert_CPM() {
+    public MapGraph<String, String> getPert_CPM() {
         return pert_CPM;
     }
 
@@ -83,7 +83,7 @@ public class PERT_CPM {
      */
     public void addActivity(Activity activity) {
         activities.put(activity.getActId(), activity);
-        String nodeLabel = activity.getActId() + " (" + activity.getDuration() + ")";
+        String nodeLabel = activity.getActId() + " (" + activity.getDurationWithUnit() + ")";
         pert_CPM.addVertex(nodeLabel);
     }
 
@@ -94,8 +94,8 @@ public class PERT_CPM {
      */
     public void addDependency(String actId, String prevActId) {
         String nodeLabel = actId + " (" + activities.get(actId).getDuration() + ")";
-        String dependencyLabel = prevActId + " (" + activities.get(prevActId).getDuration() + ")";
-        pert_CPM.addEdge(dependencyLabel, nodeLabel, 0);
+        String dependencyLabel = prevActId + " (" + activities.get(prevActId).getDurationWithUnit() + ")";
+        pert_CPM.addEdge(dependencyLabel, nodeLabel, "0");
     }
 
     /**
@@ -103,7 +103,7 @@ public class PERT_CPM {
      * @param actId ID of the activity to be removed.
      */
     public void removeActivity(String actId) {
-        String nodeLabel = actId + " (" + activities.get(actId).getDuration() + ")";
+        String nodeLabel = actId + " (" + activities.get(actId).getDurationWithUnit() + ")";
         activities.remove(actId);
         pert_CPM.removeVertex(nodeLabel);
     }
@@ -114,8 +114,8 @@ public class PERT_CPM {
      * @param prevActId ID of the predecessor activity.
      */
     public void removeDependency(String actId, String prevActId) {
-        String nodeLabel = actId + " (" + activities.get(actId).getDuration() + ")";
-        String dependencyLabel = prevActId + " (" + activities.get(prevActId).getDuration() + ")";
+        String nodeLabel = actId + " (" + activities.get(actId).getDurationWithUnit() + ")";
+        String dependencyLabel = prevActId + " (" + activities.get(prevActId).getDurationWithUnit() + ")";
         pert_CPM.removeEdge(dependencyLabel, nodeLabel);
     }
 
