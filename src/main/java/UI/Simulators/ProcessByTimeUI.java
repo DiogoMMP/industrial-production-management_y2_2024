@@ -1,7 +1,7 @@
 package UI.Simulators;
 
 import UI.Menu.MainMenuUITime;
-import prodPlanSimulator.repository.Instances;
+import repository.Instances;
 import prodPlanSimulator.Simulator;
 
 public class ProcessByTimeUI implements Runnable {

@@ -1,8 +1,8 @@
 package UI.Domain.US04;
 
 import UI.Utils.Utils;
-import prodPlanSimulator.repository.HashMap_Items_Machines;
-import prodPlanSimulator.repository.Instances;
+import repository.HashMap_Items_Machines;
+import repository.Instances;
 import domain.Item;
 
 import java.util.HashMap;

@@ -2,7 +2,7 @@ package UI.Domain.US14;
 
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
-import prodPlanSimulator.repository.Instances;
+import repository.Instances;
 import trees.ProductionTree.ProductionTree;
 
 import java.math.BigDecimal;

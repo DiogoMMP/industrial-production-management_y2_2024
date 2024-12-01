@@ -1,7 +1,7 @@
 package UI.Domain.US15;
 
 import UI.Utils.Utils;
-import prodPlanSimulator.repository.Instances;
+import repository.Instances;
 import trees.ProductionTree.ProductionTree;
 
 public class CriticalPathOperationsUI implements Runnable {

@@ -3,7 +3,7 @@ package UI.Domain.US13;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
 import domain.Material;
-import prodPlanSimulator.repository.Instances;
+import repository.Instances;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
 

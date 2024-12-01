@@ -3,8 +3,8 @@ package UI.Domain.US08;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
 import domain.Item;
-import prodPlanSimulator.repository.HashMap_Items_Machines;
-import prodPlanSimulator.repository.Instances;
+import repository.HashMap_Items_Machines;
+import repository.Instances;
 import prodPlanSimulator.Simulator;
 
 import java.util.*;

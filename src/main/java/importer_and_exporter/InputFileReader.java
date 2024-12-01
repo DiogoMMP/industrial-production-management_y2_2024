@@ -1,11 +1,12 @@
 package importer_and_exporter;
 
+import domain.Activity;
 import domain.Item;
 import domain.Operation;
 import domain.Workstation;
 import enums.Priority;
-import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.OperationsRepository;
+import repository.Instances;
+import repository.OperationsRepository;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -184,6 +185,34 @@ public class InputFileReader {
             System.out.println("An error occurred while reading the CSV file: " + e.getMessage());
         }
         return data;
+    }
+
+    /**
+     * Reads activities from a CSV file and returns a map of activity IDs to Activity objects.
+     * @param activitiesFileName the path to the CSV file with the activities
+     * @return a map of activity IDs to Activity objects
+     */
+    public static Map<String, Activity> readActivities(String activitiesFileName){
+        List<String[]> data = readCsvFile(activitiesFileName);
+        Map<String, Activity> activities = new HashMap<>();
+
+        for (String[] activityFile : data){
+
+            List<String> dependencies_ids = new ArrayList<>();
+
+            for (int i = 6; i < activityFile.length; i++){
+                if (!activityFile[i].isEmpty()){
+                    dependencies_ids.add(activityFile[i]);
+                }
+            }
+
+            Activity activity = new Activity(activityFile[0], activityFile[1], Integer.parseInt(activityFile[2]),
+                    activityFile[3], Integer.parseInt(activityFile[4]), activityFile[5], dependencies_ids);
+
+            activities.put(activityFile[0], activity);
+        }
+
+        return activities;
     }
 
 }

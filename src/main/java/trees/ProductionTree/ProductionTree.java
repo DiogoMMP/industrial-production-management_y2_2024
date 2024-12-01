@@ -1,10 +1,10 @@
 package trees.ProductionTree;
 
 import domain.Material;
-import prodPlanSimulator.repository.BOORepository;
-import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.ItemsRepository;
-import prodPlanSimulator.repository.OperationsMapRepository;
+import repository.BOORepository;
+import repository.Instances;
+import repository.ItemsRepository;
+import repository.OperationsMapRepository;
 import java.util.*;
 
 import trees.heap.Entry;

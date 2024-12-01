@@ -1,7 +1,7 @@
 package UI.Simulators;
 
 import UI.Menu.MainMenuUIPriority;
-import prodPlanSimulator.repository.Instances;
+import repository.Instances;
 import prodPlanSimulator.Simulator;
 
 public class ProcessByPriorityUI implements Runnable {

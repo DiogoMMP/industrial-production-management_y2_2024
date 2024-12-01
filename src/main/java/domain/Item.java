@@ -1,9 +1,9 @@
 package domain;
 
 import enums.Priority;
-import prodPlanSimulator.repository.Instances;
-import prodPlanSimulator.repository.HashMap_Items_Machines;
-import prodPlanSimulator.repository.OperationsRepository;
+import repository.Instances;
+import repository.HashMap_Items_Machines;
+import repository.OperationsRepository;
 import prodPlanSimulator.Simulator;
 
 import java.util.*;

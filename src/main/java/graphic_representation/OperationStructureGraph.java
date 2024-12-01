@@ -6,7 +6,7 @@ import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
-import prodPlanSimulator.repository.Instances;
+import repository.Instances;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
 import trees.ProductionTree.NodeType;

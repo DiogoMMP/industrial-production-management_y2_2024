@@ -4,8 +4,8 @@ import UI.Domain.US08.SimulateProcessTimeAndPriorityUI;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
 import domain.Item;
-import prodPlanSimulator.repository.HashMap_Items_Machines;
-import prodPlanSimulator.repository.Instances;
+import repository.HashMap_Items_Machines;
+import repository.Instances;
 
 import java.util.*;
 

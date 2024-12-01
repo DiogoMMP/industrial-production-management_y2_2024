@@ -1,7 +1,7 @@
 package UI.Simulators;
 
 import UI.Menu.MainMenuUITree;
-import prodPlanSimulator.repository.Instances;
+import repository.Instances;
 import prodPlanSimulator.Simulator;
 
 public class ProcessByTreeUI implements Runnable {
