@@ -1,7 +1,7 @@
 # sem3-pi-2024_25_G094
 
 ## Project Overview
-This prodPlanSimulator.prodPlanSimulator.repository contains the code and prodPlanSimulator.resources for the Semester 3 Integrative Project, developed by Group G094. The project involves building a comprehensive solution for production management in industrial facilities, using various technologies such as PL/SQL, Java, C, and Assembly.
+This repository contains the code and resources for LEI-ISEP's Semester 3 Integrator Project, developed by Group G094. The project involves building a comprehensive solution for production management in industrial facilities, using various technologies such as PL/SQL, Java, C and Assembly.
 
 ## Project Structure
 The project is divided into several key modules, each focusing on different aspects of production management:
@@ -46,7 +46,7 @@ The project is divided into 3 sprints:
 
 - **Sprint 1**: Weeks 3 to 6 – from 1/October to 27/October
 - **Sprint 2**: Weeks 7 to 10 – from 28/October to 24/November
-- **Sprint 3**: Weeks 11 to 14 – from 25/November to 11/January
+- **Sprint 3**: Weeks 11 to 14 – from 25/November to 5/January
 
 ## Contributing
 1. Fork the prodPlanSimulator.prodPlanSimulator.repository.
