@@ -1,15 +1,14 @@
 CREATE TABLE BOO (
-  Product_ID        varchar2(255) NOT NULL,
   Operation_ID      number(10) NOT NULL,
-  Operation_Type_ID number(10) NOT NULL,
+  Product_ID        varchar2(255) NOT NULL,
   Next_Operation_ID number(10),
-  PRIMARY KEY (Product_ID,
-  Operation_ID));
+  PRIMARY KEY (Operation_ID,
+  Product_ID));
 CREATE TABLE BOO_Input (
   Product_ID   varchar2(255) NOT NULL,
   Operation_ID number(10) NOT NULL,
   Part_ID      varchar2(255) NOT NULL,
-  Quantity     number(10) NOT NULL,
+  Quantity     number(10) NOT NULL CHECK(Quantity > 0),
   Unit         varchar2(50),
   PRIMARY KEY (Product_ID,
   Operation_ID,
@@ -18,7 +17,7 @@ CREATE TABLE BOO_Output (
   Product_ID   varchar2(255) NOT NULL,
   Operation_ID number(10) NOT NULL,
   Part_ID      varchar2(255) NOT NULL,
-  Quantity     number(10) NOT NULL,
+  Quantity     number(10) NOT NULL CHECK(Quantity > 0),
   Unit         varchar2(50),
   PRIMARY KEY (Product_ID,
   Operation_ID,
@@ -51,23 +50,39 @@ CREATE TABLE Customer_Order (
 CREATE TABLE Customer_Order_Product (
   Customer_Order_ID number(10) NOT NULL,
   Product_ID        varchar2(255) NOT NULL,
-  Quantity          number(10) NOT NULL,
+  Quantity          number(10) NOT NULL CHECK(Quantity > 0),
   Product_Priority  varchar2(20) NOT NULL,
   PRIMARY KEY (Customer_Order_ID,
   Product_ID));
+CREATE TABLE External_Part (
+  Part_ID  varchar2(255) NOT NULL,
+  Stock_ID varchar2(255) NOT NULL,
+  Reserved varchar2(255) NOT NULL,
+  PRIMARY KEY (Part_ID));
 CREATE TABLE Factory_Plant (
   Factory_Plant_ID number(10) NOT NULL,
-  Safety           number(10),
-  Efficiency       number(10),
-  Space            number(10),
+  Safety           number(10) CHECK(Safety > 0),
+  Efficiency       number(10) CHECK(Efficiency > 0),
+  Space            number(10) CHECK(Space > 0),
   PRIMARY KEY (Factory_Plant_ID));
 CREATE TABLE Intermediate_Product (
   Part_ID varchar2(255) NOT NULL,
   PRIMARY KEY (Part_ID));
+CREATE TABLE Internal_Part (
+  Part_ID varchar2(255) NOT NULL,
+  PRIMARY KEY (Part_ID));
+CREATE TABLE Operation (
+  Operation_ID      number(10) GENERATED AS IDENTITY,
+  Execution_Time    number(10) CHECK(Execution_Time > 0),
+  Operation_Type_ID number(10) NOT NULL,
+  PRIMARY KEY (Operation_ID));
 CREATE TABLE Operation_Type (
   Operation_Type_ID     number(10) NOT NULL,
   Operation_Description varchar2(255) NOT NULL,
   PRIMARY KEY (Operation_Type_ID));
+CREATE TABLE Output_Type (
+  Part_ID varchar2(255) NOT NULL,
+  PRIMARY KEY (Part_ID));
 CREATE TABLE Part (
   Part_ID          varchar2(255) NOT NULL,
   Part_Description varchar2(255) NOT NULL,
@@ -79,16 +94,26 @@ CREATE TABLE Plant_Floor (
 CREATE TABLE Priority (
   Priority varchar2(20) NOT NULL,
   PRIMARY KEY (Priority));
+CREATE TABLE Procurement (
+  Procurement_ID varchar2(255) NOT NULL,
+  Part_ID        varchar2(255) NOT NULL,
+  Supplier_ID    varchar2(255) NOT NULL,
+  Price          number(10) NOT NULL CHECK(Price > 0),
+  Min_Qnt        number(10) NOT NULL CHECK(Min_Qnt > 0),
+  Start_Date     date NOT NULL,
+  End_Date       date,
+  PRIMARY KEY (Procurement_ID,
+  Part_ID,
+  Supplier_ID));
 CREATE TABLE Product (
   Product_ID       varchar2(255) NOT NULL,
   Product_Name     varchar2(255) NOT NULL,
   Factory_Plant_ID number(10) NOT NULL,
-  Market_Demand    number(10),
-  Optimization     number(10),
-  Production_Cost  number(10),
-  Flexibility      number(10),
+  Market_Demand    number(10) CHECK(Market_Demand > 0),
+  Optimization     number(10) CHECK(Optimization > 0),
+  Production_Cost  number(10) CHECK(Production_Cost > 0),
+  Flexibility      number(10) CHECK(Flexibility > 0),
   Family_ID        number(10) NOT NULL,
-  Part_ID          varchar2(255) NOT NULL,
   PRIMARY KEY (Product_ID));
 CREATE TABLE Product_Family (
   Family_ID          number(10) NOT NULL,
@@ -97,7 +122,7 @@ CREATE TABLE Product_Family (
 CREATE TABLE Product_Production_Order (
   Product_ID          varchar2(255) NOT NULL,
   Production_Order_ID number(10) NOT NULL,
-  Quantity_Ordered    number(10),
+  Quantity_Ordered    number(10) CHECK(Quantity_Ordered > 0),
   PRIMARY KEY (Product_ID,
   Production_Order_ID));
 CREATE TABLE Production_Order (
@@ -114,9 +139,24 @@ CREATE TABLE Production_Plan (
 CREATE TABLE Raw_Material (
   Part_ID varchar2(255) NOT NULL,
   PRIMARY KEY (Part_ID));
+CREATE TABLE Reserved (
+  Reserved   varchar2(255) NOT NULL,
+  Reserve_ID number(10) NOT NULL,
+  PRIMARY KEY (Reserved));
+CREATE TABLE Reserved_Stock (
+  Reserved varchar2(255) NOT NULL,
+  Quantity number(10) NOT NULL CHECK(Quantity > 0),
+  PRIMARY KEY (Reserved));
 CREATE TABLE Status (
   Status varchar2(20) NOT NULL,
   PRIMARY KEY (Status));
+CREATE TABLE Stock (
+  Stock_ID varchar2(255) NOT NULL,
+  Quantity number(10) NOT NULL CHECK(Quantity > 0),
+  PRIMARY KEY (Stock_ID));
+CREATE TABLE Supplier (
+  Supplier_ID varchar2(255) NOT NULL,
+  PRIMARY KEY (Supplier_ID));
 CREATE TABLE Type (
   Type_ID number(10) NOT NULL,
   Name    varchar2(10) NOT NULL,
@@ -131,14 +171,26 @@ CREATE TABLE Workstation (
   Workstation_ID          number(10) NOT NULL,
   Workstation_Name        varchar2(255) NOT NULL,
   Workstation_Description varchar2(255) NOT NULL,
-  Workstation_Time        number(20) NOT NULL,
+  Workstation_Setup_Time  number(20) NOT NULL CHECK(Workstation_Setup_Time > 0),
+  Workstation_Time        number(20) NOT NULL CHECK(Workstation_Time > 0),
   Plant_Floor_ID          number(10) NOT NULL,
   Workstation_Type_ID     varchar2(10) NOT NULL,
+  Min_Temp                number(10),
+  Max_Temp                number(10),
+  Min_Hum                 number(10) CHECK(Min_Hum > 0),
+  Max_Hum                 number(10) CHECK(Max_Hum > 0),
   PRIMARY KEY (Workstation_ID));
 CREATE TABLE Workstation_Type (
   Workstation_Type_ID varchar2(10) NOT NULL,
   Workstation_Type    varchar2(255) NOT NULL,
   PRIMARY KEY (Workstation_Type_ID));
+CREATE TABLE Workstation_Type_Operation (
+  Workstation_Type_ID    varchar2(10) NOT NULL,
+  Operation_ID           number(10) NOT NULL,
+  Maximum_Execution_Time number(10) CHECK(Maximum_Execution_Time > 0),
+  Setup_Time             number(10) CHECK(Setup_Time > 0),
+  PRIMARY KEY (Workstation_Type_ID,
+  Operation_ID));
 ALTER TABLE Plant_Floor ADD CONSTRAINT FKPlant_Floo395394 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Product ADD CONSTRAINT FKProduct245766 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Workstation ADD CONSTRAINT FKWorkstatio40895 FOREIGN KEY (Plant_Floor_ID) REFERENCES Plant_Floor (Plant_Floor_ID);
@@ -153,17 +205,28 @@ ALTER TABLE Customer ADD CONSTRAINT FKCustomer361138 FOREIGN KEY (Country_ID) RE
 ALTER TABLE Customer_Order_Product ADD CONSTRAINT FKCustomer_O215463 FOREIGN KEY (Customer_Order_ID) REFERENCES Customer_Order (Customer_Order_ID);
 ALTER TABLE Customer_Order_Product ADD CONSTRAINT FKCustomer_O499676 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
 ALTER TABLE BOO ADD CONSTRAINT FKBOO256009 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
-ALTER TABLE BOO ADD CONSTRAINT FKBOO130105 FOREIGN KEY (Operation_Type_ID) REFERENCES Operation_Type (Operation_Type_ID);
 ALTER TABLE Product_Production_Order ADD CONSTRAINT FKProduct_Pr469792 FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID);
 ALTER TABLE Product_Production_Order ADD CONSTRAINT FKProduct_Pr645358 FOREIGN KEY (Production_Order_ID) REFERENCES Production_Order (Order_ID);
 ALTER TABLE Workstation ADD CONSTRAINT FKWorkstatio169160 FOREIGN KEY (Workstation_Type_ID) REFERENCES Workstation_Type (Workstation_Type_ID);
-ALTER TABLE Component ADD CONSTRAINT FKComponent10459 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
-ALTER TABLE Raw_Material ADD CONSTRAINT FKRaw_Materi885917 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
 ALTER TABLE Customer ADD CONSTRAINT FKCustomer56984 FOREIGN KEY (Status) REFERENCES Status (Status);
 ALTER TABLE Customer_Order_Product ADD CONSTRAINT FKCustomer_O913138 FOREIGN KEY (Product_Priority) REFERENCES Priority (Priority);
-ALTER TABLE BOO_Input ADD CONSTRAINT FKBOO_Input444654 FOREIGN KEY (Product_ID, Operation_ID) REFERENCES BOO (Product_ID, Operation_ID);
+ALTER TABLE BOO_Input ADD CONSTRAINT FKBOO_Input444654 FOREIGN KEY (Operation_ID, Product_ID) REFERENCES BOO (Operation_ID, Product_ID);
 ALTER TABLE BOO_Input ADD CONSTRAINT FKBOO_Input996603 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
-ALTER TABLE BOO_Output ADD CONSTRAINT FKBOO_Output602582 FOREIGN KEY (Product_ID, Operation_ID) REFERENCES BOO (Product_ID, Operation_ID);
-ALTER TABLE BOO_Output ADD CONSTRAINT FKBOO_Output817058 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
-ALTER TABLE Intermediate_Product ADD CONSTRAINT FKIntermedia245049 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
-ALTER TABLE Product ADD CONSTRAINT FKProduct891385 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
+ALTER TABLE BOO_Output ADD CONSTRAINT FKBOO_Output602582 FOREIGN KEY (Operation_ID, Product_ID) REFERENCES BOO (Operation_ID, Product_ID);
+ALTER TABLE Procurement ADD CONSTRAINT FKProcuremen74352 FOREIGN KEY (Supplier_ID) REFERENCES Supplier (Supplier_ID);
+ALTER TABLE Component ADD CONSTRAINT FKComponent454639 FOREIGN KEY (Part_ID) REFERENCES External_Part (Part_ID);
+ALTER TABLE External_Part ADD CONSTRAINT FKExternal_P35987 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
+ALTER TABLE Internal_Part ADD CONSTRAINT FKInternal_P493921 FOREIGN KEY (Part_ID) REFERENCES Part (Part_ID);
+ALTER TABLE Product ADD CONSTRAINT FKProduct989341 FOREIGN KEY (Product_ID) REFERENCES Internal_Part (Part_ID);
+ALTER TABLE Intermediate_Product ADD CONSTRAINT FKIntermedia640813 FOREIGN KEY (Part_ID) REFERENCES Internal_Part (Part_ID);
+ALTER TABLE Output_Type ADD CONSTRAINT FKOutput_Typ529998 FOREIGN KEY (Part_ID) REFERENCES Internal_Part (Part_ID);
+ALTER TABLE BOO_Output ADD CONSTRAINT FKBOO_Output118455 FOREIGN KEY (Part_ID) REFERENCES Output_Type (Part_ID);
+ALTER TABLE Raw_Material ADD CONSTRAINT FKRaw_Materi669901 FOREIGN KEY (Part_ID) REFERENCES External_Part (Part_ID);
+ALTER TABLE Procurement ADD CONSTRAINT FKProcuremen207024 FOREIGN KEY (Part_ID) REFERENCES External_Part (Part_ID);
+ALTER TABLE External_Part ADD CONSTRAINT FKExternal_P540312 FOREIGN KEY (Stock_ID) REFERENCES Stock (Stock_ID);
+ALTER TABLE Reserved_Stock ADD CONSTRAINT FKReserved_S846664 FOREIGN KEY (Reserved) REFERENCES Reserved (Reserved);
+ALTER TABLE External_Part ADD CONSTRAINT FKExternal_P188608 FOREIGN KEY (Reserved) REFERENCES Reserved (Reserved);
+ALTER TABLE Workstation_Type_Operation ADD CONSTRAINT FKWorkstatio177733 FOREIGN KEY (Workstation_Type_ID) REFERENCES Workstation_Type (Workstation_Type_ID);
+ALTER TABLE Workstation_Type_Operation ADD CONSTRAINT FKWorkstatio575238 FOREIGN KEY (Operation_ID) REFERENCES Operation (Operation_ID);
+ALTER TABLE BOO ADD CONSTRAINT FKBOO826496 FOREIGN KEY (Operation_ID) REFERENCES Operation (Operation_ID);
+ALTER TABLE Operation ADD CONSTRAINT FKOperation767145 FOREIGN KEY (Operation_Type_ID) REFERENCES Operation_Type (Operation_Type_ID);
