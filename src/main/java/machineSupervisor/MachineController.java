@@ -8,7 +8,7 @@ public class MachineController {
             // Resolve working directory dynamically
             String projectDir = System.getProperty("user.dir");  // Current Java project directory
             java.io.File workingDir = new java.io.File(projectDir, "../sem3-pi-2024-g094/machineSupervisor/ARQCP/SPRINT3/UI");
-            String wslWorkingDir = workingDir.getCanonicalPath().replace("\\", "/").replace("C:", "/mnt/c");
+            String wslWorkingDir = "\"" + workingDir.getCanonicalPath().replace("\\", "/").replace("C:", "/mnt/c") + "\"";
 
             System.out.println("Working Directory: " + workingDir.getCanonicalPath());
             System.out.println("WSL Path: " + wslWorkingDir);
