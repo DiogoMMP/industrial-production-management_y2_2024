@@ -5,9 +5,11 @@ import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
+import projectManager.CalculateTimes;
 import projectManager.PERT_CPM;
 import UI.Utils.Utils;
 import graph.Edge;
+import repository.Instances;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,9 +26,12 @@ public class ShowPERT_CPMUI implements Runnable {
 
     @Override
     public void run() {
-        PERT_CPM pertCpm = new PERT_CPM();  // Get the PERT_CPM instance
+        PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();  // Get the PERT_CPM instance
+        pertCpm.buildPERT_CPM();  // Build the graph
         displayPERT_CPM(pertCpm);  // Display the graph
         MapGraph<String, String> pertCpmGraph = pertCpm.getPert_CPM();
+        CalculateTimes calculateTimes = new CalculateTimes();  // Calculate the times
+        calculateTimes.calculateTimes();  // Calculate the times
         generateGraph(pertCpmGraph);  // Generate the graph
         Utils.goBackAndWait();  // Wait for the user's action to go back
     }

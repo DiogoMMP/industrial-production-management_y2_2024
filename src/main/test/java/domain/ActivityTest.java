@@ -42,38 +42,20 @@ class ActivityTest {
     }
 
     @Test
-    void testCalculateEarliestStart() {
-        Activity activity = new Activity("A1", "Description", 5, "days", 100, "USD", Arrays.asList("A0"));
-        assertThrows(UnsupportedOperationException.class, activity::calculateEarliestStart);
-    }
-
-    @Test
-    void testCalculateLatestFinish() {
-        Activity activity = new Activity("A1", "Description", 5, "days", 100, "USD", Arrays.asList("A0"));
-        assertThrows(UnsupportedOperationException.class, activity::calculateLatestFinish);
-    }
-
-    @Test
-    void testCalculateSlack() {
-        Activity activity = new Activity("A1", "Description", 5, "days", 100, "USD", Arrays.asList("A0"));
-        assertThrows(UnsupportedOperationException.class, activity::calculateSlack);
-    }
-
-    @Test
     void testGetEarliestStart() {
         Activity activity = new Activity("A1", "Description", 5, "days", 100, "USD", Arrays.asList("A0"));
-        assertEquals(0, activity.getEarliestStart());
+        assertEquals(0.0, activity.getEarliestStart());
     }
 
     @Test
     void testGetLatestFinish() {
         Activity activity = new Activity("A1", "Description", 5, "days", 100, "USD", Arrays.asList("A0"));
-        assertEquals(0, activity.getLatestFinish());
+        assertEquals(0.0, activity.getLatestFinish());
     }
 
     @Test
     void testGetSlack() {
         Activity activity = new Activity("A1", "Description", 5, "days", 100, "USD", Arrays.asList("A0"));
-        assertEquals(0, activity.getSlack());
+        assertEquals(0.0, activity.getSlack());
     }
 }

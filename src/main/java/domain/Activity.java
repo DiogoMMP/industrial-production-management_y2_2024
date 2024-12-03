@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import java.util.List;
@@ -12,6 +13,11 @@ public class Activity {
     private int cost;              // Cost of the activity
     private String costUnit;       // Cost unit of the activity
     private List<String> prevActIds; // Predecessor activities
+    private double earliestStart;  // Earliest start time of the activity
+    private double earliestFinish; // Earliest finish time of the activity
+    private double latestStart;    // Latest start time of the activity
+    private double latestFinish;   // Latest finish time of the activity
+    private double slack;          // Slack time of the activity
 
     /**
      * Constructor
@@ -32,6 +38,35 @@ public class Activity {
         this.cost = cost;
         this.costUnit = costUnit;
         this.prevActIds = prevActIds;
+        this.earliestStart = 0.0;
+        this.earliestFinish = 0.0;
+        this.latestStart = 0.0;
+        this.latestFinish = 0.0;
+        this.slack = 0.0;
+    }
+
+    /**
+     * Constructor for start and finish activities
+     * @param actId Activity ID
+     * @param description Activity description
+     * @param duration Duration of the activity
+     * @param cost Cost of the activity
+     * @param prevActIds List of IDs of predecessor activities
+     */
+    public Activity(String actId, String description, int duration, int cost, List<String> prevActIds) {
+        this.actId = actId;
+        this.description = description;
+        this.duration = duration;
+        this.durationUnit = "";
+        this.cost = cost;
+        this.costUnit = "";
+        this.prevActIds = prevActIds;
+        this.earliestStart = 0.0;
+        this.earliestFinish = 0.0;
+        this.latestStart = 0.0;
+        this.latestFinish = 0.0;
+        this.slack = 0.0;
+
     }
 
     /**
@@ -146,37 +181,63 @@ public class Activity {
         this.prevActIds = prevActIds;
     }
 
-    // PERT/CPM calculations
-    private int earliestStart;
-    private int latestFinish;
-    private int slack;
 
     /**
-     * Calculate the earliest start time of the activity
+     * Calculate the earliest start time and finish time of the activity
+     * @param activities Activities to calculate the times
      */
-    public void calculateEarliestStart() {
-        throw new UnsupportedOperationException("Method not implemented yet");
+    public void calculateESEF(LinkedHashMap<String, Activity> activities) {
+        if (prevActIds.isEmpty()) {
+            earliestStart = 0.0;
+            earliestFinish = 0.0;
+        } else {
+            earliestStart = 0.0;
+            for (String prevActId : prevActIds) {
+                double prevActFinish = activities.get(prevActId).getEarliestFinish();
+                if (prevActFinish > earliestStart) {
+                    earliestStart = prevActFinish;
+                }
+            }
+            earliestFinish = earliestStart + duration;
+        }
     }
 
     /**
-     * Calculate the latest finish time of the activity
+     * Calculate the latest start time and finish time of the activity
+     * @param activities Activities to calculate the times
      */
-    public void calculateLatestFinish() {
-        throw new UnsupportedOperationException("Method not implemented yet");
+    public void calculateLSLF(LinkedHashMap<String, Activity> activities) {
+        if (prevActIds.isEmpty()) {
+            latestFinish = 0.0;
+            latestStart = 0.0;
+        } else if (!actId.equalsIgnoreCase("END")) {
+            for (Activity activity : activities.values()) {
+                if (activity.getPrevActIds().contains(actId)) {
+                    double activityStart = activity.getEarliestStart();
+                    if (latestFinish == 0.0 || activityStart > latestFinish) {
+                        latestFinish = activityStart;
+                    }
+                }
+            }
+            latestStart = latestFinish - duration;
+        } else {
+            latestFinish = earliestFinish;
+            latestStart = earliestStart;
+        }
     }
 
     /**
      * Calculate the slack time of the activity
      */
     public void calculateSlack() {
-        throw new UnsupportedOperationException("Method not implemented yet");
+        slack = latestStart - earliestStart;
     }
 
     /**
      * Get the earliest start time of the activity
      * @return Earliest start time of the activity
      */
-    public int getEarliestStart() {
+    public double getEarliestStart() {
         return earliestStart;
     }
 
@@ -184,7 +245,7 @@ public class Activity {
      * Get the latest finish time of the activity
      * @return Latest finish time of the activity
      */
-    public int getLatestFinish() {
+    public double getLatestFinish() {
         return latestFinish;
     }
 
@@ -192,7 +253,24 @@ public class Activity {
      * Get the slack time of the activity
      * @return Slack time of the activity
      */
-    public int getSlack() {
+    public double getSlack() {
         return slack;
     }
+
+    /**
+     * Get the earliest finish time of the activity
+     * @return Earliest finish time of the activity
+     */
+    public double getEarliestFinish() {
+        return earliestFinish;
+    }
+
+    /**
+     * Get the latest start time of the activity
+     * @return Latest start time of the activity
+     */
+    public double getLatestStart() {
+        return latestStart;
+    }
+
 }

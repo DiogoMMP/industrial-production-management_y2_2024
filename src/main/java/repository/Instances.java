@@ -1,6 +1,7 @@
 package repository;
 
 import prodPlanSimulator.Simulator;
+import projectManager.PERT_CPM;
 import trees.AVL_BST.BST;
 import trees.ProductionTree.ProductionTree;
 import trees.heap.HeapPriorityQueue;
@@ -20,6 +21,7 @@ public class Instances {
     private ProductionTree productionTree;
     private WorkstationRepository workstationRepository;
     private ActivitiesMapRepository activitiesMapRepository;
+    private PERT_CPM pert_CPM;
 
     private Instances() {
         hashMapItemsWorkstations = new HashMap_Items_Machines();
@@ -34,6 +36,7 @@ public class Instances {
         productionTree = new ProductionTree();
         workstationRepository = new WorkstationRepository();
         activitiesMapRepository = new ActivitiesMapRepository();
+        pert_CPM = new PERT_CPM();
     }
 
     public static Instances getInstance() {
@@ -97,5 +100,9 @@ public class Instances {
 
     public ActivitiesMapRepository getActivitiesMapRepository() {
         return activitiesMapRepository;
+    }
+
+    public PERT_CPM getPERT_CPM() {
+        return pert_CPM;
     }
 }
