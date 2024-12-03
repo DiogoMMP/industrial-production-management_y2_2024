@@ -1,19 +1,23 @@
 op_id;op_name
-5647;Disc cutting
-5649;Initial pot base pressing
-5651;Final pot base pressing
-5653;Pot base finishing
-5655;Lid pressing
-5657;Lid finishing
-5659;Pot handles riveting
-5661;Lid handle screw
-5663;Pot test and packaging
-5665;Handle welding
-5667;Lid polishing
-5669;Pot base polishing
-5671;Teflon painting
-5681;Initial pan base pressing
-5682;Final pan base pressing
-5683;Pan base finishing
-5685;Handle gluing
-5688;Pan test and packaging
+100;Disc cutting
+103;Initial pot base pressing
+112;Final pot base pressing
+114;Pot base finishing
+115;Pot handles riveting
+120;Disc cutting
+121;Lid pressing
+122;Lid finishing
+123;Lid handle screw
+124;Lid polishing
+130;Pot test and packaging
+150;Disc cutting
+151;Initial pot base pressing
+152;Final pot base pressing
+153;Pot base finishing
+154;Pot handles riveting
+160;Disc cutting
+161;Lid pressing
+162;Lid finishing
+163;Lid handle screw
+164;Lid polishing
+170;Pot test and packaging

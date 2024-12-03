@@ -70,7 +70,7 @@ CREATE TABLE Internal_Part (
   Part_ID varchar2(255) NOT NULL,
   PRIMARY KEY (Part_ID));
 CREATE TABLE Operation (
-  Operation_ID      number(10) GENERATED AS IDENTITY,
+  Operation_ID      number(10) NOT NULL,
   Operation_Type_ID number(10) NOT NULL,
   Execution_Time    number(10) CHECK(Execution_Time > 0),
   PRIMARY KEY (Operation_ID));
@@ -145,7 +145,7 @@ CREATE TABLE Status (
   PRIMARY KEY (Status));
 CREATE TABLE Stock (
   Part_ID varchar2(255) NOT NULL,
-  Stock   number(255) NOT NULL CHECK(Stock > 0),
+  Stock   number(10) NOT NULL CHECK(Stock > 0),
   Unit    varchar2(50),
   PRIMARY KEY (Part_ID));
 CREATE TABLE Supplier (

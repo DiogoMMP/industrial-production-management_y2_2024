@@ -15,9 +15,14 @@ import org.apache.commons.csv.CSVPrinter;
 public class OracleDataExporter implements Runnable{
 
     // JDBC driver name and database URL
-    private static final String DB_URL = "jdbc:oracle:thin:@vsgate-s1.dei.isep.ipp.pt:10472:xe";
+//    private static final String DB_URL = "jdbc:oracle:thin:@vsgate-s1.dei.isep.ipp.pt:10472:xe";
+//    private static final String USER = "SYS as SYSDBA";
+//    private static final String PASS = "12345678";
+
+    // JDBC driver name and database URL (SPRINT 2)
+    private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
     private static final String USER = "SYS as SYSDBA";
-    private static final String PASS = "12345678";
+    private static final String PASS = "LAPR3";
 
     // File paths
     private static final String FILE_PATH = "src/main/resources/";
@@ -58,8 +63,9 @@ public class OracleDataExporter implements Runnable{
                         "ot.Operation_Description AS name_oper, " +
                         "w.Workstation_Time AS time " +
                         "FROM Workstation w " +
-                        "JOIN Type_Industry ti ON w.Workstation_Type_ID = ti.Workstation_Type_ID " +
-                        "JOIN Operation_Type ot ON ti.Operation_Type_ID = ot.Operation_Type_ID " +
+                        "JOIN Workstation_Type_Operation wto ON w.Workstation_Type_ID = wto.Workstation_Type_ID " +
+                        "JOIN Operation o ON wto.Operation_ID = o.Operation_ID " +
+                        "JOIN Operation_Type ot ON o.Operation_Type_ID = ot.Operation_Type_ID " +
                         "ORDER BY w.Workstation_ID, ot.Operation_Description, w.Workstation_Time";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -107,16 +113,18 @@ public class OracleDataExporter implements Runnable{
      * Export the articles to a CSV file
      */
     private static void exportArticlesToCSV() {
-        String query = "SELECT DISTINCT " +
-                "p.Product_ID AS article, " +
-                "cop.Product_Priority AS priority, " +
-                "ot.Operation_Description AS operation_name, " +
-                "b.Operation_ID " + // Include b.Operation_ID for ORDER BY
-                "FROM Product p " +
-                "JOIN BOO b ON p.Product_ID = b.Product_ID " +
-                "JOIN Operation_Type ot ON b.Operation_Type_ID = ot.Operation_Type_ID " +
-                "JOIN Customer_Order_Product cop ON p.Product_ID = cop.Product_ID " +
-                "ORDER BY p.Product_ID, b.Operation_ID";
+        String query =
+                "SELECT DISTINCT " +
+                        "p.Product_ID AS article, " +
+                        "cop.Product_Priority AS priority, " +
+                        "ot.Operation_Description AS operation_name, " +
+                        "b.Operation_ID " + // Include b.Operation_ID for ORDER BY
+                        "FROM Product p " +
+                        "JOIN BOO b ON p.Product_ID = b.Product_ID " +
+                        "JOIN Operation o ON b.Operation_ID = o.Operation_ID " +
+                        "JOIN Operation_Type ot ON o.Operation_Type_ID = ot.Operation_Type_ID " +
+                        "JOIN Customer_Order_Product cop ON p.Product_ID = cop.Product_ID " +
+                        "ORDER BY p.Product_ID, b.Operation_ID";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
@@ -195,33 +203,41 @@ public class OracleDataExporter implements Runnable{
      * Export the Bill of Operations (BOO) to a CSV file
      */
     public static void exportBOOToCSV() {
-
         String query =
                 "WITH ALL_BOOS AS ( " +
-                        "    SELECT DISTINCT b.Product_ID, b.Operation_ID, b.Operation_Type_ID " +
+                        "    SELECT DISTINCT b.Product_ID, b.Operation_ID " +
                         "    FROM BOO b " +
                         "), " +
                         "NEXT_OPS AS ( " +
-                        "    SELECT b1.Product_ID, b1.Operation_ID, " +
-                        "           LISTAGG(b2.Operation_Type_ID || ';1', ';') WITHIN GROUP (ORDER BY b2.Operation_Type_ID) as next_ops " +
+                        "    SELECT " +
+                        "        b1.Product_ID, " +
+                        "        b1.Operation_ID, " +
+                        "        LISTAGG(b2.Operation_ID || ';1', ';') WITHIN GROUP (ORDER BY b2.Operation_ID) AS next_ops " +
                         "    FROM BOO b1 " +
-                        "    LEFT JOIN BOO b2 ON b1.Product_ID = b2.Product_ID " +
+                        "    JOIN BOO_Input bi1 ON b1.Product_ID = bi1.Product_ID AND b1.Operation_ID = bi1.Operation_ID " +
+                        "    JOIN BOO_Output bo2 ON bi1.Part_ID = bo2.Part_ID " +
+                        "    JOIN BOO b2 ON bo2.Product_ID = b2.Product_ID AND bo2.Operation_ID = b2.Operation_ID " +
+                        "    WHERE b1.Operation_ID <> b2.Operation_ID " +
                         "    GROUP BY b1.Product_ID, b1.Operation_ID " +
                         "), " +
                         "FORMATTED_INPUTS AS ( " +
                         "    SELECT " +
-                        "        Product_ID, Operation_ID, Part_ID, " +
+                        "        Product_ID, " +
+                        "        Operation_ID, " +
+                        "        Part_ID, " +
                         "        TRIM(TO_CHAR(Quantity, 'FM999999999')) || COALESCE(Unit, '') AS formatted_input " +
                         "    FROM BOO_Input " +
                         "), " +
                         "FORMATTED_OUTPUTS AS ( " +
                         "    SELECT " +
-                        "        Product_ID, Operation_ID, Part_ID, " +
+                        "        Product_ID, " +
+                        "        Operation_ID, " +
+                        "        Part_ID, " +
                         "        TRIM(TO_CHAR(Quantity, 'FM999999999')) || COALESCE(Unit, '') AS formatted_output " +
                         "    FROM BOO_Output " +
                         ") " +
                         "SELECT " +
-                        "    ab.Operation_Type_ID || ';' || " +
+                        "    ab.Operation_ID || ';' || " +
                         "    COALESCE(fo.Part_ID, '') || ';' || COALESCE(fo.formatted_output, '1') || ';(;' || " +
                         "    COALESCE(n.next_ops, '') || " +
                         "    RPAD(';', " +
@@ -244,12 +260,11 @@ public class OracleDataExporter implements Runnable{
                         "    ab.Operation_ID = n.Operation_ID " +
                         "GROUP BY " +
                         "    ab.Product_ID, " +
-                        "    ab.Operation_Type_ID, " +
                         "    ab.Operation_ID, " +
                         "    fo.Part_ID, " +
                         "    fo.formatted_output, " +
                         "    n.next_ops " +
-                        "ORDER BY ab.Operation_Type_ID";
+                        "ORDER BY ab.Operation_ID";
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS)) {
 
@@ -257,20 +272,29 @@ public class OracleDataExporter implements Runnable{
                  ResultSet resultSet = statement.executeQuery(query);
                  FileWriter csvWriter = new FileWriter(FILE_BOO_PATH)) {
 
-                csvWriter.append("op_id;item_id;item_qtd unity;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1 unity;item_id2;item_qtd2 unity;item_id3;item_qtd3 unity;)\n");
+                // CSV Header
+                csvWriter.append("op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id2;item_qtd2;item_id3;item_qtd3;)\n");
 
                 while (resultSet.next()) {
                     String booLine = resultSet.getString("boo_line");
+
+                    // Replace dots with commas for numerical values
                     booLine = booLine.replaceAll("(\\d+)\\.(\\d+)", "$1,$2");
+
+                    // Adjust placeholders and fields
+                    booLine = booLine.replaceAll("\\(;", "(;").replaceAll("\\);", ");");
+
+                    // Write the final line to CSV
                     csvWriter.append(booLine).append("\n");
                 }
-            }
 
+            }
         } catch (Exception e) {
             System.err.println("Error exporting BOO to CSV: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
     /**
      * Format the dependencies or inputs for the BOO
@@ -304,29 +328,36 @@ public class OracleDataExporter implements Runnable{
      */
     public static void exportOperationsToCSV() {
         String query =
-                "SELECT Operation_Type_ID AS op_id, Operation_Description AS op_name " +
-                        "FROM Operation_Type";
+                "SELECT " +
+                        "    o.Operation_ID AS op_id, " +
+                        "    ot.Operation_Description AS op_name " +
+                        "FROM Operation o " +
+                        "JOIN Operation_Type ot ON o.Operation_Type_ID = ot.Operation_Type_ID " +
+                        "ORDER BY o.Operation_ID";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query);
              FileWriter csvWriter = new FileWriter(FILE_OPERATIONS_PATH)) {
 
-            // Write the header
+            // Escrever o cabeçalho do CSV
             csvWriter.append("op_id;op_name\n");
 
-            // Write the data rows
+            // Processar os resultados da query
             while (rs.next()) {
-                String opId = rs.getString("op_id");
-                String opName = rs.getString("op_name");
+                String opId = rs.getString("op_id");       // ID da operação
+                String opName = rs.getString("op_name");  // Nome (descrição) da operação
 
+                // Escrever cada linha no CSV
                 csvWriter.append(opId).append(";").append(opName).append("\n");
             }
 
         } catch (Exception e) {
+            System.err.println("Error exporting operations to CSV: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
     /**
      * Export the items to a CSV file

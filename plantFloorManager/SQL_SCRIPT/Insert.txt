@@ -310,36 +310,34 @@ insert into Operation (Operation_ID, Operation_Type_ID) values (161, 5655);
 insert into Operation (Operation_ID, Operation_Type_ID) values (162, 5657);
 insert into Operation (Operation_ID, Operation_Type_ID) values (163, 5661);
 insert into Operation (Operation_ID, Operation_Type_ID) values (164, 5667);
+insert into Operation (Operation_ID, Operation_Type_ID) values (170, 5663);
 
 --Workstation_Type_Operation
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4578', 5647, 100, 20);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 5647, 120, 25);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 5647, 110, 22);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 5649, 130, 30);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 5649, 125, 28);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 5651, 140, 32);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 5651, 135, 30);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('C5637', 5653, 150, 35);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 5655, 160, 40);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 5655, 155, 38);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('C5637', 5657, 170, 45);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('S3271', 5659, 180, 50);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('T3452', 5661, 190, 55);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('K3675', 5663, 200, 60);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('D9123', 5665, 210, 65);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q3547', 5667, 220, 70);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q3547', 5669, 230, 75);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q5478', 5671, 240, 80);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 5681, 250, 85);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 5681, 260, 90);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 5682, 270, 95);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 5682, 280, 100);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('C5637', 5683, 290, 105);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('D9123', 5665, 300, 110);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('K3675', 5688, 310, 115);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4578', 100, 100, 20);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 120, 120, 25);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 150, 110, 22);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 151, 130, 30);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 152, 125, 28);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 153, 140, 32);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 154, 135, 30);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('C5637', 160, 150, 35);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 161, 160, 40);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 162, 155, 38);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('C5637', 163, 170, 45);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('S3271', 164, 180, 50);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('T3452', 115, 190, 55);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('K3675', 122, 200, 60);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('D9123', 114, 210, 65);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q3547', 124, 220, 70);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q3547', 130, 230, 75);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q5478', 121, 240, 80);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 123, 250, 85);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 124, 260, 90);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 103, 270, 95);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 112, 280, 100);
+insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('K3675', 170, 290, 105);
 
 --BOO
--- Inserir dados na tabela BOO (sem Operation_Type_ID)
 insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S22', 100, 103);
 insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S22', 103, 112);
 insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S22', 112, 114);
@@ -365,6 +363,8 @@ insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S2
 insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S20', 162, 163);
 insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S20', 163, 164);
 insert into BOO (Product_ID, Operation_ID) values ('AS12947S20', 164);
+
+insert into BOO (Product_ID, Operation_ID) values ('AS12945S20', 170);
 
 --BOO_Input
 insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 100, 'PN52384R50', 1, 'unit');
@@ -432,41 +432,17 @@ insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) value
 insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S20', 170, 'AS12945S20', 1, 'unit');
 
 --Stock
-insert into Stock (Part_ID, Stock, Unit) values ('PN12344A21', 500, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('PN52384R50', 300, 'mm²');
-insert into Stock (Part_ID, Stock, Unit) values ('PN52384R10', 150, 'mm²');
-insert into Stock (Part_ID, Stock, Unit) values ('PN18544A21', 800, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('PN18544C21', 200, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('PN18324C54', 100, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('PN52384R45', 400, 'mm²');
-insert into Stock (Part_ID, Stock, Unit) values ('PN52384R12', 350, 'mm²');
-insert into Stock (Part_ID, Stock, Unit) values ('PN18324C91', 220, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('PN18324C51', 210, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12945T22', 150, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12945S22', 100, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12946S22', 120, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12947S22', 80, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12945S20', 220, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12946S20', 180, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12947S20', 150, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12945S17', 300, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12945P17', 250, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12945S48', 500, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('AS12945G48', 450, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12945A01', 120, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12945A02', 200, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12945A03', 150, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12945A04', 180, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12947A01', 110, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12947A02', 130, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12947A03', 100, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12947A04', 90, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12945A32', 160, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12945A33', 140, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12945A34', 130, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12947A32', 90, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12947A33', 110, 'units');
-insert into Stock (Part_ID, Stock, Unit) values ('IP12947A34', 80, 'units');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN94561L67', 100, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN12344A21', 200, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R50', 150, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R10', 250, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18544A21', 300, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18544C21', 120, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18324C54', 90, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R45', 75, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R12', 180, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18324C91', 60, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18324C51', 220, 'unit');
 
 --Supplier
 insert into Supplier (Supplier_ID, Supplier_Name) values (1, 'TechSupplies Inc.');
@@ -486,12 +462,10 @@ INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, S
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (8, 'PN18544A21', 4, 12.0, 80, TO_DATE('2024-04-01', 'YYYY-MM-DD'), TO_DATE('2024-10-31', 'YYYY-MM-DD'));
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (9, 'PN18544C21', 5, 30.0, 500, TO_DATE('2024-01-01', 'YYYY-MM-DD'), NULL);
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (10, 'PN18544C21', 5, 30.0, 500, TO_DATE('2024-08-01', 'YYYY-MM-DD'), TO_DATE('2025-02-28', 'YYYY-MM-DD'));
-INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (11, 'PN52384R45', 6, 18.5, 250, TO_DATE('2024-01-01', 'YYYY-MM-DD'), NULL);
-INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (12, 'PN52384R45', 6, 18.5, 250, TO_DATE('2024-09-01', 'YYYY-MM-DD'), TO_DATE('2025-03-31', 'YYYY-MM-DD'));
 
 --Reserved_Stock
 insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (1, 'PN12344A21', 50, 'units');
 insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (2, 'PN52384R50', 200, 'mm²');
-insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (3, 'AS12945S22', 10, 'units');
-insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (4, 'AS12945T22', 30, 'units');
-insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (5, 'IP12945A02', 25, 'units');
+insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (3, 'PN52384R10', 10, 'units');
+insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (4, 'PN12344A21', 30, 'units');
+insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (5, 'PN52384R10', 25, 'units');
