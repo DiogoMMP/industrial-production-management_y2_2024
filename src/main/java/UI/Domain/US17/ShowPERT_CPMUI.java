@@ -11,6 +11,7 @@ import UI.Utils.Utils;
 import graph.Edge;
 import repository.Instances;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -33,6 +34,7 @@ public class ShowPERT_CPMUI implements Runnable {
         CalculateTimes calculateTimes = new CalculateTimes();  // Calculate the times
         calculateTimes.calculateTimes();  // Calculate the times
         generateGraph(pertCpmGraph);  // Generate the graph
+        Utils.openInBrowser(OUTPUTPATH);  // Open the generated SVG file in the default browser
         Utils.goBackAndWait();  // Wait for the user's action to go back
     }
 

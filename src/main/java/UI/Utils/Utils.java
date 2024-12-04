@@ -1,6 +1,8 @@
 package UI.Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -212,5 +214,39 @@ public class Utils {
         do {
             input = Utils.readLineFromConsole("Press '0' to go back: ");
         } while (!Objects.equals(input, "0"));
+    }
+
+    /**
+     * Opens the specified file in the default browser.
+     *
+     * @param file The file to open.
+     * @author Diogo Pereira
+     */
+    public static void openInBrowser(File file) {
+        try {
+            if (!file.exists()) {
+                System.err.println("File does not exist: " + file.getAbsolutePath());
+                return;
+            }
+
+            String os = System.getProperty("os.name").toLowerCase();
+            String filePath = file.getAbsolutePath();
+
+            if (os.contains("win")) {
+                // Windows: uses the ‘start’ command for the default browser
+                Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "chrome", filePath});
+            } else if (os.contains("mac")) {
+                // MacOS: uses the ‘open’ command for the default browser
+                Runtime.getRuntime().exec(new String[]{"open", "-a", "Google Chrome", filePath});
+            } else if (os.contains("nix") || os.contains("nux")) {
+                // Linux: uses the ‘xdg-open’ command for the default browser
+                Runtime.getRuntime().exec(new String[]{"xdg-open", filePath});
+            } else {
+                System.err.println("Unsupported OS: " + os);
+            }
+        } catch (IOException e) {
+            System.err.println("Error opening file in the browser: " + file.getAbsolutePath());
+            e.printStackTrace();
+        }
     }
 }
