@@ -3,6 +3,7 @@ package projectManager;
 import domain.Activity;
 import graph.Edge;
 import graph.map.MapGraph;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repository.ActivitiesMapRepository;
@@ -11,20 +12,24 @@ import repository.Instances;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PERTCPMTest {
 
     private PERT_CPM pertCPM;
-
+    private ActivitiesMapRepository activitiesMapRepository;
     @BeforeEach
     void setUp() {
         // Initialize the PERT_CPM instance before each test
-        ActivitiesMapRepository activitiesMapRepository = new ActivitiesMapRepository();
+        activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
         activitiesMapRepository.addActivities("activities.csv");
         pertCPM = Instances.getInstance().getPERT_CPM();
         pertCPM.buildPERT_CPM();
+        CalculateTimes calculateTimes = new CalculateTimes();
+        calculateTimes.calculateTimes();
     }
 
     @Test
@@ -60,12 +65,13 @@ class PERTCPMTest {
         pertCPM.addActivity(activity2);
         pertCPM.addDependency("A2", "A1");
 
-        String vertexLabel = "A1 (3 days)";
-        assertTrue(pertCPM.getPert_CPM().vertices().contains(vertexLabel), "Vertex should exist in the graph");
+        String vertexLabel1 = "A1 (3 days)";
+        String vertexLabel2 = "A2 (4 days)";
+        assertTrue(pertCPM.getPert_CPM().vertices().contains(vertexLabel1), "Vertex should exist in the graph");
 
-        Collection<Edge<String, String>> edges = pertCPM.getPert_CPM().outgoingEdges(vertexLabel);
+        Collection<Edge<String, String>> edges = pertCPM.getPert_CPM().outgoingEdges(vertexLabel1);
         if (edges != null) {
-            assertTrue(edges.stream().anyMatch(edge -> edge.getVDest().equals("A2 (4 days)")));
+            assertTrue(edges.stream().anyMatch(edge -> edge.getVDest().equals(vertexLabel2)));
         } else {
             fail("Outgoing edges should not be null");
         }
@@ -80,9 +86,11 @@ class PERTCPMTest {
         pertCPM.addDependency("A2", "A1");
         pertCPM.removeDependency("A2", "A1");
 
-        Collection<Edge<String, String>> edges = pertCPM.getPert_CPM().outgoingEdges("A1 (3)");
+        String vertexLabel1 = "A1 (3 days)";
+        String vertexLabel2 = "A2 (4 days)";
+        Collection<Edge<String, String>> edges = pertCPM.getPert_CPM().outgoingEdges(vertexLabel1);
         if (edges != null) {
-            assertFalse(edges.stream().anyMatch(edge -> edge.getVDest().equals("A2 (4)")));
+            assertFalse(edges.stream().anyMatch(edge -> edge.getVDest().equals(vertexLabel2)));
         } else {
             assertTrue(true); // No outgoing edges, so the dependency was removed
         }
@@ -101,5 +109,25 @@ class PERTCPMTest {
         Activity activity = new Activity("A3", "Description", 5, "days", 100, "USD", Collections.emptyList());
         pertCPM.addActivity(activity);
         assertEquals(initialSize + 1, pertCPM.size());
+    }
+
+    @Test
+    void testFindCriticalPaths() {
+        LinkedHashMap<Integer, List<Activity>> criticalPaths = pertCPM.findCriticalPaths();
+        assertNotNull(criticalPaths, "Critical paths should not be null");
+        assertFalse(criticalPaths.isEmpty(), "Critical paths should not be empty");
+
+        for (List<Activity> path : criticalPaths.values()) {
+            assertFalse(path.isEmpty(), "Each critical path should not be empty");
+            for (Activity activity : path) {
+                assertNotNull(activity, "Activity in critical path should not be null");
+                assertEquals(0.0, activity.getSlack(), "Activity slack should be 0.0");
+            }
+        }
+    }
+    @AfterEach
+    void tearDown() {
+        activitiesMapRepository = new ActivitiesMapRepository();
+        pertCPM = new PERT_CPM();
     }
 }

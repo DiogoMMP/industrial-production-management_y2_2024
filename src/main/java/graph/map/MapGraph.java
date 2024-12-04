@@ -251,4 +251,11 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         }
         return s;
     }
+
+    public void clearOldGraph() {
+        mapVertices.clear();
+        vertices.clear();
+        numVerts = 0;
+        numEdges = 0;
+    }
 }

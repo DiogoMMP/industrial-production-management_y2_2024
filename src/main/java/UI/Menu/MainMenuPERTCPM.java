@@ -2,6 +2,7 @@ package UI.Menu;
 
 import UI.Domain.US17.ShowPERT_CPMUI;
 import UI.Domain.US20.ShowESLFUI;
+import UI.Domain.US22.ShowCriticalPathsUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
 
@@ -15,6 +16,7 @@ public class MainMenuPERTCPM implements Runnable {
             List<MenuItem> options = new ArrayList<>();
             options.add(new MenuItem("Show PERT/CPM", new ShowPERT_CPMUI()));
             options.add(new MenuItem("Show earliest start and latest finish",new ShowESLFUI()));
+            options.add(new MenuItem("Show critical paths", new ShowCriticalPathsUI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");

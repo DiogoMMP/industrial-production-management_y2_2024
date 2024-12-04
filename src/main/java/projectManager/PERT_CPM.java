@@ -1,14 +1,12 @@
 package projectManager;
 
+import com.kitfox.svg.A;
 import domain.Activity;
 import graph.map.MapGraph;
 import repository.ActivitiesMapRepository;
 import repository.Instances;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class representing the PERT/CPM.
@@ -32,6 +30,7 @@ public class PERT_CPM {
      */
     public void buildPERT_CPM() {
         // Add the "START" node
+        activitiesPERT_CPM.clear();
         ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
         activities = activitiesMapRepository.getActivitiesMapRepository();
         pert_CPM.addVertex("START");
@@ -71,13 +70,68 @@ public class PERT_CPM {
 
         // Connect all activities without successors to the "END" node
         for (String vertex : pert_CPM.vertices()) {
+            String actId = vertex.split(" ")[0];
+            boolean hasSuccessors = false;
             // A node without successors has an out-degree of 0
             if (pert_CPM.outDegree(vertex) == 0 && !vertex.equals("END") && !vertex.equals("START")) {
                 // Connect to "END"
                 pert_CPM.addEdge(vertex, "END", "0");
-                String actId = vertex.split(" ")[0];
+                if (activitiesPERT_CPM.containsKey(actId)) {
+                    activitiesPERT_CPM.get("END").getPrevActIds().add(activitiesPERT_CPM.get(actId).getActId());
+                }
+            }
+            for (String actId2 : activities.keySet()) {
+                Activity activity = activities.get(actId2);
+                if (activity.getPrevActIds().contains(actId)) {
+                    hasSuccessors = true;
+                }
+            }
+            if (!hasSuccessors && !vertex.equals("END") && !vertex.equals("START") && activitiesPERT_CPM.containsKey(actId) && !activitiesPERT_CPM.get("END").getPrevActIds().contains(actId)) {
+                // Connect to "END"
                 activitiesPERT_CPM.get("END").getPrevActIds().add(activitiesPERT_CPM.get(actId).getActId());
             }
+        }
+    }
+
+    /**
+     * Finds all the critical paths.
+     */
+    public LinkedHashMap<Integer, List<Activity>> findCriticalPaths() {
+        LinkedHashMap<Integer, List<Activity>> criticalPaths = new LinkedHashMap<>();
+        List<Activity> path = new ArrayList<>();
+        // The method will start from the "END" node
+        Activity endActivity = activitiesPERT_CPM.get("END");
+        // We will need to get the predecessors of the "END" node
+        List<String> endPredecessors = activitiesPERT_CPM.get("END").getPrevActIds();
+        for (String endPredecessor : endPredecessors) {
+            Activity activity = activitiesPERT_CPM.get(endPredecessor);
+            path.add(endActivity);
+            path.add(activity);
+            findCriticalPathsRec(activity, path, criticalPaths);
+            path.clear();
+        }
+        // The list will be inverted so it goes from start to end
+        for (List<Activity> criticalPath : criticalPaths.values()) {
+            Collections.reverse(criticalPath);
+        }
+        return criticalPaths;
+    }
+
+    private void findCriticalPathsRec(Activity activity, List<Activity> path, LinkedHashMap<Integer, List<Activity>> criticalPaths) {
+        if (activity.getSlack() != 0) {
+            return;
+        }
+        if (activity.getActId().equals("START")) {
+            List<Activity> pathCopy = new ArrayList<>(path);
+            criticalPaths.put(criticalPaths.size() + 1, pathCopy);
+            return;
+        }
+        List<String> predecessors = activity.getPrevActIds();
+        for (String predecessor : predecessors) {
+            Activity predecessorActivity = activitiesPERT_CPM.get(predecessor);
+            path.add(predecessorActivity);
+            findCriticalPathsRec(predecessorActivity, path, criticalPaths);
+            path.remove(predecessorActivity);
         }
     }
 
@@ -127,9 +181,26 @@ public class PERT_CPM {
      * @param prevActId ID of the predecessor activity.
      */
     public void addDependency(String actId, String prevActId) {
-        String nodeLabel = actId + " (" + activities.get(actId).getDuration() + ")";
+        if (!activitiesPERT_CPM.containsKey(actId) || !activitiesPERT_CPM.containsKey(prevActId)) {
+            throw new IllegalArgumentException("One or both activities do not exist in the PERT/CPM graph.");
+        }
+
+        String nodeLabel = actId + " (" + activities.get(actId).getDurationWithUnit() + ")";
         String dependencyLabel = prevActId + " (" + activities.get(prevActId).getDurationWithUnit() + ")";
         pert_CPM.addEdge(dependencyLabel, nodeLabel, "0");
+
+        // Ensure the prevActIds list is modifiable
+        Activity activity = activitiesPERT_CPM.get(actId);
+        if (!(activity.getPrevActIds() instanceof ArrayList)) {
+            activity.setPrevActIds(new ArrayList<>(activity.getPrevActIds()));
+        }
+        activity.getPrevActIds().add(prevActId);
+
+        Activity originalActivity = activities.get(actId);
+        if (!(originalActivity.getPrevActIds() instanceof ArrayList)) {
+            originalActivity.setPrevActIds(new ArrayList<>(originalActivity.getPrevActIds()));
+        }
+        originalActivity.getPrevActIds().add(prevActId);
     }
 
     /**
@@ -141,6 +212,7 @@ public class PERT_CPM {
         String nodeLabel = actId + " (" + activities.get(actId).getDurationWithUnit() + ")";
         activities.remove(actId);
         pert_CPM.removeVertex(nodeLabel);
+        activitiesPERT_CPM.remove(actId);
     }
 
     /**
@@ -153,6 +225,8 @@ public class PERT_CPM {
         String nodeLabel = actId + " (" + activities.get(actId).getDurationWithUnit() + ")";
         String dependencyLabel = prevActId + " (" + activities.get(prevActId).getDurationWithUnit() + ")";
         pert_CPM.removeEdge(dependencyLabel, nodeLabel);
+        activitiesPERT_CPM.get(actId).getPrevActIds().remove(prevActId);
+        activities.get(actId).getPrevActIds().remove(prevActId);
     }
 
     /**

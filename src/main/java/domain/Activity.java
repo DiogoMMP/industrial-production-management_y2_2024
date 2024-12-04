@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -21,13 +22,14 @@ public class Activity {
 
     /**
      * Constructor
-     * @param actId Activity ID
-     * @param description Activity description
-     * @param duration Duration of the activity
+     *
+     * @param actId        Activity ID
+     * @param description  Activity description
+     * @param duration     Duration of the activity
      * @param durationUnit Duration unit of the activity
-     * @param cost Cost of the activity
-     * @param costUnit Cost unit of the activity
-     * @param prevActIds List of IDs of predecessor activities
+     * @param cost         Cost of the activity
+     * @param costUnit     Cost unit of the activity
+     * @param prevActIds   List of IDs of predecessor activities
      */
     public Activity(String actId, String description, int duration, String durationUnit, int cost, String costUnit,
                     List<String> prevActIds) {
@@ -47,11 +49,12 @@ public class Activity {
 
     /**
      * Constructor for start and finish activities
-     * @param actId Activity ID
+     *
+     * @param actId       Activity ID
      * @param description Activity description
-     * @param duration Duration of the activity
-     * @param cost Cost of the activity
-     * @param prevActIds List of IDs of predecessor activities
+     * @param duration    Duration of the activity
+     * @param cost        Cost of the activity
+     * @param prevActIds  List of IDs of predecessor activities
      */
     public Activity(String actId, String description, int duration, int cost, List<String> prevActIds) {
         this.actId = actId;
@@ -71,6 +74,7 @@ public class Activity {
 
     /**
      * Get the ID of the activity
+     *
      * @return Activity ID
      */
     public String getActId() {
@@ -79,6 +83,7 @@ public class Activity {
 
     /**
      * Get the description of the activity
+     *
      * @return Activity description
      */
     public String getDescription() {
@@ -87,6 +92,7 @@ public class Activity {
 
     /**
      * Get the duration of the activity
+     *
      * @return Activity duration
      */
     public int getDuration() {
@@ -95,6 +101,7 @@ public class Activity {
 
     /**
      * Get the duration of the activity with the unit
+     *
      * @return Activity duration with the unit
      */
     public String getDurationWithUnit() {
@@ -103,6 +110,7 @@ public class Activity {
 
     /**
      * Get the cost of the activity
+     *
      * @return Activity cost
      */
     public int getCost() {
@@ -111,6 +119,7 @@ public class Activity {
 
     /**
      * Get the cost of the activity with the unit
+     *
      * @return Activity cost with the unit
      */
     public String getCostWithUnit() {
@@ -119,6 +128,7 @@ public class Activity {
 
     /**
      * Get the list of IDs of predecessor activities
+     *
      * @return List of IDs of predecessor activities
      */
     public List<String> getPrevActIds() {
@@ -127,6 +137,7 @@ public class Activity {
 
     /**
      * Set the ID of the activity
+     *
      * @param actId Activity ID
      */
     public void setActId(String actId) {
@@ -135,6 +146,7 @@ public class Activity {
 
     /**
      * Set the description of the activity
+     *
      * @param description Activity description
      */
     public void setDescription(String description) {
@@ -143,6 +155,7 @@ public class Activity {
 
     /**
      * Set the duration of the activity
+     *
      * @param duration Activity duration
      */
     public void setDuration(int duration) {
@@ -151,6 +164,7 @@ public class Activity {
 
     /**
      * Set the duration unit of the activity
+     *
      * @param durationUnit Duration unit of the activity
      */
     public void setDurationUnit(String durationUnit) {
@@ -159,6 +173,7 @@ public class Activity {
 
     /**
      * Set the cost of the activity
+     *
      * @param cost Activity cost
      */
     public void setCost(int cost) {
@@ -167,6 +182,7 @@ public class Activity {
 
     /**
      * Set the cost unit of the activity
+     *
      * @param costUnit Cost unit of the activity
      */
     public void setCostUnit(String costUnit) {
@@ -175,6 +191,7 @@ public class Activity {
 
     /**
      * Set the list of IDs of predecessor activities
+     *
      * @param prevActIds List of IDs of predecessor activities
      */
     public void setPrevActIds(List<String> prevActIds) {
@@ -184,46 +201,54 @@ public class Activity {
 
     /**
      * Calculate the earliest start time and finish time of the activity
+     *
      * @param activities Activities to calculate the times
      */
     public void calculateESEF(LinkedHashMap<String, Activity> activities) {
-        if (prevActIds.isEmpty()) {
+        if (actId.equalsIgnoreCase("START")) {
             earliestStart = 0.0;
             earliestFinish = 0.0;
-        } else {
-            earliestStart = 0.0;
-            for (String prevActId : prevActIds) {
-                double prevActFinish = activities.get(prevActId).getEarliestFinish();
-                if (prevActFinish > earliestStart) {
-                    earliestStart = prevActFinish;
-                }
-            }
-            earliestFinish = earliestStart + duration;
+            return;
         }
+        for (String prevActId : prevActIds) {
+            double prevActFinish = activities.get(prevActId).getEarliestFinish();
+            if (prevActFinish > earliestStart) {
+                earliestStart = prevActFinish;
+            }
+        }
+        earliestFinish = earliestStart + duration;
+
     }
 
     /**
      * Calculate the latest start time and finish time of the activity
+     *
      * @param activities Activities to calculate the times
      */
     public void calculateLSLF(LinkedHashMap<String, Activity> activities) {
         if (prevActIds.isEmpty()) {
             latestFinish = 0.0;
             latestStart = 0.0;
-        } else if (!actId.equalsIgnoreCase("END")) {
-            for (Activity activity : activities.values()) {
-                if (activity.getPrevActIds().contains(actId)) {
-                    double activityStart = activity.getEarliestStart();
-                    if (latestFinish == 0.0 || activityStart > latestFinish) {
-                        latestFinish = activityStart;
-                    }
-                }
-            }
-            latestStart = latestFinish - duration;
-        } else {
+            return;
+        } else if (actId.equalsIgnoreCase("END")) {
             latestFinish = earliestFinish;
             latestStart = earliestStart;
         }
+        List<Activity> prevActIds = new ArrayList<>();
+        for (String prevActId : this.prevActIds) {
+            prevActIds.add(activities.get(prevActId));
+        }
+        for (Activity activity : prevActIds) {
+            double activityStart = latestStart;
+            if (activity.getLatestFinish() > activityStart) {
+                activity.setLatestFinish(activityStart);
+                activity.setLatestStart(activity.getLatestFinish() - activity.getDuration());
+            } else if (activity.getLatestFinish() == 0) {
+                activity.setLatestStart(activityStart - activity.getDuration());
+                activity.setLatestFinish(activityStart);
+            }
+        }
+
     }
 
     /**
@@ -235,6 +260,7 @@ public class Activity {
 
     /**
      * Get the earliest start time of the activity
+     *
      * @return Earliest start time of the activity
      */
     public double getEarliestStart() {
@@ -243,6 +269,7 @@ public class Activity {
 
     /**
      * Get the latest finish time of the activity
+     *
      * @return Latest finish time of the activity
      */
     public double getLatestFinish() {
@@ -251,6 +278,7 @@ public class Activity {
 
     /**
      * Get the slack time of the activity
+     *
      * @return Slack time of the activity
      */
     public double getSlack() {
@@ -259,6 +287,7 @@ public class Activity {
 
     /**
      * Get the earliest finish time of the activity
+     *
      * @return Earliest finish time of the activity
      */
     public double getEarliestFinish() {
@@ -267,10 +296,63 @@ public class Activity {
 
     /**
      * Get the latest start time of the activity
+     *
      * @return Latest start time of the activity
      */
     public double getLatestStart() {
         return latestStart;
     }
 
+    /**
+     * Set the earliest finish time of the activity
+     *
+     * @param earliestFinish Earliest finish time of the activity
+     */
+    public void setEarliestFinish(double earliestFinish) {
+        this.earliestFinish = earliestFinish;
+    }
+
+    /**
+     * Set the latest finish time of the activity
+     *
+     * @param latestFinish Latest finish time of the activity
+     */
+    public void setLatestFinish(double latestFinish) {
+        this.latestFinish = latestFinish;
+    }
+
+    /**
+     * Set the earliest start time of the activity
+     *
+     * @param earliestStart Earliest start time of the activity
+     */
+    public void setEarliestStart(double earliestStart) {
+        this.earliestStart = earliestStart;
+    }
+
+    /**
+     * Set the latest start time of the activity
+     *
+     * @param latestStart Latest start time of the activity
+     */
+    public void setLatestStart(double latestStart) {
+        this.latestStart = latestStart;
+    }
+
+    /**
+     * Set the slack time of the activity
+     *
+     * @param slack Slack time of the activity
+     */
+    public void setSlack(double slack) {
+        this.slack = slack;
+    }
+
+    public void clearTimes() {
+        earliestStart = 0.0;
+        earliestFinish = 0.0;
+        latestStart = 0.0;
+        latestFinish = 0.0;
+        slack = 0.0;
+    }
 }
