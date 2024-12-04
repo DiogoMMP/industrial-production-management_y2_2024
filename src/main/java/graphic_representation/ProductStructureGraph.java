@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import static guru.nidi.graphviz.model.Factory.*;
 
 public class ProductStructureGraph {
-    private static final String OUTPUT_FILE_PATH = "src/main/java/projectManager/output/product_structure_graph.svg";
+    private static final String OUTPUT_FILE_PATH = "src/main/java/graphic_representation/output/product_structure_graph.svg";
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
 
     public void generateGraph() {

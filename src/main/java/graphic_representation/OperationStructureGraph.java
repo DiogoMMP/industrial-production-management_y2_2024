@@ -19,7 +19,7 @@ import static guru.nidi.graphviz.model.Factory.*;
 
 public class OperationStructureGraph {
 
-    private static final String OUTPUT_FILE_PATH = "src/main/java/projectManager/output/operation_structure_graph.svg";
+    private static final String OUTPUT_FILE_PATH = "src/main/java/graphic_representation/output/operation_structure_graph.svg";
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
 
     private enum NodeTypeGraph {
