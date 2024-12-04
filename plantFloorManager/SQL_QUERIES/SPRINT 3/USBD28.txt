@@ -1,0 +1,80 @@
+CREATE OR REPLACE FUNCTION Get_Reserved_Materials
+RETURN SYS_REFCURSOR
+IS
+    reserved_materials SYS_REFCURSOR;
+    rs_cursor SYS_REFCURSOR;  -- cursor for iterating over Reserved_Stock
+    part_id Reserved_Stock.Part_ID%TYPE;
+    quantity Reserved_Stock.Quantity%TYPE;
+    unit Reserved_Stock.Unit%TYPE;
+    description Part.Part_Description%TYPE;
+    supplier_details VARCHAR2(4000);  -- string to hold aggregated supplier details
+BEGIN
+    -- Open a cursor for the Reserved_Stock data
+    OPEN rs_cursor FOR
+        SELECT
+            rs.Part_ID,
+            rs.Quantity,
+            rs.Unit,
+            pt.Part_Description
+        FROM
+            Reserved_Stock rs
+        JOIN
+            Part pt ON rs.Part_ID = pt.Part_ID
+        WHERE
+            rs.Part_ID IN (SELECT Part_ID FROM External_Part);
+
+    -- Loop through the cursor to construct the final output
+    OPEN reserved_materials FOR
+        SELECT
+            rs.Part_ID,
+            rs.Quantity,
+            rs.Unit,
+            pt.Part_Description,
+            -- Aggregating distinct supplier IDs and names for each part
+            (SELECT LISTAGG(DISTINCT s.Supplier_ID || ' - ' || su.Supplier_Name, ', ')
+             WITHIN GROUP (ORDER BY s.Supplier_ID)
+             FROM Procurement s
+             JOIN Supplier su ON s.Supplier_ID = su.Supplier_ID
+             WHERE s.Part_ID = rs.Part_ID) AS Supplier_Details
+        FROM
+            Reserved_Stock rs
+        JOIN
+            Part pt ON rs.Part_ID = pt.Part_ID
+        WHERE
+            rs.Part_ID IN (SELECT Part_ID FROM External_Part);
+
+    RETURN reserved_materials;
+END Get_Reserved_Materials;
+/
+
+
+
+DECLARE
+    materials SYS_REFCURSOR;
+    part_id Reserved_Stock.Part_ID%TYPE;
+    quantity Reserved_Stock.Quantity%TYPE;
+    unit Reserved_Stock.Unit%TYPE;
+    description Part.Part_Description%TYPE;
+    supplier_details VARCHAR2(4000);
+BEGIN
+    -- Call the function
+    materials := Get_Reserved_Materials;
+
+    -- Loop through the cursor and display results
+    LOOP
+        FETCH materials INTO part_id, quantity, unit, description, supplier_details;
+        EXIT WHEN materials%NOTFOUND;
+
+        -- Output each attribute on a separate line
+        DBMS_OUTPUT.PUT_LINE('Part ID        : ' || part_id);
+        DBMS_OUTPUT.PUT_LINE('Description    : ' || description);
+        DBMS_OUTPUT.PUT_LINE('Quantity       : ' || quantity);
+        DBMS_OUTPUT.PUT_LINE('Unit           : ' || unit);
+        DBMS_OUTPUT.PUT_LINE('Supplier Details: ' || supplier_details);
+        DBMS_OUTPUT.PUT_LINE('-------------------------------');
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE materials;
+END;
+/
