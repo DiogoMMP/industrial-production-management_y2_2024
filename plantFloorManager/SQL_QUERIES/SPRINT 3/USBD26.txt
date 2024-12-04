@@ -1,0 +1,27 @@
+SELECT
+    cip.Part_ID,
+    p.Part_Description,
+    SUM(cip.Quantity * cop.Quantity) AS Total_Required_Quantity,
+    cip.Unit AS Required_Unit,
+    s.Stock AS Available_Stock,
+    s.Unit AS Stock_Unit,
+    CASE
+        WHEN s.Stock >= SUM(cip.Quantity * cop.Quantity) THEN 'Sufficient'
+        ELSE 'Insufficient'
+    END AS Stock_Status
+FROM
+    Customer_Order_Product cop
+JOIN
+    BOO_Input cip ON cop.Product_ID = cip.Product_ID
+JOIN
+    External_Part ep ON cip.Part_ID = ep.Part_ID
+LEFT JOIN
+    Stock s ON cip.Part_ID = s.Part_ID
+JOIN
+    Part p ON cip.Part_ID = p.Part_ID
+WHERE
+    cop.Customer_Order_ID = 2 -- Customer Order ID
+GROUP BY
+    cip.Part_ID, p.Part_Description, s.Stock, cip.Unit, s.Unit
+ORDER BY
+    Stock_Status DESC, cip.Part_ID;

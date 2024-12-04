@@ -432,7 +432,7 @@ insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) value
 insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S20', 170, 'AS12945S20', 1, 'unit');
 
 --Stock
-INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN94561L67', 100, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN94561L67', 1000, 'ml');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN12344A21', 200, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R50', 150, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R10', 250, 'unit');
