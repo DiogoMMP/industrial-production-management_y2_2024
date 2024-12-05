@@ -230,6 +230,111 @@ public class PERT_CPM {
     }
 
     /**
+     * Checks if there are circular dependencies in the graph.
+     *
+     * @return true if a cycle is detected, false otherwise.
+     */
+    public boolean hasCircularDependencies() {
+        Set<String> visited = new HashSet<>();
+        Set<String> recursionStack = new HashSet<>();
+
+        for (String vertex : pert_CPM.vertices()) {
+            if (detectCycle(vertex, visited, recursionStack)) {
+                return true; // Cycle detected
+            }
+        }
+        return false; // No cycle detected
+    }
+
+    /**
+     * Helper method to detect a cycle using DFS.
+     *
+     * @param vertex         Current vertex.
+     * @param visited        Set of visited vertices.
+     * @param recursionStack Set of vertices in the current DFS path.
+     * @return true if a cycle is detected, false otherwise.
+     */
+    private boolean detectCycle(String vertex, Set<String> visited, Set<String> recursionStack) {
+        if (recursionStack.contains(vertex)) {
+            return true; // Cycle detected
+        }
+
+        if (visited.contains(vertex)) {
+            return false; // Already processed, no cycle
+        }
+
+        visited.add(vertex);
+        recursionStack.add(vertex);
+
+        // Check all adjacent vertices
+        for (String neighbor : pert_CPM.adjVertices(vertex)) {
+            if (detectCycle(neighbor, visited, recursionStack)) {
+                return true; // Cycle detected in subgraph
+            }
+        }
+
+        recursionStack.remove(vertex);
+        return false; // No cycle detected
+    }
+
+    public boolean validateGraph() {
+        boolean hasCiruclar=false;
+        if (hasCircularDependencies()) {
+            hasCiruclar=true;
+        }
+        else {
+            hasCiruclar=false;
+        }
+    return hasCiruclar;
+    }
+
+    public List<String> topologicalSort() {
+
+        if (hasCircularDependencies()){
+            throw new IllegalStateException("The graph has circular dependencies.");
+        }
+        Stack<String> stack = new Stack<>(); // Stack to store the sorted order
+        Set<String> visited = new HashSet<>(); // Set to track visited nodes
+
+        // Iterate over all vertices in the graph
+        for (String vertex : pert_CPM.vertices()) {
+            if (!visited.contains(vertex)) {
+                topologicalSortUtil(vertex, visited, stack);
+            }
+        }
+
+        // Convert the stack into the result list
+        List<String> sortedOrder = new ArrayList<>();
+        while (!stack.isEmpty()) {
+            sortedOrder.add(stack.pop());
+        }
+
+        return sortedOrder;
+    }
+
+    /**
+     * Utility function for DFS and topological sorting.
+     *
+     * @param vertex  The current vertex being visited.
+     * @param visited Set of visited vertices.
+     * @param stack   Stack to store the result.
+     */
+    private void topologicalSortUtil(String vertex, Set<String> visited, Stack<String> stack) {
+        // Mark the current vertex as visited
+        visited.add(vertex);
+
+        // Recur for all adjacent vertices
+        for (String neighbor : pert_CPM.adjVertices(vertex)) {
+            if (!visited.contains(neighbor)) {
+                topologicalSortUtil(neighbor, visited, stack);
+            }
+        }
+
+        // Push the current vertex to the stack
+        stack.push(vertex);
+    }
+
+    /**
      * Checks if an activity is present in the graph.
      *
      * @param actId ID of the activity.
