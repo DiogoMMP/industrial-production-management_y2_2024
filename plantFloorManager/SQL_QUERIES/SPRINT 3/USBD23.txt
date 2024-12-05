@@ -1,0 +1,110 @@
+CREATE OR REPLACE TRIGGER check_operation_execution_time
+BEFORE INSERT OR UPDATE ON Operation
+FOR EACH ROW
+DECLARE
+    max_allowed_time NUMBER;
+    workstation_types VARCHAR2(4000);
+BEGIN
+    -- Find max allowed time and list of compatible workstation types
+    SELECT
+        MAX(wto.Maximum_Execution_Time),
+        LISTAGG(wto.Workstation_Type_ID, ', ') WITHIN GROUP (ORDER BY wto.Workstation_Type_ID)
+    INTO
+        max_allowed_time,
+        workstation_types
+    FROM Workstation_Type_Operation_Type wto
+    WHERE wto.Operation_Type_ID = :NEW.Operation_Type_ID;
+
+    -- Raise custom error with detailed message if execution time exceeds maximum
+    IF :NEW.Execution_Time > max_allowed_time THEN
+        RAISE_APPLICATION_ERROR(-20001,
+            'Operation Execution Time Violation:' || CHR(10) ||
+            'Execution Time: ' || :NEW.Execution_Time || CHR(10) ||
+            'Maximum Allowed Time: ' || max_allowed_time || CHR(10) ||
+            'Compatible Workstation Types: ' || workstation_types || CHR(10) ||
+            'The operation''s execution time cannot exceed the maximum time for compatible workstation types.');
+    END IF;
+END;
+/
+
+-- Prerequisite: Create test data
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)
+VALUES (1, 'Test Operation Type');
+
+INSERT INTO Workstation_Type (Workstation_Type_ID, Workstation_Type)
+VALUES ('WT1', 'Test Workstation Type');
+
+INSERT INTO Workstation_Type_Operation_Type
+(Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)
+VALUES ('WT1', 1, 100, 10);
+
+-- Test Scenario 1: Successful Insertion
+DECLARE
+    v_success BOOLEAN := TRUE;
+BEGIN
+    INSERT INTO Operation (Operation_ID, Operation_Type_ID, Execution_Time)
+    VALUES (1, 1, 90);
+    DBMS_OUTPUT.PUT_LINE('Test 1 Passed: Insertion within limit');
+EXCEPTION
+    WHEN OTHERS THEN
+        v_success := FALSE;
+        DBMS_OUTPUT.PUT_LINE('Test 1 Failed: ' || SQLERRM);
+END;
+/
+
+-- Test Scenario 2: Failed Insertion
+DECLARE
+    v_error_caught BOOLEAN := FALSE;
+BEGIN
+    INSERT INTO Operation (Operation_ID, Operation_Type_ID, Execution_Time)
+    VALUES (2, 1, 110);
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE = -20001 THEN
+            v_error_caught := TRUE;
+            DBMS_OUTPUT.PUT_LINE('Test 2 Passed: Error raised for time limit');
+            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Test 2 Failed: Unexpected error');
+        END IF;
+END;
+/
+
+-- Test Scenario 3: Successful Update
+DECLARE
+    v_success BOOLEAN := TRUE;
+BEGIN
+    UPDATE Operation
+    SET Execution_Time = 95
+    WHERE Operation_ID = 1;
+    DBMS_OUTPUT.PUT_LINE('Test 3 Passed: Update within limit');
+EXCEPTION
+    WHEN OTHERS THEN
+        v_success := FALSE;
+        DBMS_OUTPUT.PUT_LINE('Test 3 Failed: ' || SQLERRM);
+END;
+/
+
+-- Test Scenario 4: Failed Update
+DECLARE
+    v_error_caught BOOLEAN := FALSE;
+BEGIN
+    UPDATE Operation
+    SET Execution_Time = 120
+    WHERE Operation_ID = 1;
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE = -20001 THEN
+            v_error_caught := TRUE;
+            DBMS_OUTPUT.PUT_LINE('Test 4 Passed: Error raised for time limit');
+            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Test 4 Failed: Unexpected error');
+        END IF;
+END;
+/
+
+-- Cleanup
+DELETE FROM Workstation_Type_Operation_Type WHERE Workstation_Type_ID = 'WT1';
+DELETE FROM Workstation_Type WHERE Workstation_Type_ID = 'WT1';
+DELETE FROM Operation WHERE Operation_ID IN (1, 2);
