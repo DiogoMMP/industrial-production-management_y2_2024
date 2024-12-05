@@ -429,12 +429,12 @@ INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUE
 INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12945S20', 170, 'AS12945S20', 1, 'unit');
 
 --Stock
-INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN94561L67', 1000, 'ml');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN94561L67', 500, 'ml');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN12344A21', 200, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R50', 150, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R10', 250, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18544A21', 300, 'unit');
-INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18544C21', 120, 'unit');
+INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18544C21', 22, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN18324C54', 90, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R45', 75, 'unit');
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN52384R12', 180, 'unit');
