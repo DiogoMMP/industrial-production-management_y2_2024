@@ -15,13 +15,13 @@ import org.apache.commons.csv.CSVPrinter;
 public class OracleDataExporter implements Runnable{
 
     // JDBC driver name and database URL
-//    private static final String DB_URL = "jdbc:oracle:thin:@vsgate-s1.dei.isep.ipp.pt:10472:xe";
-//    private static final String USER = "SYS as SYSDBA";
-//    private static final String PASS = "12345678";
+   // private static final String DB_URL = "jdbc:oracle:thin:@vsgate-s1.dei.isep.ipp.pt:10472:xe";
+   // private static final String USER = "C##LAPR3";
+   // private static final String PASS = "12345678";
 
     // JDBC driver name and database URL (SPRINT 2)
-    private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static final String USER = "SYS as SYSDBA";
+   private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
+   private static final String USER = "SYS as SYSDBA";
     private static final String PASS = "LAPR3";
 
     // File paths
