@@ -28,31 +28,35 @@ insert into Product_Family(Family_ID, Family_Description) values (145, 'Pro Line
 insert into Product_Family(Family_ID, Family_Description) values (146, 'Pro Clear lids');
 
 --Operation_Type
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5647, 'Disc cutting');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5649, 'Initial pot base pressing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5651, 'Final pot base pressing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5653, 'Pot base finishing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5655, 'Lid pressing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5657, 'Lid finishing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5659, 'Pot handles riveting');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5661, 'Lid handle screw');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5663, 'Pot test and packaging');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5665, 'Handle welding');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5667, 'Lid polishing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5669, 'Pot base polishing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5671, 'Teflon painting');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5681, 'Initial pan base pressing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5682, 'Final pan base pressing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5683, 'Pan base finishing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5685, 'Handle gluing');
-insert into Operation_Type (Operation_Type_ID, Operation_Description) values (5688, 'Pan test and packaging');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5647, 'Disc cutting');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5649, 'Initial pot base pressing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5651, 'Final pot base pressing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5653, 'Pot base finishing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5655, 'Lid pressing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5657, 'Lid finishing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5659, 'Pot handles riveting');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5661, 'Lid handle screw');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5663, 'Pot test and packaging');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5665, 'Handle welding');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5667, 'Lid polishing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5669, 'Pot base polishing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5671, 'Teflon painting');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5681, 'Initial pan base pressing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5682, 'Final pan base pressing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5683, 'Pan base finishing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5685, 'Handle gluing');
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)VALUES (5688, 'Pan test and packaging');
 
 --Customer
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('456', 'PT501245987', 'Carvalho and Carvalho, Lda', 'Tv. Augusto Lessa 23, 4200-047 Porto, Portugal', 003518340500, 'idont@care.com', 2, 620, 'Activated');
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('785', 'PT501245488', 'Tudo para a casa, Lda', 'R. Dr. Barros 93, 4465-219 São Mamede de Infesta, Portugal', 003518340500, 'me@neither.com', 2, 620, 'Activated');
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('657', 'PT501242417', 'Sair de Cena', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88, 4400-023 Vila Nova de Gaia, Portugal', 003518340500, 'some@email.com', 2, 620, 'Activated');
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('348', 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz', 1, 203, 'Activated');
-insert into Customer(Customer_ID, NIF, Name, Address, Mobile_number, Email, type_ID, Country_ID, Status) values ('999', 'CZ6451237820', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'someother.random@email.cz', 1, 203, 'Deactivated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status)VALUES (456, 'PT501245987', 'Carvalho & Carvalho, Lda', 'Tv. Augusto Lessa 23, 4200-047 Porto, Portugal', 003518340500, 'idont@care.com','2', 620, 'Activated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status)VALUES (785, 'PT501245488', 'Tudo para a casa, Lda', 'R. Dr. Barros 93, 4465-219 São Mamede de Infesta, Portugal', 003518340500, 'me@neither.com','2', 620, 'Activated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status)VALUES (657, 'PT501242417', 'Sair de Cena', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88, 4400-023 Vila Nova de Gaia, Portugal', 003518340500, 'some@email.com','2', 620, 'Activated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status)VALUES (348, 'CZ6451237810', 'U Fleku', 'Křemencova 11, 110 00 Nové Město, Czechia', 004201234567, 'some.random@email.cz','1', 203, 'Activated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (901, 'PT501999111', 'Casa Desativada, Lda', 'R. Fantasma 45, 1234-567 Lisboa, Portugal', 003518341111, 'no@service.com', 2, 620, 'Deactivated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (902, 'PT501999112', 'Sombra, Unipessoal', 'R. do Vazio 12, 4567-890 Porto, Portugal', 003518342222, 'ghost@invisible.com', 2, 620, 'Deactivated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (903, 'CZ6451237890', 'Prague Shadows', 'Náměstí Ticha 7, 112 00 Praha, Czechia', 004201234568, 'shadow@prague.com', 1, 203, 'Deactivated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (904, 'CZ6451237891', 'Ghostly Ventures', 'Hlavní 22, 120 00 Brno, Czechia', 004201234569, 'ghostly@email.cz', 1, 203, 'Deactivated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (905, 'PT501999113', 'Empresa Invisível', 'R. Inexistente 99, 9876-543 Coimbra, Portugal', 003518343333, 'notreal@company.com', 2, 620, 'Deactivated');
 
 --Customer_Order
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 785);
@@ -116,126 +120,126 @@ insert into Production_Order (Order_ID, Order_Date, Product_Planning_ID, Custome
 insert into Production_Order (Order_ID, Order_Date, Product_Planning_ID, Customer_Order_ID) values (1007, TO_DATE('21/09/2024', 'DD/MM/YYYY'), 3, 7);
 
 --Part
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN12344A21', 'Screw M6 35 mm');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN52384R50', '300x300 mm 5 mm stainless steel sheet');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN52384R10', '300x300 mm 1 mm stainless steel sheet');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN18544A21', 'Rivet 6 mm');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN18544C21', 'Stainless steel handle model U6');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN18324C54', 'Stainless steel handle model R12');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN52384R45', '250x250 mm 5mm stainless steel sheet');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN52384R12', '250x250 mm 1mm stainless steel sheet');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN18324C91', 'Stainless steel handle model S26');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN18324C51', 'Stainless steel handle model R11');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12945T22', '5l 22 cm aluminium and teflon non stick pot');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12945S22', '5l 22 cm stainless steel pot');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12946S22', '5l 22 cm stainless steel pot bottom');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12947S22', '22 cm stainless steel lid');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12945S20', '3l 20 cm stainless steel pot');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12946S20', '3l 20 cm stainless steel pot bottom');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12947S20', '20 cm stainless steel lid');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12945S17', '2l 17 cm stainless steel pot');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12945P17', '2l 17 cm stainless steel souce pan');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12945S48', '17 cm stainless steel lid');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('AS12945G48', '17 cm glass lid');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12945A01', '250 mm 5 mm stailess steel disc');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12945A02', '220 mm pot base phase 1');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12945A03', '220 mm pot base phase 2');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12945A04', '220 mm pot base final');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12947A01', '250 mm 1 mm stailess steel disc');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12947A02', '220 mm lid pressed');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12947A03', '220 mm lid polished');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12947A04', '220 mm lid with handle');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12945A32', '200 mm pot base phase 1');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12945A33', '200 mm pot base phase 2');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12945A34', '200 mm pot base final');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12947A32', '200 mm lid pressed');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12947A33', '200 mm lid polished');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP12947A34', '200 mm lid with handle');
-INSERT INTO Part (Part_ID, Part_Description) VALUES ('PN94561L67', 'Coo lube 2210XP');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN12344A21', 'Screw M6 35 mm');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN52384R50', '300x300 mm 5 mm stainless steel sheet');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN52384R10', '300x300 mm 1 mm stainless steel sheet');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN18544A21', 'Rivet 6 mm');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN18544C21', 'Stainless steel handle model U6');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN18324C54', 'Stainless steel handle model R12');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN52384R45', '250x250 mm 5mm stainless steel sheet');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN52384R12', '250x250 mm 1mm stainless steel sheet');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN18324C91', 'Stainless steel handle model S26');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN18324C51', 'Stainless steel handle model R11');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12945T22', '5l 22 cm aluminium and teflon non stick pot');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12945S22', '5l 22 cm stainless steel pot');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12946S22', '5l 22 cm stainless steel pot bottom');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12947S22', '22 cm stainless steel lid');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12945S20', '3l 20 cm stainless steel pot');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12946S20', '3l 20 cm stainless steel pot bottom');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12947S20', '20 cm stainless steel lid');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12945S17', '2l 17 cm stainless steel pot');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12945P17', '2l 17 cm stainless steel souce pan');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12945S48', '17 cm stainless steel lid');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('AS12945G48', '17 cm glass lid');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12945A01', '250 mm 5 mm stailess steel disc');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12945A02', '220 mm pot base phase 1');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12945A03', '220 mm pot base phase 2');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12945A04', '220 mm pot base final');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12947A01', '250 mm 1 mm stailess steel disc');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12947A02', '220 mm lid pressed');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12947A03', '220 mm lid polished');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12947A04', '220 mm lid with handle');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12945A32', '200 mm pot base phase 1');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12945A33', '200 mm pot base phase 2');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12945A34', '200 mm pot base final');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12947A32', '200 mm lid pressed');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12947A33', '200 mm lid polished');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('IP12947A34', '200 mm lid with handle');
+INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN94561L67', 'Coo lube 2210XP');
 
 --External_Part
-INSERT INTO External_Part (Part_ID) VALUES ('PN94561L67');
-INSERT INTO External_Part (Part_ID) VALUES ('PN12344A21');
-INSERT INTO External_Part (Part_ID) VALUES ('PN52384R50');
-INSERT INTO External_Part (Part_ID) VALUES ('PN52384R10');
-INSERT INTO External_Part (Part_ID) VALUES ('PN18544A21');
-INSERT INTO External_Part (Part_ID) VALUES ('PN18544C21');
-INSERT INTO External_Part (Part_ID) VALUES ('PN18324C54');
-INSERT INTO External_Part (Part_ID) VALUES ('PN52384R45');
-INSERT INTO External_Part (Part_ID) VALUES ('PN52384R12');
-INSERT INTO External_Part (Part_ID) VALUES ('PN18324C91');
-INSERT INTO External_Part (Part_ID) VALUES ('PN18324C51');
+INSERT INTO External_Part (Part_ID)VALUES ('PN12344A21');
+INSERT INTO External_Part (Part_ID)VALUES ('PN52384R50');
+INSERT INTO External_Part (Part_ID)VALUES ('PN52384R10');
+INSERT INTO External_Part (Part_ID)VALUES ('PN18544A21');
+INSERT INTO External_Part (Part_ID)VALUES ('PN18544C21');
+INSERT INTO External_Part (Part_ID)VALUES ('PN18324C54');
+INSERT INTO External_Part (Part_ID)VALUES ('PN52384R45');
+INSERT INTO External_Part (Part_ID)VALUES ('PN52384R12');
+INSERT INTO External_Part (Part_ID)VALUES ('PN18324C91');
+INSERT INTO External_Part (Part_ID)VALUES ('PN18324C51');
+INSERT INTO External_Part (Part_ID)VALUES ('PN94561L67');
 
 --Raw_Material
-INSERT INTO Raw_Material (Part_ID) VALUES ('PN94561L67');
+INSERT INTO Raw_Material (Part_ID)VALUES ('PN94561L67');
 
 --Component
-INSERT INTO Component (Part_ID) VALUES ('PN12344A21');
-INSERT INTO Component (Part_ID) VALUES ('PN52384R50');
-INSERT INTO Component (Part_ID) VALUES ('PN52384R10');
-INSERT INTO Component (Part_ID) VALUES ('PN18544A21');
-INSERT INTO Component (Part_ID) VALUES ('PN18544C21');
-INSERT INTO Component (Part_ID) VALUES ('PN18324C54');
-INSERT INTO Component (Part_ID) VALUES ('PN52384R45');
-INSERT INTO Component (Part_ID) VALUES ('PN52384R12');
-INSERT INTO Component (Part_ID) VALUES ('PN18324C91');
-INSERT INTO Component (Part_ID) VALUES ('PN18324C51');
+INSERT INTO Component (Part_ID)VALUES ('PN12344A21');
+INSERT INTO Component (Part_ID)VALUES ('PN52384R50');
+INSERT INTO Component (Part_ID)VALUES ('PN52384R10');
+INSERT INTO Component (Part_ID)VALUES ('PN18544A21');
+INSERT INTO Component (Part_ID)VALUES ('PN18544C21');
+INSERT INTO Component (Part_ID)VALUES ('PN18324C54');
+INSERT INTO Component (Part_ID)VALUES ('PN52384R45');
+INSERT INTO Component (Part_ID)VALUES ('PN52384R12');
+INSERT INTO Component (Part_ID)VALUES ('PN18324C91');
+INSERT INTO Component (Part_ID)VALUES ('PN18324C51');
 
 --Internal_Part
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12945A01');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12945A02');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12945A03');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12945A04');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12947A01');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12947A02');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12947A03');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12947A04');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12945A32');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12945A33');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12945A34');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12947A32');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12947A33');
-INSERT INTO Internal_Part (Part_ID) VALUES ('IP12947A34');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12945T22');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12945S22');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12946S22');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12947S22');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12945S20');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12946S20');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12947S20');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12945S17');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12945P17');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12945S48');
-INSERT INTO Internal_Part (Part_ID) VALUES ('AS12945G48');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12945T22');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12945S22');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12946S22');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12947S22');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12945S20');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12946S20');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12947S20');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12945S17');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12945P17');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12945S48');
+INSERT INTO Internal_Part (Part_ID)VALUES ('AS12945G48');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12945A01');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12945A02');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12945A03');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12945A04');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12947A01');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12947A02');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12947A03');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12947A04');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12945A32');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12945A33');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12945A34');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12947A32');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12947A33');
+INSERT INTO Internal_Part (Part_ID)VALUES ('IP12947A34');
 
 --Intermediate_Product
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12945A01');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12945A02');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12945A03');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12945A04');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12947A01');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12947A02');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12947A03');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12947A04');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12945A32');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12945A33');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12945A34');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12947A32');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12947A33');
-INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP12947A34');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12945A01');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12945A02');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12945A03');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12945A04');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12947A01');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12947A02');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12947A03');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12947A04');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12945A32');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12945A33');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12945A34');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12947A32');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12947A33');
+INSERT INTO Intermediate_Product (Part_ID)VALUES ('IP12947A34');
 
 --Product
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12945T22', 'La Belle 22 5l pot', 1, 130);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12945S22', 'Pro 22 5l pot', 1, 125);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12946S22', 'Pro 22 5l pot bottom', 1, 125);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12947S22', 'Pro 22 lid', 1, 145);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12945S20', 'Pro 20 3l pot', 1, 125);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12946S20', 'Pro 20 3l pot bottom', 1, 125);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12947S20', 'Pro 20 lid', 1, 145);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12945S17', 'Pro 17 2l pot', 1, 125);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12945P17', 'Pro 17 2l sauce pan', 1, 132);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12945S48', 'Pro 17 lid', 1, 145);
-INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('AS12945G48', 'Pro Clear 17 lid', 1, 146);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12945T22', 'La Belle 22 5l pot', 1, 130);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12945S22', 'Pro 22 5l pot', 3, 125);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12946S22', 'Pro 22 5l pot bottom', 3, 125);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12947S22', 'Pro 22 lid', 2, 145);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12945S20', 'Pro 20 3l pot', 3, 125);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12946S20', 'Pro 20 3l pot bottom', 2, 125);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12947S20', 'Pro 20 lid', 3, 145);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12945S17', 'Pro 17 2l pot', 3, 125);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12945P17', 'Pro 17 2l sauce pan', 3, 132);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12945S48', 'Pro 17 lid', 2, 145);
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID)VALUES ('AS12945G48', 'Pro Clear 17 lid', 1, 146);
 
 --Product_Production_Order
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1001, 5);
@@ -313,123 +317,115 @@ insert into Operation (Operation_ID, Operation_Type_ID) values (164, 5667);
 insert into Operation (Operation_ID, Operation_Type_ID) values (170, 5663);
 
 --Workstation_Type_Operation
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4578', 100, 100, 20);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 120, 120, 25);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 150, 110, 22);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 151, 130, 30);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 152, 125, 28);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 153, 140, 32);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 154, 135, 30);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('C5637', 160, 150, 35);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 161, 160, 40);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 162, 155, 38);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('C5637', 163, 170, 45);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('S3271', 164, 180, 50);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('T3452', 115, 190, 55);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('K3675', 122, 200, 60);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('D9123', 114, 210, 65);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q3547', 124, 220, 70);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q3547', 130, 230, 75);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('Q5478', 121, 240, 80);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 123, 250, 85);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 124, 260, 90);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4588', 103, 270, 95);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('A4598', 112, 280, 100);
-insert into Workstation_Type_Operation (Workstation_Type_ID, Operation_ID, Maximum_Execution_Time, Setup_Time) values ('K3675', 170, 290, 105);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4578', 5647, 226, 11);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4588', 5647, 149, 13);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4598', 5647, 496, 13);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4588', 5649, 225, 14);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4598', 5649, 126, 39);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4588', 5651, 463, 39);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4598', 5651, 284, 41);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('C5637', 5653, 123, 39);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4588', 5655, 417, 13);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4598', 5655, 466, 11);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('C5637', 5657, 287, 36);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('S3271', 5659, 324, 30);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('T3452', 5661, 454, 28);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('K3675', 5663, 463, 49);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('D9123', 5665, 240, 47);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('Q3547', 5667, 224, 24);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('Q3547', 5669, 342, 46);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('Q5478', 5671, 272, 21);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4588', 5681, 366, 27);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4598', 5681, 378, 22);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4588', 5682, 262, 43);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('A4598', 5682, 335, 12);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('C5637', 5683, 358, 26);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('D9123', 5685, 260, 45);
+INSERT INTO Workstation_Type_Operation_Type (Workstation_Type_ID, Operation_Type_ID, Maximum_Execution_Time, Setup_Time)VALUES ('K3675', 5688, 218, 18);
 
 --BOO
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S22', 100, 103);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S22', 103, 112);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S22', 112, 114);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S22', 114, 115);
-insert into BOO (Product_ID, Operation_ID) values ('AS12946S22', 115);
-
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S22', 120, 121);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S22', 121, 122);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S22', 122, 123);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S22', 123, 124);
-insert into BOO (Product_ID, Operation_ID) values ('AS12947S22', 124);
-
-insert into BOO (Product_ID, Operation_ID) values ('AS12945S22', 130);
-
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S20', 150, 151);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S20', 151, 152);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S20', 152, 153);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12946S20', 153, 154);
-insert into BOO (Product_ID, Operation_ID) values ('AS12946S20', 154);
-
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S20', 160, 161);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S20', 161, 162);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S20', 162, 163);
-insert into BOO (Product_ID, Operation_ID, Next_Operation_ID) values ('AS12947S20', 163, 164);
-insert into BOO (Product_ID, Operation_ID) values ('AS12947S20', 164);
-
-insert into BOO (Product_ID, Operation_ID) values ('AS12945S20', 170);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (100, 'AS12946S22', 103);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (103, 'AS12946S22', 112);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (112, 'AS12946S22', 114);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (114, 'AS12946S22', 115);
+INSERT INTO BOO (Operation_ID, Product_ID) VALUES (115, 'AS12946S22');
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (120, 'AS12947S22', 121);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (121, 'AS12947S22', 122);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (122, 'AS12947S22', 123);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (123, 'AS12947S22', 124);
+INSERT INTO BOO (Operation_ID, Product_ID) VALUES (124, 'AS12947S22');
+INSERT INTO BOO (Operation_ID, Product_ID) VALUES (130, 'AS12945S22');
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (150, 'AS12946S20', 151);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (151, 'AS12946S20', 152);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (152, 'AS12946S20', 153);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (153, 'AS12946S20', 154);
+INSERT INTO BOO (Operation_ID, Product_ID) VALUES (154, 'AS12946S20');
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (160, 'AS12947S20', 161);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (161, 'AS12947S20', 162);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (162, 'AS12947S20', 163);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (163, 'AS12947S20', 164);
+INSERT INTO BOO (Operation_ID, Product_ID) VALUES (164, 'AS12947S20');
+INSERT INTO BOO (Operation_ID, Product_ID) VALUES (170, 'AS12945S20');
 
 --BOO_Input
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 100, 'PN52384R50', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 103, 'IP12945A01', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 103, 'PN94561L67', 5, 'ml');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 112, 'IP12945A02', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 112, 'PN94561L67', 5, 'ml');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 115, 'IP12945A04', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 115, 'PN18544C21', 2, 'unit');
-
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 120, 'PN52384R10', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 121, 'IP12947A01', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 121, 'PN94561L67', 5, 'ml');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 123, 'IP12947A03', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 123, 'PN18324C54', 1, 'unit');
-
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S22', 130, 'AS12947S22', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S22', 130, 'AS12946S22', 1, 'unit');
-
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 150, 'PN52384R50', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 151, 'IP12945A01', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 151, 'PN94561L67', 5, 'ml');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 152, 'IP12945A32', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 152, 'PN94561L67', 5, 'ml');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 153, 'IP12945A33', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 154, 'IP12945A04', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 154, 'PN18544C21', 2, 'unit');
-
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 160, 'PN52384R10', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 161, 'IP12947A01', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 161, 'PN94561L67', 5, 'ml');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 163, 'IP12947A33', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 163, 'PN18324C51', 1, 'unit');
-
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S20', 170, 'AS12946S20', 1, 'unit');
-insert into BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S20', 170, 'AS12947S20', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 100, 'PN52384R50', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 103, 'IP12945A01', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 103, 'PN94561L67', 5, 'ml');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 112, 'IP12945A02', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 112, 'PN94561L67', 5, 'ml');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 114, 'IP12945A03', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 115, 'IP12945A04', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 115, 'PN18544C21', 2, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 120, 'PN52384R10', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 121, 'IP12947A01', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 121, 'PN94561L67', 5, 'ml');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 122, 'IP12947A02', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 123, 'IP12947A03', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 123, 'PN18324C54', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 124, 'IP12947A04', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12945S22', 130, 'AS12947S22', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12945S22', 130, 'AS12946S22', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 150, 'PN52384R50', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 151, 'IP12945A01', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 151, 'PN94561L67', 5, 'ml');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 152, 'IP12945A32', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 152, 'PN94561L67', 5, 'ml');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 153, 'IP12945A33', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 154, 'IP12945A34', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 154, 'PN18544C21', 2, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 160, 'PN52384R10', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 161, 'IP12947A01', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 161, 'PN94561L67', 5, 'ml');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 162, 'IP12947A32', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 163, 'IP12947A33', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 163, 'PN18324C51', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 164, 'IP12947A34', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12945S20', 170, 'AS12946S20', 1, 'unit');
+INSERT INTO BOO_Input (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12945S20', 170, 'AS12947S20', 1, 'unit');
 
 --BOO_Output
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 100, 'IP12945A01', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 103, 'IP12945A02', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 112, 'IP12945A03', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 114, 'IP12945A04', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S22', 115, 'AS12946S22', 1, 'unit');
-
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 120, 'IP12947A01', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 121, 'IP12947A02', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 122, 'IP12947A03', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 123, 'IP12947A04', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S22', 124, 'AS12947S22', 1, 'unit');
-
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S22', 130, 'AS12945S22', 1, 'unit');
-
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 150, 'IP12945A01', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 151, 'IP12945A32', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 152, 'IP12945A33', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 153, 'IP12945A34', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12946S20', 154, 'AS12946S20', 1, 'unit');
-
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 160, 'IP12947A01', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 161, 'IP12947A32', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 162, 'IP12947A33', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 163, 'IP12947A34', 1, 'unit');
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12947S20', 164, 'AS12947S20', 1, 'unit');
-
-insert into BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) values ('AS12945S20', 170, 'AS12945S20', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 100, 'IP12945A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 103, 'IP12945A02', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 112, 'IP12945A03', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 114, 'IP12945A04', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S22', 115, 'AS12946S22', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 120, 'IP12947A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 121, 'IP12947A02', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 122, 'IP12947A03', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 123, 'IP12947A04', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S22', 124, 'AS12947S22', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12945S22', 130, 'AS12945S22', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 150, 'IP12945A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 151, 'IP12945A32', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 152, 'IP12945A33', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 153, 'IP12945A34', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12946S20', 154, 'AS12946S20', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 160, 'IP12947A01', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 161, 'IP12947A32', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 162, 'IP12947A33', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 163, 'IP12947A34', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12947S20', 164, 'AS12947S20', 1, 'unit');
+INSERT INTO BOO_Output (Product_ID, Operation_ID, Part_ID, Quantity, Unit) VALUES ('AS12945S20', 170, 'AS12945S20', 1, 'unit');
 
 --Stock
 INSERT INTO Stock (Part_ID, Stock, Unit) VALUES ('PN94561L67', 1000, 'ml');
@@ -451,6 +447,9 @@ insert into Supplier (Supplier_ID, Supplier_Name) values (3, 'AluminiumCo');
 insert into Supplier (Supplier_ID, Supplier_Name) values (4, 'SteelMasters Co.');
 insert into Supplier (Supplier_ID, Supplier_Name) values (5, 'PotWorks Enterprises');
 
+INSERT INTO Supplier (Supplier) VALUES (12345);
+INSERT INTO Supplier (Supplier) VALUES (12298);
+
 --Procurement
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (1, 'PN12344A21', 1, 10.5, 100, TO_DATE('2024-01-01', 'YYYY-MM-DD'), NULL);
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (2, 'PN12344A21', 1, 10.5, 100, TO_DATE('2024-06-01', 'YYYY-MM-DD'), TO_DATE('2024-12-31', 'YYYY-MM-DD'));
@@ -462,6 +461,17 @@ INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, S
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (8, 'PN18544A21', 4, 12.0, 80, TO_DATE('2024-04-01', 'YYYY-MM-DD'), TO_DATE('2024-10-31', 'YYYY-MM-DD'));
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (9, 'PN18544C21', 5, 30.0, 500, TO_DATE('2024-01-01', 'YYYY-MM-DD'), NULL);
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (10, 'PN18544C21', 5, 30.0, 500, TO_DATE('2024-08-01', 'YYYY-MM-DD'), TO_DATE('2025-02-28', 'YYYY-MM-DD'));
+
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (11, 'PN18544C21', 12345, 1.25, 20, TO_DATE('2023/10/01', 'YYYY/MM/DD'), NULL);
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (12, 'PN18324C54', 12345, 1.70, TO_DATE('2023/10/01', 'YYYY/MM/DD'), TO_DATE('2024/02/29', 'YYYY/MM/DD'));
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (13, 'PN18324C54', 12345, 1.80, 16, TO_DATE('2024/04/01', 'YYYY/MM/DD'), NULL);
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (14, 'PN18324C51', 12345, 1.90, TO_DATE('2023/07/01', 'YYYY/MM/DD'), TO_DATE('2024/03/31', 'YYYY/MM/DD'));
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (15, 'PN18324C51', 12345, 1.90, 20, TO_DATE('2024/04/01', 'YYYY/MM/DD'), NULL);
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (16, 'PN18544C21', 12298, 1.35, 10, TO_DATE('2023/09/01', 'YYYY/MM/DD'), NULL);
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (17, 'PN18324C54', 12298, 1.80, TO_DATE('2023/08/01', 'YYYY/MM/DD'), TO_DATE('2024/01/29', 'YYYY/MM/DD'));
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (18, 'PN18324C54', 12298, 1.75, 20, TO_DATE('2024/02/15', 'YYYY/MM/DD'), NULL);
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (19, 'PN18324C51', 12298, 1.80, TO_DATE('2023/08/01', 'YYYY/MM/DD'), TO_DATE('2024/05/31', 'YYYY/MM/DD'));
+INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (20, 'AS12945G48', 12298, 10.25, 10, TO_DATE('2023/07/01', 'YYYY/MM/DD'), NULL);
 
 --Reserved_Stock
 insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (1, 'PN12344A21', 50, 'units');

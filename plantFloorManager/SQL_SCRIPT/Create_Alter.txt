@@ -173,13 +173,13 @@ CREATE TABLE Workstation_Type (
   Workstation_Type_ID varchar2(10) NOT NULL,
   Workstation_Type    varchar2(255) NOT NULL,
   PRIMARY KEY (Workstation_Type_ID));
-CREATE TABLE Workstation_Type_Operation (
+CREATE TABLE Workstation_Type_Operation_Type (
   Workstation_Type_ID    varchar2(10) NOT NULL,
-  Operation_ID           number(10) NOT NULL,
+  Operation_Type_ID      number(10) NOT NULL,
   Maximum_Execution_Time number(10) CHECK(Maximum_Execution_Time > 0),
   Setup_Time             number(10) CHECK(Setup_Time > 0),
   PRIMARY KEY (Workstation_Type_ID,
-  Operation_ID));
+  Operation_Type_ID));
 ALTER TABLE Plant_Floor ADD CONSTRAINT FKPlant_Floo395394 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Product ADD CONSTRAINT FKProduct245766 FOREIGN KEY (Factory_Plant_ID) REFERENCES Factory_Plant (Factory_Plant_ID);
 ALTER TABLE Workstation ADD CONSTRAINT FKWorkstatio40895 FOREIGN KEY (Plant_Floor_ID) REFERENCES Plant_Floor (Plant_Floor_ID);
@@ -208,10 +208,10 @@ ALTER TABLE Product ADD CONSTRAINT FKProduct989341 FOREIGN KEY (Product_ID) REFE
 ALTER TABLE Intermediate_Product ADD CONSTRAINT FKIntermedia640813 FOREIGN KEY (Part_ID) REFERENCES Internal_Part (Part_ID);
 ALTER TABLE Raw_Material ADD CONSTRAINT FKRaw_Materi669901 FOREIGN KEY (Part_ID) REFERENCES External_Part (Part_ID);
 ALTER TABLE Procurement ADD CONSTRAINT FKProcuremen207024 FOREIGN KEY (Part_ID) REFERENCES External_Part (Part_ID);
-ALTER TABLE Workstation_Type_Operation ADD CONSTRAINT FKWorkstatio177733 FOREIGN KEY (Workstation_Type_ID) REFERENCES Workstation_Type (Workstation_Type_ID);
-ALTER TABLE Workstation_Type_Operation ADD CONSTRAINT FKWorkstatio575238 FOREIGN KEY (Operation_ID) REFERENCES Operation (Operation_ID);
+ALTER TABLE Workstation_Type_Operation_Type ADD CONSTRAINT FKWorkstatio589799 FOREIGN KEY (Workstation_Type_ID) REFERENCES Workstation_Type (Workstation_Type_ID);
 ALTER TABLE BOO ADD CONSTRAINT FKBOO826496 FOREIGN KEY (Operation_ID) REFERENCES Operation (Operation_ID);
 ALTER TABLE Operation ADD CONSTRAINT FKOperation767145 FOREIGN KEY (Operation_Type_ID) REFERENCES Operation_Type (Operation_Type_ID);
 ALTER TABLE Reserved_Stock ADD CONSTRAINT FKReserved_S138224 FOREIGN KEY (Part_ID) REFERENCES External_Part (Part_ID);
 ALTER TABLE BOO_Output ADD CONSTRAINT FKBOO_Output68804 FOREIGN KEY (Part_ID) REFERENCES Internal_Part (Part_ID);
 ALTER TABLE Stock ADD CONSTRAINT FKStock298210 FOREIGN KEY (Part_ID) REFERENCES External_Part (Part_ID);
+ALTER TABLE Workstation_Type_Operation_Type ADD CONSTRAINT FKWorkstatio972315 FOREIGN KEY (Operation_Type_ID) REFERENCES Operation_Type (Operation_Type_ID);
