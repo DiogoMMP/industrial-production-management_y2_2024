@@ -1,0 +1,62 @@
+CREATE OR REPLACE FUNCTION Get_Product_Operations(p_product_id IN VARCHAR2)
+    RETURN SYS_REFCURSOR
+IS
+    v_cursor SYS_REFCURSOR;
+BEGIN
+    OPEN v_cursor FOR
+        SELECT
+            b.Product_ID,
+            bi.Part_ID AS Input_Part,
+            ot.Operation_Description,
+            o.Execution_Time,
+            bo.Part_ID AS Output_Part
+        FROM
+            BOO b
+        JOIN
+            Operation o ON b.Operation_ID = o.Operation_ID
+        LEFT JOIN
+            Operation_Type ot ON o.Operation_Type_ID = ot.Operation_Type_ID
+        LEFT JOIN
+            BOO_Input bi ON b.Operation_ID = bi.Operation_ID AND b.Product_ID = bi.Product_ID
+        LEFT JOIN
+            BOO_Output bo ON b.Operation_ID = bo.Operation_ID AND b.Product_ID = bo.Product_ID
+        WHERE
+            b.Product_ID = p_product_id -- Starting point for the product
+            OR bi.Part_ID IN (
+                SELECT CONNECT_BY_ROOT Part_ID
+                FROM BOO_Input
+                WHERE Part_ID IN (SELECT Part_ID FROM Internal_Part)
+                CONNECT BY PRIOR Part_ID = BOO_Input.Product_ID
+                START WITH Product_ID = p_product_id
+            )
+        ORDER BY
+            b.Product_ID, b.Operation_ID;
+
+    RETURN v_cursor;
+END;
+/
+DECLARE
+    v_cursor SYS_REFCURSOR;
+    v_product_id VARCHAR2(255) := 'AS12947S22';
+    v_input_part VARCHAR2(255);
+    v_operation_description VARCHAR2(255);
+    v_execution_time NUMBER;
+    v_output_part VARCHAR2(255);
+BEGIN
+    -- Call the function
+    v_cursor := Get_Product_Operations(v_product_id);
+
+    -- Fetch and display the results
+    LOOP
+        FETCH v_cursor INTO v_product_id, v_input_part, v_operation_description, v_execution_time, v_output_part;
+        EXIT WHEN v_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Product ID: ' || v_product_id ||
+                             ', Input Part: ' || v_input_part ||
+                             ', Operation: ' || v_operation_description ||
+                             ', Execution Time: ' || v_execution_time ||
+                             ', Output Part: ' || v_output_part);
+    END LOOP;
+
+    CLOSE v_cursor;
+END;
+/
