@@ -22,7 +22,7 @@ def generate_inserts(xml_file, table_name1, table_name2):
 
         # Creates the INSERT command
         insert = (
-            f"INSERT INTO {table_name1} (Supplier)"
+            f"INSERT INTO {table_name1} (Supplier_ID)"
             f" VALUES ({supplier_id});"
         )
         inserts_suppliers.append(insert)
@@ -54,7 +54,7 @@ def generate_inserts(xml_file, table_name1, table_name2):
                     insert = (
                         f"INSERT INTO {table_name2} (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, "
                         f"End_Date)"
-                        f" VALUES ({procurement_id}, '{part_id}', {supplier_id}, {price}, TO_DATE('{start_date}', "
+                        f" VALUES ({procurement_id}, '{part_id}', {supplier_id}, {price}, {min_qnt}, TO_DATE('{start_date}', "
                         f"'YYYY/MM/DD'), TO_DATE('{end_date}', 'YYYY/MM/DD'));"
                     )
                     inserts_procurements.append(insert)
