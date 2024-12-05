@@ -1,0 +1,29 @@
+CREATE OR REPLACE TRIGGER prevent_circular_reference
+    BEFORE INSERT OR UPDATE ON BOO
+    FOR EACH ROW
+DECLARE
+    v_next_operation_id NUMBER;
+    v_product_id VARCHAR2(255);
+BEGIN
+    IF :NEW.Next_Operation_ID IS NOT NULL THEN
+        v_next_operation_id := :NEW.Next_Operation_ID;
+        v_product_id := :NEW.Product_ID;
+
+        LOOP
+            IF v_next_operation_id = :NEW.Operation_ID THEN
+                RAISE_APPLICATION_ERROR(-20001, 'Circular reference detected in BOO table.');
+            END IF;
+            SELECT Next_Operation_ID
+            INTO v_next_operation_id
+            FROM BOO
+            WHERE Operation_ID = v_next_operation_id
+              AND Product_ID = v_product_id;
+
+            EXIT WHEN v_next_operation_id IS NULL;
+        END LOOP;
+    END IF;
+END;
+/
+
+
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (115, 'AS12946S22', 120);
