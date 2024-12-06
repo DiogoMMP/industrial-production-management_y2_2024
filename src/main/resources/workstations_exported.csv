@@ -1,37 +1,43 @@
 workstation;name_oper;time
 4123;Lid polishing;14
-4123;Pot test and packaging;14
+4123;Pot base polishing;14
 4124;Lid polishing;12
-4124;Pot test and packaging;12
+4124;Pot base polishing;12
 4125;Lid polishing;12
-4125;Pot test and packaging;12
-5124;Disc cutting;15
-5124;Lid handle screw;15
-6814;Lid finishing;14
+4125;Pot base polishing;12
+5124;Lid finishing;15
+5124;Pan base finishing;15
+5124;Pot base finishing;15
+6814;Pan test and packaging;14
 6814;Pot test and packaging;14
-6815;Lid finishing;16
+6815;Pan test and packaging;16
 6815;Pot test and packaging;16
-6816;Lid finishing;16
+6816;Pan test and packaging;16
 6816;Pot test and packaging;16
-6821;Lid finishing;13
+6821;Pan test and packaging;13
 6821;Pot test and packaging;13
-7235;Pot handles riveting;21
-7236;Pot handles riveting;20
-7238;Pot handles riveting;19
-8167;Pot base finishing;23
-8170;Pot base finishing;21
-8171;Pot base finishing;23
-8541;Lid polishing;19
-8543;Lid polishing;17
+7235;Lid handle screw;21
+7236;Lid handle screw;20
+7238;Lid handle screw;19
+8167;Handle gluing;23
+8167;Handle welding;23
+8170;Handle gluing;21
+8170;Handle welding;21
+8171;Handle gluing;23
+8171;Handle welding;23
+8541;Pot handles riveting;19
+8543;Pot handles riveting;17
 9847;Disc cutting;22
+9847;Final pan base pressing;22
+9847;Final pot base pressing;22
+9847;Initial pan base pressing;22
 9847;Initial pot base pressing;22
-9847;Lid handle screw;22
 9847;Lid pressing;22
-9847;Pot base finishing;22
 9855;Disc cutting;25
+9855;Final pan base pressing;25
+9855;Final pot base pressing;25
+9855;Initial pan base pressing;25
 9855;Initial pot base pressing;25
-9855;Lid handle screw;25
 9855;Lid pressing;25
-9855;Pot base finishing;25
 9875;Disc cutting;21
 9886;Disc cutting;20

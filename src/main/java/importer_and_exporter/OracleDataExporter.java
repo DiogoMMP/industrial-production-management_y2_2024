@@ -15,13 +15,13 @@ import org.apache.commons.csv.CSVPrinter;
 public class OracleDataExporter implements Runnable{
 
     // JDBC driver name and database URL
-   // private static final String DB_URL = "jdbc:oracle:thin:@vsgate-s1.dei.isep.ipp.pt:10472:xe";
-   // private static final String USER = "C##LAPR3";
-   // private static final String PASS = "12345678";
+//    private static final String DB_URL = "jdbc:oracle:thin:@vsgate-s1.dei.isep.ipp.pt:10472:xe";
+//    private static final String USER = "C##LAPR3";
+//    private static final String PASS = "12345678";
 
     // JDBC driver name and database URL (SPRINT 2)
-   private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-   private static final String USER = "SYS as SYSDBA";
+    private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    private static final String USER = "SYS as SYSDBA";
     private static final String PASS = "LAPR3";
 
     // File paths
@@ -63,9 +63,11 @@ public class OracleDataExporter implements Runnable{
                         "ot.Operation_Description AS name_oper, " +
                         "w.Workstation_Time AS time " +
                         "FROM Workstation w " +
-                        "JOIN Workstation_Type_Operation wto ON w.Workstation_Type_ID = wto.Workstation_Type_ID " +
-                        "JOIN Operation o ON wto.Operation_ID = o.Operation_ID " +
-                        "JOIN Operation_Type ot ON o.Operation_Type_ID = ot.Operation_Type_ID " +
+                        "JOIN ( " +
+                        "    SELECT DISTINCT Workstation_Type_ID, Operation_Type_ID " +
+                        "    FROM Workstation_Type_Operation_Type " +
+                        ") wtot ON w.Workstation_Type_ID = wtot.Workstation_Type_ID " +
+                        "JOIN Operation_Type ot ON wtot.Operation_Type_ID = ot.Operation_Type_ID " +
                         "ORDER BY w.Workstation_ID, ot.Operation_Description, w.Workstation_Time";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
