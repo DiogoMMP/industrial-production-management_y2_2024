@@ -6,6 +6,7 @@ import UI.Domain.US19.ShowTopologicalSortUI;
 import UI.Domain.US20.ShowESLFUI;
 import UI.Domain.US21.ExportScheduleToCSVUI;
 import UI.Domain.US22.ShowCriticalPathsUI;
+import UI.Domain.US23.ShowBottleneckActivitiesUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
 
@@ -29,6 +30,11 @@ public class MainMenuPERTCPM implements Runnable {
             //options.add(new MenuItem("Simulate Project Delays and Their Impact", new x));
 
 
+            options.add(new MenuItem("Show earliest start and latest finish",new ShowESLFUI()));
+            options.add(new MenuItem("Show critical paths", new ShowCriticalPathsUI()));
+            options.add(new MenuItem("Detect Circular Depencies",new ShowCircularDependenciesUI()));
+            options.add(new MenuItem("Topological Sort",new ShowTopologicalSortUI()));
+            options.add(new MenuItem("Show bottlenecks", new ShowBottleneckActivitiesUI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");
