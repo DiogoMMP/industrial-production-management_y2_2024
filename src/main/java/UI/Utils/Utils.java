@@ -109,9 +109,9 @@ public class Utils {
         String input;
         do {
             input = Utils.readLineFromConsole("\n" + message + "\n");
-        } while (!input.equalsIgnoreCase("s") && !input.equalsIgnoreCase("n"));
+        } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
 
-        return input.equalsIgnoreCase("s");
+        return input.equalsIgnoreCase("y");
     }
 
     /**
@@ -246,6 +246,53 @@ public class Utils {
             }
         } catch (IOException e) {
             System.err.println("Error opening file in the browser: " + file.getAbsolutePath());
+            e.printStackTrace();
+        }
+    }
+
+    public static void openInEditor(File file) {
+        try {
+            if (!file.exists()) {
+                System.err.println("File does not exist: " + file.getAbsolutePath());
+                return;
+            }
+
+            String os = System.getProperty("os.name").toLowerCase();
+            String filePath = file.getAbsolutePath();
+
+            if (os.contains("win")) {
+                // Windows: tenta abrir com o Microsoft Excel
+                try {
+                    // Verifica se o Excel está disponível
+                    Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "excel", filePath});
+                } catch (IOException e) {
+                    // Se falhar, abre no Bloco de Notas
+                    System.err.println("Excel not found, opening with Notepad...");
+                    Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "notepad", filePath});
+                }
+            } else if (os.contains("mac")) {
+                // macOS: tenta abrir com o Excel
+                try {
+                    Runtime.getRuntime().exec(new String[]{"open", "-a", "Microsoft Excel", filePath});
+                } catch (IOException e) {
+                    // Se falhar, abre no editor padrão (como TextEdit)
+                    System.err.println("Excel not found, opening with default editor...");
+                    Runtime.getRuntime().exec(new String[]{"open", filePath});
+                }
+            } else if (os.contains("nix") || os.contains("nux")) {
+                // Linux: tenta abrir no editor padrão (como LibreOffice Calc, se disponível)
+                try {
+                    Runtime.getRuntime().exec(new String[]{"xdg-open", filePath});
+                } catch (IOException e) {
+                    // Se falhar, abre no Bloco de Notas (ou equivalente)
+                    System.err.println("Error opening file, opening with default text editor...");
+                    Runtime.getRuntime().exec(new String[]{"xdg-open", filePath});
+                }
+            } else {
+                System.err.println("Unsupported OS: " + os);
+            }
+        } catch (IOException e) {
+            System.err.println("Error opening file in the editor: " + file.getAbsolutePath());
             e.printStackTrace();
         }
     }

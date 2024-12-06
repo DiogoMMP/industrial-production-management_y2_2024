@@ -2,10 +2,15 @@ package projectManager;
 
 import com.kitfox.svg.A;
 import domain.Activity;
+import graph.Edge;
 import graph.map.MapGraph;
+import graph.map.MapVertex;
 import repository.ActivitiesMapRepository;
 import repository.Instances;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -94,6 +99,22 @@ public class PERT_CPM {
     }
 
     /**
+     * Builds the PERT/CPM graph without duration.
+     */
+    public MapGraph<String, String> getPert_CPMWithoutDuration() {
+        MapGraph<String, String> pert_CPM_without_duration = new MapGraph<>(true);
+        for (String vertex : pert_CPM.vertices()) {
+            pert_CPM_without_duration.addVertex(vertex.split(" ")[0]);
+        }
+        for (String vertex : pert_CPM.vertices()) {
+            for (Edge<String, String> edge : pert_CPM.outgoingEdges(vertex)) {
+                pert_CPM_without_duration.addEdge(vertex.split(" ")[0], edge.getVDest().split(" ")[0], "0");
+            }
+        }
+        return pert_CPM_without_duration;
+    }
+
+    /**
      * Finds all the critical paths.
      */
     public LinkedHashMap<Integer, List<Activity>> findCriticalPaths() {
@@ -117,6 +138,12 @@ public class PERT_CPM {
         return criticalPaths;
     }
 
+    /**
+     * Recursive method to find the critical paths.
+     * @param activity Current activity.
+     * @param path Current path.
+     * @param criticalPaths Map of critical paths.
+     */
     private void findCriticalPathsRec(Activity activity, List<Activity> path, LinkedHashMap<Integer, List<Activity>> criticalPaths) {
         if (activity.getSlack() != 0) {
             return;
@@ -277,6 +304,10 @@ public class PERT_CPM {
         return false; // No cycle detected
     }
 
+    /**
+     * Validates the graph.
+     * @return true if the graph is valid, false otherwise.
+     */
     public boolean validateGraph() {
         boolean hasCiruclar=false;
         if (hasCircularDependencies()) {
@@ -288,6 +319,10 @@ public class PERT_CPM {
     return hasCiruclar;
     }
 
+    /**
+     * Performs a topological sort of the graph.
+     * @return List of vertices in topological order.
+     */
     public List<String> topologicalSort() {
 
         if (hasCircularDependencies()){
@@ -360,6 +395,56 @@ public class PERT_CPM {
      */
     public int size() {
         return activities.size();
+    }
+
+    /**
+     * Exports the schedule to a CSV file.
+     * @param file File to export the schedule to.
+     */
+    public void exportScheduleToCSV(File file) {
+
+        CalculateTimes calculateTimes = new CalculateTimes();
+        calculateTimes.calculateTimes();
+        MapGraph<String, String> pert_CPM_without_duration = getPert_CPMWithoutDuration();
+
+        try (FileWriter writer = new FileWriter(file)) {
+            // Cabeçalho do CSV
+            writer.write("act_id;cost;duration;es;ls;ef;lf;prev_act_id1;...;prev_act_idN\n");
+
+            // Itera pelas atividades e escreve os dados no CSV
+            for (String actId : activities.keySet()) {
+                Activity activity = activities.get(actId);
+
+                // Recupera os predecessores como uma coleção de arestas
+                Collection<Edge<String, String>> dependencies = pert_CPM_without_duration.incomingEdges(actId);
+
+                // Garante que dependencies não é nulo
+                String dependenciesStr = (dependencies == null || dependencies.isEmpty())
+                        ? "-"
+                        : dependencies.stream()
+                        .map(Edge::getVOrig) // Obtém o vértice de origem
+                        .reduce((a, b) -> a + ", " + b) // Junta os IDs com vírgulas
+                        .orElse("-");
+
+
+                // Escreve os dados no formato especificado
+                writer.write(String.format("%s;%d;%d;%.1f;%.1f;%.1f;%.1f;%s\n",
+                        activity.getActId(),
+                        activity.getCost(),
+                        activity.getDuration(),
+                        activity.getEarliestStart(),
+                        activity.getLatestStart(),
+                        activity.getEarliestFinish(),
+                        activity.getLatestFinish(),
+                        dependenciesStr
+                ));
+            }
+
+            System.out.println("Schedule exported successfully to: " + file.getAbsolutePath());
+
+        } catch (IOException e) {
+            System.out.println("Error while exporting schedule: " + e.getMessage());
+        }
     }
 
 }

@@ -30,11 +30,19 @@ public class ShowPERT_CPMUI implements Runnable {
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();  // Get the PERT_CPM instance
         pertCpm.buildPERT_CPM();  // Build the graph
         displayPERT_CPM(pertCpm);  // Display the graph
+
         MapGraph<String, String> pertCpmGraph = pertCpm.getPert_CPM();
+
         CalculateTimes calculateTimes = new CalculateTimes();  // Calculate the times
         calculateTimes.calculateTimes();  // Calculate the times
+
         generateGraph(pertCpmGraph);  // Generate the graph
-        Utils.openInBrowser(OUTPUTPATH);  // Open the generated SVG file in the default browser
+
+        // Ask the user if they want to open the generated graph
+        if (Utils.confirm("Do you want to open the generated graph in the default browser? (Y/N)")) {
+            Utils.openInBrowser(OUTPUTPATH);  // Open the generated SVG file in the default browser
+        }
+
         Utils.goBackAndWait();  // Wait for the user's action to go back
     }
 

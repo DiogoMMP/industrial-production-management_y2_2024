@@ -258,4 +258,8 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         numVerts = 0;
         numEdges = 0;
     }
+
+    public boolean validEdge(V vOrig, V vDest) {
+        return edge(vOrig, vDest) != null;
+    }
 }

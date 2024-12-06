@@ -4,6 +4,7 @@ import UI.Domain.US17.ShowPERT_CPMUI;
 import UI.Domain.US18.ShowCircularDependenciesUI;
 import UI.Domain.US19.ShowTopologicalSortUI;
 import UI.Domain.US20.ShowESLFUI;
+import UI.Domain.US21.ExportScheduleToCSVUI;
 import UI.Domain.US22.ShowCriticalPathsUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
@@ -17,10 +18,17 @@ public class MainMenuPERTCPM implements Runnable {
         try {
             List<MenuItem> options = new ArrayList<>();
             options.add(new MenuItem("Show PERT/CPM", new ShowPERT_CPMUI()));
-            options.add(new MenuItem("Show earliest start and latest finish",new ShowESLFUI()));
-            options.add(new MenuItem("Show critical paths", new ShowCriticalPathsUI()));
-            options.add(new MenuItem("Detect Circular Depencies",new ShowCircularDependenciesUI()));
-            options.add(new MenuItem("Topological Sort",new ShowTopologicalSortUI()));
+            options.add(new MenuItem("Detect Circular Dependencies",new ShowCircularDependenciesUI()));
+            options.add(new MenuItem("Topological Sort of Project Activities",new ShowTopologicalSortUI()));
+            options.add(new MenuItem("Show Earliest and Latest Start and Finish Times",new ShowESLFUI()));
+            options.add(new MenuItem("Export Project Schedule to CSV", new ExportScheduleToCSVUI()));
+            options.add(new MenuItem("Identify the Critical Path", new ShowCriticalPathsUI()));
+
+            // Not implemented yet
+            //options.add(new MenuItem("Identify Bottlenecks Activities in the Project Graph", new x));
+            //options.add(new MenuItem("Simulate Project Delays and Their Impact", new x));
+
+
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");
