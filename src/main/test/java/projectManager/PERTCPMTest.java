@@ -157,6 +157,37 @@ class PERTCPMTest {
         }
     }
 
+    @Test
+    void testHasCircularDependencies() {
+        // Case 1: No circular dependencies
+        assertFalse(pertCPM.hasCircularDependencies(), "Graph should not have circular dependencies.");
+
+        // Case 2: Introduce circular dependencies (A1 -> A2 -> A1)
+        pertCPM.addDependency("A1", "A2");
+        pertCPM.addDependency("A2", "A1"); // Creates a circular dependency
+        assertTrue(pertCPM.hasCircularDependencies(), "Graph should have circular dependencies.");
+
+        // Remove the circular dependency to restore state
+        pertCPM.removeDependency("A2", "A1");
+    }
+    @Test
+    void testTopologicalSort() {
+        // Get topological sort order
+        List<String> sortedOrder = pertCPM.topologicalSort();
+
+        // Expected topological order for the setup graph
+        List<String> expectedOrder = List.of("START", "A1 (5 days)", "A3 (2 days)", "A2 (3 days)", "A4 (4 days)", "END");
+        assertEquals(expectedOrder, sortedOrder, "Topological order should match expected order.");
+
+        // Case: Adding a cycle and ensuring topological sort fails
+        pertCPM.addDependency("A1", "A3"); // Creates a cycle
+        assertThrows(IllegalStateException.class, pertCPM::topologicalSort, "Topological sort should fail due to cycle.");
+
+        // Remove the cycle to restore state
+        pertCPM.removeDependency("A1", "A3");
+    }
+
+
     @AfterEach
     void tearDown() {
         activitiesMapRepository = new ActivitiesMapRepository();
