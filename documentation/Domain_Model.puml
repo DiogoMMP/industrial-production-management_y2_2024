@@ -8,19 +8,19 @@ hide circle
 hide methods
 
 class Customer {
+    Customer_ID
     NIF
     Name
     Address
     Mobile_number
     Email
-    typeID
+    type_ID
     Country_ID
 }
 
 class Product {
     Product_ID
     Product_Name
-    Product_Description
     Factory_Plant_ID
     Market_Demand
     Optimization
@@ -29,58 +29,79 @@ class Product {
     Family_ID
 }
 
-class Factory {
+class Factory_Plant {
     Factory_Plant_ID
     Safety
     Efficiency
     Space
 }
 
-class Factory_Type {
-    Type
+class Country {
+    Country_ID
+    Country_Name
 }
 
-class Raw_Material {
-    Raw_Material_ID
-    Raw_Material_Name
+class Type {
+    Type_ID
+    Name
 }
 
-class Plant_Floor {
-    Plant_Floor_ID
-}
-
-class Station {
-    Workstation_ID
-    Workstation_Name
-    Workstation_Description
-}
-
-class Station_Type {
-    Workstation_Type_ID
-    Workstation_Type
-}
-
-class Industry_Type {
-    Type_Industry_ID
-    Type_Industry
-}
-
-class Operation {
-    Manufacturing_Operation_ID
-    Operation_Description
-}
-
-class Production_Plan {
-    Product_Planing_ID
-    Product_Plan_Start_Date
-    Product_Plan_End_Date
-}
-
-class Order {
+class Customer_Order {
     Customer_Order_ID
     Order_Date
     Delivery_Date
     Location
+    Customer_ID
+}
+
+class BOO {
+    Operation_ID
+    Product_ID
+    Next_Operation_ID
+}
+
+class Operation {
+    Operation_ID
+    Operation_Type_ID
+    Execution_Time
+}
+
+class Operation_Type {
+    Operation_Type_ID
+    Operation_Description
+}
+
+class Part {
+    Part_ID
+    Part_Description
+}
+
+class Supplier {
+    Supplier_ID
+    Supplier_Name
+}
+
+class Procurement {
+    Procurement_ID
+    Part_ID
+    Supplier_ID
+    Price
+    Min_Qnt
+    Start_Date
+    End_Date
+}
+
+class Stock {
+    Part_ID
+    Stock
+    Unit
+}
+
+class Reserved_Stock {
+    Reserved_ID
+    Part_ID
+    Quantity
+    Unit
 }
 
 class Product_Family {
@@ -88,24 +109,29 @@ class Product_Family {
     Family_Description
 }
 
-class Production_Order {
-    Order_ID
-    Product_ID
-    Quantity_Ordered
-}
+Customer "1" -- "0..*" Customer_Order: has >
+Customer "1" -- "1" Type: has >
+Customer "1" -- "0..*" Country: has >
 
-Customer "1" -- "0..*" Order
-Order "1" -- "0..*" Production_Order
-Factory "1" - "1" Factory_Type
-Station "1" -- "1" Station_Type
-Factory "1" -- "1..*" Plant_Floor
-Plant_Floor "1" -- "1..*" Station
-Station "1" -- "1" Industry_Type
-Industry_Type "1" -- "1..*" Operation
-Product "1" -- "1" Product_Family
-Product "1" -- "1..*" Operation
-Production_Plan "1" -- "0..*" Order
-Production_Order "1" -- "1" Product
-Production_Order "1" -- "0..*" Raw_Material
+Customer_Order "1" -- "0..*" Product: has >
+
+Product "1" -- "0..*" BOO: has >
+
+Product "1" -- "1" Factory_Plant: is produced in >
+
+Product "1" -- "1" Product_Family : belongs to >
+
+Factory_Plant "1" -- "0..*" Operation: has >
+
+Operation "1" -- "0..*" BOO : belongs to >
+Operation "1" -- "1" Operation_Type : has >
+BOO "1" -- "0..*" Part : has >
+Part "1" -- "0..*" Stock : has >
+Stock "1" --- "0..*" Reserved_Stock : has >
+Procurement "1" -- "1" Supplier : has >
+Procurement "1" -- "0..*" Part : has >
+Reserved_Stock "1" --- "1" Part : has >
+Supplier "1" -- "0..*" Part : has >
+
 
 @enduml
