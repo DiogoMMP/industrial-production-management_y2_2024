@@ -12,10 +12,7 @@ import repository.Instances;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -164,5 +161,14 @@ class PERTCPMTest {
     void tearDown() {
         activitiesMapRepository = new ActivitiesMapRepository();
         pertCPM = new PERT_CPM();
+    }
+
+    @Test
+    void testGetBottleneckActivities() {
+        List<Activity> bottleneckActivities = pertCPM.getBottleneckActivities();
+        assertNotNull(bottleneckActivities, "Bottleneck activities should not be null");
+        assertFalse(bottleneckActivities.isEmpty(), "Bottleneck activities should not be empty");
+        // Assuming "D" is the expected bottleneck activity based on the setup
+        assertTrue(bottleneckActivities.stream().anyMatch(activity -> "K".equals(activity.getActId())), "Bottleneck activities should contain activity D");
     }
 }

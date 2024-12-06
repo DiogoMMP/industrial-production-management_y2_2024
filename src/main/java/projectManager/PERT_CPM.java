@@ -325,7 +325,7 @@ public class PERT_CPM {
      */
     public List<String> topologicalSort() {
 
-        if (hasCircularDependencies()){
+        if (hasCircularDependencies()) {
             throw new IllegalStateException("The graph has circular dependencies.");
         }
         Stack<String> stack = new Stack<>(); // Stack to store the sorted order
@@ -447,4 +447,75 @@ public class PERT_CPM {
         }
     }
 
+    /**
+     * Returns a list of bottleneck activities.
+     * Bottleneck activities are those with the highest number of dependent activities
+     * or that appear on most paths.
+     *
+     * @return List of bottleneck activities.
+     */
+    public List<Activity> getBottleneckActivities() {
+        Map<Activity, Integer> dependencyCount = new HashMap<>();
+        Map<Activity, Integer> pathCount = new HashMap<>();
+
+        // Initialize counts
+        for (Activity activity : activities.values()) {
+            dependencyCount.put(activity, 0);
+            pathCount.put(activity, 0);
+        }
+
+        // Count dependencies
+        for (Activity activity : activities.values()) {
+            for (String prevActId : activity.getPrevActIds()) {
+                Activity prevActivity = activities.get(prevActId);
+                if (prevActivity != null) {
+                    dependencyCount.put(prevActivity, dependencyCount.get(prevActivity) + 1);
+                }
+            }
+        }
+
+        // Count paths
+        LinkedHashMap<Integer, List<Activity>> criticalPaths = findCriticalPaths();
+        for (List<Activity> path : criticalPaths.values()) {
+            for (Activity activity : path) {
+                pathCount.put(activity, pathCount.getOrDefault(activity, 0) + 1);
+            }
+        }
+
+        // Find maximum counts
+        int maxDependencies = Collections.max(dependencyCount.values());
+        int maxPaths = Collections.max(pathCount.values());
+
+
+        // Collect bottleneck activities
+        List<Activity> bottleneckActivities = new ArrayList<>();
+        for (Activity activity : activities.values()) {
+            if (!activity.getActId().equals("START") && !activity.getActId().equals("END")) {
+                if ((dependencyCount.get(activity) > 1 && dependencyCount.get(activity) == maxDependencies) || (pathCount.get(activity) == maxPaths && dependencyCount.get(activity) > 1)) {
+                    bottleneckActivities.add(activity);
+                }
+            }
+        }
+
+        // Identify predecessors of the "END" node
+        List<String> endPredecessors = activitiesPERT_CPM.get("END").getPrevActIds();
+        Activity mostCriticalPredecessor = null;
+        int maxPredecessorPaths = 0;
+
+        for (String endPredecessor : endPredecessors) {
+            Activity activity = activitiesPERT_CPM.get(endPredecessor);
+            int pathsThroughPredecessor = pathCount.getOrDefault(activity, 0);
+            if (pathsThroughPredecessor > maxPredecessorPaths) {
+                maxPredecessorPaths = pathsThroughPredecessor;
+                mostCriticalPredecessor = activity;
+            }
+        }
+
+        // Add the most critical predecessor to the bottleneck activities list
+        if (mostCriticalPredecessor != null && !bottleneckActivities.contains(mostCriticalPredecessor)) {
+            bottleneckActivities.add(mostCriticalPredecessor);
+        }
+
+        return bottleneckActivities;
+    }
 }
