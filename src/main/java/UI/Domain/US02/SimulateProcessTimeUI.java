@@ -27,7 +27,7 @@ public class SimulateProcessTimeUI implements Runnable {
         options.add(new MenuItem("All", new SimulateProcessTimeUI()));
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Item to be visualized ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Item to be Visualized ------------\033[0m");
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {

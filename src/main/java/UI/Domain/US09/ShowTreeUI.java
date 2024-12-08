@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class showTreeUI implements Runnable {
+public class ShowTreeUI implements Runnable {
 
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
     private Map<String, String> items = Instances.getInstance().getItemsRepository().getItemsRepository();
@@ -27,12 +27,12 @@ public class showTreeUI implements Runnable {
 
         // Create menu options from the sorted map
         for (Map.Entry<String, String> entry : sortedItems.entrySet()) {
-            options.add(new MenuItem("Item: " + entry.getKey() + " - " + entry.getValue(), new showTreeUI()));
+            options.add(new MenuItem("Item: " + entry.getKey() + " - " + entry.getValue(), new ShowTreeUI()));
         }
 
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Item to be Visualized ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Item to be Visualized ------------\033[0m");
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
@@ -63,7 +63,7 @@ public class showTreeUI implements Runnable {
      * Only includes children of the root.
      */
     public void toIndentedStringForObjective() {
-        System.out.println("\n\n--- Production Tree ------------");
+        System.out.println("\n\n\033[1m\033[36m--- Production Tree ------------\033[0m");
         StringBuilder builder = new StringBuilder();
         toIndentedStringHelper(productionTree.getRoot(), builder, 0);
         System.out.println(builder);

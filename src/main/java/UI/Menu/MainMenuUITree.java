@@ -1,7 +1,7 @@
 package UI.Menu;
 
 import UI.Domain.US15.CriticalPathOperationsUI;
-import UI.Domain.US09.showTreeUI;
+import UI.Domain.US09.ShowTreeUI;
 import UI.Domain.US10.SearchUI;
 import UI.Domain.US11.TrackingQuantitiesUI;
 import UI.Domain.US12.QualityChecksUI;
@@ -21,7 +21,7 @@ public class MainMenuUITree implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("Show Production Tree", new showTreeUI()));
+            options.add(new MenuItem("Show Production Tree", new ShowTreeUI()));
             options.add(new MenuItem("Search Materials and Operations", new SearchUI()));
             options.add(new MenuItem("Tracking Materials Quantities", new TrackingQuantitiesUI()));
             options.add(new MenuItem("Quality Checks", new QualityChecksUI()));
@@ -33,7 +33,7 @@ public class MainMenuUITree implements Runnable {
             options.add(new MenuItem("Operation Structure Graph ", new OperationStructureGraphUI()));
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");
+                option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Simulation by Structural Information -------------\033[0m");
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();

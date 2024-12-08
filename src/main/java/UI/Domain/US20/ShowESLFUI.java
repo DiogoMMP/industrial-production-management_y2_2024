@@ -22,7 +22,7 @@ public class ShowESLFUI implements Runnable {
         options.add(new MenuItem("All", new ShowESLFUI()));
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Activity to be visualized ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Activity to be Visualized ------------\033[0m");
             if ((option >= 0) && (option < options.size())) {
                 String choice = options.get(option).toString();
                 if (!choice.equals("Back")) {

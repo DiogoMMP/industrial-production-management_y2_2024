@@ -18,7 +18,7 @@ public class SearchUI implements Runnable {
 
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n--- Choose an option --------------------------");
+                option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose an option --------------------------\033[0m");
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 }

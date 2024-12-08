@@ -52,7 +52,7 @@ public class ShowPERT_CPMUI implements Runnable {
      * @param pertCpm The PERT_CPM instance containing the activities and dependencies.
      */
     public void displayPERT_CPM(PERT_CPM pertCpm) {
-        System.out.println("\n\n--- PERT/CPM Graph ------------");
+        System.out.println("\n\n\033[1m\033[36m--- PERT/CPM Graph ------------\033[0m");
         StringBuilder builder = new StringBuilder();
         Set<String> visited = new HashSet<>();
         displayPERT_CPMHelper("START", builder, visited, pertCpm);  // Start displaying from the "START" node

@@ -27,7 +27,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
         options.add(new MenuItem("All", new SimulateProcessTimeAndPriorityUI()));
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Item to be visualized ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Item to be Visualized ------------\033[0m");
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
@@ -52,7 +52,7 @@ public class SimulateProcessTimeAndPriorityUI implements Runnable {
      * @param choice The choice of the item to be visualized.
      */
     private void show(String choice) {
-        System.out.println("\n\n--- Simulate Process by Time ------------");
+        System.out.println("\n\n\033[1m\033[36m--- Simulate Process by Priority ------------\033[0m");
         int id;
         LinkedHashMap<String, Double> timeOperations;
         if (choice.equals("All")) {

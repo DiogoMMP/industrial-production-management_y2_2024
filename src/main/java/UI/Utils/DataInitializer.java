@@ -1,4 +1,5 @@
 package UI.Utils;
+import UI.Menu.MainMenuUI;
 import UI.Simulators.ChooseSimulatorUI;
 import repository.*;
 
@@ -45,11 +46,11 @@ public class DataInitializer implements Runnable {
             boolean success = false;
 
             while (!success) {
-                System.out.println("\n\n--- DATA --------------------------");
+                System.out.println("\n\n\033[1;36m--- Choose Your Files --------------------------\033[0m");
                 System.out.println("1. Use default file paths");
                 System.out.println("2. Use exported files from the database");
                 System.out.println("3. Enter file paths manually");
-                System.out.println("0. Exit");
+                System.out.println("0. Back");
                 System.out.print("\n\nType your option: ");
                 String input = scanner.nextLine();
                 int choice;
@@ -90,9 +91,11 @@ public class DataInitializer implements Runnable {
                         pathAct = Utils.readLineFromConsole("Activities: ");
                         break;
                     case 0:
-                        System.exit(0);
+                        MainMenuUI mainMenuUI = new MainMenuUI();
+                        mainMenuUI.run();
+                        return;
                     default:
-                        System.err.println("Error: Invalid option. Please enter 1, 2 or 3.");
+                        System.err.println("Error: Invalid option. Please enter 0, 1, 2 or 3.");
                         continue;
                 }
 

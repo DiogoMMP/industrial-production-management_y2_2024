@@ -23,7 +23,7 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
 
         int option;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Update Material Quantities Menu ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Update Material Quantities Menu ------------\033[0m");
             if (option >= 0 && option < options.size()) {
                 options.get(option).run();
                 Utils.goBackAndWait();

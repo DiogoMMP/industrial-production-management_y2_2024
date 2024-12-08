@@ -1,6 +1,6 @@
 package UI.Simulators;
 
-import UI.Menu.MainMenuUITime;
+import UI.Menu.SimulationByTimeUI;
 import repository.Instances;
 import prodPlanSimulator.Simulator;
 
@@ -9,7 +9,7 @@ public class ProcessByTimeUI implements Runnable {
     @Override
     public void run() {
         simulator.simulateProcessUS02();
-        MainMenuUITime mainMenuUITime = new MainMenuUITime();
+        SimulationByTimeUI mainMenuUITime = new SimulationByTimeUI();
         mainMenuUITime.run();
     }
 }

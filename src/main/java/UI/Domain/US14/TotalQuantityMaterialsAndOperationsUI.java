@@ -23,7 +23,7 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
         options.add(new MenuItem("Show Total Quantity of Materials and Operations", this::showTotalQuantityMaterialsAndOperations));
         int option;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Total Quantity of Materials and Operations Menu ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Total Quantity of Materials and Operations Menu ------------\033[0m");
             if (option >= 0 && option < options.size()) {
                 options.get(option).run();
                 Utils.goBackAndWait();

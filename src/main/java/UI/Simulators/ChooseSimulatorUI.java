@@ -18,7 +18,7 @@ public class ChooseSimulatorUI implements Runnable{
             options.add(new MenuItem("Simulation by PERT/CPM", new ProcessByPERTCPMUI()));
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n--- Choose Simulator --------------------------");
+                option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Choose Simulator -------------------------------\033[0m");
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();

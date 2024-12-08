@@ -18,7 +18,7 @@ public class WorkstationTimeUI implements Runnable {
     }
 
     private void show() {
-        System.out.println("\n\n--- Workstations by Ascending Order ------------");
+        System.out.println("\n\n\033[1m\033[36m--- Workstations by Ascending Order ------------\033[0m");
         Item.listWorkstationsByAscOrder();
     }
 }

@@ -14,7 +14,7 @@ public class ListExecutionTimeUI implements Runnable {
         options.add(new MenuItem("List Execution Time of all Operations", new ListExecutionTimeAllOpUI()));
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- List Execution Time -------------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- List Execution Time -------------------\033[0m");
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();
             }

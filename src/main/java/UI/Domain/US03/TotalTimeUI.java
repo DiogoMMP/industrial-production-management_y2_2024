@@ -14,7 +14,7 @@ public class TotalTimeUI implements Runnable {
         options.add(new MenuItem("List Total Time of Specific Item", new TotalTimeOneItemUI()));
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- List Total Time -------------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- List Total Time -------------------\033[0m");
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();
             }

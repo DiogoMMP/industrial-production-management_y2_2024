@@ -1,6 +1,6 @@
 package UI.Simulators;
 
-import UI.Menu.MainMenuUIPriority;
+import UI.Menu.SimulationByPriorityUI;
 import repository.Instances;
 import prodPlanSimulator.Simulator;
 
@@ -9,7 +9,7 @@ public class ProcessByPriorityUI implements Runnable {
     @Override
     public void run() {
         simulator.simulateProcessUS08();
-        MainMenuUIPriority mainMenuUIPriority = new MainMenuUIPriority();
-        mainMenuUIPriority.run();
+        SimulationByPriorityUI simulationByPriorityUI = new SimulationByPriorityUI();
+        simulationByPriorityUI.run();
     }
 }
