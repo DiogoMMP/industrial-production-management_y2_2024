@@ -24,17 +24,10 @@ public class MainMenuPERTCPM implements Runnable {
             options.add(new MenuItem("Show Earliest and Latest Start and Finish Times",new ShowESLFUI()));
             options.add(new MenuItem("Export Project Schedule to CSV", new ExportScheduleToCSVUI()));
             options.add(new MenuItem("Identify the Critical Path", new ShowCriticalPathsUI()));
-
-            // Not implemented yet
-            //options.add(new MenuItem("Identify Bottlenecks Activities in the Project Graph", new x));
+            options.add(new MenuItem("Identify Bottlenecks Activities in the Project Graph", new ShowBottleneckActivitiesUI()));
             //options.add(new MenuItem("Simulate Project Delays and Their Impact", new x));
 
 
-            options.add(new MenuItem("Show earliest start and latest finish",new ShowESLFUI()));
-            options.add(new MenuItem("Show critical paths", new ShowCriticalPathsUI()));
-            options.add(new MenuItem("Detect Circular Depencies",new ShowCircularDependenciesUI()));
-            options.add(new MenuItem("Topological Sort",new ShowTopologicalSortUI()));
-            options.add(new MenuItem("Show bottlenecks", new ShowBottleneckActivitiesUI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n--- MAIN MENU --------------------------");
