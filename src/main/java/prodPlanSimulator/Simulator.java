@@ -1,5 +1,6 @@
 package prodPlanSimulator;
 
+import domain.Activity;
 import domain.Item;
 import domain.Material;
 import domain.Workstation;
@@ -12,6 +13,9 @@ import trees.AVL_BST.BOO;
 import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
+import projectManager.PERT_CPM;
+import projectManager.CalculateTimes;
+
 
 import java.util.*;
 
@@ -697,3 +701,4 @@ public class Simulator {
         this.timeOperations = timeOperations;
     }
 }
+

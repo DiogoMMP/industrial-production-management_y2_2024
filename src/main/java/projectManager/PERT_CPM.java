@@ -518,4 +518,41 @@ public class PERT_CPM {
 
         return bottleneckActivities;
     }
+
+    /**
+     * Simulates delays in specific activities by increasing their durations,
+     * and automatically recalculates the critical path, total project duration, and slack times.
+     *
+     * @param delays A map of activity IDs and the corresponding delay durations to be added.
+     */
+    public void simulateDelaysAndRecalculate(LinkedHashMap<String, Integer> delays) {
+        // Apply delays to specified activities
+        for (String actId : delays.keySet()) {
+            Activity activity = activities.get(actId);
+            if (activity != null) {
+                int newDuration = activity.getDuration() + delays.get(actId);
+                activity.setDuration(newDuration);
+            }
+        }
+
+        // Recalculate times
+        CalculateTimes calculateTimes = new CalculateTimes();
+        calculateTimes.calculateTimes();
+
+        // Recalculate Slack times
+        for (Activity activity : activities.values()) {
+            activity.calculateSlack();
+        }
+    }
+
+    // Method to calculate total project duration
+    public double calculateTotalProjectDuration() {
+        double maxFinishTime = 0.0;
+        for (Activity activity : activities.values()) {
+            if (activity.getEarliestFinish() > maxFinishTime) {
+                maxFinishTime = activity.getEarliestFinish();
+            }
+        }
+        return maxFinishTime;
+    }
 }
