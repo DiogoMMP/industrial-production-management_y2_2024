@@ -34,7 +34,7 @@ public class BOO implements Comparable<BOO> {
         this.quantityItems = new ArrayList<>();
         this.operation = "";
         this.quantity = 0.0;
-        this.type = NodeType.MATERIAL;
+        this.type = NodeType.COMPONENT;
     }
 
 

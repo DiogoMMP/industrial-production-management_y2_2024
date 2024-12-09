@@ -1,7 +1,9 @@
 package graphic_representation;
 
+import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Shape;
+import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
@@ -39,7 +41,7 @@ public class ProductStructureGraph {
     }
 
     private void addNodesToGraph(TreeNode<String> node, MutableGraph graph, MutableNode parentMaterialNode) {
-        if (node.getType() == NodeType.MATERIAL) {
+        if (node.getType() == NodeType.PRODUCT || node.getType() == NodeType.COMPONENT || node.getType() == NodeType.RAW_MATERIAL) {
             String value = node.getValue();
             int startIndex = value.indexOf("(Quantity: ");
             int endIndex = value.indexOf(')', startIndex);
@@ -50,11 +52,31 @@ public class ProductStructureGraph {
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
 
                 // Create a node for the graph
-                MutableNode graphNode = mutNode(name).add(Label.lines(name));
+                MutableNode graphNode = null;
 
-                if (node.getChildren().isEmpty()) {
-                    // Use a hexagon shape for raw material nodes
-                    graphNode.add(Shape.HEXAGON);
+                // Define the shape and color based on the node type
+                switch (node.getType()) {
+                    case PRODUCT:
+                        graphNode = mutNode(name)
+                                .add(Label.lines(name))
+                                .add(Shape.ELLIPSE)
+                                .add(Style.FILLED)
+                                .add(Color.named("lightgreen").fill());
+                        break;
+                    case COMPONENT:
+                        graphNode = mutNode(name)
+                                .add(Label.lines(name))
+                                .add(Shape.ELLIPSE)
+                                .add(Style.FILLED)
+                                .add(Color.named("lightblue").fill());
+                        break;
+                    case RAW_MATERIAL:
+                        graphNode = mutNode(name)
+                                .add(Label.lines(name))
+                                .add(Shape.HEXAGON)
+                                .add(Style.FILLED)
+                                .add(Color.named("lightyellow").fill());
+                        break;
                 }
 
                 graph.add(graphNode);
@@ -76,4 +98,5 @@ public class ProductStructureGraph {
             }
         }
     }
+
 }

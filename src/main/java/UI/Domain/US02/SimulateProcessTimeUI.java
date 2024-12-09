@@ -52,7 +52,7 @@ public class SimulateProcessTimeUI implements Runnable {
      * @param choice The choice of the user.
      */
     private void show(String choice) {
-        System.out.println("\n\n--- Simulate Process by Time ------------");
+        System.out.println("\n\n\033[1m\033[36m--- Simulate Process by Time ------------\033[0m");
         int id;
         LinkedHashMap<String, Double> timeOperations;
         if (choice.equals("All")) {

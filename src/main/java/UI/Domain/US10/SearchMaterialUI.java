@@ -31,7 +31,7 @@ public class SearchMaterialUI implements Runnable {
 
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Material to Search ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Material to Search ------------\033[0m");
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
