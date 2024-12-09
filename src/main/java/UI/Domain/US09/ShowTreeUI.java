@@ -3,6 +3,7 @@ package UI.Domain.US09;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
 import repository.Instances;
+import trees.ProductionTree.NodeType;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
 
@@ -83,15 +84,19 @@ public class ShowTreeUI implements Runnable {
         if (level > 0) {
             builder.append("    ".repeat(level - 1)).append("|___");
         }
-        builder.append(node.getValue());
+        String color = getNodeColor(node);
+        builder.append(color) // Add color to the node
+                .append(node.getValue());
         if (node.getType() != null) {
             builder.append(" (").append(node.getType()).append(")");
         }
-        builder.append("\n");
+        builder.append("\033[0m")
+                .append("\n"); // Reset color
         for (TreeNode<String> child : node.getChildren()) {
             toIndentedStringHelper(child, builder, level + 1);
         }
     }
+
 
     public static Map<String, String> sortItemsByID(Map<String, String> map) {
         return map.entrySet()
@@ -104,4 +109,15 @@ public class ShowTreeUI implements Runnable {
                         LinkedHashMap::new // Maintains insertion order
                 ));
     }
+
+    private String getNodeColor(TreeNode<String> node) {
+        return switch (node.getType()) {
+            case PRODUCT -> "\033[32m"; // Green
+            case COMPONENT -> "\033[34m"; // Blue
+            case RAW_MATERIAL -> "\033[33m"; // Yellow
+            case OPERATION -> "\033[31m"; // Red
+            default -> "\033[0m";  // Reset
+        };
+    }
+
 }

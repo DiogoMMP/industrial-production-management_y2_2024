@@ -644,7 +644,7 @@ public class Simulator {
                     insertedOperation.setItems(firstElement.getItems());
                     insertedOperation.setQuantityItems(firstElement.getQuantityItems());
                 }
-            } else if (node.getType() == NodeType.MATERIAL) {
+            } else if (node.getType() == NodeType.PRODUCT || node.getType() == NodeType.COMPONENT || node.getType() == NodeType.RAW_MATERIAL) {
                 if (bombooTree.getLatestInsertedNode() != null) {
                     BOO latestOperation = bombooTree.search(bombooTree.getElem(bombooTree.getLatestInsertedNode()));
                     if (latestOperation != null) {
@@ -662,7 +662,7 @@ public class Simulator {
         List<TreeNode<String>> operationChildren = new ArrayList<>();
 
         for (TreeNode<String> child : node.getChildren()) {
-            if (child.getType() == NodeType.MATERIAL) {
+            if (child.getType() == NodeType.PRODUCT || child.getType() == NodeType.COMPONENT || child.getType() == NodeType.RAW_MATERIAL) {
                 materialChildren.add(child);
             } else if (child.getType() == NodeType.OPERATION) {
                 operationChildren.add(child);
