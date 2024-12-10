@@ -31,6 +31,7 @@ public class OracleDataExporter implements Runnable{
     private static final String FILE_BOO_PATH = FILE_PATH + "boo_exported.csv";
     private static final String FILE_ARTICLES_PATH = FILE_PATH + "articles_exported.csv";
     private static final String FILE_WORKSTATIONS_PATH = FILE_PATH + "workstations_exported.csv";
+    private static final String FILE_ORDERS_PATH = FILE_PATH + "orders_exported.csv";
 
     /**
      * Export the Data Base to a CSV file
@@ -42,6 +43,7 @@ public class OracleDataExporter implements Runnable{
         exportBOOToCSV();
         exportArticlesToCSV();
         exportWorkstationsToCSV();
+        exportOrdersToCSV();
     }
 
     /**
@@ -402,5 +404,42 @@ public class OracleDataExporter implements Runnable{
             e.printStackTrace();
         }
     }
+
+    /**
+     * Export customer orders in the required format to a CSV file.
+     */
+    private static void exportOrdersToCSV() {
+        String query = """
+            SELECT 
+                co.Customer_Order_ID AS order_id,
+                cop.Product_ID AS item_id,
+                cop.Product_Priority AS priority,
+                cop.Quantity AS qtd
+            FROM Customer_Order co
+            JOIN Customer_Order_Product cop 
+                ON co.Customer_Order_ID = cop.Customer_Order_ID
+            ORDER BY co.Customer_Order_ID, cop.Product_ID
+            """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query);
+             FileWriter csvWriter = new FileWriter(FILE_ORDERS_PATH)) {
+
+            csvWriter.append("order_id,item_id,priority,qtd\n");
+
+            while (rs.next()) {
+                String orderId = rs.getString("order_id");
+                String itemId = rs.getString("item_id");
+                String priority = rs.getString("priority");
+                int quantity = rs.getInt("qtd");
+
+                csvWriter.append(String.format("%s,%s,%s,%d\n", orderId, itemId, priority, quantity));
+            }
+        } catch (Exception e) {
+            System.err.println("Error exporting orders to CSV: " + e.getMessage());
+        }
+    }
+
 
 }
