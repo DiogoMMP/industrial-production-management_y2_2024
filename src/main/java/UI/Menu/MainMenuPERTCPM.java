@@ -7,6 +7,7 @@ import UI.Domain.US20.ShowESLFUI;
 import UI.Domain.US21.ExportScheduleToCSVUI;
 import UI.Domain.US22.ShowCriticalPathsUI;
 import UI.Domain.US23.ShowBottleneckActivitiesUI;
+import UI.Domain.US24.SimulateProjDelaysUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
 
@@ -25,6 +26,7 @@ public class MainMenuPERTCPM implements Runnable {
             options.add(new MenuItem("Export Project Schedule to CSV", new ExportScheduleToCSVUI()));
             options.add(new MenuItem("Identify the Critical Path", new ShowCriticalPathsUI()));
             options.add(new MenuItem("Identify Bottlenecks Activities in the Project Graph", new ShowBottleneckActivitiesUI()));
+            options.add(new MenuItem("Simulate Project Delays and Their Impact", new SimulateProjDelaysUI()));
             //options.add(new MenuItem("Simulate Project Delays and Their Impact", new x));
 
 
