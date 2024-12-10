@@ -212,7 +212,7 @@ class SimulatorTest {
 
     private int countMaterialNodes(TreeNode<String> node) {
         int count = 0;
-        if (node.getType().equals(NodeType.MATERIAL)) {
+        if (node.getType().equals(NodeType.PRODUCT) || node.getType().equals(NodeType.COMPONENT) || node.getType().equals(NodeType.RAW_MATERIAL)) {
             count++;
         }
         for (TreeNode<String> child : node.getChildren()) {
