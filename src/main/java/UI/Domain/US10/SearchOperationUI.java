@@ -18,6 +18,17 @@ public class SearchOperationUI implements Runnable {
 
     @Override
     public void run() {
+        List<MenuItem> searchOptions = new ArrayList<>();
+        searchOptions.add(new MenuItem("Search by ID", this::searchByID));
+        searchOptions.add(new MenuItem("Search by Name", this::searchByName));
+
+        int searchOption = Utils.showAndSelectIndex(searchOptions, "\n\n\033[1m\033[36m--- Choose the Search Method ------------------\033[0m");
+        if (searchOption >= 0 && searchOption < searchOptions.size()) {
+            searchOptions.get(searchOption).run();
+        }
+    }
+
+    private void searchByID() {
         String choice;
         List<MenuItem> options = new ArrayList<>();
 
@@ -37,38 +48,41 @@ public class SearchOperationUI implements Runnable {
                 if (!choice.equals("Back")) {
                     clearConsole();
                     String operationId = choice.split(" ")[1];
-                    executeAndPrintSearch(operationId);
+                    executeAndPrintSearchByID(operationId);
                     Utils.goBackAndWait();
                 }
             }
         } while (option != -1);
     }
 
+    private void searchByName() {
+        String name = Utils.readLineFromConsole("Enter the name of the operation: ");
+        executeAndPrintSearchByName(name);
+    }
 
-    /**
-     * This method is responsible for clearing the console.
-     */
     private void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    /**
-     * Helper method to execute and print the search results in a readable format.
-     */
-    private void executeAndPrintSearch(String id) {
-        Map<String, String> result = productionTree.searchNode(id);
+    private void executeAndPrintSearchByID(String id) {
+        Map<String, String> result = productionTree.searchNodeByID(id);
+        printSearchResult(result);
+    }
+
+    private void executeAndPrintSearchByName(String name) {
+        Map<String, String> result = productionTree.searchNodeByName(name);
+        printSearchResult(result);
+    }
+
+    private void printSearchResult(Map<String, String> result) {
         if (result.containsKey("Error")) {
             System.err.println("Error: Operation not found!");
         } else {
             System.out.println("\n");
             System.out.println("Type: " + result.get("Type"));
             System.out.println("Description and Quantity: " + result.get("Description"));
-            if (result.get("Type").equals("Material")) {
-                System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
-            } else {
-                System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
-            }
+            System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
         }
         System.out.println();
     }
@@ -84,5 +98,4 @@ public class SearchOperationUI implements Runnable {
                         LinkedHashMap::new // Maintains insertion order
                 ));
     }
-
 }

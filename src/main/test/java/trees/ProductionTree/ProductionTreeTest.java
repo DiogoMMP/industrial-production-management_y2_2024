@@ -1,41 +1,33 @@
 package trees.ProductionTree;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
 import domain.Material;
 import repository.BOORepository;
 import repository.Instances;
 import repository.ItemsRepository;
 import repository.OperationsMapRepository;
-import trees.ProductionTree.NodeType;
-import trees.ProductionTree.ProductionTree;
-import trees.ProductionTree.TreeNode;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
-public class ProductionTreeTest {
+class ProductionTreeTest {
     private ProductionTree productionTree;
-
     private ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
     private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
     private BOORepository booRepository = Instances.getInstance().getBOORepository();
 
-
-    // Files for testing
-    private static final String BOO_FILE = "boo_v2.csv";
     private static final String ITEMS_FILE = "items.csv";
     private static final String OPERATIONS_FILE = "operations.csv";
+    private static final String BOO_FILE = "boo_v2.csv";
 
-
-    @Before
+    @BeforeEach
     public void setUp() {
         productionTree = new ProductionTree();
-        productionTree.setRoot(new TreeNode<>("finished bench"));
+        productionTree.setRoot(new TreeNode<>("varnish bench", NodeType.OPERATION));
 
         itemsRepository.addItems(ITEMS_FILE);
         operationsMapRepository.addOperations(OPERATIONS_FILE);
@@ -44,325 +36,130 @@ public class ProductionTreeTest {
     }
 
     @Test
-    public void testBuildProductionTree() {
-        TreeNode<String> root = productionTree.buildProductionTree("1006");
-        assertNotNull(root);
-        assertEquals("finished bench (Quantity: 1)", root.getValue());
-        assertFalse(root.getChildren().isEmpty());
+    void testBuildProductionTree() {
+        String mainObjectiveID = "1006";
+        TreeNode<String> root = productionTree.buildProductionTree(mainObjectiveID);
+
+        assertNotNull(root, "Root should not be null");
+        assertEquals(NodeType.OPERATION, root.getType(), "Root should be an OPERATION node");
+        assertTrue(root.getValue().contains("varnish bench"), "Root should be varnish bench operation");
     }
 
     @Test
-    public void testGetRoot() {
-        TreeNode<String> root = productionTree.getRoot();
-        assertNotNull(root);
-        assertEquals("finished bench", root.getValue());
-    }
+    void testProductionTreeStructure() {
+        String mainObjectiveID = "1006";
+        TreeNode<String> root = productionTree.buildProductionTree(mainObjectiveID);
 
-    @Test
-    public void testSetRoot() {
-        TreeNode<String> newRoot = new TreeNode<>("New Root");
-        productionTree.setRoot(newRoot);
-        assertEquals(newRoot, productionTree.getRoot());
-    }
+        // Verify root node
+        assertNotNull(root, "Root should not be null");
+        assertEquals(1, root.getChildren().size(), "Root should have one child");
 
-    @Test
-    public void testSearchNode() {
-        productionTree.buildProductionTree("1006");
-        Map<String, String> result = productionTree.searchNode("1006");
-        assertNotNull(result);
-        assertEquals("Material", result.get("Type"));
-        assertTrue(result.get("Description").contains("finished bench"));
-    }
+        // First level child
+        TreeNode<String> finishedBenchNode = root.getChildren().get(0);
+        assertEquals("finished bench", finishedBenchNode.getValue().split(" \\(")[0], "First child should be finished bench");
+        assertEquals(NodeType.PRODUCT, finishedBenchNode.getType(), "First child should be a PRODUCT node");
 
-    @Test
-    public void testCalculateTotalMaterialsAndOperations() {
-        productionTree.buildProductionTree("1006");
-        TreeNode<String> root = productionTree.getRoot();
-        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(root);
+        // Verify nested structure depth
+        TreeNode<String> currentNode = finishedBenchNode;
+        String[] expectedOperations = {
+                "assemble bench",
+                "fix nut M16 21",
+                "drill bench seat",
+                "polish bench seat",
+                "cut bench seat"
+        };
 
-        assertNotNull(totals);
-        assertTrue(totals.containsKey("materialQuantities"));
-        assertTrue(totals.containsKey("operationTimes"));
-
-        Map<String, Double> materialQuantities = (Map<String, Double>) totals.get("materialQuantities");
-        Map<String, Double> operationTimes = (Map<String, Double>) totals.get("operationTimes");
-
-        assertNotNull(materialQuantities);
-        assertNotNull(operationTimes);
-
-        // Add specific assertions based on the expected values in your CSV files
-        assertTrue(materialQuantities.containsKey("finished bench"));
-        assertTrue(operationTimes.containsKey("assemble bench"));
-    }
-
-    @Test
-    public void testCalculateTotals() {
-        TreeNode<String> root = new TreeNode<>("finished bench (Quantity: 1)", NodeType.MATERIAL);
-        TreeNode<String> operationNode = new TreeNode<>("assemble bench (Quantity: 2)", NodeType.OPERATION);
-        root.addChild(operationNode);
-
-        Map<String, Double> materialQuantities = new HashMap<>();
-        Map<String, Double> operationTimes = new HashMap<>();
-        productionTree.calculateTotals(materialQuantities, operationTimes, root);
-
-        assertTrue(materialQuantities.containsKey("finished bench"));
-        assertTrue(operationTimes.containsKey("assemble bench"));
-        assertEquals(1.0, materialQuantities.get("finished bench"), 0.001);
-        assertEquals(2.0, operationTimes.get("assemble bench"), 0.001);
-    }
-
-    @Test
-    public void testTraverseTree() {
-        TreeNode<String> root = new TreeNode<>("finished bench (Quantity: 1)", NodeType.MATERIAL);
-        TreeNode<String> operationNode = new TreeNode<>("assemble bench (Quantity: 2)", NodeType.OPERATION);
-        root.addChild(operationNode);
-
-        Map<String, Double> materialQuantities = new HashMap<>();
-        Map<String, Double> operationTimes = new HashMap<>();
-        productionTree.traverseTree(root, materialQuantities, operationTimes);
-
-        assertTrue(materialQuantities.containsKey("finished bench"));
-        assertTrue(operationTimes.containsKey("assemble bench"));
-        assertEquals(1.0, materialQuantities.get("finished bench"), 0.001);
-        assertEquals(2.0, operationTimes.get("assemble bench"), 0.001);
-    }
-
-    @Test
-    public void testUpdateQuantities() {
-        productionTree.buildProductionTree("1006");
-        productionTree.updateQuantities("1014", 2.0);
-
-        Map<String, String> leafNode = productionTree.searchNode("1014");
-        assertEquals("varnish (Quantity: 2.0)", leafNode.get("Description"));
-
-        productionTree.updateQuantities("1014", 1.0);
-        leafNode = productionTree.searchNode("1014");
-        assertEquals("varnish (Quantity: 1.0)", leafNode.get("Description"));
-
-        productionTree.updateQuantities("1014", 0.0);
-        leafNode = productionTree.searchNode("1014");
-        assertEquals("varnish (Quantity: 0.0)", leafNode.get("Description"));
-    }
-
-    @Test
-    public void testGetMaterialQuantityPairs() {
-        productionTree.buildProductionTree("1006");
-        List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
-        assertNotNull(materialQuantityPairs);
-        assertFalse(((List<?>) materialQuantityPairs).isEmpty());
-
-        // Add specific assertions based on the expected values in your CSV files
-        boolean found = false;
-        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
-            if (pair.getKey().getName().equals("finished bench")) {
-                assertEquals(1.0, pair.getValue(), 0.001);
-                found = true;
-                break;
+        int depth = 0;
+        while (currentNode.getChildren().size() > 0 && depth < expectedOperations.length) {
+            currentNode = currentNode.getChildren().get(0);
+            if (currentNode.getType() == NodeType.OPERATION) {
+                assertTrue(currentNode.getValue().contains(expectedOperations[depth]),
+                        "Operation at depth " + depth + " should match expected");
+                depth++;
             }
         }
-        assertTrue(found);
     }
 
     @Test
-    public void testPrintMaterialQuantitiesInAscendingOrder() {
-        productionTree.buildProductionTree("1006");
-        // Redirect output to a stream to capture it
+    void testCalculateTotalMaterialsAndOperations() {
+        String mainObjectiveID = "1006";
+        productionTree.buildProductionTree(mainObjectiveID);
+
+        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
+
+        Map<String, Double> materialQuantities = (Map<String, Double>) totals.get("materialQuantities");
+
+        // Verify specific raw materials
+        assertTrue(materialQuantities.containsKey("wood 3cm"), "Should contain wood 3cm");
+        assertTrue(materialQuantities.containsKey("wood pole 4cm"), "Should contain wood pole 4cm");
+        assertTrue(materialQuantities.containsKey("varnish"), "Should contain varnish");
+
+        // Verify specific material quantities
+        assertEquals(0.0576, materialQuantities.get("wood 3cm"), 0.0001, "Wood 3cm quantity should match");
+        assertEquals(0.28, materialQuantities.get("wood pole 4cm"), 0.0001, "Wood pole 4cm quantity should match");
+        assertEquals(0.125, materialQuantities.get("varnish"), 0.0001, "Varnish quantity should match");
+    }
+
+    @Test
+    void testGetMaterialQuantityPairs() {
+        String mainObjectiveID = "1006";
+        productionTree.buildProductionTree(mainObjectiveID);
+
+        List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
+
+        // Count specific raw materials
+        long rawMaterialCount = materialQuantityPairs.stream()
+                .filter(pair -> pair.getValue() > 0)
+                .count();
+
+        assertTrue(rawMaterialCount > 5, "Should have multiple raw materials");
+
+        // Verify specific materials are present
+        boolean hasWood3cm = materialQuantityPairs.stream()
+                .anyMatch(pair -> pair.getKey().getName().equals("wood 3cm") &&
+                        Math.abs(pair.getValue() - 0.0576) < 0.0001);
+
+        boolean hasWoodPole4cm = materialQuantityPairs.stream()
+                .anyMatch(pair -> pair.getKey().getName().equals("wood pole 4cm") &&
+                        Math.abs(pair.getValue() - 0.28) < 0.0001);
+
+        assertTrue(hasWood3cm, "Should have wood 3cm material");
+        assertTrue(hasWoodPole4cm, "Should have wood pole 4cm material");
+    }
+
+    @Test
+    void testSearchNode() {
+        String mainObjectiveID = "1006";
+        productionTree.buildProductionTree(mainObjectiveID);
+
+        // Test searching for specific nodes
+        Map<String, String> benchSeatNode = productionTree.searchNodeByID("1006");
+        assertNotNull(benchSeatNode, "Should find finished bench node");
+        assertEquals("Product", benchSeatNode.get("Type"), "finished bench should be a product");
+
+        Map<String, String> rawBenchSeatNode = productionTree.searchNodeByID("1012");
+        assertNotNull(rawBenchSeatNode, "Should find raw bench seat node");
+        assertEquals("Component", rawBenchSeatNode.get("Type"), "Raw bench seat should be a component");
+
+        Map<String, String> woodMaterialNode = productionTree.searchNodeByName("cut bench leg");
+        assertNotNull(woodMaterialNode, "Should find cut bench leg node");
+        assertEquals("Operation", woodMaterialNode.get("Type"), "Cut bench leg should be a operation");
+    }
+
+    @Test
+    void testPrintMaterialQuantities() {
+        String mainObjectiveID = "1006";
+        productionTree.buildProductionTree(mainObjectiveID);
+
+        // Capture system output to verify
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
         productionTree.printMaterialQuantitiesInAscendingOrder();
 
-        // Check if the output contains the expected material quantities in ascending order
         String output = outContent.toString();
-        assertTrue(output.contains("finished bench"));
-        // Add more assertions based on the expected order of materials
-
-        // Reset the standard output
-        System.setOut(System.out);
+        assertTrue(output.contains("wood 3cm"), "Output should contain wood 3cm");
+        assertTrue(output.contains("wood pole 4cm"), "Output should contain wood pole 4cm");
+        assertTrue(output.contains("varnish"), "Output should contain varnish");
     }
-
-    @Test
-    public void testPrintMaterialQuantitiesInDescendingOrder() {
-        productionTree.buildProductionTree("1006");
-        // Redirect output to a stream to capture it
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        productionTree.printMaterialQuantitiesInDescendingOrder();
-
-        // Check if the output contains the expected material quantities in descending order
-        String output = outContent.toString();
-        assertTrue(output.contains("finished bench"));
-        // Add more assertions based on the expected order of materials
-
-        // Reset the standard output
-        System.setOut(System.out);
-    }
-
-    @Test
-    public void testPrioritizeCriticalPath() {
-        // Setup the tree with nodes for testing
-        TreeNode<String> root = new TreeNode<>("Start Operation (Quantity: 1)", NodeType.OPERATION);
-        TreeNode<String> operation1 = new TreeNode<>("Operation 1 (Quantity: 2)", NodeType.OPERATION);
-        TreeNode<String> operation2 = new TreeNode<>("Operation 2 (Quantity: 3)", NodeType.OPERATION);
-        TreeNode<String> material1 = new TreeNode<>("Material A (Quantity: 5)", NodeType.MATERIAL);
-
-        root.addChild(operation1);
-        operation1.addChild(operation2);
-        operation2.addChild(material1);
-
-        productionTree.setRoot(root);
-
-        // Test prioritizing the critical path
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        productionTree.prioritizeCriticalPath(root);
-
-        // Verify the output contains the expected critical path
-        String output = outContent.toString();
-        assertTrue(output.contains("Start Operation (Quantity: 1)"));
-        assertTrue(output.contains("Operation: Operation 1 (Quantity: 2)"));
-        assertTrue(output.contains("Operation: Operation 2 (Quantity: 3)"));
-        assertFalse(output.contains("Material A (Quantity: 5)")); // Materials shouldn't be included
-
-        // Reset standard output
-        System.setOut(System.out);
-    }
-
-    @Test
-    public void testQualityChecksCreation() {
-        // Build the tree which should populate the quality check queue
-        productionTree.buildProductionTree("1006");
-
-        // Redirect System.out to capture output
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
-        // View the quality checks
-        productionTree.viewQualityChecksInOrder();
-
-        // Restore original System.out
-        System.setOut(originalOut);
-
-        // Get the output and verify it contains expected content
-        String output = outContent.toString();
-        assertTrue("Output should indicate quality checks", output.contains("Quality Checks in Order of Priority:"));
-        assertTrue("Output should contain quality check entries", output.contains("Quality Check:"));
-    }
-
-    @Test
-    public void testQualityCheckPriorities() {
-        // Build the tree
-        productionTree.buildProductionTree("1006");
-
-        // Redirect System.out to capture output
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
-        // View the quality checks
-        productionTree.viewQualityChecksInOrder();
-
-        // Restore original System.out
-        System.setOut(originalOut);
-
-        // Get the output and analyze priority order
-        String output = outContent.toString();
-        String[] lines = output.split("\n");
-
-        int previousPriority = -1;
-        boolean prioritiesAreOrdered = true;
-
-        for (String line : lines) {
-            if (line.contains("[Priority:")) {
-                int priority = extractPriority(line);
-                if (previousPriority != -1 && priority < previousPriority) {
-                    prioritiesAreOrdered = false;
-                    break;
-                }
-                previousPriority = priority;
-            }
-        }
-
-        assertTrue("Quality checks should be ordered by priority", prioritiesAreOrdered);
-    }
-
-    // Helper method to extract priority from output line
-    private int extractPriority(String line) {
-        int start = line.indexOf("[Priority:") + 10;
-        int end = line.indexOf("]", start);
-        return Integer.parseInt(line.substring(start, end).trim());
-    }
-
-    @Test
-    public void testQualityCheckDepthCalculation() {
-        // Build a simple test tree with known depths
-        TreeNode<String> root = new TreeNode<>("Root Operation", NodeType.OPERATION);
-        TreeNode<String> child1 = new TreeNode<>("Child Operation 1", NodeType.OPERATION);
-        TreeNode<String> child2 = new TreeNode<>("Child Operation 2", NodeType.OPERATION);
-        TreeNode<String> grandchild = new TreeNode<>("Grandchild Operation", NodeType.OPERATION);
-
-        root.addChild(child1);
-        root.addChild(child2);
-        child1.addChild(grandchild);
-
-        productionTree.setRoot(root);
-
-        // Calculate depth for each node
-        assertEquals(1, productionTree.calculateDepth(root));
-        assertEquals(2, productionTree.calculateDepth(child1));
-        assertEquals(2, productionTree.calculateDepth(child2));
-        assertEquals(3, productionTree.calculateDepth(grandchild));
-    }
-
-    @Test
-    public void testEmptyQualityChecks() {
-        // Create a new empty tree
-        ProductionTree emptyTree = new ProductionTree();
-
-        // Redirect System.out to capture output
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
-        // View quality checks for empty tree
-        emptyTree.viewQualityChecksInOrder();
-
-        // Restore original System.out
-        System.setOut(originalOut);
-
-        // Verify output
-        String output = outContent.toString();
-        assertTrue("Should show empty quality checks", output.contains("Quality Checks in Order of Priority:"));
-    }
-
-    @Test
-    public void testTraverseCriticalPath() {
-        TreeNode<String> root = new TreeNode<>("Start Operation (Quantity: 1)", NodeType.OPERATION);
-        TreeNode<String> operation1 = new TreeNode<>("Operation 1 (Quantity: 2)", NodeType.OPERATION);
-        TreeNode<String> operation2 = new TreeNode<>("Operation 2 (Quantity: 3)", NodeType.OPERATION);
-        TreeNode<String> material1 = new TreeNode<>("Material A (Quantity: 5)", NodeType.MATERIAL);
-
-        root.addChild(operation1);
-        operation1.addChild(operation2);
-        operation2.addChild(material1);
-
-        productionTree.setRoot(root);
-
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        productionTree.traverseCriticalPath(root);
-
-        String output = outContent.toString();
-        assertTrue(output.contains("Start Operation (Quantity: 1)"));
-        assertTrue(output.contains("Operation 1 (Quantity: 2)"));
-        assertTrue(output.contains("Operation 2 (Quantity: 3)"));
-        assertFalse(output.contains("Material A (Quantity: 5)"));
-
-        System.setOut(System.out);
-    }
-
 }

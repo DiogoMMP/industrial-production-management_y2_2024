@@ -30,7 +30,7 @@ public class TreeNodeTest{
     @Test
     public void testAddChild() {
         TreeNode<String> parent = new TreeNode<>("Parent Node", NodeType.OPERATION);
-        TreeNode<String> child = new TreeNode<>("Child Node", NodeType.MATERIAL);
+        TreeNode<String> child = new TreeNode<>("Child Node", NodeType.PRODUCT);
         parent.addChild(child);
 
         assertEquals(1, parent.getChildren().size());
@@ -41,8 +41,8 @@ public class TreeNodeTest{
     @Test
     public void testGetChildren() {
         TreeNode<String> parent = new TreeNode<>("Parent Node", NodeType.OPERATION);
-        TreeNode<String> child1 = new TreeNode<>("Child Node 1", NodeType.MATERIAL);
-        TreeNode<String> child2 = new TreeNode<>("Child Node 2", NodeType.MATERIAL);
+        TreeNode<String> child1 = new TreeNode<>("Child Node 1", NodeType.PRODUCT);
+        TreeNode<String> child2 = new TreeNode<>("Child Node 2", NodeType.RAW_MATERIAL);
         parent.addChild(child1);
         parent.addChild(child2);
 
@@ -60,7 +60,7 @@ public class TreeNodeTest{
     @Test
     public void testGetParent() {
         TreeNode<String> parent = new TreeNode<>("Parent Node", NodeType.OPERATION);
-        TreeNode<String> child = new TreeNode<>("Child Node", NodeType.MATERIAL);
+        TreeNode<String> child = new TreeNode<>("Child Node", NodeType.PRODUCT);
         parent.addChild(child);
 
         assertEquals(parent, child.getParent());
@@ -76,8 +76,8 @@ public class TreeNodeTest{
     @Test
     public void testSetType() {
         TreeNode<String> node = new TreeNode<>("Test Node");
-        node.setType(NodeType.MATERIAL);
-        assertEquals(NodeType.MATERIAL, node.getType());
+        node.setType(NodeType.PRODUCT);
+        assertEquals(NodeType.PRODUCT, node.getType());
     }
 
     @Test

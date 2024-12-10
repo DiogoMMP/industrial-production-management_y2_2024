@@ -45,6 +45,7 @@ public class ProductionTree {
      * @param root the root of the production tree
      */
     public void setRoot(TreeNode<String> root) {
+        nodesMap.clear();
         this.root = root;
     }
 
@@ -98,6 +99,7 @@ public class ProductionTree {
 
         String operationDescription = operationDescriptions.getOrDefault(mainObjectiveOperationID, "Unknown Operation");
         root = new TreeNode<>(operationDescription + " (Quantity: " + mainObjectiveQuantity + ")", NodeType.OPERATION);
+        nodesMap.put(mainObjectiveOperationID, root);
 
         buildSubTree(mainObjectiveOperationID, root, booData, itemNames, operationDescriptions);
 
@@ -305,14 +307,14 @@ public class ProductionTree {
 
     /**
      * Searches for a node in the production tree by its ID or name.
-     * @param idOrName the ID or name of the operation or material to search for
+     * @param id the ID of the operation or material to search for
      * @return a map with details such as type, quantity (for materials), and parent operation if applicable
      */
-    public Map<String, String> searchNode(String idOrName) {
+    public Map<String, String> searchNodeByID(String id) {
         Map<String, String> result = new HashMap<>();
 
         // Find the node with the specified ID or name
-        TreeNode<String> node = nodesMap.get(idOrName);
+        TreeNode<String> node = nodesMap.get(id);
         if (node == null) {
             result.put("Error", "Leaf not found on Production Tree.");
             return result;
@@ -350,6 +352,23 @@ public class ProductionTree {
         }
 
         return result;
+    }
+
+    /**
+     * Searches for a node in the production tree by its ID or name.
+     * @param name the name of the operation or material to search for
+     * @return a map with details such as type, quantity (for materials), and parent operation if applicable
+     */
+    public Map<String, String> searchNodeByName(String name) {
+
+        for (Map.Entry<String, TreeNode<String>> entry : nodesMap.entrySet()) {
+            TreeNode<String> node = entry.getValue();
+            if (node.getValue().contains(name)) {
+                String id = entry.getKey();
+                return searchNodeByID(id);
+            }
+        }
+        return null;
     }
 
     /**
