@@ -35,6 +35,7 @@ public class PERT_CPM {
      */
     public void buildPERT_CPM() {
         // Add the "START" node
+        pert_CPM.clearOldGraph();
         activitiesPERT_CPM.clear();
         ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
         activities = activitiesMapRepository.getActivitiesMapRepository();
@@ -47,7 +48,7 @@ public class PERT_CPM {
             pert_CPM.addVertex(nodeLabel);
 
             // Connect "START" to activities without predecessors
-            if (activity.getPrevActIds().isEmpty()) {
+            if (activity.getPrevActIds().isEmpty() || activity.getPrevActIds().contains("START")) {
                 pert_CPM.addEdge("START", nodeLabel, "0");
             }
 
@@ -526,12 +527,22 @@ public class PERT_CPM {
      * @param delays A map of activity IDs and the corresponding delay durations to be added.
      */
     public void simulateDelaysAndRecalculate(LinkedHashMap<String, Integer> delays) {
+        ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
         // Apply delays to specified activities
         for (String actId : delays.keySet()) {
+            Activity activity_PERT_CPM = activitiesPERT_CPM.get(actId);
             Activity activity = activities.get(actId);
             if (activity != null) {
                 int newDuration = activity.getDuration() + delays.get(actId);
-                activity.setDuration(newDuration);
+                if (newDuration > 0) {
+                    activity.setDuration(newDuration);
+                    activity_PERT_CPM.setDuration(newDuration);
+                }else if(newDuration < 0){
+                    throw new IllegalArgumentException("Activity duration must be positive or zero.\n" +
+                            "Activity ID: " + actId + "\n" + "Current Duration: " + activity.getDuration() + "\n");
+                }else {
+                    removeActivityAndRecalculate(actId);
+                }
             }
         }
 
@@ -543,6 +554,7 @@ public class PERT_CPM {
         for (Activity activity : activities.values()) {
             activity.calculateSlack();
         }
+        activitiesMapRepository.setActivitiesMapRepository(activities);
     }
 
     // Method to calculate total project duration
@@ -554,5 +566,36 @@ public class PERT_CPM {
             }
         }
         return maxFinishTime;
+    }
+
+    public void removeActivityAndRecalculate(String actId) {
+        // Remove the activity and its connections
+        Activity activity = activities.get(actId);
+        if (activity != null) {
+            String nodeLabel = actId + " (" + activity.getDurationWithUnit() + ")";
+            activities.remove(actId);
+            pert_CPM.removeVertex(nodeLabel);
+            activitiesPERT_CPM.remove(actId);
+
+            // Remove connections from other activities
+            for (Activity otherActivity : activities.values()) {
+                otherActivity.getPrevActIds().remove(actId);
+                String otherNodeLabel = otherActivity.getActId() + " (" + otherActivity.getDurationWithUnit() + ")";
+                pert_CPM.removeEdge(nodeLabel, otherNodeLabel);
+            }
+
+            // Recalculate times
+            CalculateTimes calculateTimes = new CalculateTimes();
+            calculateTimes.calculateTimes();
+
+            // Recalculate Slack times
+            for (Activity remainingActivity : activities.values()) {
+                remainingActivity.calculateSlack();
+            }
+
+            // Update the repository
+            ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
+            activitiesMapRepository.setActivitiesMapRepository(activities);
+        }
     }
 }

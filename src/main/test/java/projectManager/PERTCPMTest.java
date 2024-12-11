@@ -200,6 +200,32 @@ class PERTCPMTest {
         assertNotNull(bottleneckActivities, "Bottleneck activities should not be null");
         assertFalse(bottleneckActivities.isEmpty(), "Bottleneck activities should not be empty");
         // Assuming "D" is the expected bottleneck activity based on the setup
-        assertTrue(bottleneckActivities.stream().anyMatch(activity -> "K".equals(activity.getActId())), "Bottleneck activities should contain activity D");
+        assertTrue(bottleneckActivities.stream().anyMatch(activity -> "A4".equals(activity.getActId())), "Bottleneck activities should contain activity D");
+    }
+
+    @Test
+    void testSimulateDelaysAndRecalculate() {
+        LinkedHashMap<String, Integer> delays = new LinkedHashMap<>();
+        delays.put("A2", 2); // Delay activity A2 by 2 days
+        delays.put("A3", 1); // Delay activity A3 by 1 day
+
+        pertCPM.simulateDelaysAndRecalculate(delays);
+
+        // Verify the new durations
+        assertEquals(5, pertCPM.getActivities().get("A1").getDuration());
+        assertEquals(5, pertCPM.getActivities().get("A2").getDuration());
+        assertEquals(3, pertCPM.getActivities().get("A3").getDuration());
+        assertEquals(4, pertCPM.getActivities().get("A4").getDuration());
+
+        // Verify the recalculated total project duration
+        double totalProjectDuration = pertCPM.calculateTotalProjectDuration();
+        assertEquals(14.0, totalProjectDuration);
+    }
+
+    @Test
+    void testCalculateTotalProjectDuration() {
+        // Calculate the total project duration without any delays
+        double totalProjectDuration = pertCPM.calculateTotalProjectDuration();
+        assertEquals(12.0, totalProjectDuration);
     }
 }
