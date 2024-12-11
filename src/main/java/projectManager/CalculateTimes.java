@@ -10,6 +10,9 @@ import java.util.LinkedList;
 public class CalculateTimes {
     private PERT_CPM pert_cpm;
 
+    /**
+     * Calculate the start and finish times of the activities and the respective slack
+     */
     public void calculateTimes() {
         pert_cpm = Instances.getInstance().getPERT_CPM();
         LinkedHashMap<String, Activity> activities = pert_cpm.getActivitiesPERT_CPM();
