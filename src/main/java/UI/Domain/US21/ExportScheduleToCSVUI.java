@@ -16,6 +16,8 @@ public class ExportScheduleToCSVUI implements Runnable {
         // Retrieve the PERT_CPM instance
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();
 
+        System.out.println("\n\n\033[1m\033[36m--- Export Project Schedule to CSV ------------\033[0m");
+
         // Export the schedule to a CSV file
         pertCpm.exportScheduleToCSV(OUTPUTPATH);
 

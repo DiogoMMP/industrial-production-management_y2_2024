@@ -18,7 +18,7 @@ public class SimulateProjDelaysUI implements Runnable {
         Scanner scanner = new Scanner(System.in);
         LinkedHashMap<String, Integer> delays = new LinkedHashMap<>();
 
-        System.out.println("\n\n--- Simulate Project Delays ------------");
+        System.out.println("\n\n\033[1m\033[36m--- Simulate Project Delays ------------\033[0m");
         while (true) {
             System.out.print("Enter Activity ID (or 'done' to finish): ");
             String actId = scanner.nextLine();
@@ -36,16 +36,16 @@ public class SimulateProjDelaysUI implements Runnable {
 
         pertCpm.simulateDelaysAndRecalculate(delays);
 
-        System.out.println("\nUpdated Critical Paths and Project Duration:");
+        System.out.println("\n\033[1mUpdated Critical Paths and Project Duration:\033[0m");
         LinkedHashMap<Integer, List<Activity>> criticalPaths = pertCpm.findCriticalPaths();
         for (Map.Entry<Integer, List<Activity>> entry : criticalPaths.entrySet()) {
-            System.out.print("Path " + entry.getKey() + ": ");
+            System.out.print("\033[1mPath " + entry.getKey() + ": \033[0m");
             for (Activity activity : entry.getValue()) {
                 System.out.print(activity.getActId() + " ");
             }
             System.out.println();
         }
-        System.out.println("Total Project Duration: " + pertCpm.calculateTotalProjectDuration() + " days");
+        System.out.println("\033[1mTotal Project Duration: " + pertCpm.calculateTotalProjectDuration() + " days\033[0m");
 
         Utils.goBackAndWait();
     }

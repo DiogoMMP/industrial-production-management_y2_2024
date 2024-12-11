@@ -34,16 +34,16 @@ public class ShowESLFUI implements Runnable {
     }
 
     private void show(String choice, LinkedHashMap<String, Activity> activitiesPERT_CPM) {
-        System.out.println("\n\n--- Show Earliest Time and Latest Finish ------------");
+        System.out.println("\n\n\033[1m\033[36m--- Show Earliest Time and Latest Finish ------------\033[0m");
 
         if (choice.equals("All")) {
             for (String activity : activitiesPERT_CPM.keySet()) {
-                System.out.println("\n\n--- Activity: " + activity + " ------------");
+                System.out.println("\n\n\033[1m--- Activity: " + activity + " ------------\033[0m");
                 System.out.println("ES: " + activitiesPERT_CPM.get(activity).getEarliestStart());
                 System.out.println("LF: " + activitiesPERT_CPM.get(activity).getLatestFinish());
             }
         } else {
-            System.out.println("\n\n--- Activity: " + choice + " ------------");
+            System.out.println("\n\n\033[1m--- Activity: " + choice + " ------------\033[0m");
             String[] parts = choice.split(" ");
             choice = parts[1];
             System.out.println("ES: " + activitiesPERT_CPM.get(choice).getEarliestStart());

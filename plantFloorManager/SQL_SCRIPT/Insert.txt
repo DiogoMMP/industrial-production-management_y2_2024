@@ -169,7 +169,6 @@ INSERT INTO External_Part (Part_ID)VALUES ('PN52384R12');
 INSERT INTO External_Part (Part_ID)VALUES ('PN18324C91');
 INSERT INTO External_Part (Part_ID)VALUES ('PN18324C51');
 INSERT INTO External_Part (Part_ID)VALUES ('PN94561L67');
-INSERT INTO External_Part (Part_ID)VALUES ('AS12945G48');
 
 --Raw_Material
 INSERT INTO Raw_Material (Part_ID)VALUES ('PN94561L67');
@@ -472,7 +471,6 @@ INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, S
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (17, 'PN18324C54', 12298, 1.80, 10, TO_DATE('2023/08/01', 'YYYY/MM/DD'), TO_DATE('2024/01/29', 'YYYY/MM/DD'));
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (18, 'PN18324C54', 12298, 1.75, 20, TO_DATE('2024/02/15', 'YYYY/MM/DD'), NULL);
 INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (19, 'PN18324C51', 12298, 1.80, 40, TO_DATE('2023/08/01', 'YYYY/MM/DD'), TO_DATE('2024/05/31', 'YYYY/MM/DD'));
-INSERT INTO Procurement (Procurement_ID, Part_ID, Supplier_ID, Price, Min_Qnt, Start_Date, End_Date) VALUES (20, 'AS12945G48', 12298, 10.25, 10, TO_DATE('2023/07/01', 'YYYY/MM/DD'), NULL);
 
 --Reserved_Stock
 insert into Reserved_Stock (Reserved_ID, Part_ID, Quantity, Unit) values (1, 'PN12344A21', 50, 'units');
