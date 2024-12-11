@@ -409,26 +409,26 @@ public class PERT_CPM {
         MapGraph<String, String> pert_CPM_without_duration = getPert_CPMWithoutDuration();
 
         try (FileWriter writer = new FileWriter(file)) {
-            // Cabeçalho do CSV
+            // CSV header
             writer.write("act_id;cost;duration;es;ls;ef;lf;prev_act_id1;...;prev_act_idN\n");
 
-            // Itera pelas atividades e escreve os dados no CSV
+            // Write the data for each activity
             for (String actId : activities.keySet()) {
                 Activity activity = activities.get(actId);
 
-                // Recupera os predecessores como uma coleção de arestas
+                // Get the dependencies of the activity
                 Collection<Edge<String, String>> dependencies = pert_CPM_without_duration.incomingEdges(actId);
 
-                // Garante que dependencies não é nulo
+                // Convert the dependencies to a string
                 String dependenciesStr = (dependencies == null || dependencies.isEmpty())
                         ? "-"
                         : dependencies.stream()
-                        .map(Edge::getVOrig) // Obtém o vértice de origem
-                        .reduce((a, b) -> a + ", " + b) // Junta os IDs com vírgulas
+                        .map(Edge::getVOrig) // Get the IDs of the dependencies
+                        .reduce((a, b) -> a + ", " + b) // Concatenate the IDs
                         .orElse("-");
 
 
-                // Escreve os dados no formato especificado
+                // Write the activity data to the file
                 writer.write(String.format("%s;%d;%d;%.1f;%.1f;%.1f;%.1f;%s\n",
                         activity.getActId(),
                         activity.getCost(),

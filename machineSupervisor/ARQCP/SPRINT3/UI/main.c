@@ -1,195 +1,116 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
-#include <unistd.h>  // For sleep function (POSIX)
+#include <unistd.h>
+#include <fcntl.h>    // For open()
+#include <termios.h>  // For configuring the serial port
+#include <errno.h>    // For error handling
 
-#include "usac.h"  // Include the assembly functions
-
-// Define a structure for machine data
-struct machine {
-    char id[10];
-    char name[20];
-    float temperature_min;
-    float temperature_max;
-    float humidity_min;
-    float humidity_max;
-    int *buffer;         // Pointer to dynamically allocated circular buffer
-    int buffer_size;     // Circular buffer length
-    int *head;           // Points to the newest element
-    int *tail;           // Points to the oldest element
-    int median_size;     // Moving median length
-    pthread_mutex_t lock;  // Mutex for thread safety
-};
-
-// Function to read temperature from the sensor (stub function)
-float read_temp_from_sensor() {
-    return 25.0 + (rand() % 10);  // Example: Random temperature between 25 and 35
-}
-
-// Function to read humidity from the sensor (stub function)
-float read_hum_from_sensor() {
-    return 50.0 + (rand() % 20);  // Example: Random humidity between 50 and 70
-}
-
-// Function to send data to MachManager (stub function)
-void send_data(const char *str) {
-    printf("Sending data: %s\n", str);
-}
-
-// Function to turn on LEDs based on the command (stub function)
-void turn_on_leds(const char *cmd) {
-    printf("Turning on LEDs with command: %s\n", cmd);
-}
-
-// Function to turn off LEDs (stub function)
-void turn_off_leds() {
-    printf("Turning off LEDs.\n");
-}
-
-// Function to wait for the command from MachManager (stub function)
-void wait_for_command_from_mach_manager(char *cmd) {
-    strcpy(cmd, "ON,1,1,0,1,0");  // Simulate receiving a dummy command
-}
-
-// Machine component function
-void *machine_function(void *arg) {
-    struct machine *m = (struct machine *)arg;
-
-    char cmd[50];  // Buffer for the command
-    char str[100]; // Buffer for the formatted string
-    float temp, hum;  // Temperature and Humidity variables
-
-    while (1) {
-        // Wait for command from MachManager
-        wait_for_command_from_mach_manager(cmd);
-
-        // Read sensor values
-        temp = read_temp_from_sensor();
-        hum = read_hum_from_sensor();
-
-        // Example usage of 'm' to check if sensor readings are within range
-        if (temp < m->temperature_min || temp > m->temperature_max) {
-            printf("Alert: Temperature out of range!\n");
-        }
-        if (hum < m->humidity_min || hum > m->humidity_max) {
-            printf("Alert: Humidity out of range!\n");
-        }
-
-        // Format the data
-        sprintf(str, "TEMP&unit:celsius&value:%.2f#HUM&unit:percentage&value:%.2f", temp, hum);
-
-        // Send the formatted string to MachManager
-        send_data(str);
-
-        // Turn on LEDs based on the received command
-        turn_on_leds(cmd);
-
-        // Sleep for 2 seconds
-        sleep(2);
-
-        // Turn off LEDs
-        turn_off_leds();
-    }
-
-    return NULL;
-}
-
-
-// Function to check alerts based on filtered sensor data
-void check_for_alerts(struct machine *m) {
-    int median_temp, median_hum;
-    int values[m->median_size];
-
-    pthread_mutex_lock(&m->lock);  // Lock for thread safety
-
-    // Move the last n sensor readings into the array
-    move_n_to_array(m->buffer, m->buffer_size, m->tail, m->head, m->median_size, values);
-
-    pthread_mutex_unlock(&m->lock);  // Unlock after reading
-
-    // Sort the array before calculating the median
-    sort_array(values, m->median_size, 'A');  // Sort in ascending order
-    median(values, m->median_size, &median_temp);
-
-    sort_array(values, m->median_size, 'D');  // Sort in descending order
-    median(values, m->median_size, &median_hum);
-
-    // Check if the median values are outside the acceptable range
-    if (median_temp < m->temperature_min || median_temp > m->temperature_max) {
-        printf("Alert: Temperature out of range!\n");
-    }
-    if (median_hum < m->humidity_min || median_hum > m->humidity_max) {
-        printf("Alert: Humidity out of range!\n");
-    }
-}
-
-// Function to manage machine operations based on instructions
-void *mach_manager_function(void *arg) {
-    struct machine *m = (struct machine *)arg;
-
-    char inst[100];  // Instructions from UI
-    char cmd[50];  // Command to machine
-    char str[100];  // String for received data
-
-    while (1) {
-        // Wait for instructions from UI
-        printf("Waiting for instructions...\n");
-        strcpy(inst, "start_operation");  // Dummy instruction
-
-        // Update internal data based on instructions
-        printf("Updating internal data: %s\n", inst);
-
-        // Get command from internal data
-        strcpy(cmd, "ON,1,1,0,1,0");
-
-        // Send the command to the machine
-        printf("Sending command to machine: %s\n", cmd);
-
-        // Wait for data from the machine (simulating here)
-        sprintf(str, "TEMP&unit:celsius&value:25.0#HUM&unit:percentage&value:50.0");
-
-        // Extract and process the received data
-        printf("Received data: %s\n", str);
-
-        // Check for alerts based on the current machine state and sensor data
-        check_for_alerts(m);
-
-        // Simulate a short delay
-        sleep(2);
-    }
-
-    return NULL;
-}
+int format_command(char* op, int n, char *cmd);
 
 int main() {
-    setbuf(stdout, NULL);  // Disable stdout buffering for immediate output
+    // Variables for user input
+    char state[10];
+    int operation_number;
+    char command[100];
+    char system_command[200];
 
-    // Initialize machine data
-    struct machine data;
-    data.temperature_min = 18.0;
-    data.temperature_max = 30.0;
-    data.humidity_min = 40.0;
-    data.humidity_max = 60.0;
-    data.median_size = 5;
-    data.buffer_size = 10;
-    data.buffer = (int *)malloc(data.buffer_size * sizeof(int));
-    data.head = data.buffer;
-    data.tail = data.buffer;
-    pthread_mutex_init(&data.lock, NULL);
+    // Variables for reading from the serial port
+    int serial_port;
+    char read_buffer[256];  // Buffer to store the data read from the serial port
+    ssize_t bytes_read;
 
-    // Create threads for machine manager and machine function
-    pthread_t mach_manager_thread, machine_thread;
-    pthread_create(&mach_manager_thread, NULL, mach_manager_function, &data);
-    pthread_create(&machine_thread, NULL, machine_function, &data);
+    // Ask the user for the machine state
+    printf("Enter the machine status (ON, OFF, or OP): ");
+    if (scanf("%9s", state) != 1) {
+        printf("Error reading machine status.\n");
+        return -1;
+    }
 
-    // Wait for threads to complete (they won't in this infinite loop)
-    pthread_join(mach_manager_thread, NULL);
-    pthread_join(machine_thread, NULL);
+    // Ask the user for the operation number
+    printf("Enter the operation number (0-31): ");
+    if (scanf("%d", &operation_number) != 1) {
+        printf("Error reading operation number.\n");
+        return -1;
+    }
 
-    // Cleanup
-    free(data.buffer);
-    pthread_mutex_destroy(&data.lock);
+    // Validate the operation number
+    if (operation_number < 0 || operation_number > 31) {
+        printf("Error: number outside the permitted range (0-31).\n");
+        return -1;
+    }
 
+    // Call the function to format the command
+    if (format_command(state, operation_number, command) != 1) {
+        printf("Error formatting the command.\n");
+        return -1;
+    }
+
+    // Display the formatted command
+    printf("Formatted command: %s\n", command);
+
+    // Construct the command for the system()
+    snprintf(system_command, sizeof(system_command), "echo \"%s\" > /dev/ttyACM0", command);
+
+    // Execute the command using system()
+    int result = system(system_command);
+    if (result == -1) {
+        printf("Error executing the command with system().\n");
+        return -1;
+    }
+
+    // Check if the command contains "OP" (not case-sensitive)
+    if (strstr(command, "OP") != NULL) {
+        // Open the serial port for reading
+        serial_port = open("/dev/ttyACM0", O_RDONLY);  // Open the port for reading
+        if (serial_port == -1) {
+            perror("Error opening the serial port");
+            return -1;
+        }
+
+        // Configure the serial port
+        struct termios tty;
+        if (tcgetattr(serial_port, &tty) != 0) {
+            perror("Error getting serial port parameters");
+            close(serial_port);
+            return -1;
+        }
+
+        // Set serial port configuration (9600 baud, 8 data bits, no parity, 1 stop bit)
+        cfsetispeed(&tty, B9600);      // Set input baud rate
+        cfsetospeed(&tty, B9600);      // Set output baud rate
+        tty.c_cflag &= ~PARENB;        // Disable parity
+        tty.c_cflag &= ~CSTOPB;        // 1 stop bit
+        tty.c_cflag &= ~CSIZE;
+        tty.c_cflag |= CS8;            // 8 data bits
+        tty.c_cflag &= ~CRTSCTS;       // Disable flow control
+        tty.c_cflag |= CREAD | CLOCAL; // Enable reading and disable modem control
+
+        // Apply the serial port configuration
+        if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
+            perror("Error applying serial port configuration");
+            close(serial_port);
+            return -1;
+        }
+
+        // Read from the serial port
+        bytes_read = read(serial_port, read_buffer, sizeof(read_buffer) - 1);
+        if (bytes_read == -1) {
+            perror("Error reading from the serial port");
+            close(serial_port);
+            return -1;
+        }
+
+        // Add the null terminator to the read string
+        read_buffer[bytes_read] = '\0';
+
+        // Display the response from the Arduino
+        printf("Response from Arduino: %s\n", read_buffer);
+
+        // Close the serial port
+        close(serial_port);
+    }
+
+    printf("Command executed successfully.\n");
     return 0;
 }
