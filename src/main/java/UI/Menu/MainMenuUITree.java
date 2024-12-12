@@ -1,13 +1,13 @@
 package UI.Menu;
 
-import UI.Domain.US15.CriticalPathOperationsUI;
-import UI.Domain.US09.ShowTreeUI;
-import UI.Domain.US10.SearchUI;
-import UI.Domain.US11.TrackingQuantitiesUI;
-import UI.Domain.US12.QualityChecksUI;
-import UI.Domain.US13.UpdateMaterialQuantitiesUI;
-import UI.Domain.US14.TotalQuantityMaterialsAndOperationsUI;
-import UI.Domain.US16.SimulateProcessTreeUI;
+import UI.Domain.USEI.US15.CriticalPathOperationsUI;
+import UI.Domain.USEI.US09.ShowTreeUI;
+import UI.Domain.USEI.US10.SearchUI;
+import UI.Domain.USEI.US11.TrackingQuantitiesUI;
+import UI.Domain.USEI.US12.QualityChecksUI;
+import UI.Domain.USEI.US13.UpdateMaterialQuantitiesUI;
+import UI.Domain.USEI.US14.TotalQuantityMaterialsAndOperationsUI;
+import UI.Domain.USEI.US16.SimulateProcessTreeUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
 import UI.graphGenerator.OperationStructureGraphUI;

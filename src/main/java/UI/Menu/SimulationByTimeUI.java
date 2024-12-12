@@ -1,11 +1,11 @@
 package UI.Menu;
 
-import UI.Domain.US02.SimulateProcessTimeUI;
-import UI.Domain.US04.ListExecutionTimeUI;
-import UI.Domain.US03.TotalTimeUI;
-import UI.Domain.US05.WorkstationTimeUI;
-import UI.Domain.US06.AverageAndWaitingTimesUI;
-import UI.Domain.US07.FlowDependencyUI;
+import UI.Domain.USEI.US02.SimulateProcessTimeUI;
+import UI.Domain.USEI.US04.ListExecutionTimeUI;
+import UI.Domain.USEI.US03.TotalTimeUI;
+import UI.Domain.USEI.US05.WorkstationTimeUI;
+import UI.Domain.USEI.US06.AverageAndWaitingTimesUI;
+import UI.Domain.USEI.US07.FlowDependencyUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
 

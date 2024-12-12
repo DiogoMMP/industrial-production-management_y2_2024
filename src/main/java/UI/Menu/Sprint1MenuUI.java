@@ -1,10 +1,10 @@
 package UI.Menu;
 
-import UI.Domain.BDDAD.US5.US5UI;
-import UI.Domain.BDDAD.US6.US6UI;
-import UI.Domain.BDDAD.US7.US7UI;
-import UI.Domain.BDDAD.US8.US8UI;
-import UI.Domain.BDDAD.US9.US9UI;
+import UI.Domain.USBD.US05.US5UI;
+import UI.Domain.USBD.US06.US6UI;
+import UI.Domain.USBD.US07.US7UI;
+import UI.Domain.USBD.US08.US8UI;
+import UI.Domain.USBD.US09.US9UI;
 import UI.Utils.Utils;
 
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ public class Sprint1MenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("USBD05 - Orders to be delivered in a time frame", new US5UI()));
-            options.add(new MenuItem("USBD06 - Types of workstations in a given Order", new US6UI()));
-            options.add(new MenuItem("USBD07 - Materials/Components necessary to fulfill an order", new US7UI()));
-            options.add(new MenuItem("USBD08 - Different operations the factory supports", new US8UI()));
-            options.add(new MenuItem("USBD09 - Operation sequence and workstation type from a given product", new US9UI()));
+            options.add(new MenuItem("Orders in Time Frame", new US5UI()));
+            options.add(new MenuItem("Workstations by Order", new US6UI()));
+            options.add(new MenuItem("Materials for an Order", new US7UI()));
+            options.add(new MenuItem("Supported Operations", new US8UI()));
+            options.add(new MenuItem("Operation Sequence by Product", new US9UI()));
 
             int option = 0;
             do {
