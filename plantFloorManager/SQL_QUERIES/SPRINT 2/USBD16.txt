@@ -75,15 +75,17 @@ BEGIN
     INSERT INTO Part (Part_ID, Part_Description)
     VALUES (p_product_id, p_part_description);
 
+    INSERT INTO Internal_Part (Part_ID) VALUES (p_product_id);
+
     -- Insert the new product
     INSERT INTO Product (
         Product_ID, Product_Name, Factory_Plant_ID,
         Market_Demand, Optimization, Production_Cost, Flexibility,
-        Family_ID, Part_ID
+        Family_ID
     ) VALUES (
         p_product_id, p_product_name, p_factory_plant_id,
         p_market_demand, p_optimization, p_production_cost, p_flexibility,
-        p_family_id, p_product_id
+        p_family_id
     );
 
     -- Commit the transaction
@@ -131,7 +133,7 @@ END add_product;
 
 -- Scenario 1: Successful insertion
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P001', -- Product ID
@@ -151,7 +153,7 @@ END;
 
 -- Scenario 2: Duplicate Product_ID
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P001', -- Duplicate Product ID
@@ -171,7 +173,7 @@ END;
 
 -- Scenario 3: Null Product Name (should fail)
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P002', -- Product ID
@@ -191,7 +193,7 @@ END;
 
 -- Scenario 4: Null Part Description (should fail)
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P003', -- Product ID
@@ -211,7 +213,7 @@ END;
 
 -- Scenario 5: Invalid Factory Plant ID (should fail)
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P005', -- Product ID
@@ -231,7 +233,7 @@ END;
 
 -- Scenario 6: Null Family ID (should fail)
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P007', -- Product ID
@@ -251,7 +253,7 @@ END;
 
 -- Scenario 7: Non-existing Family ID (should fail)
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P008', -- Product ID
@@ -271,7 +273,7 @@ END;
 
 -- Scenario 8: Successful insertion with default values
 DECLARE
-    v_result VARCHAR2(50);
+    v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
         'P009', -- Product ID
