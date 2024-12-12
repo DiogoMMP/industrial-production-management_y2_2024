@@ -8,6 +8,7 @@ import UI.Domain.USBD.US08.US8UI;
 import UI.Domain.USBD.US09.US9UI;
 import UI.Utils.Utils;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Sprint1MenuUI implements Runnable {
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    new Sprint1MenuUI().run();
+                    new DatabaseManagementMenuUI().run();
                 }
 
             } while (true);

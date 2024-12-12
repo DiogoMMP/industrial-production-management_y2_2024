@@ -11,9 +11,9 @@ public class DatabaseManagementMenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> sprints = new ArrayList<>();
-            sprints.add(new MenuItem("Sprint 1", new Sprint1MenuUI()));
-            sprints.add(new MenuItem("Sprint 2", new Sprint2MenuUI()));
-            sprints.add(new MenuItem("Sprint 3", new Sprint3MenuUI()));
+            sprints.add(new MenuItem("Sprint 1: Project Overview and Operations", new Sprint1MenuUI()));
+            sprints.add(new MenuItem("Sprint 2: Product Registration and Customer Management", new Sprint2MenuUI()));
+            sprints.add(new MenuItem("Sprint 3: Manage Operations and Materials", new Sprint3MenuUI()));
 
             int sprintOption = 0;
             do {
@@ -22,7 +22,7 @@ public class DatabaseManagementMenuUI implements Runnable {
                 if ((sprintOption >= 0) && (sprintOption < sprints.size())) {
                     sprints.get(sprintOption).run();
                 } else if (sprintOption == -1) {
-                    new DatabaseManagementMenuUI().run();
+                    new MainMenuUI().run();
                 }
 
             } while (true);

@@ -32,7 +32,7 @@ public class Sprint3MenuUI implements Runnable {
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    new Sprint3MenuUI().run();
+                    new DatabaseManagementMenuUI().run();
                 }
 
             } while (true);

@@ -14,6 +14,7 @@ CREATE OR REPLACE FUNCTION add_product(
 
     -- Exception declarations
     PRODUCT_EXIST EXCEPTION;
+	PART_EXIST EXCEPTION;
     PRODUCT_FAMILY_NOT_EXIST EXCEPTION;
     PRODUCT_FACTORY_NOT_EXIST EXCEPTION;
     PRODUCT_NAME_NULL EXCEPTION;
@@ -44,13 +45,22 @@ BEGIN
         RAISE FAMILY_ID_NULL;
     END IF;
 
-    -- Check if the product already exists
-    SELECT COUNT(*) INTO dummy
+	-- Check if the product already exists
+	SELECT COUNT(*) INTO dummy
     FROM Product
     WHERE Product_ID = p_product_id;
 
-    IF dummy > 0 THEN
+	IF dummy > 0 THEN
         RAISE PRODUCT_EXIST;
+    END IF;
+
+    -- Check if the part already exists
+    SELECT COUNT(*) INTO dummy
+    FROM Part
+    WHERE Part_ID = p_product_id;
+
+    IF dummy > 0 THEN
+        RAISE PART_EXIST;
     END IF;
 
     -- Check if the family ID exists
@@ -96,8 +106,11 @@ BEGIN
 
 EXCEPTION
     WHEN PRODUCT_EXIST THEN
+    	ROLLBACK;
+		RETURN 'Error: Product with ID "' || p_product_id || '" already exists.';
+    WHEN PART_EXIST THEN
         ROLLBACK;
-        RETURN 'Error: Product with ID "' || p_product_id || '" already exists.';
+        RETURN 'Error: Part with ID "' || p_product_id || '" already exists.';
     WHEN PRODUCT_FAMILY_NOT_EXIST THEN
         ROLLBACK;
         RETURN 'Error: Family with ID "' || p_family_id || '" does not exist.';
@@ -136,14 +149,14 @@ DECLARE
     v_result VARCHAR2(500);
 BEGIN
     v_result := add_product(
-        'P001', -- Product ID
-        'Test Product', -- Product Name
-        'Description of Test Product', -- Part Description
+        'PN52384R50', -- Product ID
+        'xx', -- Product Name
+        'xx', -- Part Description
         1, -- Factory Plant ID
-        100, -- Market Demand
-        80, -- Optimization
-        200, -- Production Cost
-        50, -- Flexibility
+        12, -- Market Demand
+        12, -- Optimization
+        12, -- Production Cost
+        12, -- Flexibility
         125 -- Family ID
     );
     DBMS_OUTPUT.PUT_LINE('Scenario 1 - Successful Insertion: ' || v_result);

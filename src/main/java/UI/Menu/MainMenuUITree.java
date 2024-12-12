@@ -10,8 +10,8 @@ import UI.Domain.USEI.US14.TotalQuantityMaterialsAndOperationsUI;
 import UI.Domain.USEI.US16.SimulateProcessTreeUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
-import UI.graphGenerator.OperationStructureGraphUI;
-import UI.graphGenerator.ProductStructureGraphUI;
+import UI.Domain.USLP.graphGenerator.OperationStructureGraphUI;
+import UI.Domain.USLP.graphGenerator.ProductStructureGraphUI;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package UI.graphGenerator;
+package UI.Domain.USLP.graphGenerator;
 
 import UI.Utils.Utils;
 import graphic_representation.OperationStructureGraph;
