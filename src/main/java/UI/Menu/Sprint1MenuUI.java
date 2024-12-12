@@ -1,5 +1,6 @@
 package UI.Menu;
 
+import UI.Domain.USBD.US01.US01UI;
 import UI.Domain.USBD.US05.US5UI;
 import UI.Domain.USBD.US06.US6UI;
 import UI.Domain.USBD.US07.US7UI;
@@ -15,6 +16,7 @@ public class Sprint1MenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
+            options.add(new MenuItem("Glossary", new US01UI()));
             options.add(new MenuItem("Orders in Time Frame", new US5UI()));
             options.add(new MenuItem("Workstations by Order", new US6UI()));
             options.add(new MenuItem("Materials for an Order", new US7UI()));

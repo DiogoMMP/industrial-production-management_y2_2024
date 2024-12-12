@@ -23,7 +23,7 @@ public class ExportScheduleToCSVUI implements Runnable {
 
         // Ask the user if they want to open the generated CSV file
         if (Utils.confirm("Do you want to open the generated CSV file in the default application? (Y/N)")) {
-            Utils.openInEditor(OUTPUTPATH);  // Open the generated CSV file in the default application
+            Utils.openInExcel(OUTPUTPATH);  // Open the generated CSV file in the default application
         }
 
         Utils.goBackAndWait();

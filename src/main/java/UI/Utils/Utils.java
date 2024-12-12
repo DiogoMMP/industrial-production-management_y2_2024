@@ -250,7 +250,13 @@ public class Utils {
         }
     }
 
-    public static void openInEditor(File file) {
+    /**
+     * Opens the specified file in Microsoft Excel, Notepad, or the default text editor.
+     *
+     * @param file The file to open.
+     * @author Diogo Pereira
+     */
+    public static void openInExcel(File file) {
         try {
             if (!file.exists()) {
                 System.err.println("File does not exist: " + file.getAbsolutePath());
@@ -261,30 +267,30 @@ public class Utils {
             String filePath = file.getAbsolutePath();
 
             if (os.contains("win")) {
-                // Windows: tenta abrir com o Microsoft Excel
+                // Windows: try to open with Excel
                 try {
-                    // Verifica se o Excel está disponível
+                    // Verify if Excel is installed
                     Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "excel", filePath});
                 } catch (IOException e) {
-                    // Se falhar, abre no Bloco de Notas
+                    // If it fails, open with Notepad
                     System.err.println("Excel not found, opening with Notepad...");
                     Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "notepad", filePath});
                 }
             } else if (os.contains("mac")) {
-                // macOS: tenta abrir com o Excel
+                // MacOS: try to open with Excel
                 try {
                     Runtime.getRuntime().exec(new String[]{"open", "-a", "Microsoft Excel", filePath});
                 } catch (IOException e) {
-                    // Se falhar, abre no editor padrão (como TextEdit)
+                    // If it fails, open with the default editor
                     System.err.println("Excel not found, opening with default editor...");
                     Runtime.getRuntime().exec(new String[]{"open", filePath});
                 }
             } else if (os.contains("nix") || os.contains("nux")) {
-                // Linux: tenta abrir no editor padrão (como LibreOffice Calc, se disponível)
+                // Linux: try to open with the default text editor
                 try {
                     Runtime.getRuntime().exec(new String[]{"xdg-open", filePath});
                 } catch (IOException e) {
-                    // Se falhar, abre no Bloco de Notas (ou equivalente)
+                    // If it fails, open with the default text editor
                     System.err.println("Error opening file, opening with default text editor...");
                     Runtime.getRuntime().exec(new String[]{"xdg-open", filePath});
                 }
@@ -293,6 +299,40 @@ public class Utils {
             }
         } catch (IOException e) {
             System.err.println("Error opening file in the editor: " + file.getAbsolutePath());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Opens the specified file in Visual Studio Code.
+     *
+     * @param file The file to open.
+     * @author Diogo Pereira
+     */
+    public static void openInVSCode(File file) {
+        try {
+            if (!file.exists()) {
+                System.err.println("File does not exist: " + file.getAbsolutePath());
+                return;
+            }
+
+            String os = System.getProperty("os.name").toLowerCase();
+            String filePath = file.getAbsolutePath();
+
+            if (os.contains("win")) {
+                // Windows: usa o comando 'code' para abrir o VS Code
+                Runtime.getRuntime().exec(new String[]{"cmd", "/c", "code", filePath});
+            } else if (os.contains("mac")) {
+                // MacOS: usa o comando 'code' para abrir o VS Code
+                Runtime.getRuntime().exec(new String[]{"code", filePath});
+            } else if (os.contains("nix") || os.contains("nux")) {
+                // Linux: usa o comando 'code' para abrir o VS Code
+                Runtime.getRuntime().exec(new String[]{"code", filePath});
+            } else {
+                System.err.println("Unsupported OS: " + os);
+            }
+        } catch (IOException e) {
+            System.err.println("Error opening file in Visual Studio Code: " + file.getAbsolutePath());
             e.printStackTrace();
         }
     }
