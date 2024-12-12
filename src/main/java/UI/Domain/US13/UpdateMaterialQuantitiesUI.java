@@ -55,13 +55,15 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
         System.out.print("Enter the new quantity for " + selectedMaterial.getName() + ": ");
         double newQuantity = scanner.nextDouble();
 
+        // Update the quantities of the children in cascade
+        productionTree.updateChildrenQuantities(selectedMaterial.getID(), newQuantity);
+
         // Update the quantity using the ProductionTree methods
         productionTree.updateQuantities(selectedMaterial.getID(), newQuantity);
         System.out.println("Quantity updated successfully.");
     }
 
     private void showTree() {
-        productionTree.buildProductionTree(productionTree.getRoot().getValue());
         toIndentedStringForObjective();
     }
 

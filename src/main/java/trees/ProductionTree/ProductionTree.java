@@ -5,6 +5,7 @@ import repository.BOORepository;
 import repository.Instances;
 import repository.ItemsRepository;
 import repository.OperationsMapRepository;
+
 import java.util.*;
 
 import trees.heap.Entry;
@@ -23,7 +24,6 @@ public class ProductionTree {
 
     /**
      * Constructs a production tree with the specified main objective.
-     *
      */
     public ProductionTree() {
         this.root = null;
@@ -34,6 +34,7 @@ public class ProductionTree {
 
     /**
      * Returns the root of the production tree.
+     *
      * @return the root of the production tree
      */
     public TreeNode<String> getRoot() {
@@ -42,6 +43,7 @@ public class ProductionTree {
 
     /**
      * Sets the root of the production tree.
+     *
      * @param root the root of the production tree
      */
     public void setRoot(TreeNode<String> root) {
@@ -51,6 +53,7 @@ public class ProductionTree {
 
     /**
      * Returns the priority queue for quality checks.
+     *
      * @return the priority queue for quality checks
      */
     public HeapPriorityQueue<Integer, String> getQualityCheckQueue() {
@@ -59,6 +62,7 @@ public class ProductionTree {
 
     /**
      * Sets the priority queue for quality checks.
+     *
      * @param qualityCheckQueue the priority queue for quality checks
      */
     public void setQualityCheckQueue(HeapPriorityQueue<Integer, String> qualityCheckQueue) {
@@ -67,6 +71,7 @@ public class ProductionTree {
 
     /**
      * Builds the production tree with the specified main objective.
+     *
      * @param mainObjectiveID the ID of the main objective
      * @return the root of the production tree
      */
@@ -108,10 +113,11 @@ public class ProductionTree {
 
     /**
      * Builds the subtree of the production tree recursively.
-     * @param currentOperationID the ID of the current operation
-     * @param parent the parent node of the current operation
-     * @param booData the data from the Bill of Operations
-     * @param itemNames the map of item IDs to item names
+     *
+     * @param currentOperationID    the ID of the current operation
+     * @param parent                the parent node of the current operation
+     * @param booData               the data from the Bill of Operations
+     * @param itemNames             the map of item IDs to item names
      * @param operationDescriptions the map of operation IDs to operation descriptions
      */
     private void buildSubTree(
@@ -197,7 +203,7 @@ public class ProductionTree {
 
                 if (Objects.equals(productID, mainObjectiveID)) {
                     productNode.setType(NodeType.PRODUCT);
-                }else if (!hasOperations && productNode.getChildren().isEmpty()) {
+                } else if (!hasOperations && productNode.getChildren().isEmpty()) {
                     productNode.setType(NodeType.RAW_MATERIAL); // If no children, it's a raw material
                 } else if (!productNode.getChildren().isEmpty()) {
                     productNode.setType(NodeType.COMPONENT); // If it has children, it's a component
@@ -208,6 +214,7 @@ public class ProductionTree {
 
     /**
      * Finds the indices of the parentheses in the input array.
+     *
      * @param inputArray the array to search for parentheses
      * @param startIndex the index to start searching from in the array
      * @return an array with the indices of the opening and closing parentheses
@@ -237,6 +244,7 @@ public class ProductionTree {
 
     /**
      * Counts the number of elements between parentheses in the input array.
+     *
      * @param inputArray the array to count the elements from between parentheses
      * @param startIndex the index to start counting from in the array
      * @return the number of elements between parentheses
@@ -265,6 +273,7 @@ public class ProductionTree {
 
     /**
      * Finds the index of the start of the materials section in the input array.
+     *
      * @param inputArray the array to search for the materials section
      * @return the index of the start of the materials section
      */
@@ -279,6 +288,7 @@ public class ProductionTree {
 
     /**
      * Counts the number of operations in the input array.
+     *
      * @param inputArray the array to count the operations from
      * @return the number of operations in the input array
      */
@@ -288,6 +298,7 @@ public class ProductionTree {
 
     /**
      * Counts the number of materials in the input array.
+     *
      * @param inputArray the array to count the materials from
      * @return the number of materials in the input array
      */
@@ -298,6 +309,7 @@ public class ProductionTree {
 
     /**
      * Finds the index of the start of the materials section in the input array.
+     *
      * @param inputArray the array to search for the materials section
      * @return the index of the start of the materials section
      */
@@ -307,6 +319,7 @@ public class ProductionTree {
 
     /**
      * Searches for a node in the production tree by its ID or name.
+     *
      * @param id the ID of the operation or material to search for
      * @return a map with details such as type, quantity (for materials), and parent operation if applicable
      */
@@ -332,7 +345,7 @@ public class ProductionTree {
             TreeNode<String> parentOperation = node.getOperationParent();
             if (parentOperation != null) {
                 result.put("Parent Operation", parentOperation.getValue());
-            }else {
+            } else {
                 result.put("Parent Operation", "None");
             }
 
@@ -356,6 +369,7 @@ public class ProductionTree {
 
     /**
      * Searches for a node in the production tree by its ID or name.
+     *
      * @param name the name of the operation or material to search for
      * @return a map with details such as type, quantity (for materials), and parent operation if applicable
      */
@@ -373,6 +387,7 @@ public class ProductionTree {
 
     /**
      * Extracts the quantity from a material string.
+     *
      * @param material the material string to extract the quantity from
      * @return the quantity of the material
      */
@@ -386,6 +401,7 @@ public class ProductionTree {
 
     /**
      * Displays the production tree in a human-readable format.
+     *
      * @param node the current node in the production tree
      * @return the string representation of the production tree
      */
@@ -400,6 +416,7 @@ public class ProductionTree {
 
     /**
      * Calculates the depth of a node in the production tree.
+     *
      * @param depth the depth of the node
      * @return the priority for the depth
      */
@@ -461,6 +478,7 @@ public class ProductionTree {
 
     /**
      * Prioritizes the critical path of the production tree based on the depth of operations.
+     *
      * @param root the root of the production tree
      */
     public void prioritizeCriticalPath(TreeNode<String> root) {
@@ -486,7 +504,8 @@ public class ProductionTree {
 
     /**
      * Traverses the production tree and adds operations to a priority queue based on depth.
-     * @param node the current node in the production tree
+     *
+     * @param node  the current node in the production tree
      * @param queue the priority queue to store operations by depth
      */
     private void traverseAndAddToHeap(TreeNode<String> node, HeapPriorityQueue<Integer, TreeNode<String>> queue) {
@@ -502,6 +521,7 @@ public class ProductionTree {
 
     /**
      * Displays the critical path of the production tree in sequence.
+     *
      * @param root the root of the production tree
      */
     public void displayCriticalPathInSequence(TreeNode<String> root) {
@@ -511,6 +531,7 @@ public class ProductionTree {
 
     /**
      * Traverses the critical path of the production tree in reverse order.
+     *
      * @param node the current node in the production tree
      */
     public void traverseCriticalPath(TreeNode<String> node) {
@@ -545,9 +566,10 @@ public class ProductionTree {
 
     /**
      * Calculates the total quantity of materials and time needed for the production.
-     * @param materialQuantities the map to store the total quantity of materials
+     *
+     * @param materialQuantities  the map to store the total quantity of materials
      * @param operationQuantities the map to store the total time needed for operations
-     * @param root the root of the production tree
+     * @param root                the root of the production tree
      */
     public void calculateTotals(Map<String, Double> materialQuantities, Map<String, Double> operationQuantities, TreeNode<String> root) {
         traverseTree(root, materialQuantities, operationQuantities);
@@ -555,8 +577,9 @@ public class ProductionTree {
 
     /**
      * Traverses the production tree and calculates the total quantity of materials and time needed.
-     * @param node the current node in the production tree
-     * @param materialQuantities the map to store the total quantity of materials
+     *
+     * @param node                the current node in the production tree
+     * @param materialQuantities  the map to store the total quantity of materials
      * @param operationQuantities the map to store the total time needed for operations
      */
     public void traverseTree(TreeNode<String> node, Map<String, Double> materialQuantities, Map<String, Double> operationQuantities) {
@@ -650,7 +673,8 @@ public class ProductionTree {
 
     /**
      * Updates the quantities of materials in the production tree.
-     * @param materialID the ID of the material to update
+     *
+     * @param materialID  the ID of the material to update
      * @param newQuantity the new quantity of the material
      */
     public void updateQuantities(String materialID, double newQuantity) {
@@ -670,6 +694,39 @@ public class ProductionTree {
             value = materialName + " (Quantity: " + newQuantity + ")";
             node.setValue(value);
             System.out.println("Updated quantity for " + materialName + " from " + oldQuantity + " to " + newQuantity);
+        }
+    }
+
+    public void updateChildrenQuantities(String materialID, double parentNewQuantity) {
+        TreeNode<String> node = nodesMap.get(materialID);
+        if (node == null) {
+            System.out.println("Material not found in the production tree.");
+            return;
+        }
+        updateChildrenQuantitiesRecursive(node, parentNewQuantity);
+    }
+
+    private void updateChildrenQuantitiesRecursive(TreeNode<String> node, double parentNewQuantity) {
+        if (node == null) {
+            return;
+        }
+
+        for (TreeNode<String> child : node.getChildren()) {
+            String value = child.getValue();
+            int startIndex = value.indexOf("(Quantity: ");
+            int endIndex = value.indexOf(')', startIndex);
+            if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                String childName = value.substring(0, startIndex).trim();
+                String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+                double oldQuantity = Double.parseDouble(quantityStr);
+                double newQuantity = oldQuantity * parentNewQuantity; // Adjust the quantity based on the parent's new quantity
+                value = childName + " (Quantity: " + newQuantity + ")";
+                child.setValue(value);
+                System.out.println("Updated quantity for " + childName + " to " + newQuantity);
+
+                // Recursively update the quantities of the child's children
+                updateChildrenQuantitiesRecursive(child, newQuantity);
+            }
         }
     }
 }
