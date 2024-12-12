@@ -1,6 +1,7 @@
 package projectManager;
 
 import domain.Activity;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repository.ActivitiesMapRepository;
@@ -73,5 +74,9 @@ class CalculateTimesTest {
         assertTrue(activityN.getSlack() > 0.0);
         assertEquals(activityN.getLatestStart() - activityN.getEarliestStart(), activityN.getSlack());
         assertEquals(activityN.getLatestFinish() - activityN.getEarliestFinish(), activityN.getSlack());
+    }
+    @AfterAll
+    static void tearDownAll() {
+        Instances.getInstance().clear();
     }
 }

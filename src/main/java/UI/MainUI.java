@@ -10,7 +10,6 @@ public class MainUI {
             oracleDataExporter.run();
             StartMenuUI startMenuUI = new StartMenuUI();
             startMenuUI.run();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

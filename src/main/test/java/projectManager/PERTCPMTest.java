@@ -3,6 +3,7 @@ package projectManager;
 import domain.Activity;
 import graph.Edge;
 import graph.map.MapGraph;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -227,5 +228,10 @@ class PERTCPMTest {
         // Calculate the total project duration without any delays
         double totalProjectDuration = pertCPM.calculateTotalProjectDuration();
         assertEquals(12.0, totalProjectDuration);
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        Instances.getInstance().clear();
     }
 }

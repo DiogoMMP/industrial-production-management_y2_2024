@@ -1,9 +1,6 @@
 package prodPlanSimulator;
 
-import domain.Activity;
-import domain.Item;
-import domain.Material;
-import domain.Workstation;
+import domain.*;
 import repository.HashMap_Items_Machines;
 import repository.Instances;
 import repository.ItemsRepository;
@@ -22,6 +19,7 @@ import java.util.*;
 public class Simulator {
     private LinkedHashMap<String, Double> timeOperations;
     private AVL<BOO> bombooTree;
+    ProductionTree productionTree;
 
     /**
      * Constructor for the Simulator
@@ -32,6 +30,7 @@ public class Simulator {
 
     /**
      * Simulate the process of all the items present in the system. And this method is used to reset everything when used by the simulator.
+     *
      * @return LinkedHashMap<String, Double> where String is the operation and Double is the time taken to complete the operation.
      */
     public LinkedHashMap<String, Double> simulateProcessUS02() {
@@ -52,8 +51,9 @@ public class Simulator {
 
     /**
      * Simulate the process of all the items present in the system. And this method is used to reset everything when used by the simulator.
+     *
      * @param workstations List of machines
-     * @param items List of items
+     * @param items        List of items
      * @return LinkedHashMap<String, Double> where String is the operation and Double is the time taken to complete the operation.
      */
     private LinkedHashMap<String, Double> SimulatorReset(ArrayList<Workstation> workstations, ArrayList<Item> items) {
@@ -131,8 +131,8 @@ public class Simulator {
     /**
      * Fills the operationsQueue with the list of the items for each operation
      *
-     * @param materials       List with the materials
-     * @param operationsQueue HashMap with the operations and the list of items
+     * @param materials         List with the materials
+     * @param operationsQueue   HashMap with the operations and the list of items
      * @param postOrderElements List with the post order elements
      */
     private static void fillOperationsQueue(ArrayList<Material> materials, LinkedHashMap<String, LinkedList<Material>> operationsQueue, List<BOO> postOrderElements) {
@@ -164,6 +164,7 @@ public class Simulator {
         sortItemsByTime(items, workstations);
         addAllItems(operationsQueue, workstations, items, quantMachines);
     }
+
     /**
      * Assigns the items to the machines
      *
@@ -275,11 +276,11 @@ public class Simulator {
     /**
      * Adds the operations to the machines for each item
      *
-     * @param operation         Operation to add the item
-     * @param workstations      List of machines
-     * @param material          Material to add to the machine
-     * @param quantMachines     Quantity of machines
-     * @param operationsQueue   HashMap with the operations and the list of items
+     * @param operation       Operation to add the item
+     * @param workstations    List of machines
+     * @param material        Material to add to the machine
+     * @param quantMachines   Quantity of machines
+     * @param operationsQueue HashMap with the operations and the list of items
      * @return Quantity of machines
      */
     private int addOperationsWithSteps(String operation, ArrayList<Workstation> workstations, Material material, int quantMachines, HashMap<String, LinkedList<Material>> operationsQueue) {
@@ -497,7 +498,7 @@ public class Simulator {
     /**
      * Checks if there are any machines left
      *
-     * @param machines List of machines
+     * @param machines      List of machines
      * @param quantMachines Quantity of machines
      * @return Quantity of machines
      */
@@ -551,8 +552,42 @@ public class Simulator {
     }
 
     /**
+     * Simulates the process of all the orders present in the system
+     */
+    public LinkedHashMap<LinkedHashMap<Order,String>, List<LinkedHashMap<String, Double>>> simulateOrders() {
+        LinkedHashMap<LinkedHashMap<Order,String>, List<LinkedHashMap<String, Double>>> ordersTimes = new LinkedHashMap<>();
+        List<Order> orders = Instances.getInstance().getOrdersRepository().getOrders();
+        sortOrdersByPriority(orders);
+        for (Order order : orders) {
+            LinkedHashMap<Order,String> orderItems = new LinkedHashMap<>();
+            List<LinkedHashMap<String, Double>> timeOperationsOrder = new ArrayList<>();
+            int index = 0;
+            for (String itemID : order.getItemsIdList()) {
+                orderItems.put(order, itemID);
+                productionTree = Instances.getInstance().getProductionTree();
+                productionTree.buildProductionTree(itemID);
+                productionTree.updateQuantities(itemID, order.getQuantity().get(index));
+                LinkedHashMap<String, Double> timeOperations = simulateBOMBOO();
+                timeOperationsOrder.add(timeOperations);
+            }
+            ordersTimes.put(orderItems, timeOperationsOrder);
+        }
+        return ordersTimes;
+    }
+
+    /**
+     * Sorts the orders by priority
+     *
+     * @param orders List of orders
+     */
+    private void sortOrdersByPriority(List<Order> orders) {
+        orders.sort(Comparator.comparing(Order::getPriority));
+    }
+
+    /**
      * Fills the operationsQueue with the list of the items for each operation
-     * @param materials List with the materials
+     *
+     * @param materials         List with the materials
      * @param filteredMaterials List with the filtered materials
      */
     private void fillItemsWithMaterials(LinkedHashMap<Integer, BOO> materials, ArrayList<Material> filteredMaterials) {
@@ -577,11 +612,12 @@ public class Simulator {
 
     /**
      * Creates the BOMBOO tree
-     * @param node TreeNode<String> with the root of the tree
+     *
+     * @param node      TreeNode<String> with the root of the tree
      * @param materials LinkedHashMap<Integer, BOO> with the materials
      * @return List<BOO> with the post order elements
      */
-    private List<BOO> createBOMBOOTree(TreeNode<String> node,LinkedHashMap<Integer, BOO> materials) {
+    private List<BOO> createBOMBOOTree(TreeNode<String> node, LinkedHashMap<Integer, BOO> materials) {
         BOO root = new BOO();
         createBOMBOOTree(node, root);
         List<BOO> postOrder = bombooTree.getAllNodes();
@@ -594,6 +630,7 @@ public class Simulator {
 
     /**
      * Changes the order of the post order elements
+     *
      * @param postOrder List<BOO> with the post order elements
      * @return Iterable<BOO> with the post order elements
      */
@@ -607,7 +644,8 @@ public class Simulator {
 
     /**
      * Fills the materials
-     * @param materials LinkedHashMap<Integer, BOO> with the materials
+     *
+     * @param materials         LinkedHashMap<Integer, BOO> with the materials
      * @param postOrderElements Iterable<BOO> with the post order elements
      */
     private void fillMaterials(LinkedHashMap<Integer, BOO> materials, Iterable<BOO> postOrderElements) {
@@ -619,6 +657,7 @@ public class Simulator {
 
     /**
      * Creates the BOMBOO tree
+     *
      * @param node TreeNode<String> with the root of the tree
      */
     private void createBOMBOOTree(TreeNode<String> node, BOO firstElement) {
@@ -695,6 +734,7 @@ public class Simulator {
 
     /**
      * Sets the timeOperations
+     *
      * @param timeOperations LinkedHashMap<String, Double> where String is the operation and Double is the time taken to complete the operation.
      */
     public void setTimeOperations(LinkedHashMap<String, Double> timeOperations) {

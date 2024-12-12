@@ -13,20 +13,21 @@ public class DataInitializer implements Runnable {
     private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
     private BOORepository booRepository = Instances.getInstance().getBOORepository();
     private ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
-
+    private OrdersRepository ordersRepository = Instances.getInstance().getOrdersRepository();
     /**
      * Initialize the data
      * @param pathArt path to the articles file
      * @param pathWor path to the workstations file
      * @throws FileNotFoundException if the file is not found
      */
-    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp, String pathWor2, String pathAct) throws FileNotFoundException {
+    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp, String pathWor2, String pathAct, String pathOrd) throws FileNotFoundException {
             map2.addAll(pathArt, pathWor);
             map.addAll(pathOp, pathItems, pathWor2);
             itemsRepository.addItems(pathItems);
             operationsMapRepository.addOperations(pathOp);
             booRepository.addBOOList(pathBoo);
             activitiesMapRepository.addActivities(pathAct);
+            ordersRepository.addOrders(pathOrd);
     }
 
     /**
@@ -43,6 +44,7 @@ public class DataInitializer implements Runnable {
             String pathArt;
             String pathWor;
             String pathAct;
+            String pathOrders;
             boolean success = false;
 
             while (!success) {
@@ -71,6 +73,7 @@ public class DataInitializer implements Runnable {
                         pathItems = "items.csv";
                         pathOp = "operations.csv";
                         pathAct = "activities.csv";
+                        pathOrders = "orders_exported.csv";
                         break;
                     case 2:
                         pathArt = "articles_sprint1.csv";
@@ -80,6 +83,7 @@ public class DataInitializer implements Runnable {
                         pathItems = "items_exported.csv";
                         pathOp = "operations_exported.csv";
                         pathAct = "activities.csv";
+                        pathOrders = "orders_exported.csv";
                         break;
                     case 3:
                         pathArt = Utils.readLineFromConsole("Articles: ");
@@ -89,6 +93,7 @@ public class DataInitializer implements Runnable {
                         pathItems = Utils.readLineFromConsole("Items: ");
                         pathOp = Utils.readLineFromConsole("Operations: ");
                         pathAct = Utils.readLineFromConsole("Activities: ");
+                        pathOrders = Utils.readLineFromConsole("Orders: ");
                         break;
                     case 0:
                         MainMenuUI mainMenuUI = new MainMenuUI();
@@ -100,7 +105,7 @@ public class DataInitializer implements Runnable {
                 }
 
                 try {
-                    init(pathArt, pathWor, pathBOO, pathItems, pathOp, pathWor2, pathAct);
+                    init(pathArt, pathWor, pathBOO, pathItems, pathOp, pathWor2, pathAct, pathOrders);
                     success = true;
                 } catch (FileNotFoundException e) {
                     System.err.println("Error: File not found. Please check the file path and try again.");

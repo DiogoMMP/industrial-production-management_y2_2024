@@ -22,6 +22,7 @@ public class Instances {
     private WorkstationRepository workstationRepository;
     private ActivitiesMapRepository activitiesMapRepository;
     private PERT_CPM pert_CPM;
+    private OrdersRepository ordersRepository;
 
     private Instances() {
         hashMapItemsWorkstations = new HashMap_Items_Machines();
@@ -37,6 +38,7 @@ public class Instances {
         workstationRepository = new WorkstationRepository();
         activitiesMapRepository = new ActivitiesMapRepository();
         pert_CPM = new PERT_CPM();
+        ordersRepository = new OrdersRepository();
     }
 
     public static Instances getInstance() {
@@ -104,5 +106,13 @@ public class Instances {
 
     public PERT_CPM getPERT_CPM() {
         return pert_CPM;
+    }
+
+    public OrdersRepository getOrdersRepository() {
+        return ordersRepository;
+    }
+
+    public void clear() {
+        instance = null;
     }
 }

@@ -1,9 +1,6 @@
 package importer_and_exporter;
 
-import domain.Activity;
-import domain.Item;
-import domain.Operation;
-import domain.Workstation;
+import domain.*;
 import enums.Priority;
 import repository.Instances;
 import repository.OperationsRepository;
@@ -187,6 +184,20 @@ public class InputFileReader {
         return data;
     }
 
+    public static List<String[]> readCsvFileCommas(String filePath) {
+        List<String[]> data = new ArrayList<>();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(FILES_PATH + filePath));
+            for (int i = 1; i < lines.size(); i++) {
+                String[] values = lines.get(i).split(",");
+                data.add(values);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the CSV file: " + e.getMessage());
+        }
+        return data;
+    }
+
     /**
      * Reads activities from a CSV file and returns a map of activity IDs to Activity objects.
      * @param activitiesFileName the path to the CSV file with the activities
@@ -213,6 +224,29 @@ public class InputFileReader {
         }
 
         return activities;
+    }
+
+    public static ArrayList<Order> readOrders(String ordersFileName) {
+        List<String[]> data = readCsvFileCommas(ordersFileName);
+        Map<Integer, Order> ordersMap = new HashMap<>();
+        for (String[] orderFile : data) {
+            int id = Integer.parseInt(orderFile[0]);
+            String itemId = orderFile[1];
+            Priority priority = Priority.fromString(orderFile[2]);
+            int quantity = Integer.parseInt(orderFile[3]);
+
+            Order order = ordersMap.get(id);
+            if (order == null) {
+                List<String> itemsIdList = new ArrayList<>();
+                List<Integer> quantities = new ArrayList<>();
+                order = new Order(itemsIdList, id, priority, quantities);
+                ordersMap.put(id, order);
+            }
+            order.addItemsId(itemId);
+            order.getQuantity().add(quantity);
+        }
+
+        return new ArrayList<>(ordersMap.values());
     }
 
 }
