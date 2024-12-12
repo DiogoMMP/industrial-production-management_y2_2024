@@ -1,13 +1,13 @@
 package UI.Menu;
 
-import UI.Domain.US17.ShowPERT_CPMUI;
-import UI.Domain.US18.ShowCircularDependenciesUI;
-import UI.Domain.US19.ShowTopologicalSortUI;
-import UI.Domain.US20.ShowESLFUI;
-import UI.Domain.US21.ExportScheduleToCSVUI;
-import UI.Domain.US22.ShowCriticalPathsUI;
-import UI.Domain.US23.ShowBottleneckActivitiesUI;
-import UI.Domain.US24.SimulateProjDelaysUI;
+import UI.Domain.USEI.US17.ShowPERT_CPMUI;
+import UI.Domain.USEI.US18.ShowCircularDependenciesUI;
+import UI.Domain.USEI.US19.ShowTopologicalSortUI;
+import UI.Domain.USEI.US20.ShowESLFUI;
+import UI.Domain.USEI.US21.ExportScheduleToCSVUI;
+import UI.Domain.USEI.US22.ShowCriticalPathsUI;
+import UI.Domain.USEI.US23.ShowBottleneckActivitiesUI;
+import UI.Domain.USEI.US24.SimulateProjDelaysUI;
 import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
 

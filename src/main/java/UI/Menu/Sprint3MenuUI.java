@@ -1,12 +1,12 @@
 package UI.Menu;
 
-import UI.Domain.BDDAD.US23.US23UI;
-import UI.Domain.BDDAD.US24.US24UI;
-import UI.Domain.BDDAD.US25.US25UI;
-import UI.Domain.BDDAD.US26.US26UI;
-import UI.Domain.BDDAD.US27.US27UI;
-import UI.Domain.BDDAD.US28.US28UI;
-import UI.Domain.BDDAD.US29.US29UI;
+import UI.Domain.USBD.US23.US23UI;
+import UI.Domain.USBD.US24.US24UI;
+import UI.Domain.USBD.US25.US25UI;
+import UI.Domain.USBD.US26.US26UI;
+import UI.Domain.USBD.US27.US27UI;
+import UI.Domain.USBD.US28.US28UI;
+import UI.Domain.USBD.US29.US29UI;
 import UI.Utils.Utils;
 
 import java.util.ArrayList;
@@ -17,13 +17,13 @@ public class Sprint3MenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("USBD23 - Ensure operation execution time", new US23UI()));
-            options.add(new MenuItem("USBD24 - Avoid circular references in BOO", new US24UI()));
-            options.add(new MenuItem("USBD25 - List of product's operations", new US25UI()));
-            options.add(new MenuItem("USBD26 - Check stock for order fulfillment", new US26UI()));
-            options.add(new MenuItem("USBD27 - Reserve materials and components", new US27UI()));
-            options.add(new MenuItem("USBD28 - List of reserved materials and components", new US28UI()));
-            options.add(new MenuItem("USBD29 - Workstation types not used in any BOO", new US29UI()));
+            options.add(new MenuItem("Ensure Operation Time", new US23UI()));
+            options.add(new MenuItem("Avoid Circular References", new US24UI()));
+            options.add(new MenuItem("List Product Operations", new US25UI()));
+            options.add(new MenuItem("Check Stock for Orders", new US26UI()));
+            options.add(new MenuItem("Reserve Materials", new US27UI()));
+            options.add(new MenuItem("List Reserved Materials", new US28UI()));
+            options.add(new MenuItem("Unused Workstation Types", new US29UI()));
 
             int option = 0;
             do {
