@@ -1,11 +1,11 @@
 #include "DHT.h" // Library for DHT sensor
 
 // Define pins for binary LEDs (5 external LEDs for binary representation)
-#define LED_BIN_0 4  // Binary LED (bit 0)
-#define LED_BIN_1 8  // Binary LED (bit 1)
-#define LED_BIN_2 10 // Binary LED (bit 2)
-#define LED_BIN_3 14 // Binary LED (bit 3)
-#define LED_BIN_4 20 // Binary LED (bit 4)
+#define LED_BIN_0 0  // Binary LED (bit 0)
+#define LED_BIN_1 1  // Binary LED (bit 1)
+#define LED_BIN_2 2 // Binary LED (bit 2)
+#define LED_BIN_3 3 // Binary LED (bit 3)
+#define LED_BIN_4 4 // Binary LED (bit 4)
 
 // DHT sensor setup
 #define DHT_PIN 16       // GPIO pin for DHT sensor
