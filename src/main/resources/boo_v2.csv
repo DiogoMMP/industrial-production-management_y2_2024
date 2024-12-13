@@ -1,4 +1,4 @@
-﻿op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id1;item_qtd1;item_id1;item_qtd1;)
+﻿  op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id1;item_qtd1;item_id1;item_qtd1;)
 20;1006;1;(;11;1;;;;;);(;1014;0,125;;;;;)
 11;1010;1;(;17;1;16;4;;;);(;;;;;;;)
 17;1004;1;(;15;1;;;;;);(;1007;4;1005;12;;;)

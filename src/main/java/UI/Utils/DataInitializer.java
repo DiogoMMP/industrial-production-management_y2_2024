@@ -73,7 +73,7 @@ public class DataInitializer implements Runnable {
                         pathItems = "items.csv";
                         pathOp = "operations.csv";
                         pathAct = "activities.csv";
-                        pathOrders = "orders_exported.csv";
+                        pathOrders = "orders.csv";
                         break;
                     case 2:
                         pathArt = "articles_sprint1.csv";
