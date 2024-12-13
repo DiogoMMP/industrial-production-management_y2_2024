@@ -1,22 +1,25 @@
 SELECT DISTINCT
-    Workstation_Type
+    wt.WORKSTATION_TYPE_ID,
+    wt.Workstation_Type
 FROM
     Customer_Order co
-JOIN
+        JOIN
     Production_Order po ON co.Customer_Order_ID = po.Customer_Order_ID
-JOIN
+        JOIN
     Product_Production_Order ppo ON po.Order_ID = ppo.Production_Order_ID
-JOIN
+        JOIN
     Product p ON ppo.Product_ID = p.Product_ID
-JOIN
-    BOO boo ON p.Family_ID = boo.Product_Family_ID
-JOIN
-    Manufacturing_Operation mo ON boo.Manufacturing_Operation_ID = mo.Manufacturing_Operation_ID
-JOIN
-    Type_Industry ti ON mo.Manufacturing_Operation_ID = ti.Manufacturing_Operation_ID
-JOIN
-    Workstation_Type wt ON ti.Workstation_Type_ID = wt.Workstation_Type_ID
-JOIN
+        JOIN
+    BOO boo ON p.Product_ID = boo.Product_ID
+        JOIN
+    BOO_Input bii ON boo.Operation_ID = bii.Operation_ID AND boo.Product_ID = bii.Product_ID
+        JOIN
+    Operation op ON boo.Operation_ID = op.Operation_ID
+        JOIN
+    Workstation_Type_Operation_Type wtot ON op.Operation_Type_ID = wtot.Operation_Type_ID
+        JOIN
+    Workstation_Type wt ON wtot.Workstation_Type_ID = wt.Workstation_Type_ID
+        JOIN
     Workstation ws ON ws.Workstation_Type_ID = wt.Workstation_Type_ID
 WHERE
-    co.Customer_Order_ID = 3;
+    co.Customer_Order_ID = 4;

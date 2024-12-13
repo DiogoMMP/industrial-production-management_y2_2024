@@ -26,7 +26,7 @@ public class US26UI implements Runnable {
 
                 while (resultSet.next()) {
                     int orderId = resultSet.getInt("Customer_Order_ID");
-                    options.add(new MenuItem("Customer Order ID: " + orderId, new US7UI()));
+                    options.add(new MenuItem("Customer Order ID: " + orderId, new US26UI()));
                 }
 
                 int option;
