@@ -32,15 +32,18 @@ public class US25UI implements Runnable {
 
             // Step 4: Print the output
             ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+            System.out.println("Product Operations:");
             while (resultSet.next()) {
                 String productID = resultSet.getString("Product_ID");
-                String inputPart = resultSet.getString("Input_Part");
+                int operationID = resultSet.getInt("Operation_ID");
                 String operationDescription = resultSet.getString("Operation_Description");
                 int executionTime = resultSet.getInt("Execution_Time");
+                String partType = resultSet.getString("Part_Type");
+                String inputPart = resultSet.getString("Input_Part");
                 String outputPart = resultSet.getString("Output_Part");
 
-                System.out.printf("Product ID: %s, Input Part: %s, Operation: %s, Execution Time: %d, Output Part: %s%n",
-                        productID, inputPart, operationDescription, executionTime, outputPart);
+                System.out.printf("Product ID: %s, Operation ID: %d, Operation Description: %s, Execution Time: %d, Part Type: %s, Input Part: %s, Output Part: %s%n",
+                        productID, operationID, operationDescription, executionTime, partType, inputPart, outputPart);
             }
 
         } catch (SQLException e) {
