@@ -16,6 +16,9 @@ public class ShowTreeUI implements Runnable {
 
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
     private Map<String, String> items = Instances.getInstance().getItemsRepository().getItemsRepository();
+    private static final List<String> BOO = Instances.getInstance().getBOORepository().getBOORepository().stream()
+            .map(boo -> boo[1])
+            .collect(Collectors.toList());
 
     @Override
     public void run() {
@@ -27,7 +30,9 @@ public class ShowTreeUI implements Runnable {
 
         // Create menu options from the sorted map
         for (Map.Entry<String, String> entry : sortedItems.entrySet()) {
-            options.add(new MenuItem("Item: " + entry.getKey() + " - " + entry.getValue(), new ShowTreeUI()));
+            if (BOO.contains(entry.getKey())) {
+                options.add(new MenuItem("Item: " + entry.getKey() + " - " + entry.getValue(), new ShowTreeUI()));
+            }
         }
 
         int option = 0;

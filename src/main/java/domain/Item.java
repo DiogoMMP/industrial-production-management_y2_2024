@@ -13,7 +13,7 @@ public class Item implements Comparable<Item> {
     private String id;
     private String description;
     private Priority priority;
-    private Double quantity;
+    private String quantity;
     private List<Operation> operationsRequired;
     private List<Item> itemsRequired;
     private int currentOperationIndex;
@@ -34,7 +34,7 @@ public class Item implements Comparable<Item> {
     public Item(String id, Priority priority, List<Operation> operationsRequired, List<Item> itemsRequired) {
         this.id = id;
         this.description = "";
-        this.quantity = 0.0;
+        this.quantity = "0";
         this.priority = priority;
         this.itemsRequired = itemsRequired;
         this.operationsRequired = operationsRequired;
@@ -47,7 +47,7 @@ public class Item implements Comparable<Item> {
     public Item(String id, Priority priority, List<Operation> operationsRequired) {
         this.id = id;
         this.description = "";
-        this.quantity = 0.0;
+        this.quantity = "0";
         this.priority = priority;
         this.itemsRequired = new ArrayList<>();
         this.operationsRequired = operationsRequired;
@@ -63,7 +63,7 @@ public class Item implements Comparable<Item> {
     public Item() {
         this.id = "";
         this.description = "";
-        this.quantity = 0.0;
+        this.quantity = "0";
         this.priority = null;
         this.operationsRequired = new ArrayList<>();
         this.currentOperationIndex = 0;
@@ -78,11 +78,11 @@ public class Item implements Comparable<Item> {
         entryTimes.put(operation, time);
     }
 
-    public Double getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
