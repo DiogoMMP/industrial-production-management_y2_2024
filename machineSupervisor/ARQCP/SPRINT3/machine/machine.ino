@@ -135,6 +135,7 @@ void loop() {
             digitalWrite(LED_BIN_2, LOW);
             digitalWrite(LED_BIN_3, LOW);
             digitalWrite(LED_BIN_4, LOW);
+            digitalWrite(LED_BUILTIN, LOW);
         } else {
             Serial.println("Invalid command format.");
         }

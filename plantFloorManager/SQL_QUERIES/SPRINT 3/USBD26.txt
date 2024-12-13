@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION GetOrderStockStatus(
+CREATE OR REPLACE FUNCTION get_order_stock_status(
     p_customer_order_id IN NUMBER
 ) RETURN SYS_REFCURSOR IS
     -- Declare custom exceptions

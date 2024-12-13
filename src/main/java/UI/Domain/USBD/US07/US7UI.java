@@ -9,6 +9,9 @@ import java.util.List;
 
 public class US7UI implements Runnable {
 
+    /**
+     * This method is called when the US7UI object is created (by calling the run method).
+     */
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<>();
@@ -44,6 +47,10 @@ public class US7UI implements Runnable {
         }
     }
 
+    /**
+     * This method executes the query to get the materials required for a given order.
+     * @param orderId The ID of the order to get the materials required.
+     */
     private void executeQuery(int orderId) {
         String query =
                 "SELECT " +
@@ -106,10 +113,18 @@ public class US7UI implements Runnable {
         }
     }
 
+    /**
+     * This method creates a connection to the database.
+     * @return The connection to the database.
+     * @throws SQLException If an error occurs while connecting to the database.
+     */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
     }
 
+    /**
+     * This method clears the console.
+     */
     private void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
