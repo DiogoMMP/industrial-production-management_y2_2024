@@ -178,6 +178,7 @@ EXCEPTION
 END ReserveMaterialsForOrder;
 /
 
+    -- Test with insufficient stock
 DECLARE
     v_customer_order_id NUMBER := 4; -- Customer_Order_ID
     v_result VARCHAR2(4000);
@@ -192,3 +193,22 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 /
+
+    --Valid test
+DECLARE
+    v_customer_order_id NUMBER := 1; -- Customer_Order_ID
+    v_result VARCHAR2(4000);
+BEGIN
+    -- Call the ReserveMaterialsForOrder function
+    v_result := ReserveMaterialsForOrder(v_customer_order_id);
+
+    -- Output the result
+    DBMS_OUTPUT.PUT_LINE('Result: ' || v_result);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+
+select * from reserved_stock
