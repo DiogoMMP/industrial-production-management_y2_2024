@@ -30,9 +30,7 @@ public class ShowTreeUI implements Runnable {
 
         // Create menu options from the sorted map
         for (Map.Entry<String, String> entry : sortedItems.entrySet()) {
-            if (BOO.contains(entry.getKey())) {
-                options.add(new MenuItem("Item: " + entry.getKey() + " - " + entry.getValue(), new ShowTreeUI()));
-            }
+            options.add(new MenuItem("Item: " + entry.getKey() + " - " + entry.getValue(), new ShowTreeUI()));
         }
 
         int option = 0;
@@ -60,6 +58,11 @@ public class ShowTreeUI implements Runnable {
 
     public void showTree(String mainObjectiveID) {
         productionTree.buildProductionTree(mainObjectiveID);
+        if (productionTree.getRoot().getValue().contains("Unknown Operation")) {
+            System.err.println("No production tree found for the selected item.");
+            System.err.println("Please select a different item.\n");
+            return;
+        }
         toIndentedStringForObjective();
     }
 

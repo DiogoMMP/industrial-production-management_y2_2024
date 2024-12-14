@@ -18,6 +18,17 @@ import java.util.logging.Logger;
 public class Utils {
 
     /**
+     * ANSI escape codes for colors and styles
+     */
+    public static final String RESET = "\033[0m";
+    public static final String BOLD = "\033[1m";
+    public static final String RED = "\033[31m";
+    public static final String GREEN = "\033[32m";
+    public static final String YELLOW = "\033[33m";
+    public static final String BLUE = "\033[34m";
+    public static final String CYAN = "\033[36m";
+
+    /**
      * Reads a line from the console
      *
      * @param prompt The prompt to show to the user

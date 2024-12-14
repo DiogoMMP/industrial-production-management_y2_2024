@@ -1,10 +1,8 @@
 package projectManager;
 
-import com.kitfox.svg.A;
 import domain.Activity;
 import graph.Edge;
 import graph.map.MapGraph;
-import graph.map.MapVertex;
 import repository.ActivitiesMapRepository;
 import repository.Instances;
 
@@ -431,7 +429,7 @@ public class PERT_CPM {
                 // Write the activity data to the file
                 writer.write(String.format("%s;%d;%d;%.1f;%.1f;%.1f;%.1f;%s\n",
                         activity.getActId(),
-                        activity.getCost(),
+                        activity.getTotalCost(),
                         activity.getDuration(),
                         activity.getEarliestStart(),
                         activity.getLatestStart(),

@@ -27,6 +27,13 @@ public enum Priority {
      */
     @Override
     public String toString() {
-        return name().toLowerCase();
+        if (this == HIGH) {
+            return "High";
+        } else if (this == NORMAL) {
+            return "Normal";
+        } else if (this == LOW) {
+            return "Low";
+        }
+        return null;
     }
 }

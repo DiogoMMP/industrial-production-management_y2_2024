@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import java.util.List;
-
 public class Activity {
     private String actId;          // Activity ID
     private String description;    // Activity description
     private int duration;          // Duration of the activity
     private String durationUnit;   // Duration unit of the activity
-    private int cost;              // Cost of the activity
-    private String costUnit;       // Cost unit of the activity
+    private int totalCost;              // Total Cost of the activity
     private List<String> prevActIds; // Predecessor activities
     private double earliestStart;  // Earliest start time of the activity
     private double earliestFinish; // Earliest finish time of the activity
@@ -27,18 +24,16 @@ public class Activity {
      * @param description  Activity description
      * @param duration     Duration of the activity
      * @param durationUnit Duration unit of the activity
-     * @param cost         Cost of the activity
-     * @param costUnit     Cost unit of the activity
+     * @param totalCost         Total Cost of the activity
      * @param prevActIds   List of IDs of predecessor activities
      */
-    public Activity(String actId, String description, int duration, String durationUnit, int cost, String costUnit,
+    public Activity(String actId, String description, int duration, String durationUnit, int totalCost,
                     List<String> prevActIds) {
         this.actId = actId;
         this.description = description;
         this.duration = duration;
         this.durationUnit = durationUnit;
-        this.cost = cost;
-        this.costUnit = costUnit;
+        this.totalCost = totalCost;
         this.prevActIds = prevActIds;
         this.earliestStart = 0.0;
         this.earliestFinish = 0.0;
@@ -53,16 +48,15 @@ public class Activity {
      * @param actId       Activity ID
      * @param description Activity description
      * @param duration    Duration of the activity
-     * @param cost        Cost of the activity
+     * @param totalCost        Cost of the activity
      * @param prevActIds  List of IDs of predecessor activities
      */
-    public Activity(String actId, String description, int duration, int cost, List<String> prevActIds) {
+    public Activity(String actId, String description, int duration, int totalCost, List<String> prevActIds) {
         this.actId = actId;
         this.description = description;
         this.duration = duration;
         this.durationUnit = "";
-        this.cost = cost;
-        this.costUnit = "";
+        this.totalCost = totalCost;
         this.prevActIds = prevActIds;
         this.earliestStart = 0.0;
         this.earliestFinish = 0.0;
@@ -113,17 +107,8 @@ public class Activity {
      *
      * @return Activity cost
      */
-    public int getCost() {
-        return cost;
-    }
-
-    /**
-     * Get the cost of the activity with the unit
-     *
-     * @return Activity cost with the unit
-     */
-    public String getCostWithUnit() {
-        return cost + " " + costUnit;
+    public int getTotalCost() {
+        return totalCost;
     }
 
     /**
@@ -174,19 +159,10 @@ public class Activity {
     /**
      * Set the cost of the activity
      *
-     * @param cost Activity cost
+     * @param totalCost Activity cost
      */
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    /**
-     * Set the cost unit of the activity
-     *
-     * @param costUnit Cost unit of the activity
-     */
-    public void setCostUnit(String costUnit) {
-        this.costUnit = costUnit;
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
     }
 
     /**

@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InputFileReader {
 
@@ -105,6 +106,11 @@ public class InputFileReader {
         return machines;
     }
 
+    /**
+     * Reads the operations from a CSV file and returns a list of Operation objects.
+     * @param operationsPath the path to the CSV file with the operations
+     * @return a list of Operation objects
+     */
     public static List<Operation> readListOperations(String operationsPath) {
         List<Operation> operations = new ArrayList<>();
         InputStream inputStream = InputFileReader.class.getResourceAsStream("/" + operationsPath);
@@ -184,6 +190,11 @@ public class InputFileReader {
         return data;
     }
 
+    /**
+     * Reads a CSV file and returns its data as a list of string arrays.
+     * @param filePath the path to the CSV file
+     * @return a list of string arrays representing the data in the CSV file
+     */
     public static List<String[]> readCsvFileCommas(String filePath) {
         List<String[]> data = new ArrayList<>();
         try {
@@ -203,29 +214,50 @@ public class InputFileReader {
      * @param activitiesFileName the path to the CSV file with the activities
      * @return a map of activity IDs to Activity objects
      */
-    public static Map<String, Activity> readActivities(String activitiesFileName){
-        List<String[]> data = readCsvFile(activitiesFileName);
+    public static Map<String, Activity> readActivities(String activitiesFileName) {
+        List<String[]> data = readCsvFileCommas(activitiesFileName);
         Map<String, Activity> activities = new HashMap<>();
 
-        for (String[] activityFile : data){
+        for (String[] activityFile : data) {
 
-            List<String> dependencies_ids = new ArrayList<>();
-
-            for (int i = 6; i < activityFile.length; i++){
-                if (!activityFile[i].isEmpty()){
-                    dependencies_ids.add(activityFile[i]);
-                }
+            // Get the list of dependencies (remove quotes and divide by commas)
+            List<String> prevActIds = new ArrayList<>();
+            if (activityFile.length > 5 && !activityFile[5].isEmpty()) {
+                prevActIds = Arrays.stream(activityFile[5].replace("\"", "").split(","))
+                        .map(String::trim) // Remove blank spaces
+                        .filter(s -> !s.isEmpty()) // Avoid empty dependencies
+                        .collect(Collectors.toList());
             }
 
-            Activity activity = new Activity(activityFile[0], activityFile[1], Integer.parseInt(activityFile[2]),
-                    activityFile[3], Integer.parseInt(activityFile[4]), activityFile[5], dependencies_ids);
+            try {
+                // Create the ‘Activity’ object using the correct constructor
+                Activity activity = new Activity(
+                        activityFile[0],                           // ActivKey (actId)
+                        activityFile[1],                           // Description
+                        Integer.parseInt(activityFile[2]),         // Duration
+                        activityFile[3],                           // Duration Unit
+                        Integer.parseInt(activityFile[4]),         // Total Cost
+                        prevActIds                                 // List of dependencies
+                );
 
-            activities.put(activityFile[0], activity);
+                // Add the activity to the map
+                activities.put(activityFile[0], activity);
+
+            } catch (NumberFormatException e) {
+                System.err.println("Error converting numeric data in the row: " + Arrays.toString(activityFile));
+            } catch (Exception e) {
+                System.err.println("Error processing the line: " + Arrays.toString(activityFile));
+            }
         }
 
         return activities;
     }
 
+    /**
+     * Reads the orders from a CSV file and returns a list of Order objects.
+     * @param ordersFileName the path to the CSV file with the orders
+     * @return a list of Order objects
+     */
     public static ArrayList<Order> readOrders(String ordersFileName) {
         List<String[]> data = readCsvFileCommas(ordersFileName);
         Map<Integer, Order> ordersMap = new HashMap<>();

@@ -26,10 +26,10 @@ class PERTCPMTest {
     void setUp() {
         // Initialize the PERT_CPM instance before each test
         activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
-        activitiesMapRepository.addActivity("A1", new Activity("A1", "Activity 1", 5, "days", 100, "USD", List.of()));
-        activitiesMapRepository.addActivity("A2", new Activity("A2", "Activity 2", 3, "days", 200, "USD", List.of("A1")));
-        activitiesMapRepository.addActivity("A3", new Activity("A3", "Activity 3", 2, "days", 150, "USD", List.of("A1")));
-        activitiesMapRepository.addActivity("A4", new Activity("A4", "Activity 4", 4, "days", 250, "USD", List.of("A2", "A3")));
+        activitiesMapRepository.addActivity("A1", new Activity("A1", "Activity 1", 5, "days", 100, List.of()));
+        activitiesMapRepository.addActivity("A2", new Activity("A2", "Activity 2", 3, "days", 200, List.of("A1")));
+        activitiesMapRepository.addActivity("A3", new Activity("A3", "Activity 3", 2, "days", 150, List.of("A1")));
+        activitiesMapRepository.addActivity("A4", new Activity("A4", "Activity 4", 4, "days", 250, List.of("A2", "A3")));
         pertCPM = Instances.getInstance().getPERT_CPM();
         pertCPM.buildPERT_CPM();
         CalculateTimes calculateTimes = new CalculateTimes();
@@ -46,7 +46,7 @@ class PERTCPMTest {
 
     @Test
     void testAddActivity() {
-        Activity activity = new Activity("A5", "Description", 5, "days", 100, "USD", Collections.emptyList());
+        Activity activity = new Activity("A5", "Description", 5, "days", 100, Collections.emptyList());
         pertCPM.addActivity(activity);
         assertTrue(pertCPM.containsActivity("A5"));
     }
@@ -59,8 +59,8 @@ class PERTCPMTest {
 
     @Test
     void testAddDependency() {
-        Activity activity1 = new Activity("A5", "Description", 3, "days", 100, "USD", Collections.emptyList());
-        Activity activity2 = new Activity("A6", "Description", 4, "days", 100, "USD", Collections.singletonList("A5"));
+        Activity activity1 = new Activity("A5", "Description", 3, "days", 100, Collections.emptyList());
+        Activity activity2 = new Activity("A6", "Description", 4, "days", 100, Collections.singletonList("A5"));
         pertCPM.addActivity(activity1);
         pertCPM.addActivity(activity2);
         pertCPM.addDependency("A6", "A5");
@@ -103,7 +103,7 @@ class PERTCPMTest {
     @Test
     void testSize() {
         int initialSize = pertCPM.size();
-        Activity activity = new Activity("A5", "Description", 5, "days", 100, "USD", Collections.emptyList());
+        Activity activity = new Activity("A5", "Description", 5, "days", 100, Collections.emptyList());
         pertCPM.addActivity(activity);
         assertEquals(initialSize + 1, pertCPM.size());
     }

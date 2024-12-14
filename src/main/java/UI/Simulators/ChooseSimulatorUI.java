@@ -1,5 +1,7 @@
 package UI.Simulators;
 
+import UI.Domain.USLP.US06.SimulateOrdersUI;
+import UI.Menu.ActivitiesMenu;
 import UI.Menu.MenuItem;
 import UI.Utils.DataInitializer;
 import UI.Utils.Utils;
@@ -15,8 +17,8 @@ public class ChooseSimulatorUI implements Runnable{
             options.add(new MenuItem("Simulation by Time", new ProcessByTimeUI()));
             options.add(new MenuItem("Simulation by Priority", new ProcessByPriorityUI()));
             options.add(new MenuItem("Simulation by Structural Information", new ProcessByTreeUI()));
-            options.add(new MenuItem("Simulation by PERT/CPM", new ProcessByPERTCPMUI()));
-            options.add(new MenuItem("Simulation by Orders", new ProcessByOrdersUI()));
+            options.add(new MenuItem("Simulation by PERT/CPM", new ActivitiesMenu()));
+            options.add(new MenuItem("Simulation by Orders", new SimulateOrdersUI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Choose Simulator -------------------------------\033[0m");

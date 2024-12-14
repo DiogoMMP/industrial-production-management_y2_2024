@@ -27,7 +27,6 @@ public class MainMenuPERTCPM implements Runnable {
             options.add(new MenuItem("Identify the Critical Path", new ShowCriticalPathsUI()));
             options.add(new MenuItem("Identify Bottlenecks Activities in the Project Graph", new ShowBottleneckActivitiesUI()));
             options.add(new MenuItem("Simulate Project Delays and Their Impact", new SimulateProjDelaysUI()));
-            //options.add(new MenuItem("Simulate Project Delays and Their Impact", new x));
 
 
             int option = 0;
@@ -37,7 +36,7 @@ public class MainMenuPERTCPM implements Runnable {
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    new ChooseSimulatorUI().run();
+                    new ActivitiesMenu().run();
                 }
 
             } while (true);

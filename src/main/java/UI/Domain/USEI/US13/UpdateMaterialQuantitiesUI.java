@@ -23,7 +23,8 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
 
         int option;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Update Material Quantities Menu ------------\033[0m");
+            option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Update Material Quantities Menu ------------" + Utils.RESET);
             if (option >= 0 && option < options.size()) {
                 options.get(option).run();
                 Utils.goBackAndWait();
@@ -72,7 +73,7 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
      * Only includes children of the root.
      */
     public void toIndentedStringForObjective() {
-        System.out.println("\n\n--- Production Tree ------------");
+        System.out.println("\n\n" + Utils.BOLD + "--- Production Tree ------------");
         StringBuilder builder = new StringBuilder();
         toIndentedStringHelper(productionTree.getRoot(), builder, 0);
         System.out.println(builder);

@@ -12,21 +12,24 @@ public class DataInitializer implements Runnable {
     private ItemsRepository itemsRepository = Instances.getInstance().getItemsRepository();
     private OperationsMapRepository operationsMapRepository = Instances.getInstance().getOperationsMapRepository();
     private BOORepository booRepository = Instances.getInstance().getBOORepository();
-    private ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
     private OrdersRepository ordersRepository = Instances.getInstance().getOrdersRepository();
     /**
      * Initialize the data
      * @param pathArt path to the articles file
      * @param pathWor path to the workstations file
+     * @param pathBoo path to the bill of operations file
+     * @param pathItems path to the items file
+     * @param pathOp path to the operations file
+     * @param pathWor2 path to the workstations file
+     * @param pathOrd path to the orders file
      * @throws FileNotFoundException if the file is not found
      */
-    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp, String pathWor2, String pathAct, String pathOrd) throws FileNotFoundException {
+    public void init(String pathArt, String pathWor, String pathBoo, String pathItems, String pathOp, String pathWor2, String pathOrd) throws FileNotFoundException {
             map2.addAll(pathArt, pathWor);
             map.addAll(pathOp, pathItems, pathWor2);
             itemsRepository.addItems(pathItems);
             operationsMapRepository.addOperations(pathOp);
             booRepository.addBOOList(pathBoo);
-            activitiesMapRepository.addActivities(pathAct);
             ordersRepository.addOrders(pathOrd);
     }
 
@@ -43,15 +46,14 @@ public class DataInitializer implements Runnable {
             String pathItems;
             String pathArt;
             String pathWor;
-            String pathAct;
             String pathOrders;
             boolean success = false;
 
             while (!success) {
                 System.out.println("\n\n\033[1;36m--- Choose Your Files --------------------------\033[0m");
-                System.out.println("1. Use default file paths");
-                System.out.println("2. Use exported files from the database");
-                System.out.println("3. Enter file paths manually");
+                System.out.println("1. Use Default File Paths");
+                System.out.println("2. Use Exported Files from the Database");
+                System.out.println("3. Enter File Paths Manually");
                 System.out.println("0. Back");
                 System.out.print("\n\nType your option: ");
                 String input = scanner.nextLine();
@@ -72,7 +74,6 @@ public class DataInitializer implements Runnable {
                         pathBOO = "boo_v2.csv";
                         pathItems = "items.csv";
                         pathOp = "operations.csv";
-                        pathAct = "activities.csv";
                         pathOrders = "orders.csv";
                         break;
                     case 2:
@@ -82,7 +83,6 @@ public class DataInitializer implements Runnable {
                         pathBOO = "boo_exported.csv";
                         pathItems = "items_exported.csv";
                         pathOp = "operations_exported.csv";
-                        pathAct = "activities.csv";
                         pathOrders = "orders_exported.csv";
                         break;
                     case 3:
@@ -92,7 +92,6 @@ public class DataInitializer implements Runnable {
                         pathBOO = Utils.readLineFromConsole("Bill of Operations: ");
                         pathItems = Utils.readLineFromConsole("Items: ");
                         pathOp = Utils.readLineFromConsole("Operations: ");
-                        pathAct = Utils.readLineFromConsole("Activities: ");
                         pathOrders = Utils.readLineFromConsole("Orders: ");
                         break;
                     case 0:
@@ -105,7 +104,7 @@ public class DataInitializer implements Runnable {
                 }
 
                 try {
-                    init(pathArt, pathWor, pathBOO, pathItems, pathOp, pathWor2, pathAct, pathOrders);
+                    init(pathArt, pathWor, pathBOO, pathItems, pathOp, pathWor2, pathOrders);
                     success = true;
                 } catch (FileNotFoundException e) {
                     System.err.println("Error: File not found. Please check the file path and try again.");
