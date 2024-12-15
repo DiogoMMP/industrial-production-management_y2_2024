@@ -219,15 +219,15 @@ class PERTCPMTest {
         assertEquals(4, pertCPM.getActivities().get("A4").getDuration());
 
         // Verify the recalculated total project duration
-        double totalProjectDuration = pertCPM.calculateTotalProjectDuration();
-        assertEquals(14.0, totalProjectDuration);
+        String totalProjectDuration = pertCPM.calculateTotalProjectDuration();
+        assertEquals("14.0 days", totalProjectDuration);
     }
 
     @Test
     void testCalculateTotalProjectDuration() {
         // Calculate the total project duration without any delays
-        double totalProjectDuration = pertCPM.calculateTotalProjectDuration();
-        assertEquals(12.0, totalProjectDuration);
+        String totalProjectDuration = pertCPM.calculateTotalProjectDuration();
+        assertEquals("12.0 days", totalProjectDuration);
     }
 
     @AfterAll

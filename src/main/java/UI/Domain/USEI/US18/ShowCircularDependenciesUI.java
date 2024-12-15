@@ -6,21 +6,24 @@ import repository.Instances;
 
 public class ShowCircularDependenciesUI implements Runnable {
 
+    /**
+     * Run the UI
+     */
     @Override
     public void run() {
         // Retrieve the PERT_CPM instance
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();
 
-        System.out.println("\n\n\033[1m\033[36m--- Circular Dependencies ------------\033[0m");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Circular Dependencies ------------\n" + Utils.RESET);
 
         // Check for circular dependencies
         try {
             // Validate the graph for circular dependencies
             boolean hasCircular= pertCpm.validateGraph();
             if (hasCircular) {
-                System.out.println("The graph has circular dependencies.");
+                System.out.println(Utils.RED + "The graph has circular dependencies." + Utils.RESET);
             } else {
-                System.out.println("The graph does not have circular dependencies.");
+                System.out.println(Utils.GREEN + "The graph does not have circular dependencies." + Utils.RESET);
             }
             Utils.goBackAndWait();
         } catch (IllegalStateException e) {

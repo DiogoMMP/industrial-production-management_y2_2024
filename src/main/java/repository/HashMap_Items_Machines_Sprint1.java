@@ -54,6 +54,7 @@ public class HashMap_Items_Machines_Sprint1 {
      * @param machines machines
      */
     public void fillMap(Map<Integer, Item> items, Map<Integer, Workstation> machines) {
+        ProdPlan.clear();
         int size = Math.max(items.size(), machines.size());
         Item item = new Item();
         Workstation workstation = new Workstation();

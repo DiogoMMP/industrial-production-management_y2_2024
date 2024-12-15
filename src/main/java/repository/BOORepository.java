@@ -49,6 +49,7 @@ public class BOORepository {
     }
 
     public void addBOOList(String booPath) {
+        BOO.clear();
         List<String[]> BOO = InputFileReader.readCsvFile(booPath);
         try {
             if (BOO.isEmpty()) {

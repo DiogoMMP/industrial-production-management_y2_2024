@@ -16,13 +16,15 @@ public class ExportScheduleToCSVUI implements Runnable {
         // Retrieve the PERT_CPM instance
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();
 
-        System.out.println("\n\n\033[1m\033[36m--- Export Project Schedule to CSV ------------\033[0m");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Export Project Schedule to CSV ------------\n" + Utils.RESET);
 
         // Export the schedule to a CSV file
-        pertCpm.exportScheduleToCSV(OUTPUTPATH);
+        if (pertCpm.exportScheduleToCSV(OUTPUTPATH)){
+            System.out.println("\n" + Utils.GREEN + "Schedule exported successfully to: " + OUTPUTPATH + Utils.RESET);
+        }
 
         // Ask the user if they want to open the generated CSV file
-        if (Utils.confirm("Do you want to open the generated CSV file in the default application? (Y/N)")) {
+        if (Utils.confirm(Utils.BOLD + "Do you want to open the generated CSV file in the default application? (Y/N)" + Utils.RESET)) {
             Utils.openInExcel(OUTPUTPATH);  // Open the generated CSV file in the default application
         }
 

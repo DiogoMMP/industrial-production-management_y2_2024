@@ -72,6 +72,7 @@ public class ActivitiesMapRepository {
 
     // Method to add activities from a CSV or file
     public void addActivities(String activitiesPath) {
+        activities.clear();
         Map<String, Activity> activitiesFromFile = InputFileReader.readActivities(activitiesPath);
 
         try {

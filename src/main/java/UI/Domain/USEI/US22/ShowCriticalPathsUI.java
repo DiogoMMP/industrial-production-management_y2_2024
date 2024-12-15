@@ -2,6 +2,7 @@ package UI.Domain.USEI.US22;
 
 import UI.Utils.Utils;
 import domain.Activity;
+import jdk.jshell.execution.Util;
 import projectManager.PERT_CPM;
 import repository.Instances;
 
@@ -13,9 +14,16 @@ public class ShowCriticalPathsUI implements Runnable {
     public void run() {
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();  // Get the PERT_CPM instance
         LinkedHashMap<Integer, List<Activity>> criticalPaths = pertCpm.findCriticalPaths();
-        System.out.println("\n\n\033[1m\033[36m--- Show Critical Paths ------------\033[0m");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Show Critical Paths ------------\n" + Utils.RESET);
+
+        if (criticalPaths.isEmpty()) {
+            System.out.println(Utils.RED + "No critical paths found!" + Utils.RESET);
+            Utils.goBackAndWait();
+            return;
+        }
+
         for (Integer i : criticalPaths.keySet()) {
-            System.out.println("\n\n\033[1m--- Critical Path " + i + " ------------\033[0m");
+            System.out.println("\n" + Utils.BOLD + "--- Critical Path " + i + " ------------" + Utils.RESET);
             List<Activity> path = criticalPaths.get(i);
             for (Activity activity : path) {
                 if (activity.getActId().equals("END")) {
@@ -25,6 +33,7 @@ public class ShowCriticalPathsUI implements Runnable {
                 }
             }
         }
+        System.out.println("\n");
         Utils.goBackAndWait();
     }
 }

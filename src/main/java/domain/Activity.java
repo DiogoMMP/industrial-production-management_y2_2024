@@ -103,6 +103,15 @@ public class Activity {
     }
 
     /**
+     * Get the duration unit of the activity
+     *
+     * @return Duration unit of the activity
+     */
+    public String getDurationUnit() {
+        return durationUnit;
+    }
+
+    /**
      * Get the cost of the activity
      *
      * @return Activity cost

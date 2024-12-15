@@ -12,7 +12,7 @@ public class ShowBottleneckActivitiesUI implements Runnable{
     public void run() {
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();  // Get the PERT_CPM instance
         List<Activity> bottleneckActivities = pertCpm.getBottleneckActivities();
-        System.out.println("\n\n\033[1m\033[36m--- Bottleneck Activities ------------\033[0m");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Bottleneck Activities ------------\n" + Utils.RESET);
         for (Activity activity : bottleneckActivities) {
             System.out.printf(" %s\n", activity.getActId());
         }

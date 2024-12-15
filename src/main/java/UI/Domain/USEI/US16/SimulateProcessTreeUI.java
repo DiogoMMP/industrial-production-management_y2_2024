@@ -9,9 +9,9 @@ import java.util.LinkedHashMap;
 public class SimulateProcessTreeUI implements Runnable {
     private static Simulator simulator = Instances.getInstance().getSimulator();
 
-    public SimulateProcessTreeUI() {
-    }
-
+    /**
+     * Run the UI
+     */
     @Override
     public void run() {
         LinkedHashMap<String, Double> timeOperations = simulator.simulateBOMBOO();
@@ -34,6 +34,11 @@ public class SimulateProcessTreeUI implements Runnable {
         Utils.goBackAndWait();
     }
 
+    /**
+     * Extract the operation name from the key
+     * @param key the key to extract the operation name from
+     * @return the operation name
+     */
     private String extractOperationName(String key) {
         int startIndex = key.indexOf("Operation: ") + 11;
         int endIndex = key.indexOf(" - ", startIndex);

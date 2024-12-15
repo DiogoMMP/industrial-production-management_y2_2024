@@ -25,6 +25,9 @@ public class ShowPERT_CPMUI implements Runnable {
 
     private static final File OUTPUTPATH = new File("src/main/java/projectManager/output/pert_cpm.svg");
 
+    /**
+     * Run the UI
+     */
     @Override
     public void run() {
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();  // Get the PERT_CPM instance
@@ -39,7 +42,7 @@ public class ShowPERT_CPMUI implements Runnable {
         generateGraph(pertCpmGraph);  // Generate the graph
 
         // Ask the user if they want to open the generated graph
-        if (Utils.confirm("Do you want to open the generated graph in the default browser? (Y/N)")) {
+        if (Utils.confirm(Utils.BOLD + "Do you want to open the generated graph in the default browser? (Y/N)" + Utils.RESET)) {
             Utils.openInBrowser(OUTPUTPATH);  // Open the generated SVG file in the default browser
         }
 
@@ -52,7 +55,7 @@ public class ShowPERT_CPMUI implements Runnable {
      * @param pertCpm The PERT_CPM instance containing the activities and dependencies.
      */
     public void displayPERT_CPM(PERT_CPM pertCpm) {
-        System.out.println("\n\n\033[1m\033[36m--- PERT/CPM Graph ------------\033[0m");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- PERT/CPM Graph ------------\n" + Utils.RESET);
         StringBuilder builder = new StringBuilder();
         Set<String> visited = new HashSet<>();
         displayPERT_CPMHelper("START", builder, visited, pertCpm);  // Start displaying from the "START" node
@@ -129,7 +132,7 @@ public class ShowPERT_CPMUI implements Runnable {
 
             // Render the graph to a file
             Graphviz.fromGraph(graph).render(Format.SVG).toFile(OUTPUTPATH);
-            System.out.println("Graph successfully generated in: " + OUTPUTPATH);
+            System.out.println("\n" + Utils.GREEN + "Graph successfully generated in: " + OUTPUTPATH + Utils.RESET);
         } catch (IOException e) {
             e.printStackTrace();
         }

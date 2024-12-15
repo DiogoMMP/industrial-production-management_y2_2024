@@ -9,6 +9,9 @@ import java.util.List;
 public class CriticalPathOperationsUI implements Runnable {
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
 
+    /**
+     * Run the UI
+     */
     @Override
     public void run() {
 

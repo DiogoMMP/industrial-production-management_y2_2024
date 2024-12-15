@@ -13,12 +13,9 @@ public class QualityChecksUI implements Runnable {
     @Override
     public void run() {
 
-        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "-------- Quality Checks --------\n" + Utils.RESET);
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "-------- Quality Checks --------" + Utils.RESET);
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(Utils.BOLD + "Do You Want to Perform Quality Checks Interactively? (Y/N): " + Utils.RESET);
-        String userInput = scanner.nextLine().trim().toLowerCase();
-        boolean interactive = userInput.equals("y");
+        boolean interactive = Utils.confirm(Utils.BOLD + "Do You Want to Perform Quality Checks Interactively? (Y/N): " + Utils.RESET);
 
         if (interactive) {
             productionTree.performQualityChecksInteractively();

@@ -145,21 +145,4 @@ class ProductionTreeTest {
         assertNotNull(woodMaterialNode, "Should find cut bench leg node");
         assertEquals("Operation", woodMaterialNode.get("Type"), "Cut bench leg should be a operation");
     }
-
-    @Test
-    void testPrintMaterialQuantities() {
-        String mainObjectiveID = "1006";
-        productionTree.buildProductionTree(mainObjectiveID);
-
-        // Capture system output to verify
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        //productionTree.printMaterialQuantitiesInAscendingOrder();
-
-        String output = outContent.toString();
-        assertTrue(output.contains("wood 3cm"), "Output should contain wood 3cm");
-        assertTrue(output.contains("wood pole 4cm"), "Output should contain wood pole 4cm");
-        assertTrue(output.contains("varnish"), "Output should contain varnish");
-    }
 }

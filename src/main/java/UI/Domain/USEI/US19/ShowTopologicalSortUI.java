@@ -8,12 +8,15 @@ import java.util.List;
 
 public class ShowTopologicalSortUI implements Runnable {
 
+    /**
+     * Run the UI
+     */
     @Override
     public void run() {
         // Retrieve the PERT/CPM instance
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();
 
-        System.out.println("\n\n\033[1m\033[36m--- Topological Sort ------------\033[0m\n");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Topological Sort ------------\n" + Utils.RESET);
 
         try {
             // Perform topological sort

@@ -26,6 +26,7 @@ public class OrdersRepository {
     }
 
     public void addOrders(String pathOrd) {
+        orders.clear();
         List<Order> orders = InputFileReader.readOrders(pathOrd);
 
         try {

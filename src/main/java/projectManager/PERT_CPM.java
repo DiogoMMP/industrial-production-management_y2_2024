@@ -1,5 +1,6 @@
 package projectManager;
 
+import UI.Utils.Utils;
 import domain.Activity;
 import graph.Edge;
 import graph.map.MapGraph;
@@ -400,7 +401,7 @@ public class PERT_CPM {
      * Exports the schedule to a CSV file.
      * @param file File to export the schedule to.
      */
-    public void exportScheduleToCSV(File file) {
+    public boolean exportScheduleToCSV(File file) {
 
         CalculateTimes calculateTimes = new CalculateTimes();
         calculateTimes.calculateTimes();
@@ -439,10 +440,11 @@ public class PERT_CPM {
                 ));
             }
 
-            System.out.println("Schedule exported successfully to: " + file.getAbsolutePath());
+            return true;
 
         } catch (IOException e) {
-            System.out.println("Error while exporting schedule: " + e.getMessage());
+            System.err.println("Error while exporting schedule: " + e.getMessage());
+            return false;
         }
     }
 
@@ -556,14 +558,20 @@ public class PERT_CPM {
     }
 
     // Method to calculate total project duration
-    public double calculateTotalProjectDuration() {
+    public String calculateTotalProjectDuration() {
         double maxFinishTime = 0.0;
+        String unit = activities.values().iterator().next().getDurationUnit();
         for (Activity activity : activities.values()) {
             if (activity.getEarliestFinish() > maxFinishTime) {
                 maxFinishTime = activity.getEarliestFinish();
             }
         }
-        return maxFinishTime;
+
+        if (maxFinishTime > 1 && !unit.endsWith("s")) {
+            unit += "s";
+        }
+
+        return maxFinishTime + " " + unit;
     }
 
     public void removeActivityAndRecalculate(String actId) {

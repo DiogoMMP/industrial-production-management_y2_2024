@@ -70,6 +70,7 @@ public class ItemsRepository {
     }
 
     public void addItems(String itemsPath) {
+        items.clear();
         Map<String, String> items = InputFileReader.readItems(itemsPath);
 
         try {

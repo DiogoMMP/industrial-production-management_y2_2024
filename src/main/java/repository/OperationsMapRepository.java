@@ -61,6 +61,7 @@ public class OperationsMapRepository {
     }
 
     public void addOperations(String operationsPath) {
+        operations.clear();
         Map<String, String> operations = InputFileReader.readOperations(operationsPath);
 
         try {
