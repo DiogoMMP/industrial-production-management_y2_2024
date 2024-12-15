@@ -31,8 +31,7 @@ BEGIN
             rs.Unit,
             pt.Part_Description,
             -- Aggregating distinct supplier IDs and names for each part
-            (SELECT LISTAGG(DISTINCT s.Supplier_ID || ' - ' || su.Supplier_Name, ', ')
-             WITHIN GROUP (ORDER BY s.Supplier_ID)
+            (SELECT DISTINCT s.Supplier_ID || ' - ' || su.Supplier_Name
              FROM Procurement s
              JOIN Supplier su ON s.Supplier_ID = su.Supplier_ID
              WHERE s.Part_ID = rs.Part_ID) AS Supplier_Details
@@ -45,7 +44,6 @@ BEGIN
 
     RETURN reserved_materials;
 END Get_Reserved_Materials;
-/
 
 
 
