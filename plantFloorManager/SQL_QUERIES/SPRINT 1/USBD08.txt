@@ -1,14 +1,23 @@
 SELECT DISTINCT
-    MO.Manufacturing_Operation_ID,
-    MO.Operation_Description,
-    TI.Type_Industry,
-    WT.Workstation_Type_ID,
-    WT.Workstation_Type
+    O.Operation_ID AS Manufacturing_Operation_ID,
+    O.Operation_Type_ID AS Manufacturing_Operation_Type_ID,
+    OT.Operation_Description AS Manufacturing_Operation_Description,
+    WTOT.Workstation_Type_ID,
+    WT.Workstation_Type AS Workstation_Type_Description
 FROM
-    Manufacturing_Operation MO
+    Operation O
 JOIN
-    Type_Industry TI ON MO.Manufacturing_Operation_ID = TI.Manufacturing_Operation_ID
+    Operation_Type OT
+    ON O.Operation_Type_ID = OT.Operation_Type_ID
 JOIN
-    Workstation_Type WT ON TI.Workstation_Type_ID = WT.Workstation_Type_ID
+    Workstation_Type_Operation_Type WTOT
+    ON O.Operation_Type_ID = WTOT.Operation_Type_ID
+JOIN
+    Workstation_Type WT
+    ON WTOT.Workstation_Type_ID = WT.Workstation_Type_ID
+JOIN
+    Workstation W
+    ON WT.Workstation_Type_ID = W.Workstation_Type_ID
 ORDER BY
-    MO.Manufacturing_Operation_ID;
+    O.Operation_ID;
+
