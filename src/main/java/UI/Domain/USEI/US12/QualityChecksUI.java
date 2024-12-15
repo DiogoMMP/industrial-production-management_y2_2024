@@ -9,15 +9,16 @@ import java.util.Scanner;
 
 public class QualityChecksUI implements Runnable {
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
-    private HeapPriorityQueue<Integer, String> qualityCheckQueue = Instances.getInstance().getHeap();
-
 
     @Override
     public void run() {
+
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "-------- Quality Checks --------\n" + Utils.RESET);
+
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Do you want to perform quality checks interactively? (yes/no): ");
+        System.out.print(Utils.BOLD + "Do You Want to Perform Quality Checks Interactively? (Y/N): " + Utils.RESET);
         String userInput = scanner.nextLine().trim().toLowerCase();
-        boolean interactive = userInput.equals("yes");
+        boolean interactive = userInput.equals("y");
 
         if (interactive) {
             productionTree.performQualityChecksInteractively();

@@ -16,9 +16,6 @@ public class ShowTreeUI implements Runnable {
 
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
     private Map<String, String> items = Instances.getInstance().getItemsRepository().getItemsRepository();
-    private static final List<String> BOO = Instances.getInstance().getBOORepository().getBOORepository().stream()
-            .map(boo -> boo[1])
-            .collect(Collectors.toList());
 
     @Override
     public void run() {
@@ -35,7 +32,8 @@ public class ShowTreeUI implements Runnable {
 
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Item to be Visualized ------------\033[0m");
+            option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Choose the Item to be Visualized ------------\n" + Utils.RESET);
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
@@ -71,7 +69,7 @@ public class ShowTreeUI implements Runnable {
      * Only includes children of the root.
      */
     public void toIndentedStringForObjective() {
-        System.out.println("\n\n\033[1m\033[36m--- Production Tree ------------\033[0m");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Production Tree ------------\n" + Utils.RESET);
         StringBuilder builder = new StringBuilder();
         toIndentedStringHelper(productionTree.getRoot(), builder, 0);
         System.out.println(builder);
@@ -97,7 +95,7 @@ public class ShowTreeUI implements Runnable {
         if (node.getType() != null) {
             builder.append(" (").append(node.getType()).append(")");
         }
-        builder.append("\033[0m")
+        builder.append(Utils.RESET)
                 .append("\n"); // Reset color
         for (TreeNode<String> child : node.getChildren()) {
             toIndentedStringHelper(child, builder, level + 1);
@@ -119,11 +117,11 @@ public class ShowTreeUI implements Runnable {
 
     private String getNodeColor(TreeNode<String> node) {
         return switch (node.getType()) {
-            case PRODUCT -> "\033[32m"; // Green
-            case COMPONENT -> "\033[34m"; // Blue
-            case RAW_MATERIAL -> "\033[33m"; // Yellow
-            case OPERATION -> "\033[31m"; // Red
-            default -> "\033[0m";  // Reset
+            case PRODUCT -> Utils.GREEN; // Green
+            case COMPONENT -> Utils.BLUE; // Blue
+            case RAW_MATERIAL -> Utils.YELLOW; // Yellow
+            case OPERATION -> Utils.RED; // Red
+            default -> Utils.RESET;  // Reset
         };
     }
 

@@ -509,48 +509,47 @@ public class Item implements Comparable<Item> {
         this.operationsRequired.add(operation);
     }
 
-    /**
-     * List workstations by ascending order
-     */
-    public static void listWorkstationsByAscOrder() {
+    public static List<Map<String, Object>> listWorkstationsByAscOrder() {
         int totalExecutionTime = 0;
         LinkedHashMap<String, Double> timeOperations = simulator.getTimeOperations();
 
         // Calculate total execution time
         for (Map.Entry<String, Double> entry : timeOperations.entrySet()) {
-            Double time = entry.getValue();
-            totalExecutionTime += time;
+            totalExecutionTime += entry.getValue();
         }
 
         // Store workstations with total time
         HashMap<String, Double> workstations = new HashMap<>();
         for (String workstation : timeOperations.keySet()) {
             double timeWkStation = 0;
-            Workstation ws = new Workstation();
             String[] parts = workstation.split(" - ");
             String workstationName = parts[2].split(": ")[1];
             timeWkStation += timeOperations.get(workstation);
-            ws.setId(workstationName);
-            if (workstations.containsKey(workstationName)) {
-                workstations.put(workstationName, workstations.get(workstationName) + timeWkStation);
-            } else {
-                workstations.put(workstationName, timeWkStation);
-            }
+
+            workstations.put(workstationName, workstations.getOrDefault(workstationName, 0.0) + timeWkStation);
         }
 
-// Calculate the percentage of total time for each workstation
-        HashMap<String, Double> workstationPercentages = new HashMap<>();
+        // Calculate the percentage of total time for each workstation and prepare the result list
+        List<Map<String, Object>> result = new ArrayList<>();
         for (Map.Entry<String, Double> entry : workstations.entrySet()) {
             double time = entry.getValue();
             double percentage = time / totalExecutionTime * 100;
-            workstationPercentages.put(entry.getKey(), percentage);
+
+            // Create a map for each workstation
+            Map<String, Object> workstationData = new HashMap<>();
+            workstationData.put("Workstation", entry.getKey());
+            workstationData.put("TotalTime", time);
+            workstationData.put("Percentage", percentage);
+
+            result.add(workstationData);
         }
 
-// Print sorted workstations with total time and percentage
-        workstationPercentages.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .forEach(entry -> System.out.printf("%s - Total time: %.0f - Percentage: %.2f%%\n", entry.getKey(), workstations.get(entry.getKey()), entry.getValue()));
+        // Sort the list by percentage in ascending order
+        result.sort(Comparator.comparingDouble(entry -> (double) entry.get("Percentage")));
+
+        return result;
     }
+
 
     /**
      * Compares this object with the specified object to verify if they are equal.

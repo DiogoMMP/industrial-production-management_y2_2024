@@ -15,15 +15,18 @@ public class SimulateProcessTreeUI implements Runnable {
     @Override
     public void run() {
         LinkedHashMap<String, Double> timeOperations = simulator.simulateBOMBOO();
+
         String operationName = extractOperationName(timeOperations.firstEntry().getKey());
-        System.out.println("Simulation of the process tree:");
-        System.out.printf("%n");
-        System.out.println("Operation: " + operationName);
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                "--- Simulation Of The Process Tree ------------\n" + Utils.RESET);
+
+        System.out.println(Utils.BOLD + "Operation: " + operationName + Utils.RESET);
+
         for (String key : timeOperations.keySet()) {
             if (!operationName.equalsIgnoreCase(extractOperationName(key))) {
                 operationName = extractOperationName(key);
                 System.out.printf("%n");
-                System.out.println("Operation: " + operationName);
+                System.out.println(Utils.BOLD + "Operation: " + operationName + Utils.RESET);
             }
             String operation = key.replaceAll("^\\d+ - Operation: " + operationName, "");
             System.out.println(operation);
@@ -32,7 +35,6 @@ public class SimulateProcessTreeUI implements Runnable {
     }
 
     private String extractOperationName(String key) {
-        // Assuming the operation name is the part after "Operation: " and before the next " - "
         int startIndex = key.indexOf("Operation: ") + 11;
         int endIndex = key.indexOf(" - ", startIndex);
         if (startIndex != -1 && endIndex != -1) {

@@ -51,11 +51,11 @@ public class DataInitializer implements Runnable {
 
             while (!success) {
                 System.out.println("\n\n\033[1;36m--- Choose Your Files --------------------------\033[0m");
-                System.out.println("1. Use Default File Paths");
-                System.out.println("2. Use Exported Files from the Database");
-                System.out.println("3. Enter File Paths Manually");
-                System.out.println("0. Back");
-                System.out.print("\n\nType your option: ");
+                System.out.println("  1. Use Default File Paths");
+                System.out.println("  2. Use Exported Files from the Database");
+                System.out.println("  3. Enter File Paths Manually");
+                System.out.println("  0. Back");
+                System.out.print("\nType your option: ");
                 String input = scanner.nextLine();
                 int choice;
 

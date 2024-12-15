@@ -4,6 +4,7 @@ import UI.Domain.USEI.US08.SimulateProcessTimeAndPriorityUI;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
 import domain.Item;
+import jdk.jshell.execution.Util;
 import repository.HashMap_Items_Machines;
 import repository.Instances;
 
@@ -26,7 +27,8 @@ public class TotalTimeOneItemUI implements Runnable {
         }
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Item to be visualized ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Choose the Item to be visualized ------------" + Utils.RESET);
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
@@ -78,18 +80,19 @@ public class TotalTimeOneItemUI implements Runnable {
      * @param choice the item to be visualized
      */
     private void show(String choice) {
-        System.out.println("\n\n--- Simulate Process by Time ------------");
         int id;
         id = Integer.parseInt(choice.split(" ")[1]);
-        System.out.println("Item: " + id);
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Total Time for Item " + id + " ------------\n" + Utils.RESET);
         HashMap<String, Double> totalTimes = Item.calculateTotalProductionTimePerItem();
-        int index = 1;
+
+        System.out.printf(Utils.BOLD + "%-15s  %-15s%n", "Item", "Total Time");
+        System.out.println("-----------------------------------------------" + Utils.RESET);
+
         for (Map.Entry<String, Double> entry : totalTimes.entrySet()) {
             String[] item = entry.getKey().split(" - ");
             int itemID = Integer.parseInt(item[0]);
             if (itemID == id) {
-                System.out.println(index + " - Total time of the item " + item[0] + " : " + entry.getValue());
-                index++;
+                System.out.printf("%-15s  %-15.2f%n", item[0], entry.getValue());
             }
         }
     }

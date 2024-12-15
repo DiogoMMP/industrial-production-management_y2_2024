@@ -1,4 +1,4 @@
-package UI.Domain.USLP.graphGenerator;
+package UI.Domain.USLP.US03;
 
 
 import UI.Utils.Utils;
@@ -21,6 +21,8 @@ public class ProductStructureGraphUI implements Runnable{
         boolean success = false;
         while (!success) {
             try {
+                System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Product Structure Graph ------------\n" + Utils.RESET);
                 init();
                 success = true;
             } catch (FileNotFoundException e) {

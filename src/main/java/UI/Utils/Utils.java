@@ -79,6 +79,9 @@ public class Utils {
             try {
                 String input = readLineFromConsole(prompt);
 
+                assert input != null;
+                input = input.replace(',', '.');
+
                 double value = Double.parseDouble(input);
 
                 return value;

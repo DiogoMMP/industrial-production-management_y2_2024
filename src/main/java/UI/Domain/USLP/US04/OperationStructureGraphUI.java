@@ -1,4 +1,4 @@
-package UI.Domain.USLP.graphGenerator;
+package UI.Domain.USLP.US04;
 
 import UI.Utils.Utils;
 import graphic_representation.OperationStructureGraph;
@@ -21,6 +21,8 @@ public class OperationStructureGraphUI implements Runnable {
         boolean success = false;
         while (!success) {
             try {
+                System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Operation Structure Graph ------------\n" + Utils.RESET);
                 init();
                 success = true;
             } catch (FileNotFoundException e) {

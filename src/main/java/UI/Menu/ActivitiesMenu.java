@@ -30,10 +30,10 @@ public class ActivitiesMenu implements Runnable {
 
             while (!success) {
                 System.out.println("\n\n\033[1;36m--- Choose a File for the Activities --------------------------\033[0m");
-                System.out.println("1. Use the Large File");
-                System.out.println("2. Use the Small File");
-                System.out.println("3. Enter the File Path Manually");
-                System.out.println("0. Back");
+                System.out.println("  1. Use the Large File");
+                System.out.println("  2. Use the Small File");
+                System.out.println("  3. Enter the File Path Manually");
+                System.out.println("  0. Back");
                 System.out.print("\n\nType your option: ");
                 String input = scanner.nextLine();
                 int choice;

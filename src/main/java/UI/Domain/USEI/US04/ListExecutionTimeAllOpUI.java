@@ -15,10 +15,11 @@ public class ListExecutionTimeAllOpUI implements Runnable {
      */
     @Override
     public void run() {
-        System.out.println("\n\n--- Execution Times by Operation  ------------");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                "--- Execution Times by Operation  ------------\n" + Utils.RESET);
         HashMap<String, Double> execTimes = Item.calcOpTime();
         for (Map.Entry<String, Double> entry : execTimes.entrySet()) {
-            System.out.println("Total time of the operatiom " + entry.getKey() + " : " + entry.getValue());
+            System.out.println(Utils.BOLD + "Total time of the operation " + entry.getKey() + " : " + Utils.RESET + entry.getValue());
         }
         Utils.goBackAndWait();
     }

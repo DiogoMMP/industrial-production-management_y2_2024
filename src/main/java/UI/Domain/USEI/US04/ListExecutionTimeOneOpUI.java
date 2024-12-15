@@ -28,7 +28,8 @@ public class ListExecutionTimeOneOpUI implements Runnable  {
         }
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n--- Choose the Operation to be visualized ------------");
+            option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Choose the Operation to be visualized ------------\n" + Utils.RESET);
             if ((option >= 0) && (option < options.size())) {
 
                 choice = options.get(option).toString();
@@ -52,11 +53,11 @@ public class ListExecutionTimeOneOpUI implements Runnable  {
      * @param choice the operation to be visualized.
      */
     private void show(String choice) {
-        System.out.println("\n\n--- Execution Times by Operation  ------------");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Execution Times by Operation  ------------\n" + Utils.RESET);
         HashMap<String, Double> execTimes = Item.calcOpTime();
         for (Map.Entry<String, Double> entry : execTimes.entrySet()) {
             if (entry.getKey().equals(choice)){
-                System.out.println("Total time of the operatiom " + entry.getKey() + " : " + entry.getValue());
+                System.out.println(Utils.BOLD + "Total time of the operation " + entry.getKey() + " : " + Utils.RESET + entry.getValue());
             }
         }
     }

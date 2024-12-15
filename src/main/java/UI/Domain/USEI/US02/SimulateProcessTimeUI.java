@@ -27,7 +27,8 @@ public class SimulateProcessTimeUI implements Runnable {
         options.add(new MenuItem("All", new SimulateProcessTimeUI()));
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Item to be Visualized ------------\033[0m");
+            option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Choose the Item to be Visualized ------------\n" + Utils.RESET);
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
@@ -52,7 +53,7 @@ public class SimulateProcessTimeUI implements Runnable {
      * @param choice The choice of the user.
      */
     private void show(String choice) {
-        System.out.println("\n\n\033[1m\033[36m--- Simulate Process by Time ------------\033[0m");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Simulate Process by Time ------------\n" + Utils.RESET);
         int id;
         LinkedHashMap<String, Double> timeOperations;
         if (choice.equals("All")) {
@@ -67,19 +68,19 @@ public class SimulateProcessTimeUI implements Runnable {
                     if (!previousId.isEmpty()) {
                         System.out.println();
                     }
-                    System.out.println("Item: " + currentId + " - Quantity: " + currentQuantity);
+                    System.out.println(Utils.BOLD + "Item: " + currentId + " - Quantity: " + currentQuantity + Utils.RESET);
                     previousId = currentId;
                     quantity = currentQuantity;
                 } else if (currentQuantity != quantity) {
                     System.out.println();
-                    System.out.println("Item: " + currentId + " - Quantity: " + currentQuantity);
+                    System.out.println(Utils.BOLD + "Item: " + currentId + " - Quantity: " + currentQuantity + Utils.RESET);
                     quantity = currentQuantity;
                 }
                 System.out.println(removeQuantityFromEntry(entry.getKey()));
             }
         } else {
             id = Integer.parseInt(choice.split(" ")[1]);
-            System.out.println("Item: " + id);
+            System.out.println(Utils.BOLD + "Item: " + id + Utils.RESET);
             timeOperations = simulator.getTimeOperations();
             timeOperations = sortOperations(timeOperations, id);
             timeOperations = updateOperationKeys(timeOperations);
@@ -90,7 +91,7 @@ public class SimulateProcessTimeUI implements Runnable {
                     if (quantity != 0) {
                         System.out.println();
                     }
-                    System.out.println("Item: " + id + " - Quantity: " + currentQuantity);
+                    System.out.println(Utils.BOLD + "Item: " + id + " - Quantity: " + currentQuantity + Utils.RESET);
                     quantity = currentQuantity;
                 }
                 System.out.println(removeQuantityFromEntry(entry.getKey()));

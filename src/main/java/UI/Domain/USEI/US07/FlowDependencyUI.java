@@ -11,27 +11,39 @@ public class FlowDependencyUI implements Runnable {
     @Override
     public void run() {
         HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = Item.generateWorkstationFlowDependency();
+
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                "--- Workstation Flow Dependencies ------------------------\n" + Utils.RESET);
+
+        System.out.println("Workstation     | Dependencies");
+        System.out.println("------------------------------------------------------------------------------------------------------------");
+
         for (Map.Entry<String, List<Map.Entry<String, Integer>>> entry : flowDependency.entrySet()) {
             String workstation = entry.getKey();
             List<Map.Entry<String, Integer>> dependencies = entry.getValue();
 
-            // Sort dependencies in descending order of processed items
             dependencies.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-            // Format the output
             StringBuilder sb = new StringBuilder();
-            sb.append(workstation).append(" : [");
+
+            sb.append(String.format("%-15s", workstation));
+
+            sb.append(" | ");
             for (int i = 0; i < dependencies.size(); i++) {
                 Map.Entry<String, Integer> subEntry = dependencies.get(i);
-                sb.append("(").append(subEntry.getKey()).append(",").append(subEntry.getValue()).append(")");
+                sb.append(String.format("(%s, %d)", subEntry.getKey(), subEntry.getValue()));
+
                 if (i < dependencies.size() - 1) {
-                    sb.append(",");
+                    sb.append(", ");
                 }
             }
-            sb.append("]");
-            System.out.println(sb.toString());
+
+            System.out.println(sb);
         }
+
         Utils.goBackAndWait();
     }
+
+
 }
 

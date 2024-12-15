@@ -1,5 +1,6 @@
 package graphic_representation;
 
+import UI.Utils.Utils;
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Shape;
@@ -40,7 +41,7 @@ public class OperationStructureGraph {
         Path outputPath = FileSystems.getDefault().getPath(OUTPUT_FILE_PATH);
         try {
             Graphviz.fromGraph(graph).render(Format.SVG).toFile(outputPath.toFile());
-            System.out.println("Graph successfully generated in: " + outputPath);
+            System.out.println("\n" + Utils.GREEN + "Graph successfully generated in: " + outputPath + Utils.RESET);
         } catch (IOException e) {
             System.err.println("Error generating the graph: " + e.getMessage());
             e.printStackTrace();

@@ -22,7 +22,8 @@ public class SearchMaterialUI implements Runnable {
         searchOptions.add(new MenuItem("Search by ID", this::searchByID));
         searchOptions.add(new MenuItem("Search by Name", this::searchByName));
 
-        int searchOption = Utils.showAndSelectIndex(searchOptions, "\n\n\033[1m\033[36m--- Choose the Search Method ------------------\033[0m");
+        int searchOption = Utils.showAndSelectIndex(searchOptions, "\n\n" + Utils.BOLD + Utils.CYAN +
+                "--- Choose the Search Method ------------------\n" + Utils.RESET);
         if (searchOption >= 0 && searchOption < searchOptions.size()) {
             searchOptions.get(searchOption).run();
         }
@@ -42,7 +43,8 @@ public class SearchMaterialUI implements Runnable {
 
         int option = 0;
         do {
-            option = Utils.showAndSelectIndex(options, "\n\n\033[1m\033[36m--- Choose the Material to Search ------------\033[0m");
+            option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Choose the Material to Search ------------\n" + Utils.RESET);
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
@@ -79,13 +81,16 @@ public class SearchMaterialUI implements Runnable {
         if (result.containsKey("Error")) {
             System.err.println("Error: Material not found!");
         } else {
-            System.out.println("\n");
-            System.out.println("Type: " + result.get("Type"));
-            System.out.println("Description and Quantity: " + result.get("Description"));
-            System.out.println("Parent Operation: " + result.getOrDefault("Parent Operation", "None"));
+            System.out.println("\n" + Utils.BOLD + Utils.CYAN + "--- Material Search Result ------------\n" + Utils.RESET);
+            System.out.printf(Utils.BOLD + "%-20s  %-50s  %-20s%n", "Type", "Description and Quantity", "Parent Operation");
+            System.out.println("--------------------------------------------------------------------------------------" +
+                    "---------------------------------------" + Utils.RESET);
+
+            System.out.printf("%-20s  %-50s  %-20s%n", result.get("Type"), result.get("Description"), result.getOrDefault("Parent Operation", "None"));
         }
         System.out.println();
     }
+
 
     public static Map<String, String> sortItemsByID(Map<String, String> map) {
         return map.entrySet()

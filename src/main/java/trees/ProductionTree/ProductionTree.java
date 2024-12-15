@@ -1,5 +1,6 @@
 package trees.ProductionTree;
 
+import UI.Utils.Utils;
 import domain.Material;
 import repository.BOORepository;
 import repository.Instances;
@@ -433,10 +434,12 @@ public class ProductionTree {
      */
     public void viewQualityChecksInOrder() {
         HeapPriorityQueue<Integer, String> tempQueue = qualityCheckQueue.clone();
-        System.out.println("Quality Checks in Order of Priority:");
+
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "Quality Checks in Order of Priority:\n" + Utils.RESET);
+
         while (!tempQueue.isEmpty()) {
             var check = tempQueue.removeMin();
-            System.out.println("Quality Check: " + check.getValue() + " [Priority: " + check.getKey() + "]");
+            System.out.println(Utils.GREEN + "Quality Check: " + Utils.RESET + check.getValue() + " [Priority: " + check.getKey() + "]");
         }
     }
 
@@ -446,31 +449,33 @@ public class ProductionTree {
     public void performQualityChecksInteractively() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Starting Interactive Quality Checks:");
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "Starting Interactive Quality Checks:" + Utils.RESET);
         while (!qualityCheckQueue.isEmpty()) {
             var nextCheck = qualityCheckQueue.removeMin();
-            System.out.println("Next Quality Check: " + nextCheck.getValue() + " [Priority: " + nextCheck.getKey() + "]");
-            System.out.print("Perform this quality check? (yes/no): ");
+            System.out.println("\nNext Quality Check: " + nextCheck.getValue() +
+                    " [Priority: " + nextCheck.getKey() + "]");
+
+            System.out.print(Utils.YELLOW + "Perform this quality check? (Y/N): " + Utils.RESET);
 
             String input = scanner.nextLine().trim().toLowerCase();
-            if (input.equals("yes")) {
-                System.out.println("Performing Quality Check: " + nextCheck.getValue());
-            } else if (input.equals("no")) {
-                System.out.println("Skipping Quality Check: " + nextCheck.getValue());
+            if (input.equals("y")) {
+                System.out.println("\n" + Utils.GREEN + "Performing Quality Check: " + nextCheck.getValue() + Utils.RESET);
+            } else if (input.equals("n")) {
+                System.out.println("\n" + Utils.RED + "Skipping Quality Check: " + nextCheck.getValue() + Utils.RESET);
             } else {
-                System.out.println("Invalid input. Skipping Quality Check.");
+                System.err.println("Invalid input. Skipping Quality Check.");
             }
 
-            System.out.print("Do you want to continue with the next quality check? (yes/no): ");
+            System.out.print("\n\n" + Utils.BOLD + "Do you want to continue with the next quality check? (Y/N): " + Utils.RESET);
             input = scanner.nextLine().trim().toLowerCase();
-            if (input.equals("no")) {
-                System.out.println("Stopping Quality Checks.");
+            if (input.equals("n")) {
+                System.out.println("\n" + Utils.RED + "Stopping Quality Checks." + Utils.RESET);
                 break;
             }
         }
 
         if (qualityCheckQueue.isEmpty()) {
-            System.out.println("All Quality Checks have been completed.");
+            System.out.println(Utils.GREEN + "All Quality Checks have been completed." + Utils.RESET);
         }
 
 
@@ -481,11 +486,12 @@ public class ProductionTree {
      *
      * @param root the root of the production tree
      */
-    public void prioritizeCriticalPath(TreeNode<String> root) {
+    public List<String> prioritizeCriticalPath(TreeNode<String> root) {
         if (root == null) {
-            System.out.println("Production tree is empty.");
-            return;
+            return new ArrayList<>();
         }
+
+        List<String> criticalPaths = new ArrayList<>();
 
         // Priority Queue to store operations by depth
         HeapPriorityQueue<Integer, TreeNode<String>> criticalPathQueue = new HeapPriorityQueue<>();
@@ -493,14 +499,35 @@ public class ProductionTree {
         // Recursive function to traverse and calculate depth
         traverseAndAddToHeap(root, criticalPathQueue);
 
-        // Display the critical path in order
-        System.out.println("Critical Path (in order of the most important to the least important):");
+        // Find the operations with the maximum depth
+        int maxDepth = Integer.MIN_VALUE;
+        List<TreeNode<String>> maxDepthNodes = new ArrayList<>();
+
         while (!criticalPathQueue.isEmpty()) {
             Entry<Integer, TreeNode<String>> entry = criticalPathQueue.removeMin();
+            int depth = -entry.getKey();
             TreeNode<String> node = entry.getValue();
-            System.out.println("Operation: " + node.getValue() + " (Depth: " + -entry.getKey() + ")");
+
+            // If the depth is greater than the maximum, update the maximum and clear the list
+            if (depth > maxDepth) {
+                maxDepth = depth;
+                maxDepthNodes.clear();
+                maxDepthNodes.add(node);
+            }
+            // If the depth is equal to the maximum, add it to the list
+            else if (depth == maxDepth) {
+                maxDepthNodes.add(node);
+            }
         }
+
+        // Adds the operations with the maximum depth to the criticalPaths list
+        for (TreeNode<String> node : maxDepthNodes) {
+            criticalPaths.add(node.getValue() + " (Depth: " + maxDepth + ")");
+        }
+
+        return criticalPaths;
     }
+
 
     /**
      * Traverses the production tree and adds operations to a priority queue based on depth.
@@ -644,34 +671,6 @@ public class ProductionTree {
     }
 
     /**
-     * Prints the total quantity of materials needed for the production.
-     */
-    public void printMaterialQuantitiesInAscendingOrder() {
-        MaterialsBST materialQuantityBST = new MaterialsBST();
-        List<Map.Entry<Material, Double>> materialQuantityPairs = getMaterialQuantityPairs();
-        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
-            List<String> materialNames = new ArrayList<>();
-            materialNames.add(pair.getKey().getName());
-            MaterialsBST.insert(materialNames, pair.getValue());
-        }
-        materialQuantityBST.inorder();
-    }
-
-    /**
-     * Prints the total quantity of materials needed for the production in descending order.
-     */
-    public void printMaterialQuantitiesInDescendingOrder() {
-        MaterialsBST materialQuantityBST = new MaterialsBST();
-        List<Map.Entry<Material, Double>> materialQuantityPairs = getMaterialQuantityPairs();
-        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
-            List<String> materialNames = new ArrayList<>();
-            materialNames.add(pair.getKey().getName());
-            MaterialsBST.insert(materialNames, pair.getValue());
-        }
-        materialQuantityBST.reverseInorder();
-    }
-
-    /**
      * Updates the quantities of materials in the production tree.
      *
      * @param materialID  the ID of the material to update
@@ -680,7 +679,7 @@ public class ProductionTree {
     public void updateQuantities(String materialID, double newQuantity) {
         TreeNode<String> node = nodesMap.get(materialID);
         if (node == null) {
-            System.out.println("Material not found in the production tree.");
+            System.err.println("Material not found in the production tree.");
             return;
         }
 
@@ -693,14 +692,13 @@ public class ProductionTree {
             double oldQuantity = Double.parseDouble(quantityStr);
             value = materialName + " (Quantity: " + newQuantity + ")";
             node.setValue(value);
-            System.out.println("Updated quantity for " + materialName + " from " + oldQuantity + " to " + newQuantity);
         }
     }
 
     public void updateChildrenQuantities(String materialID, double parentNewQuantity) {
         TreeNode<String> node = nodesMap.get(materialID);
         if (node == null) {
-            System.out.println("Material not found in the production tree.");
+            System.err.println("Material not found in the production tree.");
             return;
         }
         updateChildrenQuantitiesRecursive(node, parentNewQuantity);
@@ -722,7 +720,6 @@ public class ProductionTree {
                 double newQuantity = oldQuantity * parentNewQuantity; // Adjust the quantity based on the parent's new quantity
                 value = childName + " (Quantity: " + newQuantity + ")";
                 child.setValue(value);
-                System.out.println("Updated quantity for " + childName + " to " + newQuantity);
 
                 // Recursively update the quantities of the child's children
                 updateChildrenQuantitiesRecursive(child, newQuantity);

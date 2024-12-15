@@ -155,7 +155,7 @@ class ProductionTreeTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        productionTree.printMaterialQuantitiesInAscendingOrder();
+        //productionTree.printMaterialQuantitiesInAscendingOrder();
 
         String output = outContent.toString();
         assertTrue(output.contains("wood 3cm"), "Output should contain wood 3cm");

@@ -1,5 +1,6 @@
 package UI.Domain.USEI.US13;
 
+import UI.Domain.USEI.US09.ShowTreeUI;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
 import domain.Material;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 
 public class UpdateMaterialQuantitiesUI implements Runnable {
     private ProductionTree productionTree = Instances.getInstance().getProductionTree();
+    private ShowTreeUI showTreeUI = new ShowTreeUI();
 
     @Override
     public void run() {
@@ -24,10 +26,9 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
         int option;
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
-                    "--- Update Material Quantities Menu ------------" + Utils.RESET);
+                    "--- Update Material Quantities Menu ------------\n" + Utils.RESET);
             if (option >= 0 && option < options.size()) {
                 options.get(option).run();
-                Utils.goBackAndWait();
             }
         } while (option != -1);
     }
@@ -35,71 +36,54 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
     private void updateMaterialQuantity() {
         Scanner scanner = new Scanner(System.in);
 
-        // Display the list of materials
+        String choice;
+        List<MenuItem> options = new ArrayList<>();
+
         List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
-        System.out.println("Materials in the production tree:");
         for (int i = 0; i < materialQuantityPairs.size(); i++) {
             Map.Entry<Material, Double> entry = materialQuantityPairs.get(i);
-            System.out.println((i + 1) + ". " + entry.getKey().getName() + " (Quantity: " + entry.getValue() + ")");
+            options.add(new MenuItem(entry.getKey().getName() + " (Quantity: " + entry.getValue() + ")", new UpdateMaterialQuantitiesUI()));
         }
 
-        // Allow the user to select a material
-        System.out.print("Enter the number of the material you want to update: ");
-        int materialIndex = scanner.nextInt() - 1;
-        if (materialIndex < 0 || materialIndex >= materialQuantityPairs.size()) {
-            System.out.println("Invalid selection.");
-            return;
-        }
-        Material selectedMaterial = materialQuantityPairs.get(materialIndex).getKey();
+        int option = 0;
+        do {
+            option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Choose the Material to be Updated ------------\n" + Utils.RESET);
+            if ((option >= 0) && (option < options.size())) {
+                choice = options.get(option).toString();
+                if (!choice.equals("Back")) {
+                    clearConsole();
+                    double newQuantity = Utils.readDoubleFromConsole(Utils.BOLD + "Enter the new quantity for " +
+                            materialQuantityPairs.get(option).getKey().getName() + ": " + Utils.RESET);
 
-        // Prompt the user to enter a new quantity
-        System.out.print("Enter the new quantity for " + selectedMaterial.getName() + ": ");
-        double newQuantity = scanner.nextDouble();
+                    while (newQuantity < 0) {
+                        System.err.println("Quantity must be a positive number.\n");
+                        newQuantity = Utils.readDoubleFromConsole(Utils.BOLD + "Enter the new quantity for " +
+                                materialQuantityPairs.get(option).getKey().getName() + ": " + Utils.RESET);
+                    }
+                    updateQuantities(materialQuantityPairs.get(option).getKey().getID(), newQuantity);
+                }
+            }
+        } while (option != -1 && !options.get(option).toString().equals("Back"));
+    }
 
-        // Update the quantities of the children in cascade
-        productionTree.updateChildrenQuantities(selectedMaterial.getID(), newQuantity);
-
-        // Update the quantity using the ProductionTree methods
-        productionTree.updateQuantities(selectedMaterial.getID(), newQuantity);
-        System.out.println("Quantity updated successfully.");
+    private void updateQuantities(String materialID, double newQuantity){
+        productionTree.updateChildrenQuantities(materialID, newQuantity);
+        productionTree.updateQuantities(materialID, newQuantity);
+        System.out.println(Utils.GREEN + "Quantity updated successfully." + Utils.RESET);
+        Utils.goBackAndWait();
     }
 
     private void showTree() {
-        toIndentedStringForObjective();
+        showTreeUI.toIndentedStringForObjective();
+        Utils.goBackAndWait();
     }
 
     /**
-     * Returns a string representation of the production tree with the specified main objective.
-     * Only includes children of the root.
+     * This method is responsible for clearing the console.
      */
-    public void toIndentedStringForObjective() {
-        System.out.println("\n\n" + Utils.BOLD + "--- Production Tree ------------");
-        StringBuilder builder = new StringBuilder();
-        toIndentedStringHelper(productionTree.getRoot(), builder, 0);
-        System.out.println(builder);
-    }
-
-
-    /**
-     * Generates a string representation of the production tree with a custom indentation.
-     * @param node the node to start the string representation from recursively
-     * @param builder the string builder to append the string representation to recursively
-     * @param level the current level of the tree recursively
-     */
-    private void toIndentedStringHelper(TreeNode<String> node, StringBuilder builder, int level) {
-        if (node == null) {
-            return;
-        }
-        if (level > 0) {
-            builder.append("    ".repeat(level - 1)).append("|___");
-        }
-        builder.append(node.getValue());
-        if (node.getType() != null) {
-            builder.append(" (").append(node.getType()).append(")");
-        }
-        builder.append("\n");
-        for (TreeNode<String> child : node.getChildren()) {
-            toIndentedStringHelper(child, builder, level + 1);
-        }
+    private void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
