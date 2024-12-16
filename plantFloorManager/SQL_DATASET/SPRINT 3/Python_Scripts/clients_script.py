@@ -48,7 +48,7 @@ def generate_inserts(xml_file, table_name):
 
 
 # XML file and table
-xml_file_path = '../Dataset_S3_clients_V01.xml'
+xml_file_path = 'Dataset_S3_clients_V01.xml'
 table_name = 'Customer'
 
 # Generates INSERT commands

@@ -103,7 +103,7 @@ def generate_inserts(xml_file, table_name1, table_name2, table_name3, table_name
 
 
 # XML file and table
-xml_file_path = '../Dataset_S3_parts_V01.xml'
+xml_file_path = 'Dataset_S3_parts_V01.xml'
 table_name1 = 'Part'
 table_name2 = 'Internal_Part'
 table_name3 = 'Intermediate_Product'

@@ -21,6 +21,7 @@ def generate_inserts(xml_file, table_name1, table_name2):
 
         # Extract the fields
         operation_description = operation_type.find('operation_desc').text.strip('"')
+        eet = operation_type.find('eet').text.strip('"')
         workstation_types = [
             ws.text.strip('"') for ws in operation_type.findall(".//workstation_type")
         ]  # Get all associated workstations
@@ -32,8 +33,8 @@ def generate_inserts(xml_file, table_name1, table_name2):
 
         # Creates the INSERT command
         insert = (
-            f"INSERT INTO {table_name1} (Operation_Type_ID, Operation_Description)"
-            f" VALUES ({operation_type_id}, '{operation_description}');"
+            f"INSERT INTO {table_name1} (Operation_Type_ID, Operation_Description, Expected_Estimated_Time)"
+            f" VALUES ({operation_type_id}, '{operation_description}', {eet});"
         )
         inserts_operation_type.append(insert)
 
@@ -55,7 +56,7 @@ def generate_inserts(xml_file, table_name1, table_name2):
 
 
 # XML file and table
-xml_file_path = '../Dataset_S3_operations_V02.xml'
+xml_file_path = 'Dataset_S3_operations_V02.xml'
 table_name1 = 'Operation_Type'
 table_name2 = 'Workstation_Type_Operation_Type'
 
