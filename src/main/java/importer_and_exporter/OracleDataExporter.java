@@ -344,15 +344,15 @@ public class OracleDataExporter implements Runnable{
              ResultSet rs = stmt.executeQuery(query);
              FileWriter csvWriter = new FileWriter(FILE_OPERATIONS_PATH)) {
 
-            // Escrever o cabeçalho do CSV
+            // Write the CSV header
             csvWriter.append("op_id;op_name\n");
 
-            // Processar os resultados da query
+            // Write the data rows
             while (rs.next()) {
-                String opId = rs.getString("op_id");       // ID da operação
-                String opName = rs.getString("op_name");  // Nome (descrição) da operação
+                String opId = rs.getString("op_id");       // Operation ID
+                String opName = rs.getString("op_name");  // Operation Name
 
-                // Escrever cada linha no CSV
+                // Write the row to CSV
                 csvWriter.append(opId).append(";").append(opName).append("\n");
             }
 
@@ -409,32 +409,59 @@ public class OracleDataExporter implements Runnable{
      * Export customer orders in the required format to a CSV file.
      */
     private static void exportOrdersToCSV() {
-        String query = """
-            SELECT 
-                co.Customer_Order_ID AS order_id,
-                cop.Product_ID AS item_id,
-                cop.Product_Priority AS priority,
-                cop.Quantity AS qtd
-            FROM Customer_Order co
-            JOIN Customer_Order_Product cop 
-                ON co.Customer_Order_ID = cop.Customer_Order_ID
-            ORDER BY co.Customer_Order_ID, cop.Product_ID
-            """;
+        String queryOrders = """
+        SELECT 
+            co.Customer_Order_ID AS order_id,
+            cop.Product_ID AS item_id,
+            cop.Product_Priority AS priority,
+            cop.Quantity AS qtd
+        FROM Customer_Order co
+        JOIN Customer_Order_Product cop 
+            ON co.Customer_Order_ID = cop.Customer_Order_ID
+        ORDER BY co.Customer_Order_ID, cop.Product_ID
+    """;
+
+        String queryBooInput = """
+        SELECT\s
+            ip.PART_ID AS intermediate_id,
+            bi.Quantity AS intermediate_qty
+        FROM boo_input bi
+        JOIN intermediate_product ip
+            ON bi.Part_ID = ip.Part_ID
+        WHERE bi.Product_ID = ?
+   \s""";
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query);
+             ResultSet rsOrders = stmt.executeQuery(queryOrders);
              FileWriter csvWriter = new FileWriter(FILE_ORDERS_PATH)) {
 
             csvWriter.append("order_id,item_id,priority,qtd\n");
 
-            while (rs.next()) {
-                String orderId = rs.getString("order_id");
-                String itemId = rs.getString("item_id");
-                String priority = rs.getString("priority");
-                int quantity = rs.getInt("qtd");
+            while (rsOrders.next()) {
+                String orderId = rsOrders.getString("order_id");
+                String itemId = rsOrders.getString("item_id");
+                String priority = rsOrders.getString("priority");
+                int quantity = rsOrders.getInt("qtd");
 
+                // Write the main product line
                 csvWriter.append(String.format("%s,%s,%s,%d\n", orderId, itemId, priority, quantity));
+
+                // Checks if the product has an intermediary
+                try (PreparedStatement psBooInput = conn.prepareStatement(queryBooInput)) {
+                    psBooInput.setString(1, itemId);  // Pass the Product_ID to check the intermediaries
+                    ResultSet rsBooInput = psBooInput.executeQuery();
+
+                    // For each intermediary found, create a new line with the product priority and the quantity multiplied
+                    while (rsBooInput.next()) {
+                        String intermediateId = rsBooInput.getString("intermediate_id");
+                        int intermediateQty = rsBooInput.getInt("intermediate_qty");
+                        int finalQty = quantity * intermediateQty;  // Multiply the quantities
+
+                        // Write the line to the intermediary
+                        csvWriter.append(String.format("%s,%s,%s,%d\n", orderId, intermediateId, priority, finalQty));
+                    }
+                }
             }
         } catch (Exception e) {
             System.err.println("Error exporting orders to CSV: " + e.getMessage());
