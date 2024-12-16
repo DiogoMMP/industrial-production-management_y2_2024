@@ -24,7 +24,7 @@ public class Activity {
      * @param description  Activity description
      * @param duration     Duration of the activity
      * @param durationUnit Duration unit of the activity
-     * @param totalCost         Total Cost of the activity
+     * @param totalCost    Total Cost of the activity
      * @param prevActIds   List of IDs of predecessor activities
      */
     public Activity(String actId, String description, int duration, String durationUnit, int totalCost,
@@ -48,7 +48,7 @@ public class Activity {
      * @param actId       Activity ID
      * @param description Activity description
      * @param duration    Duration of the activity
-     * @param totalCost        Cost of the activity
+     * @param totalCost   Cost of the activity
      * @param prevActIds  List of IDs of predecessor activities
      */
     public Activity(String actId, String description, int duration, int totalCost, List<String> prevActIds) {
@@ -193,6 +193,28 @@ public class Activity {
         if (actId.equalsIgnoreCase("START")) {
             earliestStart = 0.0;
             earliestFinish = 0.0;
+            List<Activity> nextActIds = new ArrayList<>();
+            for (Activity activity : activities.values()) {
+                if (activity.getPrevActIds().contains(actId)) {
+                    nextActIds.add(activity);
+                }
+            }
+            for (Activity activity : nextActIds) {
+                activity.calculateESEFRec(activities);
+            }
+        }
+
+    }
+
+    private void calculateESEFRec(LinkedHashMap<String, Activity> activities) {
+        if (actId.equalsIgnoreCase("END")) {
+            for (String prevActId : prevActIds) {
+                double prevActFinish = activities.get(prevActId).getEarliestFinish();
+                if (prevActFinish > earliestStart) {
+                    earliestStart = prevActFinish;
+                }
+            }
+            earliestFinish = earliestStart + duration;
             return;
         }
         for (String prevActId : prevActIds) {
@@ -202,7 +224,15 @@ public class Activity {
             }
         }
         earliestFinish = earliestStart + duration;
-
+        List<Activity> nextActIds = new ArrayList<>();
+        for (Activity activity : activities.values()) {
+            if (activity.getPrevActIds().contains(actId)) {
+                nextActIds.add(activity);
+            }
+        }
+        for (Activity activity : nextActIds) {
+            activity.calculateESEFRec(activities);
+        }
     }
 
     /**
@@ -211,11 +241,7 @@ public class Activity {
      * @param activities Activities to calculate the times
      */
     public void calculateLSLF(LinkedHashMap<String, Activity> activities) {
-        if (prevActIds.isEmpty()) {
-            latestFinish = 0.0;
-            latestStart = 0.0;
-            return;
-        } else if (actId.equalsIgnoreCase("END")) {
+        if (actId.equalsIgnoreCase("END")) {
             latestFinish = earliestFinish;
             latestStart = earliestStart;
         }
@@ -225,16 +251,40 @@ public class Activity {
         }
         for (Activity activity : prevActIds) {
             double activityStart = latestStart;
-            if (activity.getLatestFinish() > activityStart) {
+            if (activity.getLatestFinish() > activityStart && activityStart != 0) {
                 activity.setLatestFinish(activityStart);
                 activity.setLatestStart(activity.getLatestFinish() - activity.getDuration());
             } else if (activity.getLatestFinish() == 0) {
-                activity.setLatestStart(activityStart - activity.getDuration());
                 activity.setLatestFinish(activityStart);
+                activity.setLatestStart(activity.getLatestFinish() - activity.getDuration());
             }
+            activity.calculateLSLFRec(activities);
         }
-
     }
+
+    private void calculateLSLFRec(LinkedHashMap<String, Activity> activities) {
+        if (prevActIds.isEmpty()) {
+            latestFinish = 0;
+            latestStart = 0;
+            return;
+        }
+        List<Activity> prevActIds = new ArrayList<>();
+        for (String prevActId : this.prevActIds) {
+            prevActIds.add(activities.get(prevActId));
+        }
+        for (Activity activity : prevActIds) {
+            double activityStart = latestStart;
+            if (activity.getLatestFinish() > activityStart && activityStart != 0) {
+                activity.setLatestFinish(activityStart);
+                activity.setLatestStart(activity.getLatestFinish() - activity.getDuration());
+            } else if (activity.getLatestFinish() == 0) {
+                activity.setLatestFinish(activityStart);
+                activity.setLatestStart(activity.getLatestFinish() - activity.getDuration());
+            }
+            activity.calculateLSLFRec(activities);
+        }
+    }
+
 
     /**
      * Calculate the slack time of the activity

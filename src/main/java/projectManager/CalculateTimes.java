@@ -46,27 +46,26 @@ public class CalculateTimes {
 
     /**
      * Calculate the latest start and finish times of the activities
+     * Calling a recursive method to calculate the times
      *
      * @param activities Activities to calculate the times
      */
     private static void calculateLSLF(LinkedHashMap<String, Activity> activities) {
-        LinkedHashMap<String, Activity> activitiesCopy = new LinkedHashMap<>(activities);
         LinkedList<Activity> reversedActivities = new LinkedList<>(activities.values());
         Collections.reverse(reversedActivities);
-        for (Activity activity : reversedActivities) {
-            activity.calculateLSLF(activitiesCopy);
-        }
+        Activity end = reversedActivities.getFirst();
+        end.calculateLSLF(activities);
     }
 
     /**
      * Calculate the earliest start and finish times of the activities
+     * Calling a recursive method to calculate the times
      *
      * @param activities Activities to calculate the times
      */
     private static void calculateESEF(LinkedHashMap<String, Activity> activities) {
-        for (Activity activity : activities.values()) {
-            activity.calculateESEF(activities);
-        }
+        Activity start = activities.get("START");
+        start.calculateESEF(activities);
     }
 
 }
