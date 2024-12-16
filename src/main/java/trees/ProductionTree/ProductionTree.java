@@ -692,6 +692,7 @@ public class ProductionTree {
             double oldQuantity = Double.parseDouble(quantityStr);
             value = materialName + " (Quantity: " + newQuantity + ")";
             node.setValue(value);
+            updateChildrenQuantities(materialID, newQuantity);
         }
     }
 
@@ -722,7 +723,7 @@ public class ProductionTree {
                 child.setValue(value);
 
                 // Recursively update the quantities of the child's children
-                updateChildrenQuantitiesRecursive(child, newQuantity);
+                updateChildrenQuantitiesRecursive(child, parentNewQuantity);
             }
         }
     }

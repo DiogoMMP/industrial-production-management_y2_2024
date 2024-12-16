@@ -29,13 +29,12 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
                     "--- Update Material Quantities Menu ------------\n" + Utils.RESET);
             if (option >= 0 && option < options.size()) {
                 options.get(option).run();
+                Utils.goBackAndWait();
             }
         } while (option != -1);
     }
 
     private void updateMaterialQuantity() {
-        Scanner scanner = new Scanner(System.in);
-
         String choice;
         List<MenuItem> options = new ArrayList<>();
 
@@ -68,7 +67,6 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
     }
 
     private void updateQuantities(String materialID, double newQuantity){
-        productionTree.updateChildrenQuantities(materialID, newQuantity);
         productionTree.updateQuantities(materialID, newQuantity);
         System.out.println(Utils.GREEN + "Quantity updated successfully." + Utils.RESET);
         Utils.goBackAndWait();
