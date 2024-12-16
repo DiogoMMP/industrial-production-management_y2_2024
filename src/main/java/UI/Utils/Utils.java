@@ -350,4 +350,45 @@ public class Utils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Validates a date string in the format "dd-MM-yyyy".
+     * @param date The date string to validate.
+     * @return True if the date is valid, false otherwise.
+     *
+     * @author Diogo Pereira
+     */
+    public static boolean isValidDateFormat1(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        sdf.setLenient(false);
+
+        try {
+            sdf.parse(date);
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the start date is before the end date.
+     * @param startDate The start date.
+     * @param endDate The end date.
+     * @return True if the start date is before the end date, false otherwise.
+     *
+     * @author Diogo Pereira
+     */
+    public static boolean isBeforeDate(String startDate, String endDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            Date start = sdf.parse(startDate);
+            Date end = sdf.parse(endDate);
+
+            return start.after(end);
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 }

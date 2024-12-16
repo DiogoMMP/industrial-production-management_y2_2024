@@ -11,9 +11,9 @@ public class DatabaseManagementMenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> sprints = new ArrayList<>();
-            sprints.add(new MenuItem("Sprint 1: Project Overview and Operations", new Sprint1MenuUI()));
-            sprints.add(new MenuItem("Sprint 2: Product Registration and Customer Management", new Sprint2MenuUI()));
-            sprints.add(new MenuItem("Sprint 3: Manage Operations and Materials", new Sprint3MenuUI()));
+            sprints.add(new MenuItem("Project Overview and Operations", new Sprint1MenuUI()));
+            sprints.add(new MenuItem("Product Registration and Customer Management", new Sprint2MenuUI()));
+            sprints.add(new MenuItem("Manage Operations and Materials", new Sprint3MenuUI()));
 
             int sprintOption = 0;
             do {

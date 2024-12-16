@@ -16,12 +16,12 @@ public class Sprint3MenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("USBD23: Ensure Operation Time", new US23UI()));
-            options.add(new MenuItem("USBD24: Avoid Circular References", new US24UI()));
-            options.add(new MenuItem("USBD25: List Product Operations", new US25UI()));
-            options.add(new MenuItem("USBD26: Check Stock for Orders", new US26UI()));
-            options.add(new MenuItem("USBD27: Reserve Materials", new US27UI()));
-            options.add(new MenuItem("USBD28: List Reserved Materials", new US28UI()));
+            options.add(new MenuItem("Ensure Operation Time", new US23UI()));
+            options.add(new MenuItem("Avoid Circular References", new US24UI()));
+            options.add(new MenuItem("List Product Operations", new US25UI()));
+            options.add(new MenuItem("Check Stock for Orders", new US26UI()));
+            options.add(new MenuItem("Reserve Materials", new US27UI()));
+            options.add(new MenuItem("List Reserved Materials", new US28UI()));
 
             int option = 0;
             do {

@@ -8,6 +8,10 @@ import importer_and_exporter.OracleDataExporter;
 import java.sql.*;
 
 public class US8UI implements Runnable {
+
+    /**
+     * This method runs the user story 8.
+     */
     @Override
     public void run() {
         String query = "SELECT DISTINCT " +
@@ -28,13 +32,16 @@ public class US8UI implements Runnable {
                 "ON WT.Workstation_Type_ID = W.Workstation_Type_ID " +
                 "ORDER BY " +
                 "O.Operation_ID ";
+
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
-            System.out.printf("\033[1m%-20s %-20s %-30s %-20s %-40s%n\033[0m",
+            System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Supported Operations ---" + Utils.RESET);
+
+            System.out.printf(Utils.BOLD + "%n%-20s %-20s %-30s %-25s %-40s%n",
                     "Operation ID", "Operation Type ID", "Operation Description", "Workstation Type ID", "Workstation Type Description");
-            System.out.println("=".repeat(150)); // Horizontal line
+            System.out.println("-".repeat(155) + Utils.RESET); // Horizontal line
 
             while (resultSet.next()) {
                 int operationId = resultSet.getInt("Manufacturing_Operation_ID");
@@ -43,7 +50,7 @@ public class US8UI implements Runnable {
                 String workstationTypeId = resultSet.getString("Workstation_Type_ID");
                 String workstationTypeDescription = resultSet.getString("Workstation_Type_Description");
 
-                System.out.printf("%-20d %-20d %-30s %-20s %-40s%n",
+                System.out.printf("%-20d %-20d %-30s %-25s %-40s%n",
                         operationId, operationTypeId, operationDescription, workstationTypeId, workstationTypeDescription);
             }
 

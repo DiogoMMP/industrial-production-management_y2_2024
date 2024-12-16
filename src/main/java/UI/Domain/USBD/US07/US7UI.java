@@ -30,7 +30,8 @@ public class US7UI implements Runnable {
                 int option;
                 do {
                     option = Utils.showAndSelectIndex(options,
-                            "\n\n\033[1m\033[36m--- Choose the Production Order to be Visualized ------------\033[0m");
+                            "\n\n" + Utils.BOLD + Utils.CYAN +
+                                    "--- Choose the Production Order to be Visualized ------------\n" + Utils.RESET);
                     if ((option >= 0) && (option < options.size())) {
                         String choice = options.get(option).toString();
                         if (!choice.equals("Back")) {
@@ -91,12 +92,12 @@ public class US7UI implements Runnable {
 
             preparedStatement.setInt(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                // Cabeçalho da tabela
-                System.out.printf("\033[1m%n%-15s %-30s %-15s %-50s %-20s%n\033[0m",
-                        "Product ID", "Product Name", "Part ID", "Part Description", "Quantity Required");
-                System.out.println("=".repeat(140)); // Linha horizontal
 
-                // Linhas da tabela
+                System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Materials Required for Production Order ID " + orderId + " ---" + Utils.RESET);
+                System.out.printf(Utils.BOLD + "%n%-15s %-30s %-15s %-50s %-20s%n",
+                        "Product ID", "Product Name", "Part ID", "Part Description", "Quantity Required");
+                System.out.println("-".repeat(140) + Utils.RESET);
+
                 while (resultSet.next()) {
                     String productId = resultSet.getString("Product_ID");
                     String productName = resultSet.getString("Product_Name");

@@ -16,11 +16,10 @@ public class Sprint1MenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("USBD01: Glossary", new US01UI()));
-            options.add(new MenuItem("USBD05: Orders in Time Frame", new US5UI()));
-            options.add(new MenuItem("USBD06: Workstations by Order", new US6UI()));
-            options.add(new MenuItem("USBD07: Materials for an Order", new US7UI()));
-            options.add(new MenuItem("USBD08: Supported Operations", new US8UI()));
+            options.add(new MenuItem("Orders in Time Frame", new US5UI()));
+            options.add(new MenuItem("Workstations by Order", new US6UI()));
+            options.add(new MenuItem("Materials for an Order", new US7UI()));
+            options.add(new MenuItem("Supported Operations", new US8UI()));
 
             int option = 0;
             do {

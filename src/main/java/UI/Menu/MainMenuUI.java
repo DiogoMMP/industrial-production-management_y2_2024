@@ -1,5 +1,6 @@
 package UI.Menu;
 
+import UI.Domain.USBD.US01.US01UI;
 import UI.Utils.DataInitializer;
 import UI.Utils.Utils;
 
@@ -19,6 +20,7 @@ public class MainMenuUI implements Runnable {
             options.add(new MenuItem("Data Operations", new DataInitializer()));
             options.add(new MenuItem("Database Management", new DatabaseManagementMenuUI()));
             options.add(new MenuItem("Machine Monitoring and Control", new MachineMonitoringAndControlMenuUI()));
+            options.add(new MenuItem("Search Glossary Terms", new US01UI()));
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +

@@ -24,14 +24,15 @@ public class US6UI implements Runnable {
                  ResultSet resultSet = statement.executeQuery(query)) {
 
                 while (resultSet.next()) {
-                    int orderId = resultSet.getInt("CUSTOMER_ORDER_ID"); // corrigido para CUSTOMER_ORDER_ID
+                    int orderId = resultSet.getInt("CUSTOMER_ORDER_ID");
                     options.add(new MenuItem("Customer Order ID: " + orderId, new US6UI()));
                 }
 
                 int option;
                 do {
                     option = Utils.showAndSelectIndex(options,
-                            "\n\n\033[1m\033[36m--- Choose the Customer Order to be Visualized ------------\033[0m");
+                            "\n\n" + Utils.BOLD + Utils.CYAN +
+                                    "--- Choose the Customer Order to be Visualized ------------\n" + Utils.RESET);
                     if ((option >= 0) && (option < options.size())) {
                         String choice = options.get(option).toString();
                         if (!choice.equals("Back")) {
@@ -78,23 +79,25 @@ public class US6UI implements Runnable {
                         "        JOIN " +
                         "    Workstation ws ON ws.Workstation_Type_ID = wt.Workstation_Type_ID " +
                         "WHERE " +
-                        "    co.Customer_Order_ID = ?"; // Query ajustada para selecionar workstation types
+                        "    co.Customer_Order_ID = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, orderId); // Parametrizando o Customer_Order_ID
+            preparedStatement.setInt(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                // Cabeçalho da tabela
-                System.out.printf("\033[1m%n%-20s %-50s%n\033[0m", "Workstation Type ID", "Workstation Type");
-                System.out.println("=".repeat(70)); // Linha horizontal
 
-                // Linhas da tabela
+                System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Workstation Types for Order ID " + orderId + " ------------" + Utils.RESET);
+
+                System.out.printf(Utils.BOLD + "%n%-25s %-50s%n", "Workstation Type ID", "Workstation Type");
+                System.out.println("-".repeat(75) + Utils.RESET);
+
                 while (resultSet.next()) {
                     String workstationTypeId = resultSet.getString("WORKSTATION_TYPE_ID");
                     String workstationType = resultSet.getString("WORKSTATION_TYPE");
 
-                    System.out.printf("%-20s %-50s%n", workstationTypeId, workstationType); // Exibindo os dados
+                    System.out.printf("%-25s %-50s%n", workstationTypeId, workstationType);
                 }
             }
         } catch (SQLException e) {
