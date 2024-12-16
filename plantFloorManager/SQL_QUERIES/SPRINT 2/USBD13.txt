@@ -7,13 +7,15 @@ CREATE OR REPLACE FUNCTION Get_Product_Operations (
             boo.Product_ID AS Main_Product_ID,
             boo.Product_ID,
             boo.Operation_ID AS Manufacturing_Operation_ID,
+            op.Operation_Type_ID,
             ot.Operation_Description,
-            boo.Operation_Type_ID,
+            wto.Workstation_Type_ID,
             wt.Workstation_Type
         FROM BOO boo
-        JOIN Operation_Type ot ON ot.Operation_Type_ID = boo.Operation_Type_ID
-        LEFT JOIN Type_Industry ti ON ti.Operation_Type_ID = boo.Operation_Type_ID
-        LEFT JOIN Workstation_Type wt ON wt.Workstation_Type_ID = ti.Workstation_Type_ID
+        JOIN Operation op ON op.Operation_ID = boo.Operation_ID  -- Join with Operation table
+        JOIN Operation_Type ot ON ot.Operation_Type_ID = op.Operation_Type_ID  -- Join with Operation_Type table
+        LEFT JOIN Workstation_Type_Operation_Type wto ON wto.Operation_Type_ID = ot.Operation_Type_ID
+        LEFT JOIN Workstation_Type wt ON wt.Workstation_Type_ID = wto.Workstation_Type_ID
         WHERE boo.Product_ID = p_product_id
         ORDER BY boo.Operation_ID;
 
@@ -66,8 +68,8 @@ BEGIN
             'Main Product ID: ' || op.Main_Product_ID || CHR(10) ||
             'Product ID: ' || op.Product_ID || CHR(10) ||
             'Manufacturing Operation ID: ' || TO_CHAR(op.Manufacturing_Operation_ID) || CHR(10) ||
+            'Operation Type ID: ' || TO_CHAR(op.Operation_Type_ID) || CHR(10) ||
             'Operation Description: ' || op.Operation_Description || CHR(10) ||
-            'Operation Order: ' || TO_CHAR(op.Operation_Type_ID) || CHR(10) ||
             'Workstation Type: ' || op.Workstation_Type || CHR(10) ||
             'Input Components: ' || v_inputs || CHR(10) ||
             'Output Components: ' || v_outputs || CHR(10) ||
@@ -83,6 +85,7 @@ BEGIN
     RETURN v_combined;
 
 END Get_Product_Operations;
+
 
 DECLARE
     v_result SYS_REFCURSOR;

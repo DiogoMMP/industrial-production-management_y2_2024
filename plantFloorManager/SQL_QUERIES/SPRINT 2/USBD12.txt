@@ -14,7 +14,7 @@ BEGIN
             'Product' AS Subpart_Type
         FROM
             Product pr
-            JOIN Part pa ON pr.Part_ID = pa.Part_ID
+            JOIN Part pa ON pr.Product_ID = pa.Part_ID -- Adjusted join for schema consistency
         WHERE
             pr.Product_ID = p_Product_ID
 
@@ -138,3 +138,4 @@ BEGIN
     -- Close the cursor after use
     CLOSE parts_cursor;
 END;
+
