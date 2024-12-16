@@ -1,6 +1,7 @@
 package UI.Domain.USEI.US17;
 
 import graph.map.MapGraph;
+import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.*;
 
 import static guru.nidi.graphviz.model.Factory.*;
 import static guru.nidi.graphviz.model.Factory.mutNode;
@@ -113,27 +115,65 @@ public class ShowPERT_CPMUI implements Runnable {
      */
     public void generateGraph(MapGraph<String, String> pert_CPM) {
         MutableGraph graph = mutGraph("PERT_CPM").setDirected(true);
+
+        // Create nodes and edges
         for (String vertex : pert_CPM.vertices()) {
-            // Create nodes with durations included in their labels
             MutableNode node = mutNode(vertex);
             graph.add(node);
 
             for (Edge<String, String> edge : pert_CPM.outgoingEdges(vertex)) {
-                // Create edges without weights (duration is already in the node)
                 node.addLink(to(mutNode(edge.getVDest())));
             }
         }
+
         try {
-            // Ensure the directory exists before saving the file
+            // Make sure the directory exists before saving the file
             File outputDirectory = OUTPUTPATH.getParentFile();
             if (!outputDirectory.exists()) {
                 outputDirectory.mkdirs();
             }
 
-            // Render the graph to a file
-            Graphviz.fromGraph(graph).render(Format.SVG).toFile(OUTPUTPATH);
-            System.out.println("\n" + Utils.GREEN + "Graph successfully generated in: " + OUTPUTPATH + Utils.RESET);
-        } catch (IOException e) {
+            // Write the temporary DOT file
+            File dotFile = new File("graph.dot");
+            Graphviz.fromGraph(graph).render(Format.DOT).toFile(dotFile);
+
+            // Now use ProcessBuilder to execute the Graphviz command with timeout
+            ProcessBuilder processBuilder = new ProcessBuilder("dot", "-Tsvg", dotFile.getAbsolutePath(), "-o", OUTPUTPATH.getAbsolutePath());
+            processBuilder.redirectErrorStream(true);
+
+            // Start the process
+            Process process = processBuilder.start();
+
+            // Set the timeout (in milliseconds)
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<?> future = executor.submit(() -> {
+                try {
+                    process.waitFor();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            try {
+                future.get(3000000, TimeUnit.MILLISECONDS); // Wait for the process to finish (5 minutes)
+            } catch (TimeoutException e) {
+                process.destroy(); // End the process if the execution time exceeds the limit
+                System.out.println(Utils.RED + "Graph generation timed out!");
+            }
+
+            // Close the executor
+            executor.shutdown();
+
+            // Check that the graph has been generated correctly
+            if (process.exitValue() == 0) {
+                System.out.println("\n" + Utils.GREEN + "Graph successfully generated in: " + OUTPUTPATH + Utils.RESET);
+            } else {
+                System.out.println("Error generating graph!");
+            }
+
+            // Delete the temporary DOT file
+            dotFile.delete();
+        } catch (IOException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }

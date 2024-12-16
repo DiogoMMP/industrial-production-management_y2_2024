@@ -222,13 +222,11 @@ public class InputFileReader {
 
             // Get the list of dependencies (remove quotes and divide by commas)
             List<String> prevActIds = new ArrayList<>();
-            if (activityFile.length > 5 && !activityFile[5].isEmpty()) {
-                prevActIds = Arrays.stream(activityFile[5].replace("\"", "").split(","))
-                        .map(String::trim) // Remove blank spaces
-                        .filter(s -> !s.isEmpty()) // Avoid empty dependencies
-                        .collect(Collectors.toList());
+            for (int i = 5 ; i < activityFile.length ; i++) {
+                if (!activityFile[i].isEmpty()) {
+                    prevActIds.add(activityFile[i].replace("\"", ""));
+                }
             }
-
             try {
                 // Create the ‘Activity’ object using the correct constructor
                 Activity activity = new Activity(
