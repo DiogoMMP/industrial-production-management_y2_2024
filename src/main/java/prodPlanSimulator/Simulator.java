@@ -14,6 +14,9 @@ import projectManager.PERT_CPM;
 import projectManager.CalculateTimes;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Simulator {
@@ -47,6 +50,48 @@ public class Simulator {
         // AC2 - Assign the items to the machines
         fillUpMachinesUS02(operationsQueue, workstations, items);
         return SimulatorReset(workstations, items);
+    }
+
+    private Map<String, String[]> readCSV(String filePath) throws IOException {
+        Map<String, String[]> data = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(";");
+                data.put(values[0], values);
+            }
+        }
+        return data;
+    }
+
+    public LinkedHashMap<String, Double> calculateAverageWaitingTimes(String productId) {
+        LinkedHashMap<String, Double> averageTimes = new LinkedHashMap<>();
+        try {
+            Map<String, String[]> articles = readCSV("src/main/resources/articles_exported.csv");
+            Map<String, String[]> boo = readCSV("src/main/resources/boo_exported.csv");
+            Map<String, String[]> operations = readCSV("src/main/resources/operations_exported.csv");
+            Map<String, String[]> workstations = readCSV("src/main/resources/workstations_exported.csv");
+
+            double totalWaitingTime = 0;
+            int count = 0;
+
+            for (String[] booEntry : boo.values()) {
+                if (booEntry[0].equals(productId)) {
+                    String operationId = booEntry[1];
+                    String workstationId = booEntry[2];
+                    double waitingTime = Double.parseDouble(workstations.get(workstationId)[2]); // Assuming waiting time is in the third column
+                    totalWaitingTime += waitingTime;
+                    count++;
+                }
+            }
+
+            double averageWaitingTime = count > 0 ? totalWaitingTime / count : 0;
+            averageTimes.put(productId, averageWaitingTime);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return averageTimes;
     }
 
     /**
