@@ -31,7 +31,8 @@ public class MainMenuPERTCPM implements Runnable {
 
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Simulation by PERT/CPM ---------------------------\033[0m");
+                option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Simulation by PERT/CPM ---------------------------\n" + Utils.RESET);
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();

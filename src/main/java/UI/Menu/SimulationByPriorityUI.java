@@ -30,7 +30,8 @@ public class SimulationByPriorityUI implements Runnable {
             options.add(new MenuItem("Flow Dependency", new FlowDependencyUI()));
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Simulation by Priority ---------------------------\033[0m");
+                option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Simulation by Priority ---------------------------\n" + Utils.RESET);
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();

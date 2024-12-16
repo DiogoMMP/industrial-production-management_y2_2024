@@ -50,7 +50,8 @@ public class DataInitializer implements Runnable {
             boolean success = false;
 
             while (!success) {
-                System.out.println("\n\n\033[1;36m--- Choose Your Files --------------------------\033[0m");
+                System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Choose Your Files --------------------------\n" + Utils.RESET);
                 System.out.println("  1. Use Default File Paths");
                 System.out.println("  2. Use Exported Files from the Database");
                 System.out.println("  3. Enter File Paths Manually");

@@ -29,7 +29,9 @@ public class ActivitiesMenu implements Runnable {
             boolean success = false;
 
             while (!success) {
-                System.out.println("\n\n\033[1;36m--- Choose a File for the Activities --------------------------\033[0m");
+                System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Choose a File for the Activities --------------------------\n" + Utils.RESET);
+
                 System.out.println("  1. Use the Small File");
                 System.out.println("  2. Use the Large File");
                 System.out.println("  3. Enter the File Path Manually");

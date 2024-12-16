@@ -21,7 +21,8 @@ public class ChooseSimulatorUI implements Runnable{
             options.add(new MenuItem("Simulation by Orders", new SimulateOrdersUI()));
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Choose Simulator -------------------------------\033[0m");
+                option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Choose Simulator -------------------------------\n" + Utils.RESET);
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();

@@ -17,7 +17,8 @@ public class DatabaseManagementMenuUI implements Runnable {
 
             int sprintOption = 0;
             do {
-                sprintOption = Utils.showAndSelectIndex(sprints, "\n\n\033[1;36m--- Database Management ---------------------------\033[0m");
+                sprintOption = Utils.showAndSelectIndex(sprints, "\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Database Management ---------------------------\n" + Utils.RESET);
 
                 if ((sprintOption >= 0) && (sprintOption < sprints.size())) {
                     sprints.get(sprintOption).run();

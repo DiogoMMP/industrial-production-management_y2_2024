@@ -33,7 +33,8 @@ public class MainMenuUITree implements Runnable {
             options.add(new MenuItem("Operation Structure Graph ", new OperationStructureGraphUI()));
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Simulation by Structural Information -------------\033[0m");
+                option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Simulation by Structural Information -------------\n" + Utils.RESET);
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();

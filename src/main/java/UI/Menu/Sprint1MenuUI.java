@@ -26,7 +26,8 @@ public class Sprint1MenuUI implements Runnable {
 
             int option = 0;
             do {
-                option = Utils.showAndSelectIndex(options, "\n\n\033[1;36m--- Sprint 1: Project Overview and Operations ---------------------------\033[0m");
+                option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
+                        "--- Sprint 1: Project Overview and Operations ---------------------------\n" + Utils.RESET);
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
