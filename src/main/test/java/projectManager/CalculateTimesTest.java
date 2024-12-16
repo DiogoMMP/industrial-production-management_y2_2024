@@ -18,7 +18,7 @@ class CalculateTimesTest {
     void setUp() {
         // Initialize the PERT_CPM instance before each test
         ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
-        activitiesMapRepository.addActivities("activities.csv");
+        activitiesMapRepository.addActivities("small_project.csv");
         pertCPM = Instances.getInstance().getPERT_CPM();
         pertCPM.buildPERT_CPM();
         CalculateTimes calculateTimes = new CalculateTimes();
@@ -51,25 +51,25 @@ class CalculateTimesTest {
         Activity activityA = activities.get("A");
         assertNotNull(activityA);
         assertEquals(0.0, activityA.getEarliestStart());
-        assertEquals(5.0, activityA.getEarliestFinish());
-        assertEquals(0.0, activityA.getLatestStart());
+        assertEquals(1.0, activityA.getEarliestFinish());
+        assertEquals(4.0, activityA.getLatestStart());
         assertEquals(5.0, activityA.getLatestFinish());
-        assertEquals(0.0, activityA.getSlack());
+        assertEquals(4.0, activityA.getSlack());
         assertEquals(activityA.getLatestStart() - activityA.getEarliestStart(), activityA.getSlack());
         assertEquals(activityA.getLatestFinish() - activityA.getEarliestFinish(), activityA.getSlack());
 
         Activity activityB = activities.get("B");
         assertNotNull(activityB);
-        assertEquals(5.0, activityB.getEarliestStart());
-        assertEquals(13.0, activityB.getEarliestFinish());
-        assertEquals(5.0, activityB.getLatestStart());
-        assertEquals(13.0, activityB.getLatestFinish());
+        assertEquals(0.0, activityB.getEarliestStart());
+        assertEquals(4.0, activityB.getEarliestFinish());
+        assertEquals(0.0, activityB.getLatestStart());
+        assertEquals(4.0, activityB.getLatestFinish());
         assertEquals(0.0, activityB.getSlack());
         assertEquals(activityB.getLatestStart() - activityB.getEarliestStart(), activityB.getSlack());
         assertEquals(activityB.getLatestFinish() - activityB.getEarliestFinish(), activityB.getSlack());
 
         // Test for an activity with non-zero slack
-        Activity activityN = activities.get("N");
+        Activity activityN = activities.get("A");
         assertNotNull(activityN);
         assertTrue(activityN.getSlack() > 0.0);
         assertEquals(activityN.getLatestStart() - activityN.getEarliestStart(), activityN.getSlack());

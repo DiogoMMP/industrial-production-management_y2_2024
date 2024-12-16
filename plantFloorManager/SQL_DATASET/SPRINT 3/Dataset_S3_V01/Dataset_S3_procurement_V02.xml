@@ -84,13 +84,13 @@
 					</offer>
 				</offer_list>
 			</part>
-			<part id="AS12945G48">
+			<part id="PN12344A21">
 				<offer_list>
 					<offer>
 						<start_date>2023/07/01</start_date>
 						<end_date>NULL</end_date>
-						<min_quantity>10</min_quantity>
-						<price>10.25</price>
+						<min_quantity>200</min_quantity>
+						<price>0.65</price>
 					</offer>
 				</offer_list>
 			</part>

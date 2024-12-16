@@ -55,7 +55,7 @@ def generate_inserts(xml_file, table_name1, table_name2):
 
 
 # XML file and table
-xml_file_path = '../Dataset_S3_operations_V01.xml'
+xml_file_path = '../Dataset_S3_operations_V02.xml'
 table_name1 = 'Operation_Type'
 table_name2 = 'Workstation_Type_Operation_Type'
 
