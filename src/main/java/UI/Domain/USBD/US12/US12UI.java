@@ -23,7 +23,9 @@ public class US12UI implements Runnable {
             int option;
             do {
                 option = Utils.showAndSelectIndex(options,
-                        "\n\n\033[1m\033[36m--- Choose the Product to be Visualized ------------\033[0m");
+                        "\n\n" + Utils.BOLD + Utils.CYAN +
+                                "--- Choose the Product to be Visualized ------------\n" + Utils.RESET);
+
                 if ((option >= 0) && (option < options.size())) {
                     String choice = options.get(option).toString();
                     if (!choice.equals("Back")) {
@@ -39,8 +41,15 @@ public class US12UI implements Runnable {
         }
     }
 
+    /**
+     * This method is responsible for listing the parts of the selected product.
+     */
     private void listParts(String productId) {
-        String function = "{? = call Get_Product_Parts(?)}";
+
+        System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Parts of Product " + productId +
+                " -----------------------------------\n" + Utils.RESET);
+
+        String function = "{? = call get_product_parts(?)}";
         try (Connection connection = getConnection();
              CallableStatement callableStatement = connection.prepareCall(function)) {
 
@@ -52,35 +61,46 @@ public class US12UI implements Runnable {
             // Execute the function
             callableStatement.execute();
 
-            // Retrieve the cursor
+            // Retrieve the cursor (ResultSet)
             ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+
+            // Check if there are no parts found
+            if (!resultSet.isBeforeFirst()) {
+                System.err.println("No parts found for the product with ID: " + productId);
+                return;
+            }
+
+            // Output the header
+            System.out.printf(Utils.BOLD + "%-20s %-50s %-30s %-20s%n", "Part ID", "Part Description", "Part Type", "Quantity");
+            System.out.println("-".repeat(120) + Utils.RESET);
 
             // Process the result set
             while (resultSet.next()) {
-                String productIdStr = resultSet.getString("Product_ID");
                 String partId = resultSet.getString("Part_ID");
                 String partDesc = resultSet.getString("Part_Description");
-                int quantity = resultSet.getInt("Quantity");
-                String subpartId = resultSet.getString("Subpart_ID");
-                String subpartType = resultSet.getString("Subpart_Type");
+                String partType = resultSet.getString("Part_Type");
+                int quantity = resultSet.getInt("Total_Quantity");
 
-                // Output the result
-                System.out.println("Product ID: " + productIdStr);
-                System.out.println("Part ID: " + partId);
-                System.out.println("Description: " + partDesc);
-                System.out.println("Quantity: " + quantity);
-                System.out.println("Subpart Type: " + subpartType);
-                System.out.println("Subpart ID: " + subpartId);
-                System.out.println("--------------------------------------------------------------------------------");
+                // Print each part in a formatted way
+                System.out.printf("%-20s %-50s %-30s %-20d%n", partId, partDesc, partType, quantity);
             }
 
             // Close the result set
             resultSet.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Handling SQLException, and specifically dealing with the known exceptions
+            String message = e.getMessage();
+            if (message.contains("Error: Product ID cannot be NULL")) {
+                System.err.println("Error: The provided Product ID cannot be NULL.");
+            } else if (message.contains("Error: Product with ID")) {
+                System.err.println("Error: The Product with ID " + productId + " does not exist.");
+            } else {
+                System.err.println("Error: An unexpected error occurred: " + message);
+            }
         }
     }
+
 
     /**
      * This method clears the console.

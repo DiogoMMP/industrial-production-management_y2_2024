@@ -1,141 +1,129 @@
-CREATE OR REPLACE FUNCTION Get_Product_Parts (p_Product_ID IN VARCHAR2)
+CREATE OR REPLACE FUNCTION get_product_parts (
+    p_Product_ID IN Product.Product_ID%TYPE
+)
 RETURN SYS_REFCURSOR
-AS
-    part_cursor SYS_REFCURSOR;
+IS
+    v_cursor SYS_REFCURSOR;
+    dummy NUMBER(10);
+
+    -- Exception declarations for validation
+    NULL_PRODUCT_ID EXCEPTION;
+    PRODUCT_NOT_FOUND EXCEPTION;
+
 BEGIN
-    OPEN part_cursor FOR
-        -- Select the main product (product itself), with Part_ID as Product_ID
+
+    -- Check if the Product_ID is NULL
+    IF p_Product_ID IS NULL THEN
+        RAISE NULL_PRODUCT_ID;
+    END IF;
+
+    -- Check if the Product_ID exists in the PRODUCT table
+    SELECT COUNT(*) INTO dummy
+    FROM PRODUCT
+    WHERE Product_ID = p_Product_ID;
+
+    -- If no rows found, raise PRODUCT_NOT_FOUND exception
+    IF dummy = 0 THEN
+        RAISE PRODUCT_NOT_FOUND;
+    END IF;
+
+    -- Open cursor to fetch parts related to the product
+    OPEN v_cursor FOR
         SELECT
-            TO_CHAR(pr.Product_ID) AS Product_ID,
-            TO_CHAR(pr.Product_ID) AS Part_ID,
-            TO_CHAR(pa.Part_Description) AS Part_Description,
-            1 AS Quantity,
-            TO_CHAR(pr.Product_ID) AS Subpart_ID,
-            'Product' AS Subpart_Type
-        FROM
-            Product pr
-            JOIN Part pa ON pr.Product_ID = pa.Part_ID -- Adjusted join for schema consistency
-        WHERE
-            pr.Product_ID = p_Product_ID
+            BI.Part_ID,
+            P.Part_Description AS Part_Description, -- Fetch description from the Part table
+            CASE
+                WHEN IP.Part_ID IS NOT NULL THEN 'Intermediate Product'
+                WHEN C.Part_ID IS NOT NULL THEN 'Component'
+                WHEN RM.Part_ID IS NOT NULL THEN 'Raw Material'
+                ELSE 'Unknown'
+            END AS Part_Type,
+            SUM(BI.Quantity) AS Total_Quantity
+        FROM BOO_Input BI
+        LEFT JOIN Intermediate_Product IP ON BI.Part_ID = IP.Part_ID
+        LEFT JOIN Component C ON BI.Part_ID = C.Part_ID
+        LEFT JOIN Raw_Material RM ON BI.Part_ID = RM.Part_ID
+        LEFT JOIN Part P ON BI.Part_ID = P.Part_ID  -- Join with Part table to fetch description
+        WHERE BI.Product_ID = p_Product_ID
+        GROUP BY BI.Part_ID, P.Part_Description, IP.Part_ID, C.Part_ID, RM.Part_ID;
 
-        UNION ALL
+    RETURN v_cursor;
 
-        -- Select products that are used as parts in the given product
-        SELECT
-            TO_CHAR(pr.Product_ID) AS Product_ID,
-            TO_CHAR(ip.Product_ID) AS Part_ID,
-            TO_CHAR(pa.Part_Description) AS Part_Description,
-            TO_NUMBER(boo_in.Quantity) AS Quantity,
-            TO_CHAR(ip.Product_ID) AS Subpart_ID,
-            'Product' AS Subpart_Type
-        FROM
-            Product pr
-            JOIN BOO boo ON pr.Product_ID = boo.Product_ID
-            JOIN BOO_Input boo_in ON boo.Product_ID = boo_in.Product_ID AND boo.Operation_ID = boo_in.Operation_ID
-            JOIN Product ip ON boo_in.Part_ID = ip.Product_ID
-            JOIN Part pa ON boo_in.Part_ID = pa.Part_ID
-        WHERE
-            pr.Product_ID = p_Product_ID
+EXCEPTION
+    -- Handle exceptions for null Product_ID and non-existing Product_ID
+    WHEN NULL_PRODUCT_ID THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Error: Product ID cannot be NULL');
+    WHEN PRODUCT_NOT_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Error: Product with ID "' || p_Product_ID || '" does not exist');
+    WHEN OTHERS THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Error: An unexpected error occurred: ' || SQLERRM);
+END get_product_parts;
 
-        UNION ALL
 
-        -- Select intermediate products
-        SELECT
-            TO_CHAR(pr.Product_ID) AS Product_ID,
-            TO_CHAR(ip.Part_ID) AS Part_ID,
-            TO_CHAR(pa.Part_Description) AS Part_Description,
-            TO_NUMBER(boo_in.Quantity) AS Quantity,
-            TO_CHAR(ip.Part_ID) AS Subpart_ID,
-            'Intermediate Product' AS Subpart_Type
-        FROM
-            Product pr
-            JOIN BOO boo ON pr.Product_ID = boo.Product_ID
-            JOIN BOO_Input boo_in ON boo.Product_ID = boo_in.Product_ID AND boo.Operation_ID = boo_in.Operation_ID
-            JOIN Part pa ON boo_in.Part_ID = pa.Part_ID
-            JOIN Intermediate_Product ip ON pa.Part_ID = ip.Part_ID
-        WHERE
-            pr.Product_ID = p_Product_ID
 
-        UNION ALL
+-- Test the function with different scenarios
 
-        -- Select components
-        SELECT
-            TO_CHAR(pr.Product_ID) AS Product_ID,
-            TO_CHAR(boo_in.Part_ID) AS Part_ID,
-            TO_CHAR(pa.Part_Description) AS Part_Description,
-            TO_NUMBER(boo_in.Quantity) AS Quantity,
-            TO_CHAR(pa.Part_ID) AS Subpart_ID,
-            'Component' AS Subpart_Type
-        FROM
-            Product pr
-            JOIN BOO boo ON pr.Product_ID = boo.Product_ID
-            JOIN BOO_Input boo_in ON boo.Product_ID = boo_in.Product_ID AND boo.Operation_ID = boo_in.Operation_ID
-            JOIN Part pa ON boo_in.Part_ID = pa.Part_ID
-            JOIN Component cp ON pa.Part_ID = cp.Part_ID
-        WHERE
-            pr.Product_ID = p_Product_ID
-
-        UNION ALL
-
-        -- Select raw materials
-        SELECT
-            TO_CHAR(pr.Product_ID) AS Product_ID,
-            TO_CHAR(boo_in.Part_ID) AS Part_ID,
-            TO_CHAR(pa.Part_Description) AS Part_Description,
-            TO_NUMBER(boo_in.Quantity) AS Quantity,
-            TO_CHAR(pa.Part_ID) AS Subpart_ID,
-            'Raw Material' AS Subpart_Type
-        FROM
-            Product pr
-            JOIN BOO boo ON pr.Product_ID = boo.Product_ID
-            JOIN BOO_Input boo_in ON boo.Product_ID = boo_in.Product_ID AND boo.Operation_ID = boo_in.Operation_ID
-            JOIN Part pa ON boo_in.Part_ID = pa.Part_ID
-            JOIN Raw_Material rm ON pa.Part_ID = rm.Part_ID
-        WHERE
-            pr.Product_ID = p_Product_ID;
-
-    RETURN part_cursor;
+-- Scenario 1: Call the function with a NULL Product_ID
+DECLARE
+    v_cursor SYS_REFCURSOR;
+BEGIN
+    -- Try to call the function with a NULL Product_ID
+    BEGIN
+        -- Passing NULL to trigger the exception
+        v_cursor := get_product_parts(NULL);
+    EXCEPTION
+        WHEN OTHERS THEN
+            -- Catch the exception and display the error message
+            DBMS_OUTPUT.PUT_LINE('Scenario 1 - Null Product ID: ' || SQLERRM);
+            -- Expected output: Error: Product ID cannot be NULL
+    END;
 END;
 
-
+-- Scenario 2: Call the function with a non-existent Product_ID
 DECLARE
-    -- Declare the cursor to store the result
-    parts_cursor SYS_REFCURSOR;
-
-    -- Declare variables to store fetched values
-    product_id VARCHAR2(255);
-    part_id VARCHAR2(255);
-    part_desc VARCHAR2(255);
-    subpart_id VARCHAR2(255);
-    subpart_type VARCHAR2(255);
-    total_qty NUMBER; -- Variable to store quantity
+    v_cursor SYS_REFCURSOR;
 BEGIN
-    -- Set the product ID (for testing, we use a specific known product ID)
-    product_id := 'AS12947S22';
+    -- Try to call the function with a non-existent Product_ID
+    BEGIN
+        -- Replace 'NONEXISTENT_ID' with an ID that does not exist in your database
+        v_cursor := get_product_parts('NONEXISTENT_ID');
+    EXCEPTION
+        WHEN OTHERS THEN
+            -- Catch the exception and display the error message
+            DBMS_OUTPUT.PUT_LINE('Scenario 2 - Non-existent Product ID: ' || SQLERRM);
+            -- Expected output: Error: Product with ID "NONEXISTENT_ID" does not exist
+    END;
+END;
 
-    -- Call the function and get the cursor (assuming Get_Product_Parts is defined and works correctly)
-    parts_cursor := Get_Product_Parts(product_id);
+-- Scenario 3: Call the function with an existing Product_ID
+DECLARE
+    v_cursor SYS_REFCURSOR;
+    v_Part_ID VARCHAR2(50);
+    v_Part_Description VARCHAR2(255);
+    v_Part_Type VARCHAR2(30);
+    v_Total_Quantity NUMBER;
+BEGIN
+    -- Call the function with an example of Product_ID
+    v_cursor := GET_PRODUCT_PARTS('AS12947S22');
 
-    -- Fetch and display each part
+	DBMS_OUTPUT.PUT_LINE('Scenario 3: Successfully');
+	DBMS_OUTPUT.PUT_LINE(CHR(10));
+
     LOOP
-        -- Fetch data including Product_ID and other columns
-        FETCH parts_cursor INTO product_id, part_id, part_desc, total_qty, subpart_id, subpart_type;
+        FETCH v_cursor INTO v_Part_ID, v_Part_Description, v_Part_Type, v_Total_Quantity;
+        EXIT WHEN v_cursor%NOTFOUND; -- Exits the loop when there are no more results
 
-        -- Exit the loop when no more rows are found
-        EXIT WHEN parts_cursor%NOTFOUND;
-
-        -- Output the result
-        DBMS_OUTPUT.PUT_LINE('Product ID: ' || product_id);
-        DBMS_OUTPUT.PUT_LINE('Part ID: ' || part_id);
-        DBMS_OUTPUT.PUT_LINE('Description: ' || part_desc);
-        DBMS_OUTPUT.PUT_LINE('Quantity: ' || total_qty);
-        DBMS_OUTPUT.PUT_LINE('Subpart Type: ' || subpart_type);
-        DBMS_OUTPUT.PUT_LINE('Subpart ID: ' || subpart_id);
-
-        DBMS_OUTPUT.PUT_LINE('--------------------------------------------------------------------------------');
+        -- Exibe os resultados formatados
+        DBMS_OUTPUT.PUT_LINE('Part ID: ' || v_Part_ID);
+        DBMS_OUTPUT.PUT_LINE('Part Description: ' || v_Part_Description);
+        DBMS_OUTPUT.PUT_LINE('Part Type: ' || v_Part_Type);
+        DBMS_OUTPUT.PUT_LINE('Quantity: ' || v_Total_Quantity);
+        DBMS_OUTPUT.PUT_LINE('---------------------------------------------------------');
     END LOOP;
 
-    -- Close the cursor after use
-    CLOSE parts_cursor;
+    CLOSE v_cursor; -- Closes the cursor after use
 END;
+
+
+
 

@@ -17,13 +17,13 @@ public class Sprint2MenuUI implements Runnable {
     public void run() {
         try {
             List<MenuItem> options = new ArrayList<>();
-            options.add(new MenuItem("List of parts used in a product", new US12UI()));
-            options.add(new MenuItem("List of operations involved in the production of a product", new US13UI()));
-            options.add(new MenuItem("Product using all types of machines", new US14UI()));
+            options.add(new MenuItem("List of Parts Used in a Product", new US12UI()));
+            options.add(new MenuItem("List of Operations Involved in the Production of a Product", new US13UI()));
+            options.add(new MenuItem("Product Using All Types of Machines", new US14UI()));
             options.add(new MenuItem("Register a Workstation", new US15UI()));
-            options.add(new MenuItem("Register a product in the system", new US16UI()));
-            options.add(new MenuItem("Register an order in the system", new US17UI()));
-            options.add(new MenuItem("Deactivate a customer from the system", new US18UI()));
+            options.add(new MenuItem("Register a Product", new US16UI()));
+            options.add(new MenuItem("Register an Order", new US17UI()));
+            options.add(new MenuItem("Deactivate a Customer", new US18UI()));
 
             int option = 0;
             do {
