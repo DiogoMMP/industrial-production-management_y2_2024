@@ -1,5 +1,6 @@
 package UI.Domain.USBD.US14;
 
+import UI.Utils.Utils;
 import importer_and_exporter.OracleDataExporter;
 
 import java.sql.Connection;
@@ -10,31 +11,45 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class US14UI implements Runnable {
+
+    /**
+     * This method is responsible for running the User Story 14 UI.
+     */
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Do you want to insert test data? (yes/no): ");
-        String insertTestData = scanner.nextLine();
+        System.out.print(Utils.BOLD + Utils.CYAN +
+                "\n\n --- Product Using All Types of Machines ------------" + Utils.RESET);
 
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
-            if ("yes".equalsIgnoreCase(insertTestData)) {
+            if (Utils.confirm(Utils.BOLD + "Do you want to insert test data? (Y/N)" + Utils.RESET)) {
                 insertTestData(statement);
             }
 
             executeQuery(statement);
+            Utils.goBackAndWait();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * This method is responsible for getting a connection to the database.
+     * @return Connection
+     * @throws SQLException if a database access error occurs
+     */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
     }
 
+    /**
+     * This method is responsible for inserting test data into the database.
+     * @param statement the statement to be used to execute the SQL statements
+     * @throws SQLException if a database access error occurs
+     */
     private void insertTestData(Statement statement) throws SQLException {
         String[] insertStatements = {
                 "INSERT INTO Part (Part_ID, Part_Description) VALUES ('NEWPROD001', 'Description for NEWPROD001')",
@@ -85,6 +100,11 @@ public class US14UI implements Runnable {
         }
     }
 
+    /**
+     * This method is responsible for executing the query to retrieve the products that use all types of machines.
+     * @param statement the statement to be used to execute the SQL statements
+     * @throws SQLException if a database access error occurs
+     */
     private void executeQuery(Statement statement) throws SQLException {
         String query = "SELECT p.Product_ID, p.Product_Name " +
                 "FROM Product p " +
@@ -100,11 +120,20 @@ public class US14UI implements Runnable {
                 ")";
 
         try (ResultSet resultSet = statement.executeQuery(query)) {
+
+            if (!resultSet.isBeforeFirst()) {
+                System.err.println("\nNo products found using all types of machines");
+                return;
+            }
+
+            System.out.printf(Utils.BOLD + "%n%-20s %-50s%n", "Product ID", "Product Name");
+            System.out.println("-".repeat(70) + Utils.RESET);
+
             while (resultSet.next()) {
                 String productId = resultSet.getString("Product_ID");
                 String productName = resultSet.getString("Product_Name");
 
-                System.out.printf("Product ID: %s, Product Name: %s%n", productId, productName);
+                System.out.printf("%-20s %-50s%n", productId, productName);
             }
         }
     }

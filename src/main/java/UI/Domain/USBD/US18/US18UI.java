@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class US18UI implements Runnable {
+
+    /**
+     * This method displays a list of activated customers and allows the user to select one to be deactivated.
+     */
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<>();
@@ -25,7 +29,8 @@ public class US18UI implements Runnable {
             int option;
             do {
                 option = Utils.showAndSelectIndex(options,
-                        "\n\n\033[1m\033[36m--- Choose the Customer to be Visualized ------------\033[0m");
+                        "\n\n" + Utils.BOLD + Utils.CYAN +
+                                "--- Choose the Customer to be Visualized ------------\n" + Utils.RESET);
                 if ((option >= 0) && (option < options.size())) {
                     String choice = options.get(option).toString();
                     if (!choice.equals("Back")) {
@@ -40,6 +45,7 @@ public class US18UI implements Runnable {
             e.printStackTrace();
         }
     }
+
     /**
      * This method executes one function to deactivate a customer if the customer is activated and has no orders.
      * @param customerId The ID of the customer to be deactivated
@@ -48,11 +54,18 @@ public class US18UI implements Runnable {
         String function = "{? = call Deactivate_Customer(?)}";
         try (Connection connection = getConnection();
              CallableStatement callableStatement = connection.prepareCall(function)) {
+
             callableStatement.registerOutParameter(1, Types.VARCHAR);
             callableStatement.setInt(2, customerId);
             callableStatement.execute();
             String result = callableStatement.getString(1);
-            System.out.println(result);
+
+            if (result.contains("Error")) {
+                System.err.println(result + "\n");
+            } else {
+                System.out.println("\n" + Utils.GREEN + result + Utils.RESET + "\n");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

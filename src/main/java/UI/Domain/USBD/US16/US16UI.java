@@ -3,7 +3,9 @@ package UI.Domain.USBD.US16;
 import UI.Utils.Utils;
 import importer_and_exporter.OracleDataExporter;
 import java.sql.*;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class US16UI implements Runnable {
 
@@ -12,110 +14,167 @@ public class US16UI implements Runnable {
      */
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("\n\n\033[1m\033[36m--- Register Product ------------\033[0m");
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
 
-        // Parameters for the add_product function
-        String productId;
-        String productName;
-        String partDescription;
-        int factoryPlantId;
-        int marketDemand;
-        int optimization;
-        int productionCost;
-        int flexibility;
-        int familyId;
+            // Load existing IDs into Sets for validation
+            Set<String> existingProductIds = loadExistingStrings(statement, "SELECT Product_ID FROM Product", "Product_ID");
+            Set<Integer> existingFactoryPlantsIds = loadExistingIds(statement, "SELECT Factory_Plant_ID FROM Factory_Plant", "Factory_Plant_ID");
+            Set<Integer> existingFamilyIds = loadExistingIds(statement, "SELECT Family_ID FROM Product_Family", "Family_ID");
 
-        // Get the product ID from the user
-        System.out.print("\nEnter the Product ID: ");
-        productId = scanner.nextLine();
+            System.out.println(Utils.BOLD + Utils.CYAN +
+                    "\n\n--- Register a Product ---------------------------" + Utils.RESET);
 
-        // Get the product name from the user
-        System.out.print("\nEnter the Product Name: ");
-        productName = scanner.nextLine();
+            String productId = validateStringInput(existingProductIds, "Enter Product ID: ", "Product ID already exists.");
 
-        // Get the part description from the user
-        System.out.print("\nEnter the Part Description: ");
-        partDescription = scanner.nextLine();
+            String productName = Utils.readLineFromConsole(Utils.BOLD + "Enter Product Name: " + Utils.RESET);
+            String partDescription = Utils.readLineFromConsole(Utils.BOLD + "Enter Product Description: " + Utils.RESET);
 
-        // Get the factory plant ID from the user
+            int factoryPlantId = validateIntegerInput(existingFactoryPlantsIds, "Enter Factory Plant ID: ", "Factory Plant ID does not exist.");
+
+            int marketDemand = 0;
+            while (true) {
+                try {
+                    String input = Utils.readLineFromConsole(Utils.BOLD + "Enter Market Demand: " + Utils.RESET);
+                    assert input != null;
+                    marketDemand = Integer.parseInt(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid Market Demand. Please enter a valid integer.\n");
+                }
+            }
+
+            int optimization = 0;
+            while (true) {
+                try {
+                    String input = Utils.readLineFromConsole(Utils.BOLD + "Enter Optimization: " + Utils.RESET);
+                    assert input != null;
+                    optimization = Integer.parseInt(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid Optimization. Please enter a valid integer.\n");
+                }
+            }
+
+            int productionCost = 0;
+            while (true) {
+                try {
+                    String input = Utils.readLineFromConsole(Utils.BOLD + "Enter Production Cost: " + Utils.RESET);
+                    assert input != null;
+                    productionCost = Integer.parseInt(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid Production Cost. Please enter a valid integer.\n");
+                }
+            }
+
+            int flexibility = 0;
+            while (true) {
+                try {
+                    String input = Utils.readLineFromConsole(Utils.BOLD + "Enter Flexibility: " + Utils.RESET);
+                    assert input != null;
+                    flexibility = Integer.parseInt(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid Flexibility. Please enter a valid integer.\n");
+                }
+            }
+
+            int familyId = validateIntegerInput(existingFamilyIds, "Enter Family ID: ", "Family ID does not exist.");
+
+            String result = addProduct(productId, productName, partDescription, factoryPlantId,
+                    marketDemand, optimization, productionCost, flexibility, familyId);
+
+            if (result.contains("Error")) {
+                System.err.println(result + "\n");  // Print the error message
+            } else {
+                System.out.println(result + "\n");  // Print the success message
+            }
+
+            Utils.goBackAndWait();  // Wait for user input before returning to the main menu
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method loads existing IDs from the database into a Set for validation.
+     * @param statement The SQL statement object
+     * @param query The SQL query to execute
+     * @param columnLabel The column label to retrieve from the result set
+     * @return The Set of existing IDs
+     * @throws SQLException If a database access error occurs
+     */
+    private Set<Integer> loadExistingIds(Statement statement, String query, String columnLabel) throws SQLException {
+        Set<Integer> ids = new HashSet<>();
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            ids.add(resultSet.getInt(columnLabel));
+        }
+        return ids;
+    }
+
+    /**
+     * This method loads existing strings from the database into a Set for validation.
+     * @param statement The SQL statement object
+     * @param query The SQL query to execute
+     * @param columnLabel The column label to retrieve from the result set
+     * @return The Set of existing strings
+     * @throws SQLException If a database access error occurs
+     */
+    private Set<String> loadExistingStrings(Statement statement, String query, String columnLabel) throws SQLException {
+        Set<String> ids = new HashSet<>();
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            ids.add(resultSet.getString(columnLabel));
+        }
+        return ids;
+    }
+
+    /**
+     * This method validates a string input against a Set of existing IDs.
+     * @param existingIds The Set of existing IDs
+     * @param prompt The prompt message
+     * @param errorMessage The error message
+     * @return The validated string input
+     */
+    private String validateStringInput(Set<String> existingIds, String prompt, String errorMessage) {
         while (true) {
-            try {
-                System.out.print("\nEnter the Factory Plant ID: ");
-                factoryPlantId = Integer.parseInt(scanner.nextLine());
-                break; // Exit the loop if the input is valid
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid Factory Plant ID. Please enter a valid integer.\n");
+            String input = Utils.readLineFromConsole(Utils.BOLD + prompt + Utils.RESET);
+            if (existingIds.contains(input)) {
+                System.err.println(errorMessage + "\n");
+            } else {
+                return input;
             }
         }
+    }
 
-        // Get the market demand from the user
+    /**
+     * This method validates an integer input against a Set of existing IDs.
+     * @param existingIds The Set of existing IDs
+     * @param prompt The prompt message
+     * @param errorMessage The error message
+     * @return The validated integer input
+     */
+    private int validateIntegerInput(Set<Integer> existingIds, String prompt, String errorMessage) {
         while (true) {
             try {
-                System.out.print("\nEnter the Market Demand: ");
-                marketDemand = Integer.parseInt(scanner.nextLine());
-                break; // Exit the loop if the input is valid
+                String input = Utils.readLineFromConsole(Utils.BOLD + prompt + Utils.RESET);
+                assert input != null;
+                int inputInt = Integer.parseInt(input);
+
+                if (!existingIds.contains(inputInt)) {
+                    System.err.println(errorMessage + "\n");
+                } else {
+                    return inputInt;
+                }
+
             } catch (NumberFormatException e) {
-                System.err.println("Invalid Market Demand. Please enter a valid integer.\n");
+                System.err.println("Invalid input. Please enter a valid number.\n");
             }
         }
-
-        // Get the optimization from the user
-        while (true) {
-            try {
-                System.out.print("\nEnter the Optimization: ");
-                optimization = Integer.parseInt(scanner.nextLine());
-                break; // Exit the loop if the input is valid
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid Optimization. Please enter a valid integer.\n");
-            }
-        }
-
-        // Get the production cost from the user
-        while (true) {
-            try {
-                System.out.print("\nEnter the Production Cost: ");
-                productionCost = Integer.parseInt(scanner.nextLine());
-                break; // Exit the loop if the input is valid
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid Production Cost. Please enter a valid integer.\n");
-            }
-        }
-
-        // Get the flexibility from the user
-        while (true) {
-            try {
-                System.out.print("\nEnter the Flexibility: ");
-                flexibility = Integer.parseInt(scanner.nextLine());
-                break; // Exit the loop if the input is valid
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid Flexibility. Please enter a valid integer.\n");
-            }
-        }
-
-        // Get the family ID from the user
-        while (true) {
-            try {
-                System.out.print("\nEnter the Family ID: ");
-                familyId = Integer.parseInt(scanner.nextLine());
-                break; // Exit the loop if the input is valid
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid Family ID. Please enter a valid integer.\n");
-            }
-        }
-
-        // Call the addProduct method and store the result
-        String result = addProduct(productId, productName, partDescription, factoryPlantId,
-                marketDemand, optimization, productionCost, flexibility, familyId);
-
-        if (result.contains("Error")) {
-            System.err.println(result + "\n");  // Print the error message
-        } else {
-            System.out.println(result + "\n");  // Print the success message
-        }
-
-        Utils.goBackAndWait();  // Wait for user input before returning to the main menu
     }
 
     /**
@@ -170,7 +229,11 @@ public class US16UI implements Runnable {
             e.printStackTrace();  // Print stack trace if an error occurs during the call
         }
 
-        return result;  // Return the result (either success or error message)
+        if (result.contains("Not inserted")) {
+            return Utils.RED + result + Utils.RESET;  // Print the error message
+        } else {
+            return Utils.GREEN + "\nProduct registered successfully." + Utils.RESET;  // Print the success message
+        }
     }
 
     /**
