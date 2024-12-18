@@ -2,6 +2,7 @@ package UI.Domain.USBD.US26;
 
 import UI.Domain.USBD.US07.US7UI;
 import UI.Menu.MenuItem;
+import UI.Menu.Sprint3MenuUI;
 import UI.Utils.Utils;
 import importer_and_exporter.OracleDataExporter;
 
@@ -32,7 +33,12 @@ public class US26UI implements Runnable {
                 int option;
                 do {
                     option = Utils.showAndSelectIndex(options,
-                            "\n\n\033[1m\033[36m--- Choose the Customer Order to be Visualized ------------\033[0m");
+                            "\n\n" + Utils.BOLD + Utils.CYAN + "--- Choose the Customer Order to be Visualized ------------\n" + Utils.RESET);
+
+                    if (option == -2) {
+                        new Sprint3MenuUI().run();
+                    }
+
                     if ((option >= 0) && (option < options.size())) {
                         String choice = options.get(option).toString();
                         if (!choice.equals("Back")) {
@@ -68,6 +74,7 @@ public class US26UI implements Runnable {
             ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
             // Print the formatted table
+            System.out.println(Utils.BOLD + Utils.CYAN + "\n\n --- Check Stock for Order " + order_id + " ------------" + Utils.RESET);
             printFormattedTable(resultSet);
 
         } catch (SQLException e) {
@@ -101,14 +108,14 @@ public class US26UI implements Runnable {
         }
 
         // Print the table header
-        System.out.printf("\033[1m%n%-20s %-50s %-20s %-20s %-20s%n\033[0m",
+        System.out.printf(Utils.BOLD + "%n%-20s %-50s %-20s %-20s %-20s%n",
                 "Part ID", "Description", "Total Required", "Stock", "Status");
-        System.out.println("=".repeat(140)); // Horizontal line
+        System.out.println("-".repeat(140) + Utils.RESET); // Horizontal line
 
         // Print the rows of the table
         for (String[] row : rows) {
             // Set the color based on the status
-            String statusColor = row[4].equals("Sufficient") ? "\033[32m" : (row[4].equals("Insufficient") ? "\033[31m" : "\033[0m");
+            String statusColor = row[4].equals("Sufficient") ? Utils.GREEN : (row[4].equals("Insufficient") ? Utils.RED : Utils.RESET);
 
             // Print the formatted row with the correct color
             System.out.printf("%-20s %-50s %-20s %-20s %s%-20s\033[0m%n",

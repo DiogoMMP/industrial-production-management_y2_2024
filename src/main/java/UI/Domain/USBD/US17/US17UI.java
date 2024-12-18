@@ -161,7 +161,7 @@ public class US17UI implements Runnable {
                     int priorityOption = Utils.showAndSelectIndex(priorities,
                             "\n" + Utils.BOLD + "Choose a Priority:\n" + Utils.RESET);
 
-                    if (priorityOption == 0) {
+                    if (priorityOption == -2) {
                         new Sprint2MenuUI().run();
                     }
 

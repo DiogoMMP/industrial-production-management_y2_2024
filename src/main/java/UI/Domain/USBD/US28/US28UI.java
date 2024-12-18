@@ -1,6 +1,7 @@
 package UI.Domain.USBD.US28;
 
 import UI.Menu.MenuItem;
+import UI.Menu.Sprint3MenuUI;
 import UI.Utils.Utils;
 import importer_and_exporter.OracleDataExporter;
 
@@ -11,42 +12,11 @@ import java.util.List;
 public class US28UI implements Runnable {
     @Override
     public void run() {
-        List<MenuItem> options = new ArrayList<>();
-        try (Connection connection = getConnection()) {
-            String query = "SELECT SUPPLIER_ID FROM SUPPLIER";
-            try (var statement = connection.createStatement();
-                 var resultSet = statement.executeQuery(query)) {
-                while (resultSet.next()) {
-                    int supplierID = resultSet.getInt("Supplier_ID");
-                    options.add(new MenuItem("Supplier ID: " + supplierID, new US28UI()));
-                }
-                options.add(new MenuItem("All", new US28UI()));
-                int option;
-                do {
-                    option = Utils.showAndSelectIndex(options,
-                            "\n\n\033[1m\033[36m--- Choose the Customer Order to be Visualized ------------\033[0m");
-                    if ((option >= 0) && (option < options.size())) {
-                        String choice = options.get(option).toString();
-                        if (!choice.equals("Back") && !choice.equals("All")) {
-                            clearConsole();
-                            String supplierID = choice.split(": ")[1];
-                            getReservedMaterials(supplierID);
-                            Utils.goBackAndWait();
-                        } else if (choice.equals("All")) {
-                            clearConsole();
-                            getReservedMaterials("All");
-                            Utils.goBackAndWait();
-                        }
-                    }
-                } while (option != -1 && !options.get(option).toString().equals("Back"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
+        getReservedMaterials();
+        Utils.goBackAndWait();
     }
 
-    private void getReservedMaterials(String supplierID) {
+    private void getReservedMaterials() {
         String function = "{? = call Get_Reserved_Materials()}"; // Adjust for function call
         try (Connection connection = getConnection();
              CallableStatement callableStatement = connection.prepareCall(function)) {
@@ -57,34 +27,57 @@ public class US28UI implements Runnable {
             // Execute the function
             callableStatement.execute();
 
-            // Retrieve the cursor as a ResultSet
-            try (ResultSet resultSet = (ResultSet) callableStatement.getObject(1)) {
-                while (resultSet.next()) {
-                    String partId = resultSet.getString("Part_ID");
-                    int quantity = resultSet.getInt("Quantity");
-                    String unit = resultSet.getString("Unit");
-                    String description = resultSet.getString("Part_Description");
-                    String supplierDetails = resultSet.getString("Supplier_Details");
-                    String supplierIDExp = supplierDetails.split(" - ")[0];
-                    // Filter by supplierID or display all if supplierID is -1, which means all
-                    if (supplierID.equalsIgnoreCase(supplierIDExp) || supplierID.equalsIgnoreCase("All")) {
-                        System.out.println("Part ID: " + partId);
-                        System.out.println("Description: " + description);
-                        System.out.println("Quantity: " + quantity);
-                        System.out.println("Unit: " + unit);
-                        System.out.println("Supplier Details: " + supplierDetails);
-                        System.out.println("-------------------------------");
-                    }
-                }
-            }
+            ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
+
+            System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                    "--- Reserved Materials ------------\n" + Utils.RESET);
+            printFormattedTable(resultSet);
+
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void printFormattedTable(ResultSet resultSet) throws SQLException {
+        // Create a list to store rows of formatted data
+        List<String[]> rows = new ArrayList<>();
+
+        // Iterate through the ResultSet
+        while (resultSet.next()) {
+            // Read each column from the ResultSet
+            String partId = resultSet.getString("PART_ID");
+            int quantity = resultSet.getInt("QUANTITY");
+            String unit = resultSet.getString("UNIT");
+            String description = resultSet.getString("PART_DESCRIPTION");
+            String supplierDetails = resultSet.getString("SUPPLIER_DETAILS");
+
+            // Store the row as an array
+            String[] formattedRow = {
+                    partId,
+                    description,
+                    String.valueOf(quantity),
+                    unit,
+                    supplierDetails
+            };
+
+            rows.add(formattedRow); // Add the formatted row to the list
+        }
+
+        System.out.printf(Utils.BOLD + "%-15s %-50s %-10s %-10s %-30s%n",
+                "Part ID", "Description", "Quantity", "Unit", "Supplier Details");
+        System.out.println("-".repeat(115) + Utils.RESET); // Horizontal divider
+
+        // Print the rows
+        for (String[] row : rows) {
+            System.out.printf("%-15s %-50s %-10s %-10s %-30s%n",
+                    row[0], row[1], row[2], row[3], row[4]);
         }
     }
 
 
     /**
      * This method creates a connection to the database.
+     *
      * @return The connection to the database.
      * @throws SQLException If an error occurs while connecting to the database.
      */
@@ -99,6 +92,4 @@ public class US28UI implements Runnable {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
-
 }
