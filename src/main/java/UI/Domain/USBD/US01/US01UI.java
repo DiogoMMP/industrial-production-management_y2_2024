@@ -3,6 +3,7 @@ package UI.Domain.USBD.US01;
 import UI.Utils.GlossaryService;
 import UI.Utils.Utils;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,11 +19,18 @@ public class US01UI implements Runnable {
                 "--- Search Glossary Terms ------------" + Utils.RESET);
 
         // Ask the user for the search term
-        String searchTerm = Utils.readLineFromConsole(Utils.BOLD + "Enter a term to search: " + Utils.RESET);
+        String searchTerm = Utils.readLineFromConsole(Utils.BOLD + "Enter a term or letter to search: " + Utils.RESET);
 
         // Get glossary data and search for the term
         List<String[]> data = GlossaryService.readGlossary();
-        Set<String[]> results = GlossaryService.searchGlossary(data, searchTerm);
+        Set<String[]> results;
+
+        assert searchTerm != null;
+        if (searchTerm.length() == 1){
+            results = GlossaryService.searchGlossaryFirstLetter(data, searchTerm);
+        } else {
+            results = GlossaryService.searchGlossary(data, searchTerm);
+        }
 
         // Display the results
         if (!results.isEmpty()) {

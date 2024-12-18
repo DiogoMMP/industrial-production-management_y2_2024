@@ -48,7 +48,64 @@ public class GlossaryService {
             String termInFile = values[1].trim().replace("**", "");
             String definition = values[2].trim();
 
-            if (termInFile.equalsIgnoreCase(term.toLowerCase())) {
+            if (termInFile.toLowerCase().contains(term.toLowerCase())) {
+                results.add(new String[]{termInFile, definition});
+
+                if (termInFile.length() > maxTermSize) {
+                    maxTermSize = termInFile.length();
+                }
+
+                if (definition.length() > maxDefSize) {
+                    maxDefSize = definition.length();
+                }
+
+                // If the definition contains "Acronym", search for the term inside quotes
+                if (definition.toLowerCase().contains("acronym for")) {
+                    int startIndex = definition.indexOf('"');
+                    int endIndex = definition.indexOf('"', startIndex + 1);
+
+                    if (startIndex != -1 && endIndex != -1) {
+                        String acronymTerm = definition.substring(startIndex + 1, endIndex).trim();
+
+                        // Now search for the definition of this acronym in "data"
+                        for (String[] entry : data) {
+                            termInFile = entry[1].trim().replace("**", "");
+                            definition = entry[2].trim();
+
+                            if (termInFile.equalsIgnoreCase(acronymTerm)) {
+                                results.add(new String[]{termInFile, definition});
+
+                                if (termInFile.length() > maxTermSize) {
+                                    maxTermSize = termInFile.length();
+                                }
+
+                                if (definition.length() > maxDefSize) {
+                                    maxDefSize = definition.length();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    /**
+     * Searches for terms in the glossary data that start with a specific letter and returns a set of arrays containing the results.
+     * @param data the glossary data
+     * @param letter the first letter of the terms to search for
+     * @return a set of arrays containing the search results
+     */
+    public static Set<String[]> searchGlossaryFirstLetter(List<String[]> data, String letter) {
+        Set<String[]> results = new LinkedHashSet<>();
+
+        // Search for the term in the file
+        for (String[] values : data) {
+            String termInFile = values[1].trim().replace("**", "");
+            String definition = values[2].trim();
+
+            if (termInFile.toLowerCase().charAt(0) == letter.toLowerCase().charAt(0)) {
                 results.add(new String[]{termInFile, definition});
 
                 if (termInFile.length() > maxTermSize) {
