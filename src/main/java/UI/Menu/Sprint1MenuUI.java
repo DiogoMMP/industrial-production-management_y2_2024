@@ -24,12 +24,16 @@ public class Sprint1MenuUI implements Runnable {
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
-                        "--- Sprint 1: Project Overview and Operations ---------------------------\n" + Utils.RESET);
+                        "--- Project Overview and Operations ---------------------------\n" + Utils.RESET);
+
+                if (option == -2) {
+                    new DatabaseManagementMenuUI().run();
+                }
 
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    new DatabaseManagementMenuUI().run();
+                    System.err.println("Error: Invalid option.");
                 }
 
             } while (true);

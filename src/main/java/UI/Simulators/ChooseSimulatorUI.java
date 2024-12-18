@@ -3,6 +3,7 @@ package UI.Simulators;
 import UI.Domain.USLP.US06.SimulateOrdersUI;
 import UI.Menu.ActivitiesMenu;
 import UI.Menu.MenuItem;
+import UI.Menu.Sprint2MenuUI;
 import UI.Utils.DataInitializer;
 import UI.Utils.Utils;
 
@@ -24,10 +25,14 @@ public class ChooseSimulatorUI implements Runnable{
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Choose Simulator -------------------------------\n" + Utils.RESET);
 
+                if (option == -2) {
+                    new DataInitializer().run();
+                }
+
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    new DataInitializer().run();
+                    System.err.println("Error: Invalid option.");
                 }
 
             } while (true);

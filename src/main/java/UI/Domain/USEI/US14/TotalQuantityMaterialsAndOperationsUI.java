@@ -26,6 +26,11 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                     "--- Total Quantity of Materials and Operations Menu ------------\n" + Utils.RESET);
+
+            if (option == -2) {
+                break;
+            }
+
             if (option >= 0 && option < options.size()) {
                 options.get(option).run();
                 Utils.goBackAndWait();

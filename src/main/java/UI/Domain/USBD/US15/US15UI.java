@@ -1,10 +1,15 @@
 package UI.Domain.USBD.US15;
 
+import UI.Domain.USBD.US17.US17UI;
+import UI.Menu.MenuItem;
+import UI.Menu.Sprint2MenuUI;
 import UI.Utils.Utils;
 import importer_and_exporter.OracleDataExporter;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,14 +26,13 @@ public class US15UI implements Runnable {
 
             // Load existing IDs into Sets for validation
             Set<Integer> existingWorkstationIds = loadExistingIds(statement, "SELECT Workstation_ID FROM Workstation", "Workstation_ID");
-            Set<Integer> existingPlantFloorIds = loadExistingIds(statement, "SELECT Plant_Floor_ID FROM Plant_Floor", "Plant_Floor_ID");
-            Set<String> existingWorkstationTypeIds = loadExistingStrings(statement, "SELECT Workstation_Type_ID FROM Workstation_Type", "Workstation_Type_ID");
 
             System.out.println(Utils.BOLD + Utils.CYAN +
                     "\n\n--- Register a Workstation ---------------------------" + Utils.RESET);
 
             // Input for Workstation ID
-            int newWorkstationId = validateIntegerInput(existingWorkstationIds, "Enter Workstation ID: ", "Workstation ID already exists.", 0);
+            int newWorkstationId = validateIntegerInput(existingWorkstationIds, "Enter Workstation ID: ",
+                    "Error: Workstation ID already exists. Please enter a different Workstation ID.");
 
             // Input for Workstation Name and Description
             String newWorkstationName = Utils.readLineFromConsole(Utils.BOLD + "Enter Workstation Name: " + Utils.RESET);
@@ -39,10 +43,10 @@ public class US15UI implements Runnable {
             double newWorkstationTime = validateDoubleInput("Enter Workstation Time: ");
 
             // Input for Plant Floor ID
-            int newPlantFloorId = validateIntegerInput(existingPlantFloorIds, "Enter Plant Floor ID: ", "Plant Floor ID does not exist.", 1);
+            int newPlantFloorId = choosePlantFloorID();
 
             // Input for Workstation Type ID
-            String newWorkstationTypeId = validateStringInput(existingWorkstationTypeIds, "Enter Workstation Type ID: ", "Workstation Type ID does not exist.");
+            String newWorkstationTypeId = chooseWorkstationTypeID();
 
             // Input for temperature and humidity
             double minTemp = validateDoubleInput("Enter Minimum Temperature: ");
@@ -93,69 +97,19 @@ public class US15UI implements Runnable {
         return ids;
     }
 
-    /**
-     * This method is used to load existing strings into a Set for validation.
-     * @param statement Statement
-     * @param query String
-     * @param columnLabel String
-     * @return Set<String>
-     * @throws SQLException if a database access error occurs
-     */
-    private Set<String> loadExistingStrings(Statement statement, String query, String columnLabel) throws SQLException {
-        Set<String> ids = new HashSet<>();
-        ResultSet resultSet = statement.executeQuery(query);
-        while (resultSet.next()) {
-            ids.add(resultSet.getString(columnLabel));
-        }
-        return ids;
-    }
-
-    /**
-     * This method is used to validate string inputs.
-     * @param existingIds Set<String>
-     * @param prompt String
-     * @param errorMessage String
-     * @return String
-     */
-    private String validateStringInput(Set<String> existingIds, String prompt, String errorMessage) {
-        while (true) {
-            String input = Utils.readLineFromConsole(Utils.BOLD + prompt + Utils.RESET);
-            if (!existingIds.contains(input)) {
-                System.err.println(errorMessage + "\n");
-            } else {
-                return input;
-            }
-        }
-    }
-
-    /**
-     * This method is used to validate integer inputs.
-     * @param existingIds Set<Integer>
-     * @param prompt String
-     * @param errorMessage String
-     * @param version int
-     * @return int
-     */
-    private int validateIntegerInput(Set<Integer> existingIds, String prompt, String errorMessage, int version) {
+    private int validateIntegerInput(Set<Integer> existingIds, String prompt, String errorMessage) {
         while (true) {
             try {
                 String input = Utils.readLineFromConsole(Utils.BOLD + prompt + Utils.RESET);
                 assert input != null;
                 int inputInt = Integer.parseInt(input);
 
-                if (version == 0){
-                    if (existingIds.contains(inputInt)) {
-                        System.err.println(errorMessage + "\n");
-                    } else {
-                        return inputInt;
-                    }
+                if (existingIds.contains(inputInt)) {
+                    System.err.println(errorMessage + "\n");
                 } else {
-                    if (!existingIds.contains(inputInt)) {
-                        System.err.println(errorMessage + "\n");
-                    } else {
-                        return inputInt;
-                    }
+                    return inputInt;
                 }
+
             } catch (NumberFormatException e) {
                 System.err.println("Invalid input. Please enter a valid number.\n");
             }
@@ -178,6 +132,101 @@ public class US15UI implements Runnable {
                 System.err.println("Invalid input. Please enter a valid number.\n");
             }
         }
+    }
+
+    /**
+     * This method is used to choose a plant floor ID.
+     * @return int
+     */
+    private int choosePlantFloorID() {
+        List<MenuItem> options = new ArrayList<>();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+
+            // Query to get activated customers
+            String query = "SELECT PLANT_FLOOR_ID FROM PLANT_FLOOR";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String customerId = resultSet.getString("Plant_Floor_ID");
+                options.add(new MenuItem("Plant Floor ID: " + customerId, new US17UI()));
+            }
+
+            int option;
+
+            while (true){
+                option = Utils.showAndSelectIndex(options,
+                        Utils.BOLD + "\nChoose Plant Floor ID:\n" + Utils.RESET);
+
+                if (option == -2) {
+                    new Sprint2MenuUI().run();
+                }
+
+                if ((option >= 0) && (option < options.size())) {
+                    String choice = options.get(option).toString();
+                    if (!choice.equals("Back")) {
+                        clearConsole();
+                        String plantFloorId = choice.split(": ")[1];
+                        return Integer.parseInt(plantFloorId);
+                    }
+
+                } else {
+                    System.out.println(Utils.RED + "\nInvalid option. Please choose a valid Plant Floor ID.\n" + Utils.RESET);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving plant floors: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    /**
+     * This method is used to choose a workstation type ID.
+     * @return String
+     */
+    private String chooseWorkstationTypeID() {
+        List<MenuItem> options = new ArrayList<>();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+
+            // Query to get activated customers
+            String query = "SELECT WORKSTATION_TYPE_ID FROM WORKSTATION_TYPE";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String customerId = resultSet.getString("Workstation_Type_ID");
+                options.add(new MenuItem("Workstation Type ID: " + customerId, new US17UI()));
+            }
+
+            int option;
+
+            while (true){
+                option = Utils.showAndSelectIndex(options,
+                        Utils.BOLD + "\nChoose Workstation Type ID:\n" + Utils.RESET);
+
+                if (option == -2) {
+                    new Sprint2MenuUI().run();
+                }
+
+                if ((option >= 0) && (option < options.size())) {
+                    String choice = options.get(option).toString();
+
+                    if (!choice.equals("Back")) {
+                        clearConsole();
+                        String workstationTypeId = choice.split(": ")[1];
+                        return workstationTypeId;
+                    }
+
+                } else {
+                    System.out.println(Utils.RED + "\nInvalid option. Please choose a valid Workstation Type ID.\n" + Utils.RESET);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving workstations types: " + e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -216,5 +265,13 @@ public class US15UI implements Runnable {
 
             callableStatement.execute();
         }
+    }
+
+    /**
+     * This method is used to clear the console.
+     */
+    private void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

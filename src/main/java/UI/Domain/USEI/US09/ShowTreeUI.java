@@ -34,6 +34,11 @@ public class ShowTreeUI implements Runnable {
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                     "--- Choose the Item to be Visualized ------------\n" + Utils.RESET);
+
+            if (option == -2) {
+                break;
+            }
+
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {

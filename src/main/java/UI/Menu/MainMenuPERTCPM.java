@@ -34,10 +34,14 @@ public class MainMenuPERTCPM implements Runnable {
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Simulation by PERT/CPM ---------------------------\n" + Utils.RESET);
 
+                if (option == -2) {
+                    new ActivitiesMenu().run();
+                }
+
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    new ActivitiesMenu().run();
+                    System.err.println("Error: Invalid option");
                 }
 
             } while (true);

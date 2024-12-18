@@ -1,6 +1,7 @@
 package UI.Domain.USLP.US06;
 
 import UI.Menu.MenuItem;
+import UI.Simulators.ChooseSimulatorUI;
 import UI.Utils.Utils;
 import domain.Order;
 import enums.Priority;
@@ -31,6 +32,10 @@ public class SimulateOrdersUI implements Runnable {
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                     "--- Choose the Order to be Visualized ------------" + Utils.RESET);
+
+            if (option == -2) {
+                new ChooseSimulatorUI().run();
+            }
 
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();

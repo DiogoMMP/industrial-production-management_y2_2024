@@ -1,11 +1,12 @@
 package UI.Domain.USBD.US16;
 
+import UI.Domain.USBD.US17.US17UI;
+import UI.Menu.MenuItem;
+import UI.Menu.Sprint2MenuUI;
 import UI.Utils.Utils;
 import importer_and_exporter.OracleDataExporter;
 import java.sql.*;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class US16UI implements Runnable {
 
@@ -20,8 +21,6 @@ public class US16UI implements Runnable {
 
             // Load existing IDs into Sets for validation
             Set<String> existingProductIds = loadExistingStrings(statement, "SELECT Product_ID FROM Product", "Product_ID");
-            Set<Integer> existingFactoryPlantsIds = loadExistingIds(statement, "SELECT Factory_Plant_ID FROM Factory_Plant", "Factory_Plant_ID");
-            Set<Integer> existingFamilyIds = loadExistingIds(statement, "SELECT Family_ID FROM Product_Family", "Family_ID");
 
             System.out.println(Utils.BOLD + Utils.CYAN +
                     "\n\n--- Register a Product ---------------------------" + Utils.RESET);
@@ -31,7 +30,7 @@ public class US16UI implements Runnable {
             String productName = Utils.readLineFromConsole(Utils.BOLD + "Enter Product Name: " + Utils.RESET);
             String partDescription = Utils.readLineFromConsole(Utils.BOLD + "Enter Product Description: " + Utils.RESET);
 
-            int factoryPlantId = validateIntegerInput(existingFactoryPlantsIds, "Enter Factory Plant ID: ", "Factory Plant ID does not exist.");
+            int factoryPlantId = chooseFactoryPlantID();
 
             int marketDemand = 0;
             while (true) {
@@ -81,7 +80,7 @@ public class US16UI implements Runnable {
                 }
             }
 
-            int familyId = validateIntegerInput(existingFamilyIds, "Enter Family ID: ", "Family ID does not exist.");
+            int familyId = chooseFamilyID();
 
             String result = addProduct(productId, productName, partDescription, factoryPlantId,
                     marketDemand, optimization, productionCost, flexibility, familyId);
@@ -151,30 +150,92 @@ public class US16UI implements Runnable {
         }
     }
 
-    /**
-     * This method validates an integer input against a Set of existing IDs.
-     * @param existingIds The Set of existing IDs
-     * @param prompt The prompt message
-     * @param errorMessage The error message
-     * @return The validated integer input
-     */
-    private int validateIntegerInput(Set<Integer> existingIds, String prompt, String errorMessage) {
-        while (true) {
-            try {
-                String input = Utils.readLineFromConsole(Utils.BOLD + prompt + Utils.RESET);
-                assert input != null;
-                int inputInt = Integer.parseInt(input);
+    private int chooseFactoryPlantID() {
+        List<MenuItem> options = new ArrayList<>();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
 
-                if (!existingIds.contains(inputInt)) {
-                    System.err.println(errorMessage + "\n");
-                } else {
-                    return inputInt;
+            // Query to get activated customers
+            String query = "SELECT FACTORY_PLANT_ID FROM FACTORY_PLANT";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String customerId = resultSet.getString("Factory_Plant_ID");
+                options.add(new MenuItem("Factory Plant ID: " + customerId, new US17UI()));
+            }
+
+            int option;
+
+            while (true){
+                option = Utils.showAndSelectIndex(options,
+                        Utils.BOLD + "\nChoose Factory Plant ID:\n" + Utils.RESET);
+
+                if (option == -2) {
+                    new Sprint2MenuUI().run();
                 }
 
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid input. Please enter a valid number.\n");
+                if ((option >= 0) && (option < options.size())) {
+                    String choice = options.get(option).toString();
+
+                    if (!choice.equals("Back")) {
+                        clearConsole();
+                        String factoryPlantId = choice.split(": ")[1];
+                        return Integer.parseInt(factoryPlantId);
+                    }
+
+                } else {
+                    System.out.println(Utils.RED + "\nInvalid option. Please choose a valid Factory Plant ID.\n" + Utils.RESET);
+                }
             }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving factory plants: " + e.getMessage());
         }
+        return -1;
+    }
+
+    private int chooseFamilyID() {
+        List<MenuItem> options = new ArrayList<>();
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+
+            // Query to get activated customers
+            String query = "SELECT FAMILY_ID FROM PRODUCT_FAMILY";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String customerId = resultSet.getString("Family_ID");
+                options.add(new MenuItem("Family ID: " + customerId, new US17UI()));
+            }
+
+            int option;
+
+            while (true){
+                option = Utils.showAndSelectIndex(options,
+                        Utils.BOLD + "\nChoose Family ID:\n" + Utils.RESET);
+
+                if (option == -2) {
+                    new Sprint2MenuUI().run();
+                }
+
+                if ((option >= 0) && (option < options.size())) {
+                    String choice = options.get(option).toString();
+
+                    if (!choice.equals("Back")) {
+                        clearConsole();
+                        String familyId = choice.split(": ")[1];
+                        return Integer.parseInt(familyId);
+                    }
+
+                } else {
+                    System.out.println(Utils.RED + "\nInvalid option. Please choose a valid Family ID.\n" + Utils.RESET);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving families: " + e.getMessage());
+        }
+        return -1;
     }
 
     /**
@@ -243,5 +304,10 @@ public class US16UI implements Runnable {
      */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
+    }
+
+    private void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

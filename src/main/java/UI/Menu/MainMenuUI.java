@@ -26,10 +26,14 @@ public class MainMenuUI implements Runnable {
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Main Menu ---------------------------\n" + Utils.RESET);
 
+                if (option == -2) {
+                    System.exit(0);
+                }
+
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    System.exit(0);
+                    System.err.println("Error: Invalid option.");
                 }
             } while (true);
         } catch (Exception e) {

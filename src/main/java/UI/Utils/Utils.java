@@ -207,8 +207,11 @@ public class Utils {
             try {
                 value = Integer.valueOf(input);
 
+                if (value == 0) {
+                    return -2;
+                }
+
                 if (value < 0 || value > list.size()) {
-                    System.err.println("Invalid option. Please try again.");
                     return -1;
                 }
 

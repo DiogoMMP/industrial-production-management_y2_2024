@@ -36,10 +36,14 @@ public class MainMenuUITree implements Runnable {
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Simulation by Structural Information -------------\n" + Utils.RESET);
 
+                if (option == -2) {
+                    new ChooseSimulatorUI().run();
+                }
+
                 if ((option >= 0) && (option < options.size())) {
                     options.get(option).run();
                 } else if (option == -1) {
-                    new ChooseSimulatorUI().run();
+                    System.err.println("Error: Invalid option.");
                 }
 
             } while (true);

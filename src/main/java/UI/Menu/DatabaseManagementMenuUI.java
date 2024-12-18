@@ -20,10 +20,14 @@ public class DatabaseManagementMenuUI implements Runnable {
                 sprintOption = Utils.showAndSelectIndex(sprints, "\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Database Management ---------------------------\n" + Utils.RESET);
 
+                if (sprintOption == -2) {
+                    new MainMenuUI().run();
+                }
+
                 if ((sprintOption >= 0) && (sprintOption < sprints.size())) {
                     sprints.get(sprintOption).run();
                 } else if (sprintOption == -1) {
-                    new MainMenuUI().run();
+                    System.err.println("Error: Invalid option.");
                 }
 
             } while (true);

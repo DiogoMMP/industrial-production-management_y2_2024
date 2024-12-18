@@ -24,6 +24,11 @@ public class SearchOperationUI implements Runnable {
 
         int searchOption = Utils.showAndSelectIndex(searchOptions, "\n\n" + Utils.BOLD + Utils.CYAN +
                 "--- Choose the Search Method ------------------\n" + Utils.RESET);
+
+        if (searchOption == -2) {
+            new SearchUI().run();
+        }
+
         if (searchOption >= 0 && searchOption < searchOptions.size()) {
             searchOptions.get(searchOption).run();
         }
@@ -45,6 +50,11 @@ public class SearchOperationUI implements Runnable {
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                     "--- Choose the Operation to Search ------------\n" + Utils.RESET);
+
+            if (option == -2) {
+                break;
+            }
+
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
