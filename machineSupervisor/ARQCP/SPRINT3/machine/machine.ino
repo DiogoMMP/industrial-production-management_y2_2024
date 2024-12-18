@@ -12,6 +12,8 @@
 #define DHT_TYPE DHT11   // Use DHT11 or DHT22 based on your sensor
 DHT dht(DHT_PIN, DHT_TYPE); // Initialize the DHT sensor
 
+String machineState = "OFF"; // Initial state of the machine
+
 // Function to update the built-in LED for machine state
 void update_machine_state(String state) {
     if (state == "OFF") {
@@ -57,14 +59,38 @@ void send_temp_humidity() {
     Serial.println(data);
 }
 
-// Function to make the built-in LED blink
-void blink_builtin_led(int times, int duration_ms) {
-    for (int i = 0; i < times; i++) {
+// Function to make the built-in LED blink while in OP state
+void blink_builtin_led_while_op(int interval_ms) {
+    while (machineState == "OP") {
         digitalWrite(LED_BUILTIN, HIGH);
-        delay(duration_ms);
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(duration_ms);
+        delay(interval_ms);               
+        digitalWrite(LED_BUILTIN, LOW);   
+        delay(interval_ms);               
+
+        if (Serial.available() > 0) {
+            String newCommand = Serial.readStringUntil('\n');
+            newCommand.trim(); 
+            int commaIndex = newCommand.indexOf(',');
+            if (commaIndex > 0) {
+                String newState = newCommand.substring(0, commaIndex);
+                if (newState != "OP") {
+                    machineState = newState;
+                    update_machine_state(machineState);
+                    break;
+                }
+            }
+        }
     }
+}
+
+void wait_2_seconds_turn_off_leds(){
+  // Wait 2 seconds and turn off LEDs
+  delay(2000);
+  digitalWrite(LED_BIN_0, LOW);
+  digitalWrite(LED_BIN_1, LOW);
+  digitalWrite(LED_BIN_2, LOW);
+  digitalWrite(LED_BIN_3, LOW);
+  digitalWrite(LED_BIN_4, LOW);
 }
 
 // Arduino setup function (runs once)
@@ -120,22 +146,25 @@ void loop() {
 
             // Handle OP command
             if (state == "OP") {
-                blink_builtin_led(5, 200); // Blink the built-in LED 5 times with 200ms intervals
-                send_temp_humidity();     // Send temperature and humidity
+                machineState = "OP";
+                Serial.println("Machine OP.");
+                update_machine_state(machineState);
+                update_leds(bits);
+                wait_2_seconds_turn_off_leds();
+                send_temp_humidity();
+                blink_builtin_led_while_op(1000);  // Blinks built-in LED while in OP state
+            } else {
+                // Update machine state and LEDs
+                machineState = state;
+                update_machine_state(machineState);
+                update_leds(bits);
             }
 
-            // Update machine state and LEDs
-            update_machine_state(state);
-            update_leds(bits);
+            // Send temperature and humidity
+            send_temp_humidity();     
 
-            // Wait 2 seconds and turn off LEDs
-            delay(2000);
-            digitalWrite(LED_BIN_0, LOW);
-            digitalWrite(LED_BIN_1, LOW);
-            digitalWrite(LED_BIN_2, LOW);
-            digitalWrite(LED_BIN_3, LOW);
-            digitalWrite(LED_BIN_4, LOW);
-            digitalWrite(LED_BUILTIN, LOW);
+            wait_2_seconds_turn_off_leds();
+            
         } else {
             Serial.println("Invalid command format.");
         }

@@ -156,8 +156,8 @@ public class GlossaryService {
         maxTermSize += 10; // Add 10 spaces for better readability
         maxDefSize += 10; // Add 10 spaces for better readability
 
-        System.out.printf("%n%-" + maxTermSize + "s %-" + maxDefSize + "s%n", "Term", "Definition");
-        System.out.println("-".repeat(50 + maxDefSize));
+        System.out.printf(Utils.BOLD + "%n%-" + maxTermSize + "s %-" + maxDefSize + "s%n", "Term", "Definition");
+        System.out.println("-".repeat(50 + maxDefSize) + Utils.RESET);
 
         for (String[] result : definitions) {
             String term = result[0];
