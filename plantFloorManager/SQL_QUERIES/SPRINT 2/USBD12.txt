@@ -1,8 +1,8 @@
 CREATE OR REPLACE FUNCTION get_product_parts (
     p_Product_ID IN Product.Product_ID%TYPE
 )
-RETURN SYS_REFCURSOR
-IS
+    RETURN SYS_REFCURSOR
+    IS
     v_cursor SYS_REFCURSOR;
     dummy NUMBER(10);
 
@@ -37,13 +37,13 @@ BEGIN
                 WHEN C.Part_ID IS NOT NULL THEN 'Component'
                 WHEN RM.Part_ID IS NOT NULL THEN 'Raw Material'
                 ELSE 'Unknown'
-            END AS Part_Type,
+                END AS Part_Type,
             SUM(BI.Quantity) AS Total_Quantity
         FROM BOO_Input BI
-        LEFT JOIN Intermediate_Product IP ON BI.Part_ID = IP.Part_ID
-        LEFT JOIN Component C ON BI.Part_ID = C.Part_ID
-        LEFT JOIN Raw_Material RM ON BI.Part_ID = RM.Part_ID
-        LEFT JOIN Part P ON BI.Part_ID = P.Part_ID  -- Join with Part table to fetch description
+                 LEFT JOIN Intermediate_Product IP ON BI.Part_ID = IP.Part_ID
+                 LEFT JOIN Component C ON BI.Part_ID = C.Part_ID
+                 LEFT JOIN Raw_Material RM ON BI.Part_ID = RM.Part_ID
+                 LEFT JOIN Part P ON BI.Part_ID = P.Part_ID  -- Join with Part table to fetch description
         WHERE BI.Product_ID = p_Product_ID
         GROUP BY BI.Part_ID, P.Part_Description, IP.Part_ID, C.Part_ID, RM.Part_ID;
 
@@ -57,8 +57,8 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20002, 'Error: Product with ID "' || p_Product_ID || '" does not exist');
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20003, 'Error: An unexpected error occurred: ' || SQLERRM);
+    RETURN NULL; -- Ensure a return statement in case of exceptions
 END get_product_parts;
-
 
 
 -- Test the function with different scenarios

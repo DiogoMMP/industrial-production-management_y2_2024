@@ -7,12 +7,12 @@ CREATE OR REPLACE FUNCTION Register_Customer_Order(
     p_quantities         IN SYS.ODCINUMBERLIST,    -- List of quantities
     p_priorities         IN SYS.ODCIVARCHAR2LIST   -- List of product priorities
 ) RETURN NUMBER IS
-  	    v_customer_order_id  NUMBER;
+    v_customer_order_id  NUMBER;
     v_active_status      VARCHAR2(255);
     v_product_exists     NUMBER;
-	v_customer_exists    NUMBER;
+    v_customer_exists    NUMBER;
 BEGIN
-     -- Check if customer exists
+    -- Check if customer exists
     SELECT COUNT(*)
     INTO v_customer_exists
     FROM Customer
@@ -22,10 +22,10 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20001, 'Customer does not exist.');
     END IF;
 
-	-- Check if the delivery date is after the new order date
-	IF p_delivery_date < p_order_date THEN
+    -- Check if the delivery date is after the new order date
+    IF p_delivery_date < p_order_date THEN
         RAISE_APPLICATION_ERROR(-20002, 'Delivery date can''t be before new order date');
-	END IF;
+    END IF;
 
     -- Check if the customer is active
     SELECT Status INTO v_active_status
@@ -42,28 +42,28 @@ BEGIN
     INSERT INTO Customer_Order (
         Customer_Order_ID, Order_Date, Delivery_Date, Location, Customer_ID
     ) VALUES (
-        v_customer_order_id, p_order_date, p_delivery_date, p_location, p_customer_id
-    );
+                 v_customer_order_id, p_order_date, p_delivery_date, p_location, p_customer_id
+             );
 
     -- Insert multiple products into Customer_Order_Product
     FOR i IN 1 .. p_product_ids.COUNT LOOP
-        -- Check if each product exists
-        SELECT COUNT(*)
-        INTO v_product_exists
-        FROM Product
-        WHERE Product_ID = p_product_ids(i);
+            -- Check if each product exists
+            SELECT COUNT(*)
+            INTO v_product_exists
+            FROM Product
+            WHERE Product_ID = p_product_ids(i);
 
-        IF v_product_exists = 0 THEN
-            RAISE_APPLICATION_ERROR(-20004, 'Product with ID ' || p_product_ids(i) || ' does not exist.');
-        END IF;
+            IF v_product_exists = 0 THEN
+                RAISE_APPLICATION_ERROR(-20004, 'Product with ID ' || p_product_ids(i) || ' does not exist.');
+            END IF;
 
-        -- Insert each product into Customer_Order_Product
-        INSERT INTO Customer_Order_Product (
-            Customer_Order_ID, Product_ID, Quantity, Product_Priority
-        ) VALUES (
-            v_customer_order_id, p_product_ids(i), p_quantities(i), p_priorities(i)
-        );
-    END LOOP;
+            -- Insert each product into Customer_Order_Product
+            INSERT INTO Customer_Order_Product (
+                Customer_Order_ID, Product_ID, Quantity, Product_Priority
+            ) VALUES (
+                         v_customer_order_id, p_product_ids(i), p_quantities(i), p_priorities(i)
+            );
+        END LOOP;
 
     -- Return the new Customer_Order_ID
     RETURN v_customer_order_id;
@@ -71,8 +71,10 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20005, 'Error creating order: ' || SQLERRM);
+        RETURN NULL;
 END;
 /
+
 -- Valid test
     DECLARE
   v_order_id NUMBER;

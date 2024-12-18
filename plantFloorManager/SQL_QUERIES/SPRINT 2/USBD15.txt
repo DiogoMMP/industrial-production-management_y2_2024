@@ -5,15 +5,15 @@ CREATE OR REPLACE FUNCTION Register_Workstation(
     p_Workstation_Setup_Time IN Workstation.Workstation_Setup_Time%TYPE,
     p_Workstation_Time IN Workstation.Workstation_Time%TYPE,
     p_Plant_Floor_ID IN Workstation.Plant_Floor_ID%TYPE,
-    p_Workstation_Type_ID IN Workstation.Workstation_Type_ID%TYPE
+    p_Workstation_Type_ID IN Workstation.Workstation_Type_ID%TYPE,
     p_Min_Temp IN Workstation.Min_Temp%TYPE,
     p_Max_Temp IN Workstation.Max_Temp%TYPE,
     p_Min_Hum IN Workstation.Min_Hum%TYPE,
     p_Max_Hum IN Workstation.Max_Hum%TYPE
 ) RETURN VARCHAR2 AS
 BEGIN
-    INSERT INTO Workstation (Workstation_ID, Workstation_Name, Workstation_Description, Workstation_Setup_Time,Workstation_Time, Plant_Floor_ID, Workstation_Type_ID, Min_Temp, Max_Temp, Min_Hum, Max_Hum)
-    VALUES (p_Workstation_ID, p_Workstation_Name, p_Workstation_Description, p_Workstation_Setup_Time,p_Workstation_Time, p_Plant_Floor_ID, p_Workstation_Type_ID, p_Min_Temp, p_Max_Temp, p_Min_Hum, p_Max_Hum);
+    INSERT INTO Workstation (Workstation_ID, Workstation_Name, Workstation_Description, Workstation_Setup_Time, Workstation_Time, Plant_Floor_ID, Workstation_Type_ID, Min_Temp, Max_Temp, Min_Hum, Max_Hum)
+    VALUES (p_Workstation_ID, p_Workstation_Name, p_Workstation_Description, p_Workstation_Setup_Time, p_Workstation_Time, p_Plant_Floor_ID, p_Workstation_Type_ID, p_Min_Temp, p_Max_Temp, p_Min_Hum, p_Max_Hum);
 
     RETURN 'Success';
 EXCEPTION

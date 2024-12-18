@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION Get_Product_Operations(p_product_id IN VARCHAR2)
     RETURN SYS_REFCURSOR
-IS
+    IS
     v_cursor SYS_REFCURSOR;
 BEGIN
     OPEN v_cursor FOR
@@ -11,25 +11,25 @@ BEGIN
                 b.Operation_ID AS Operation_ID,
                 bi.Part_ID AS Input_Part,
                 bo.Part_ID AS Output_Part,
-                o.Execution_Time AS Execution_Time,
+                ot.EXPECTED_ESTIMATED_TIME AS Execution_Time,
                 ot.Operation_Description AS Operation_Description,
                 CASE
                     WHEN i.Part_ID IS NOT NULL THEN 'Internal'
                     ELSE 'External'
-                END AS Part_Type
+                    END AS Part_Type
             FROM
                 BOO b
-            LEFT JOIN
+                    LEFT JOIN
                 Operation o ON b.Operation_ID = o.Operation_ID
-            LEFT JOIN
+                    LEFT JOIN
                 Operation_Type ot ON o.Operation_Type_ID = ot.Operation_Type_ID
-            LEFT JOIN
+                    LEFT JOIN
                 BOO_Input bi ON b.Operation_ID = bi.Operation_ID AND b.Product_ID = bi.Product_ID
-            LEFT JOIN
+                    LEFT JOIN
                 BOO_Output bo ON b.Operation_ID = bo.Operation_ID AND b.Product_ID = bo.Product_ID
-            LEFT JOIN
+                    LEFT JOIN
                 Internal_Part i ON bi.Part_ID = i.Part_ID
-            LEFT JOIN
+                    LEFT JOIN
                 External_Part e ON bi.Part_ID = e.Part_ID
             WHERE
                 b.Product_ID = p_product_id -- Start from the given product
@@ -41,26 +41,26 @@ BEGIN
                 b.Operation_ID AS Operation_ID,
                 bi.Part_ID AS Input_Part,
                 bo.Part_ID AS Output_Part,
-                o.Execution_Time AS Execution_Time,
+                ot.EXPECTED_ESTIMATED_TIME AS Execution_Time,
                 ot.Operation_Description AS Operation_Description,
                 CASE
                     WHEN i.Part_ID IS NOT NULL THEN 'Internal'
                     ELSE 'External'
-                END AS Part_Type
+                    END AS Part_Type
             FROM
                 BOO b
-            JOIN Recursive_Parts rp ON rp.Input_Part = b.Product_ID
-            LEFT JOIN
+                    JOIN Recursive_Parts rp ON rp.Input_Part = b.Product_ID
+                    LEFT JOIN
                 Operation o ON b.Operation_ID = o.Operation_ID
-            LEFT JOIN
+                    LEFT JOIN
                 Operation_Type ot ON o.Operation_Type_ID = ot.Operation_Type_ID
-            LEFT JOIN
+                    LEFT JOIN
                 BOO_Input bi ON b.Operation_ID = bi.Operation_ID AND b.Product_ID = bi.Product_ID
-            LEFT JOIN
+                    LEFT JOIN
                 BOO_Output bo ON b.Operation_ID = bo.Operation_ID AND b.Product_ID = bo.Product_ID
-            LEFT JOIN
+                    LEFT JOIN
                 Internal_Part i ON bi.Part_ID = i.Part_ID
-            LEFT JOIN
+                    LEFT JOIN
                 External_Part e ON bi.Part_ID = e.Part_ID
         )
         SELECT

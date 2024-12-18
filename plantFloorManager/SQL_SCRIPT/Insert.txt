@@ -57,6 +57,8 @@ INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, typ
 INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (903, 'CZ6451237890', 'Prague Shadows', 'Náměstí Ticha 7, 112 00 Praha, Czechia', 004201234568, 'shadow@prague.com', 1, 203, 'Deactivated');
 INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (904, 'CZ6451237891', 'Ghostly Ventures', 'Hlavní 22, 120 00 Brno, Czechia', 004201234569, 'ghostly@email.cz', 1, 203, 'Deactivated');
 INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (905, 'PT501999113', 'Empresa Invisível', 'R. Inexistente 99, 9876-543 Coimbra, Portugal', 003518343333, 'notreal@company.com', 2, 620, 'Deactivated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (906, 'PT501999114', 'Casa do Medo', 'R. do Susto 13, 7654-321 Faro, Portugal', 003518344444, 'reachosLivres@company.com', 2, 620, 'Activated');
+INSERT INTO Customer (Customer_ID, NIF, Name, Address, Mobile_Number, Email, type_ID, Country_ID, Status) VALUES (907, 'CZ6451237892', 'Praha Fantasma', 'Náměstí Strachu 1, 113 00 Praha, Czechia', 004201234570, 'pragehappy.com', 1, 203, 'Activated');
 
 --Customer_Order
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (1, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 785);
@@ -66,6 +68,7 @@ insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Custome
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (5, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 657);
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (6, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 348);
 insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (7, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 456);
+insert into Customer_Order(Customer_Order_ID, Order_Date, Delivery_Date, Customer_ID) values (8, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 906);
 
 -- Plant_Floor
 INSERT INTO Plant_Floor (Plant_Floor_ID, Factory_Plant_ID) VALUES (1, 1);
@@ -118,6 +121,7 @@ insert into Production_Order (Order_ID, Order_Date, Product_Planning_ID, Custome
 insert into Production_Order (Order_ID, Order_Date, Product_Planning_ID, Customer_Order_ID) values (1005, TO_DATE('18/09/2024', 'DD/MM/YYYY'), 2, 5);
 insert into Production_Order (Order_ID, Order_Date, Product_Planning_ID, Customer_Order_ID) values (1006, TO_DATE('18/09/2024', 'DD/MM/YYYY'), 2, 6);
 insert into Production_Order (Order_ID, Order_Date, Product_Planning_ID, Customer_Order_ID) values (1007, TO_DATE('21/09/2024', 'DD/MM/YYYY'), 3, 7);
+insert into Production_Order (Order_ID, Order_Date, Product_Planning_ID, Customer_Order_ID) values (1008, TO_DATE('21/09/2024', 'DD/MM/YYYY'), 3, 8);
 
 --Part
 INSERT INTO Part (Part_ID, Part_Description)VALUES ('PN12344A21', 'Screw M6 35 mm');
@@ -260,6 +264,11 @@ insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12946S20', 1004, 12);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12947S20', 1005, 7);
 insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S20', 1006, 15);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12947S22', 1008, 30);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12946S22', 1008, 20);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12947S20', 1008, 10);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S22', 1008, 15);
+insert into Product_Production_Order (Product_ID, Production_Order_ID, Quantity_Ordered) values ('AS12945S20', 1008, 5);
 
 --Priority
 insert into Priority (Priority) values ('High');
@@ -291,6 +300,12 @@ insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Pro
 insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (4, 'AS12946S20', 12, 'High');
 insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (5, 'AS12947S20', 7, 'Normal');
 insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (6, 'AS12945S20', 15, 'Low');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (8, 'AS12947S22', 30, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (8, 'AS12946S22', 20, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (8, 'AS12947S20', 10, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (8, 'AS12945S22', 15, 'High');
+insert into Customer_Order_Product (Customer_Order_ID, Product_ID, Quantity, Product_Priority) values (8, 'AS12945S20', 5, 'High');
+
 
 -- Operation
 insert into Operation (Operation_ID, Operation_Type_ID) values (100, 5647);

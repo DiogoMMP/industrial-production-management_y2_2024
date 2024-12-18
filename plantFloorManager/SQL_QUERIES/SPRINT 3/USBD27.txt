@@ -1,90 +1,3 @@
-CREATE OR REPLACE FUNCTION get_order_stock_status(
-    p_customer_order_id IN NUMBER
-) RETURN SYS_REFCURSOR IS
-    -- Declare custom exceptions
-    CUSTOMER_ORDER_ID_NULL EXCEPTION;
-    CUSTOMER_ORDER_ID_NOT_FOUND EXCEPTION;
-
-    -- Variables
-    v_count INTEGER;
-    v_result SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST();
-    v_combined SYS_REFCURSOR;
-
-    -- Cursor to retrieve stock data for external parts
-    CURSOR c_order_stock IS
-        SELECT
-            cip.Part_ID,
-            p.Part_Description,
-            SUM(cip.Quantity * cop.Quantity) AS Total_Required_Quantity,
-            cip.Unit AS Required_Unit,
-            s.Stock AS Available_Stock,
-            s.Unit AS Stock_Unit,
-            CASE
-                WHEN s.Stock >= SUM(cip.Quantity * cop.Quantity) THEN 'Sufficient'
-                ELSE 'Insufficient'
-            END AS Stock_Status
-        FROM
-            Customer_Order_Product cop
-        JOIN
-            BOO_Input cip ON cop.Product_ID = cip.Product_ID
-        JOIN
-            External_Part ep ON cip.Part_ID = ep.Part_ID
-        LEFT JOIN
-            Stock s ON cip.Part_ID = s.Part_ID
-        JOIN
-            Part p ON cip.Part_ID = p.Part_ID
-        WHERE
-            cop.Customer_Order_ID = p_customer_order_id
-        GROUP BY
-            cip.Part_ID, p.Part_Description, s.Stock, cip.Unit, s.Unit
-        ORDER BY
-            Stock_Status DESC, cip.Part_ID;
-BEGIN
-    -- Check if the order ID is NULL
-    IF p_customer_order_id IS NULL THEN
-        RAISE CUSTOMER_ORDER_ID_NULL;
-    END IF;
-
-    -- Check if the order ID exists in the Customer_Order_Product table
-    SELECT COUNT(*)
-    INTO v_count
-    FROM Customer_Order_Product
-    WHERE Customer_Order_ID = p_customer_order_id;
-
-    IF v_count = 0 THEN
-        RAISE CUSTOMER_ORDER_ID_NOT_FOUND;
-    END IF;
-
-    -- Iterate through the stock data
-    FOR stock_row IN c_order_stock LOOP
-        -- Store results in the collection
-        v_result.EXTEND;
-        v_result(v_result.COUNT) :=
-            'Part ID: ' || stock_row.Part_ID || CHR(10) ||
-            'Description: ' || stock_row.Part_Description || CHR(10) ||
-            'Total Required: ' || TO_CHAR(stock_row.Total_Required_Quantity) || ' ' || stock_row.Required_Unit || CHR(10) ||
-            'Stock: ' || NVL(TO_CHAR(stock_row.Available_Stock), '0') || ' ' || NVL(stock_row.Stock_Unit, 'N/A') || CHR(10) ||
-            'Status: ' || stock_row.Stock_Status || CHR(10) ||
-            '------------------------' || CHR(10);
-    END LOOP;
-
-    -- Return results as a reference cursor
-    OPEN v_combined FOR
-        SELECT column_value AS order_stock_data
-        FROM TABLE(v_result);
-
-    -- Return the reference cursor
-    RETURN v_combined;
-
-EXCEPTION
-    WHEN CUSTOMER_ORDER_ID_NULL THEN
-        RAISE_APPLICATION_ERROR(-20001, 'Customer Order ID cannot be NULL');
-
-    WHEN CUSTOMER_ORDER_ID_NOT_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20002, 'Customer Order ID not found');
-END GetOrderStockStatus;
-/
-
 CREATE OR REPLACE FUNCTION reserve_materials_for_order(
     p_customer_order_id IN NUMBER
 ) RETURN VARCHAR2 IS
@@ -113,9 +26,9 @@ CREATE OR REPLACE FUNCTION reserve_materials_for_order(
             s.Unit
         FROM
             Customer_Order_Product cop
-        JOIN
+                JOIN
             BOO_Input cip ON cop.Product_ID = cip.Product_ID
-        LEFT JOIN
+                LEFT JOIN
             Stock s ON cip.Part_ID = s.Part_ID
         WHERE
             cop.Customer_Order_ID = p_customer_order_id
@@ -124,7 +37,7 @@ CREATE OR REPLACE FUNCTION reserve_materials_for_order(
 
 BEGIN
     -- Call GetOrderStockStatus function to check if there is enough stock
-    v_stock_status := GetOrderStockStatus(p_customer_order_id);
+    v_stock_status := get_order_stock_status(p_customer_order_id);
 
     -- Iterate through the stock status results
     LOOP
@@ -148,22 +61,22 @@ BEGIN
 
     -- If stock is sufficient, proceed with reservation
     FOR part_record IN c_order_parts LOOP
-        -- Generate a new reserved ID
-        SELECT NVL(MAX(Reserved_ID), 0) + 1 INTO v_reserved_id FROM Reserved_Stock;
+            -- Generate a new reserved ID
+            SELECT NVL(MAX(Reserved_ID), 0) + 1 INTO v_reserved_id FROM Reserved_Stock;
 
-        -- Insert into Reserved_Stock table
-        INSERT INTO Reserved_Stock (
-            Reserved_ID,
-            Part_ID,
-            Quantity,
-            Unit
-        ) VALUES (
-            v_reserved_id,
-            part_record.Part_ID,
-            part_record.Total_Required_Quantity,
-            part_record.Unit
-        );
-    END LOOP;
+            -- Insert into Reserved_Stock table
+            INSERT INTO Reserved_Stock (
+                Reserved_ID,
+                Part_ID,
+                Quantity,
+                Unit
+            ) VALUES (
+                         v_reserved_id,
+                         part_record.Part_ID,
+                         part_record.Total_Required_Quantity,
+                         part_record.Unit
+                     );
+        END LOOP;
 
     -- Return success message
     RETURN 'Reservation Successful';
@@ -175,16 +88,17 @@ EXCEPTION
         RETURN 'Error: Insufficient stock for the order.';
     WHEN OTHERS THEN
         RETURN 'Error: ' || SQLERRM;
-END ReserveMaterialsForOrder;
+END reserve_materials_for_order;
 /
 
-    -- Test with insufficient stock
+
+-- Test with insufficient stock
 DECLARE
     v_customer_order_id NUMBER := 4; -- Customer_Order_ID
     v_result VARCHAR2(4000);
 BEGIN
     -- Call the ReserveMaterialsForOrder function
-    v_result := ReserveMaterialsForOrder(v_customer_order_id);
+    v_result := reserve_materials_for_order(v_customer_order_id);
 
     -- Output the result
     DBMS_OUTPUT.PUT_LINE('Result: ' || v_result);
@@ -194,13 +108,13 @@ EXCEPTION
 END;
 /
 
-    --Valid test
+--Valid test
 DECLARE
     v_customer_order_id NUMBER := 1; -- Customer_Order_ID
     v_result VARCHAR2(4000);
 BEGIN
     -- Call the ReserveMaterialsForOrder function
-    v_result := ReserveMaterialsForOrder(v_customer_order_id);
+    v_result := reserve_materials_for_order(v_customer_order_id);
 
     -- Output the result
     DBMS_OUTPUT.PUT_LINE('Result: ' || v_result);

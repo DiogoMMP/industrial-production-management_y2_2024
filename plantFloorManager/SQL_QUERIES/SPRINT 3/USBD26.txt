@@ -22,16 +22,16 @@ CREATE OR REPLACE FUNCTION get_order_stock_status(
             CASE
                 WHEN s.Stock >= SUM(cip.Quantity * cop.Quantity) THEN 'Sufficient'
                 ELSE 'Insufficient'
-            END AS Stock_Status
+                END AS Stock_Status
         FROM
             Customer_Order_Product cop
-        JOIN
+                JOIN
             BOO_Input cip ON cop.Product_ID = cip.Product_ID
-        JOIN
+                JOIN
             External_Part ep ON cip.Part_ID = ep.Part_ID
-        LEFT JOIN
+                LEFT JOIN
             Stock s ON cip.Part_ID = s.Part_ID
-        JOIN
+                JOIN
             Part p ON cip.Part_ID = p.Part_ID
         WHERE
             cop.Customer_Order_ID = p_customer_order_id
@@ -57,16 +57,16 @@ BEGIN
 
     -- Iterate through the stock data
     FOR stock_row IN c_order_stock LOOP
-        -- Store results in the collection
-        v_result.EXTEND;
-        v_result(v_result.COUNT) :=
-            'Part ID: ' || stock_row.Part_ID || CHR(10) ||
-            'Description: ' || stock_row.Part_Description || CHR(10) ||
-            'Total Required: ' || TO_CHAR(stock_row.Total_Required_Quantity) || ' ' || stock_row.Required_Unit || CHR(10) ||
-            'Stock: ' || NVL(TO_CHAR(stock_row.Available_Stock), '0') || ' ' || NVL(stock_row.Stock_Unit, 'N/A') || CHR(10) ||
-            'Status: ' || stock_row.Stock_Status || CHR(10) ||
-            '------------------------' || CHR(10);
-    END LOOP;
+            -- Store results in the collection
+            v_result.EXTEND;
+            v_result(v_result.COUNT) :=
+                    'Part ID: ' || stock_row.Part_ID || CHR(10) ||
+                    'Description: ' || stock_row.Part_Description || CHR(10) ||
+                    'Total Required: ' || TO_CHAR(stock_row.Total_Required_Quantity) || ' ' || stock_row.Required_Unit || CHR(10) ||
+                    'Stock: ' || NVL(TO_CHAR(stock_row.Available_Stock), '0') || ' ' || NVL(stock_row.Stock_Unit, 'N/A') || CHR(10) ||
+                    'Status: ' || stock_row.Stock_Status || CHR(10) ||
+                    '------------------------' || CHR(10);
+        END LOOP;
 
     -- Return results as a reference cursor
     OPEN v_combined FOR
@@ -79,11 +79,14 @@ BEGIN
 EXCEPTION
     WHEN CUSTOMER_ORDER_ID_NULL THEN
         RAISE_APPLICATION_ERROR(-20001, 'Customer Order ID cannot be NULL');
+        RETURN NULL;
 
     WHEN CUSTOMER_ORDER_ID_NOT_FOUND THEN
         RAISE_APPLICATION_ERROR(-20002, 'Customer Order ID not found');
-END GetOrderStockStatus;
+        RETURN NULL;
+END get_order_stock_status;
 /
+
 
 -- Example usage of the function
 
@@ -93,7 +96,7 @@ DECLARE
     v_stock_data VARCHAR2(4000);
 BEGIN
     DBMS_OUTPUT.PUT_LINE('Scenario 1: Customer Order ID Not Found');
-    v_result := GetOrderStockStatus(1000);
+    v_result := get_order_stock_status(1000);
     LOOP
         FETCH v_result INTO v_stock_data;
         EXIT WHEN v_result%NOTFOUND;
@@ -112,7 +115,7 @@ DECLARE
     v_stock_data VARCHAR2(4000);
 BEGIN
     DBMS_OUTPUT.PUT_LINE('Scenario 2: Customer Order ID NULL');
-    v_result := GetOrderStockStatus(NULL);
+    v_result := get_order_stock_status(NULL);
     LOOP
         FETCH v_result INTO v_stock_data;
         EXIT WHEN v_result%NOTFOUND;
@@ -131,7 +134,7 @@ DECLARE
     v_stock_data VARCHAR2(4000);
 BEGIN
     DBMS_OUTPUT.PUT_LINE('Scenario 3: Valid Customer Order ID');
-    v_result := GetOrderStockStatus(4);
+    v_result := get_order_stock_status(4);
     LOOP
         FETCH v_result INTO v_stock_data;
         EXIT WHEN v_result%NOTFOUND;
