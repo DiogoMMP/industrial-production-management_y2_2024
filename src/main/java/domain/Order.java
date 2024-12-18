@@ -29,6 +29,10 @@ public class Order {
         return id;
     }
 
+    public String getIdString() {
+        return String.valueOf(id);
+    }
+
     public void setId(int id) {
         this.id = id;
     }

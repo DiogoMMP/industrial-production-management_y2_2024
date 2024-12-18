@@ -3,15 +3,12 @@ package machineSupervisor;
 import java.io.IOException;
 
 public class MachineController {
-    public static void main(String[] args) {
+    public static void machineController() {
         try {
             // Resolve working directory dynamically
             String projectDir = System.getProperty("user.dir");  // Current Java project directory
             java.io.File workingDir = new java.io.File(projectDir, "../sem3-pi-2024-g094/machineSupervisor/ARQCP/SPRINT3/UI");
             String wslWorkingDir = "\\\"" + workingDir.getCanonicalPath().replace("\\", "/").replace("C:", "/mnt/c") + "\\\"";
-
-            System.out.println("Working Directory: " + workingDir.getCanonicalPath());
-            System.out.println("WSL Path: " + wslWorkingDir);
 
             // Run the compiled program via WSL
             System.out.println("Running the compiled program...");

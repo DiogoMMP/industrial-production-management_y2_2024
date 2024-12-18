@@ -6,9 +6,173 @@
 #include <termios.h>  // For configuring the serial port
 #include <errno.h>    // For error handling
 
-int format_command(char* op, int n, char *cmd);
+struct machine {
+    char id[10];
+    char name[20];
+    float temperature_min;
+    float temperature_max;
+    float humidity_min;
+    float humidity_max;
+    int *buffer;         // Pointer to dynamically allocated circular buffer
+    int buffer_size;     // Circular buffer length
+    int *head;           // Points to the newest element (pointer)
+    int *tail;           // Points to the oldest element (pointer)
+    int median_window;   // Moving median window length
+};
+
+struct machine *machines = NULL; // Pointer to the array of machines
+int machine_count = 0;           // Current count of machines
+int machine_capacity = 0;        // Current capacity of the machines array
+
+void free_machine(struct machine *m);
+int format_command(char *op, int n, char *cmd);
+void create_machine();
+void modify_machine();
+void list_machines();
+void cleanup_machines();
 
 int main() {
+    int option;
+    do {
+        printf("\nMachine Management System\n");
+        printf("1 - Create a new machine\n");
+        printf("2 - Modify an existing machine\n");
+        printf("3 - List all machines\n");
+        printf("0 - Exit\n");
+        printf("Choose an option: ");
+        scanf("%d", &option);
+
+        switch (option) {
+            case 1:
+                create_machine();
+                break;
+            case 2:
+                modify_machine();
+                break;
+            case 3:
+                list_machines();
+                break;
+            case 0:
+                printf("Exiting...\n");
+                cleanup_machines(); // Free all allocated memory
+                break;
+            default:
+                printf("Invalid option. Please try again.\n");
+        }
+    } while (option != 0);
+
+    return 0;
+}
+
+// Free the allocated memory for the machine's buffer
+void free_machine(struct machine *m) {
+    free(m->buffer); // Free the dynamically allocated buffer
+}
+
+void create_machine() {
+    // Resize the array if needed
+    if (machine_count >= machine_capacity) {
+        machine_capacity = (machine_capacity == 0) ? 10 : machine_capacity * 2;
+        struct machine *new_machines = realloc(machines, machine_capacity * sizeof(struct machine));
+        if (new_machines == NULL) {
+            printf("Error: Unable to allocate memory for new machines.\n");
+            return;
+        }
+        machines = new_machines;
+    }
+
+    struct machine *new_machine = &machines[machine_count];
+
+    printf("Enter machine ID: ");
+    scanf("%9s", new_machine->id);
+
+    printf("Enter machine name: ");
+    scanf("%19s", new_machine->name);
+
+    printf("Enter minimum temperature: ");
+    scanf("%f", &new_machine->temperature_min);
+
+    printf("Enter maximum temperature: ");
+    scanf("%f", &new_machine->temperature_max);
+
+    printf("Enter minimum humidity: ");
+    scanf("%f", &new_machine->humidity_min);
+
+    printf("Enter maximum humidity: ");
+    scanf("%f", &new_machine->humidity_max);
+
+    new_machine->buffer = NULL;
+    new_machine->buffer_size = 0;
+    new_machine->head = NULL;
+    new_machine->tail = NULL;
+    new_machine->median_window = 0;
+
+    machine_count++;
+
+    printf("Machine created successfully!\n");
+}
+
+void modify_machine() {
+    if (machine_count == 0) {
+        printf("No machines available to modify.\n");
+        return;
+    }
+
+    char machine_id[10];
+    printf("Enter the ID of the machine to modify: ");
+    scanf("%9s", machine_id);
+
+    for (int i = 0; i < machine_count; i++) {
+        if (strcmp(machines[i].id, machine_id) == 0) {
+            printf("Modifying machine: %s\n", machines[i].name);
+
+            printf("Enter new name (current: %s): ", machines[i].name);
+            scanf("%19s", machines[i].name);
+
+            printf("Enter new minimum temperature (current: %.2f): ", machines[i].temperature_min);
+            scanf("%f", &machines[i].temperature_min);
+
+            printf("Enter new maximum temperature (current: %.2f): ", machines[i].temperature_max);
+            scanf("%f", &machines[i].temperature_max);
+
+            printf("Enter new minimum humidity (current: %.2f): ", machines[i].humidity_min);
+            scanf("%f", &machines[i].humidity_min);
+
+            printf("Enter new maximum humidity (current: %.2f): ", machines[i].humidity_max);
+            scanf("%f", &machines[i].humidity_max);
+
+            printf("Machine modified successfully!\n");
+            return;
+        }
+    }
+
+    printf("Machine with ID %s not found.\n", machine_id);
+}
+
+void list_machines() {
+    if (machine_count == 0) {
+        printf("No machines available.\n");
+        return;
+    }
+
+    printf("\nList of Machines:\n");
+    for (int i = 0; i < machine_count; i++) {
+        printf("ID: %s, Name: %s, Temp Range: %.2f-%.2f, Humidity Range: %.2f-%.2f\n",
+               machines[i].id, machines[i].name,
+               machines[i].temperature_min, machines[i].temperature_max,
+               machines[i].humidity_min, machines[i].humidity_max);
+    }
+}
+
+// Free all allocated memory for the machines array
+void cleanup_machines() {
+    for (int i = 0; i < machine_count; i++) {
+        free_machine(&machines[i]);
+    }
+    free(machines);
+}
+
+int run_machine_interface() {
     // Variables for user input
     char state[10];
     int operation_number;
@@ -109,8 +273,12 @@ int main() {
 
         // Close the serial port
         close(serial_port);
+    } else {
+        printf("Serial port not found.\n");
+        return -1;
     }
 
     printf("Command executed successfully.\n");
     return 0;
 }
+
