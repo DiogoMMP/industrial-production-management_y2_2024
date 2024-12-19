@@ -70,13 +70,13 @@ CREATE TABLE Internal_Part (
   Part_ID varchar2(255) NOT NULL,
   PRIMARY KEY (Part_ID));
 CREATE TABLE Operation (
-  Operation_ID      number(10) NOT NULL,
-  Operation_Type_ID number(10) NOT NULL,
+  Operation_ID            number(10) NOT NULL,
+  Operation_Type_ID       number(10) NOT NULL,
+  Expected_Estimated_Time number(10) CHECK(Expected_Estimated_Time > 0),
   PRIMARY KEY (Operation_ID));
 CREATE TABLE Operation_Type (
-  Operation_Type_ID       number(10) NOT NULL,
-  Operation_Description   varchar2(255) NOT NULL,
-  Expected_Estimated_Time number(10) CHECK(Expected_Estimated_Time > 0),
+  Operation_Type_ID     number(10) NOT NULL,
+  Operation_Description varchar2(255) NOT NULL,
   PRIMARY KEY (Operation_Type_ID));
 CREATE TABLE Part (
   Part_ID          varchar2(255) NOT NULL,
