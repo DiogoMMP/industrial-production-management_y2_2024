@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION Get_Product_Operations(p_product_id IN VARCHAR2)
     RETURN SYS_REFCURSOR
-    IS
+IS
     v_cursor SYS_REFCURSOR;
 BEGIN
     OPEN v_cursor FOR
@@ -11,12 +11,12 @@ BEGIN
                 b.Operation_ID AS Operation_ID,
                 bi.Part_ID AS Input_Part,
                 bo.Part_ID AS Output_Part,
-                ot.EXPECTED_ESTIMATED_TIME AS Execution_Time,
+                o.Expected_Estimated_Time AS Execution_Time,
                 ot.Operation_Description AS Operation_Description,
                 CASE
                     WHEN i.Part_ID IS NOT NULL THEN 'Internal'
                     ELSE 'External'
-                    END AS Part_Type
+                END AS Part_Type
             FROM
                 BOO b
                     LEFT JOIN
@@ -41,12 +41,12 @@ BEGIN
                 b.Operation_ID AS Operation_ID,
                 bi.Part_ID AS Input_Part,
                 bo.Part_ID AS Output_Part,
-                ot.EXPECTED_ESTIMATED_TIME AS Execution_Time,
+                o.Expected_Estimated_Time AS Execution_Time,
                 ot.Operation_Description AS Operation_Description,
                 CASE
                     WHEN i.Part_ID IS NOT NULL THEN 'Internal'
                     ELSE 'External'
-                    END AS Part_Type
+                END AS Part_Type
             FROM
                 BOO b
                     JOIN Recursive_Parts rp ON rp.Input_Part = b.Product_ID
