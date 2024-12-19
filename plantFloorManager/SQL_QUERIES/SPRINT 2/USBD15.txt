@@ -31,9 +31,14 @@ BEGIN
         p_Workstation_ID => 9999,
         p_Workstation_Name => 'Test Station',
         p_Workstation_Description => 'Testing workstation entry',
-    	p_Workstation_Time => 20.2,
+        p_Workstation_Setup_Time => 1, -- Provide a valid setup time
+        p_Workstation_Time => 20.2,
         p_Plant_Floor_ID => 1,
-        p_Workstation_Type_ID => 'A4578'
+        p_Workstation_Type_ID => 'A4578',
+        p_Min_Temp => NULL, -- Use NULL if values are not applicable
+        p_Max_Temp => NULL,
+        p_Min_Hum => NULL,
+        p_Max_Hum => NULL
     );
 
     DBMS_OUTPUT.PUT_LINE('Function Result: ' || result_message);
