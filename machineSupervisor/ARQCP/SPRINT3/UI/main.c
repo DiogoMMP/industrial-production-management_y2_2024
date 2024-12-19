@@ -5,6 +5,7 @@
 #include <fcntl.h>    // For open()
 #include <termios.h>  // For configuring the serial port
 #include <errno.h>    // For error handling
+#include "usac.h"
 
 struct machine {
     char id[10];
@@ -26,35 +27,69 @@ int machine_capacity = 0;        // Current capacity of the machines array
 
 void free_machine(struct machine *m);
 int format_command(char *op, int n, char *cmd);
-void create_machine();
-void modify_machine();
-void list_machines();
-void cleanup_machines();
+int run_machine_interface();
 
 int main() {
     int option;
+    char filename[100];
     do {
         printf("\nMachine Management System\n");
-        printf("1 - Create a new machine\n");
-        printf("2 - Modify an existing machine\n");
-        printf("3 - List all machines\n");
+        printf("1 - Setup Machines\n");
+        printf("2 - Export Machines Operations\n");
+        printf("3 - Add Machine\n");
+        printf("4 - Remove Machine\n");
+        printf("5 - Check Machine Status\n");
+        printf("6 - Assign Operation to Machine\n");
+        printf("7 - Display Machine State\n");
+        printf("8 - Import List of Instructions\n");
+        printf("9 - Notify if a Machine broke one of the limiters\n");
         printf("0 - Exit\n");
         printf("Choose an option: ");
         scanf("%d", &option);
 
         switch (option) {
             case 1:
-                create_machine();
+                printf("Want to use the default setup file? (y/n): ");
+                char answer;
+                scanf("%c", &answer);
+                if(answer == 'n'){
+                    printf("Enter the setup file name: ");
+                    scanf("%99s", filename);
+                } else {
+                    filename = "Files/machines.csv";
+                }
+                if (setup_machines_from_file(filename) == 0) {
+                    printf("Machines setup successfully.\n");
+                } else {
+                    printf("Error setting up machines.\n");
+                }
                 break;
             case 2:
-                modify_machine();
+                printf("Not implemented yet.\n");
                 break;
             case 3:
-                list_machines();
+                printf("Not implemented yet.\n");
+                break;
+            case 4:
+                printf("Not implemented yet.\n");
+                break;
+            case 5:
+                printf("Not implemented yet.\n");
+                break;
+            case 6:
+                printf("Not implemented yet.\n");
+                break;
+            case 7:
+                printf("Not implemented yet.\n");
+                break;
+            case 8:
+                printf("Not implemented yet.\n");
+                break;
+            case 9:
+                printf("Not implemented yet.\n");
                 break;
             case 0:
                 printf("Exiting...\n");
-                cleanup_machines(); // Free all allocated memory
                 break;
             default:
                 printf("Invalid option. Please try again.\n");
@@ -67,109 +102,6 @@ int main() {
 // Free the allocated memory for the machine's buffer
 void free_machine(struct machine *m) {
     free(m->buffer); // Free the dynamically allocated buffer
-}
-
-void create_machine() {
-    // Resize the array if needed
-    if (machine_count >= machine_capacity) {
-        machine_capacity = (machine_capacity == 0) ? 10 : machine_capacity * 2;
-        struct machine *new_machines = realloc(machines, machine_capacity * sizeof(struct machine));
-        if (new_machines == NULL) {
-            printf("Error: Unable to allocate memory for new machines.\n");
-            return;
-        }
-        machines = new_machines;
-    }
-
-    struct machine *new_machine = &machines[machine_count];
-
-    printf("Enter machine ID: ");
-    scanf("%9s", new_machine->id);
-
-    printf("Enter machine name: ");
-    scanf("%19s", new_machine->name);
-
-    printf("Enter minimum temperature: ");
-    scanf("%f", &new_machine->temperature_min);
-
-    printf("Enter maximum temperature: ");
-    scanf("%f", &new_machine->temperature_max);
-
-    printf("Enter minimum humidity: ");
-    scanf("%f", &new_machine->humidity_min);
-
-    printf("Enter maximum humidity: ");
-    scanf("%f", &new_machine->humidity_max);
-
-    new_machine->buffer = NULL;
-    new_machine->buffer_size = 0;
-    new_machine->head = NULL;
-    new_machine->tail = NULL;
-    new_machine->median_window = 0;
-
-    machine_count++;
-
-    printf("Machine created successfully!\n");
-}
-
-void modify_machine() {
-    if (machine_count == 0) {
-        printf("No machines available to modify.\n");
-        return;
-    }
-
-    char machine_id[10];
-    printf("Enter the ID of the machine to modify: ");
-    scanf("%9s", machine_id);
-
-    for (int i = 0; i < machine_count; i++) {
-        if (strcmp(machines[i].id, machine_id) == 0) {
-            printf("Modifying machine: %s\n", machines[i].name);
-
-            printf("Enter new name (current: %s): ", machines[i].name);
-            scanf("%19s", machines[i].name);
-
-            printf("Enter new minimum temperature (current: %.2f): ", machines[i].temperature_min);
-            scanf("%f", &machines[i].temperature_min);
-
-            printf("Enter new maximum temperature (current: %.2f): ", machines[i].temperature_max);
-            scanf("%f", &machines[i].temperature_max);
-
-            printf("Enter new minimum humidity (current: %.2f): ", machines[i].humidity_min);
-            scanf("%f", &machines[i].humidity_min);
-
-            printf("Enter new maximum humidity (current: %.2f): ", machines[i].humidity_max);
-            scanf("%f", &machines[i].humidity_max);
-
-            printf("Machine modified successfully!\n");
-            return;
-        }
-    }
-
-    printf("Machine with ID %s not found.\n", machine_id);
-}
-
-void list_machines() {
-    if (machine_count == 0) {
-        printf("No machines available.\n");
-        return;
-    }
-
-    printf("\nList of Machines:\n");
-    for (int i = 0; i < machine_count; i++) {
-        printf("ID: %s, Name: %s, Temp Range: %.2f-%.2f, Humidity Range: %.2f-%.2f\n",
-               machines[i].id, machines[i].name,
-               machines[i].temperature_min, machines[i].temperature_max,
-               machines[i].humidity_min, machines[i].humidity_max);
-    }
-}
-
-// Free all allocated memory for the machines array
-void cleanup_machines() {
-    for (int i = 0; i < machine_count; i++) {
-        free_machine(&machines[i]);
-    }
-    free(machines);
 }
 
 int run_machine_interface() {
@@ -281,4 +213,70 @@ int run_machine_interface() {
     printf("Command executed successfully.\n");
     return 0;
 }
+
+int setup_machines_from_file(const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("Error opening file");
+        return -1;
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        struct machine new_machine;
+        if (sscanf(line, "%9[^,],%19[^,],%f,%f,%f,%f,%d,%d",
+                   new_machine.id, new_machine.name,
+                   &new_machine.temperature_min, &new_machine.temperature_max,
+                   &new_machine.humidity_min, &new_machine.humidity_max,
+                   &new_machine.buffer_size, &new_machine.median_window) != 8) {
+            fprintf(stderr, "Invalid line format: %s", line);
+            continue;
+        }
+
+        // Validation: Temperature ranges
+        if (new_machine.temperature_min > new_machine.temperature_max) {
+            fprintf(stderr, "Invalid temperature range for machine %s\n", new_machine.id);
+            continue;
+        }
+
+        // Validation: Humidity ranges
+        if (new_machine.humidity_min > new_machine.humidity_max) {
+            fprintf(stderr, "Invalid humidity range for machine %s\n", new_machine.id);
+            continue;
+        }
+
+        // Validation: Moving median window size
+        if (new_machine.median_window > new_machine.buffer_size) {
+            fprintf(stderr, "Invalid median window size for machine %s\n", new_machine.id);
+            continue;
+        }
+
+        // Allocate memory for the circular buffer
+        new_machine.buffer = malloc(new_machine.buffer_size * sizeof(int));
+        if (!new_machine.buffer) {
+            perror("Error allocating buffer");
+            fclose(file);
+            return -1;
+        }
+        new_machine.head = new_machine.buffer;
+        new_machine.tail = new_machine.buffer;
+
+        // Add the machine to the array
+        if (machine_count >= machine_capacity) {
+            machine_capacity = (machine_capacity == 0) ? 2 : machine_capacity * 2;
+            machines = realloc(machines, machine_capacity * sizeof(struct machine));
+            if (!machines) {
+                perror("Error resizing machine array");
+                fclose(file);
+                return -1;
+            }
+        }
+
+        machines[machine_count++] = new_machine;
+    }
+
+    fclose(file);
+    return 0;
+}
+
 
