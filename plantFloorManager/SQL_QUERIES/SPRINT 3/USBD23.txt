@@ -1,26 +1,25 @@
 CREATE OR REPLACE TRIGGER check_operation_execution_time
-BEFORE INSERT OR UPDATE ON Operation
-FOR EACH ROW
+    BEFORE INSERT OR UPDATE ON Operation
+    FOR EACH ROW
 DECLARE
     max_allowed_time NUMBER;
-    workstation_type_id VARCHAR2(10);
     workstation_types VARCHAR2(4000);
     CURSOR compatible_workstations IS
         SELECT wto.Workstation_Type_ID
         FROM Workstation_Type_Operation_Type wto
         WHERE wto.Operation_Type_ID = :NEW.Operation_Type_ID;
 BEGIN
-    -- Initialize variables
+    -- Inicializar variáveis
     max_allowed_time := NULL;
     workstation_types := NULL;
 
-    -- Find max allowed time
-    SELECT MIN(wto.Maximum_Execution_Time) -- Use MIN to get the strictest maximum time
+    -- Obter o tempo máximo permitido
+    SELECT MIN(wto.Maximum_Execution_Time) -- MIN para obter o limite mais restritivo
     INTO max_allowed_time
     FROM Workstation_Type_Operation_Type wto
     WHERE wto.Operation_Type_ID = :NEW.Operation_Type_ID;
 
-    -- Fetch compatible workstation types and build the string manually
+    -- Construir a lista de tipos de estação compatíveis
     FOR workstation IN compatible_workstations LOOP
         IF workstation_types IS NULL THEN
             workstation_types := workstation.Workstation_Type_ID;
@@ -29,34 +28,25 @@ BEGIN
         END IF;
     END LOOP;
 
-    -- Check the expected execution time against the maximum allowed time
+    -- Verificar o tempo esperado da operação em relação ao máximo permitido
     IF max_allowed_time IS NOT NULL THEN
-        -- Fetch the expected execution time from the Operation_Type table
-        DECLARE
-            expected_time NUMBER;
-        BEGIN
-            SELECT ot.Expected_Estimated_Time
-            INTO expected_time
-            FROM Operation_Type ot
-            WHERE ot.Operation_Type_ID = :NEW.Operation_Type_ID;
-
-            IF expected_time > max_allowed_time THEN
-                RAISE_APPLICATION_ERROR(-20001,
-                    'Operation Execution Time Violation:' || CHR(10) ||
-                    'Expected Time: ' || expected_time || CHR(10) ||
-                    'Maximum Allowed Time: ' || max_allowed_time || CHR(10) ||
-                    'Compatible Workstation Types: ' || workstation_types || CHR(10) ||
-                    'The operation''s expected execution time exceeds the allowed maximum.');
-            END IF;
-        END;
+        IF :NEW.Expected_Estimated_Time > max_allowed_time THEN
+            RAISE_APPLICATION_ERROR(-20001,
+                'Operation Execution Time Violation:' || CHR(10) ||
+                'Expected Time: ' || :NEW.Expected_Estimated_Time || CHR(10) ||
+                'Maximum Allowed Time: ' || max_allowed_time || CHR(10) ||
+                'Compatible Workstation Types: ' || workstation_types || CHR(10) ||
+                'The operation''s expected execution time exceeds the allowed maximum.');
+        END IF;
     END IF;
 END;
 /
 
 
+
 -- Prerequisite: Create test data
-INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description, Expected_Estimated_Time)
-VALUES (1, 'Test Operation Type', 90);
+INSERT INTO Operation_Type (Operation_Type_ID, Operation_Description)
+VALUES (1, 'Test Operation Type');
 
 INSERT INTO Workstation_Type (Workstation_Type_ID, Workstation_Type)
 VALUES ('WT1', 'Test Workstation Type');
@@ -70,8 +60,8 @@ DECLARE
     v_success BOOLEAN := TRUE;
 BEGIN
     -- Insert an operation with an expected execution time within the allowed limit
-    INSERT INTO Operation (Operation_ID, Operation_Type_ID)
-    VALUES (1, 1);
+    INSERT INTO Operation (Operation_ID, Operation_Type_ID, Expected_Estimated_Time)
+    VALUES (1, 1, 90);
     DBMS_OUTPUT.PUT_LINE('Test 1 Passed: Insertion within limit');
 EXCEPTION
     WHEN OTHERS THEN
@@ -85,8 +75,8 @@ DECLARE
     v_error_caught BOOLEAN := FALSE;
 BEGIN
     -- Attempt to insert an operation with an expected execution time exceeding the limit
-    INSERT INTO Operation (Operation_ID, Operation_Type_ID)
-    VALUES (2, 1);
+    INSERT INTO Operation (Operation_ID, Operation_Type_ID, Expected_Estimated_Time)
+    VALUES (2, 1, 200);
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE = -20001 THEN
@@ -105,7 +95,7 @@ DECLARE
 BEGIN
     -- Update the expected execution time to a value within the allowed limit
     UPDATE Operation
-    SET Operation_Type_ID = 1
+    SET EXPECTED_ESTIMATED_TIME = 20
     WHERE Operation_ID = 1;
     DBMS_OUTPUT.PUT_LINE('Test 3 Passed: Update within limit');
 EXCEPTION
@@ -121,7 +111,7 @@ DECLARE
 BEGIN
     -- Attempt to update the expected execution time to a value exceeding the limit
     UPDATE Operation
-    SET Operation_Type_ID = 1
+    SET EXPECTED_ESTIMATED_TIME = 300
     WHERE Operation_ID = 1;
 EXCEPTION
     WHEN OTHERS THEN
