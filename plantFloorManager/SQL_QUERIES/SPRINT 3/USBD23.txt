@@ -9,17 +9,17 @@ DECLARE
         FROM Workstation_Type_Operation_Type wto
         WHERE wto.Operation_Type_ID = :NEW.Operation_Type_ID;
 BEGIN
-    -- Inicializar variáveis
+    -- Initialize variables
     max_allowed_time := NULL;
     workstation_types := NULL;
 
-    -- Obter o tempo máximo permitido
+    -- Obtain the maximum time allowed
     SELECT MIN(wto.Maximum_Execution_Time) -- MIN para obter o limite mais restritivo
     INTO max_allowed_time
     FROM Workstation_Type_Operation_Type wto
     WHERE wto.Operation_Type_ID = :NEW.Operation_Type_ID;
 
-    -- Construir a lista de tipos de estação compatíveis
+    -- Build a list of compatible station types
     FOR workstation IN compatible_workstations LOOP
         IF workstation_types IS NULL THEN
             workstation_types := workstation.Workstation_Type_ID;
@@ -28,7 +28,7 @@ BEGIN
         END IF;
     END LOOP;
 
-    -- Verificar o tempo esperado da operação em relação ao máximo permitido
+    -- Check the expected operation time against the maximum allowed time
     IF max_allowed_time IS NOT NULL THEN
         IF :NEW.Expected_Estimated_Time > max_allowed_time THEN
             RAISE_APPLICATION_ERROR(-20001,
