@@ -97,7 +97,7 @@ public class US25UI implements Runnable {
             ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
             if (!resultSet.isBeforeFirst()) {
-                System.err.println("\nNo operations found for the selected product.\n");
+                System.err.println("No operations found for the selected product.\n");
                 return;
             }
 
