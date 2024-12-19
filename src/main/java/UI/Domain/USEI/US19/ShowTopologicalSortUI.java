@@ -30,7 +30,8 @@ public class ShowTopologicalSortUI implements Runnable {
             Utils.goBackAndWait();
         } catch (IllegalStateException e) {
             // Handle the case where a cycle exists
-            System.err.println("Error: " + e.getMessage());
+            System.out.println(Utils.RED + "Error: " + e.getMessage() + Utils.RESET);
+            Utils.goBackAndWait();
         }
     }
 }

@@ -22,6 +22,13 @@ public class ShowESLFUI implements Runnable {
         LinkedHashMap<String, Activity> activitiesPERT_CPM = pertCpm.getActivitiesPERT_CPM();
         List<MenuItem> options = new ArrayList<>();
 
+        if (pertCpm.hasCircularDependencies()){
+            System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Show Earliest Time and Latest Finish ------------" + Utils.RESET);
+            System.out.println(Utils.RED + "\nError: The project has circular dependencies." + Utils.RESET);
+            Utils.goBackAndWait();
+            return;
+        }
+
         for (String activity : activitiesPERT_CPM.keySet()) {
             options.add(new MenuItem("Activity: " + activity, new ShowESLFUI()));
         }

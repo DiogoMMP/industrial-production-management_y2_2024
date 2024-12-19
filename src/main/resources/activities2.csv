@@ -1,6 +1,6 @@
 ActivKey,descr,duration,duration-unit,tot-cost,predecessors
-A,Prepare Materials for Production,5,days,500,
-B,Assemble Components,8,days,1000,A
+A,Prepare Materials for Production,5,days,500
+B,Assemble Components,8,days,1000,"A,D"
 C,Paint Components,6,days,800,B
 D,Dry Painted Components,3,days,300,C
 E,Varnish Components,5,days,700,D
@@ -10,12 +10,12 @@ H,Test Final Product,4,days,600,G
 I,Pack and Label Products,5,days,400,H
 J,Store Finished Products,2,days,200,I
 K,Ship Products to Warehouse,3,days,250,J
-L,Receive Raw Materials for Next Production,5,days,500,
+L,Receive Raw Materials for Next Production,5,days,500
 M,Clean Production Area,2,days,150,"K,L"
 N,Conduct Quality Control Checks,4,days,450,"G,F"
 O,Prepare Shipping Documentation,2,days,100,"I,K"
 P,Ship Products to Customer,3,days,300,"K,M,O"
-Q,Install Production Line Equipment,10,days,1200,
+Q,Install Production Line Equipment,10,days,1200
 R,Train Staff for New Production Line,5,days,500,Q
 S,Start Production on New Line,15,days,1500,R
 T,Test New Production Line,7,days,700,S

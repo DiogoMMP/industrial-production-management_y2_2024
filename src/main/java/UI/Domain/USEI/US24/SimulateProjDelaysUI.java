@@ -23,6 +23,13 @@ public class SimulateProjDelaysUI implements Runnable {
         String choice;
         List<MenuItem> options = new ArrayList<>();
 
+        if (pertCpm.hasCircularDependencies()) {
+            System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Simulate Project Delays ------------\n" + Utils.RESET);
+            System.out.println(Utils.RED + "Error: The project has circular dependencies." + Utils.RESET);
+            Utils.goBackAndWait();
+            return;
+        }
+
         // Create menu options from the sorted map
         for (Map.Entry<String, Activity> entry : activities.entrySet()) {
             options.add(new MenuItem("Activity: " + entry.getKey() + " - " + entry.getValue().getDescription(),

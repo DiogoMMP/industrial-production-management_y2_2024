@@ -18,6 +18,12 @@ public class ExportScheduleToCSVUI implements Runnable {
 
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Export Project Schedule to CSV ------------\n" + Utils.RESET);
 
+        if (pertCpm.hasCircularDependencies()) {
+            System.out.println(Utils.RED + "Error: The project has circular dependencies." + Utils.RESET);
+            Utils.goBackAndWait();
+            return;
+        }
+
         // Export the schedule to a CSV file
         if (pertCpm.exportScheduleToCSV(OUTPUTPATH)){
             System.out.println("\n" + Utils.GREEN + "Schedule exported successfully to: " + OUTPUTPATH + Utils.RESET);

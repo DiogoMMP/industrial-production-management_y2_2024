@@ -19,6 +19,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static guru.nidi.graphviz.model.Factory.*;
 import static guru.nidi.graphviz.model.Factory.mutNode;
@@ -38,8 +40,13 @@ public class ShowPERT_CPMUI implements Runnable {
 
         MapGraph<String, String> pertCpmGraph = pertCpm.getPert_CPM();
 
-        CalculateTimes calculateTimes = new CalculateTimes();  // Calculate the times
-        calculateTimes.calculateTimes();  // Calculate the times
+        try {
+            CalculateTimes calculateTimes = new CalculateTimes();  // Calculate the times
+            calculateTimes.calculateTimes();  // Calculate the times
+        } catch (StackOverflowError e) {
+            // Intentionally left empty
+        }
+
 
         generateGraph(pertCpmGraph);  // Generate the graph
 

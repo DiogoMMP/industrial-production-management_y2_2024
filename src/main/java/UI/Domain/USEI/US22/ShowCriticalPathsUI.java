@@ -13,6 +13,13 @@ public class ShowCriticalPathsUI implements Runnable {
     @Override
     public void run() {
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();  // Get the PERT_CPM instance
+
+        if (pertCpm.hasCircularDependencies()) {
+            System.out.println(Utils.RED + "\nError: The project has circular dependencies." + Utils.RESET);
+            Utils.goBackAndWait();
+            return;
+        }
+
         LinkedHashMap<Integer, List<Activity>> criticalPaths = pertCpm.findCriticalPaths();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Show Critical Paths ------------\n" + Utils.RESET);
 
