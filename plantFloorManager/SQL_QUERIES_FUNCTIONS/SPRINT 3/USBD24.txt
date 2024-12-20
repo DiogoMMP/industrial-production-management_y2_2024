@@ -1,29 +1,121 @@
 CREATE OR REPLACE TRIGGER prevent_circular_reference
-    BEFORE INSERT OR UPDATE ON BOO
-    FOR EACH ROW
+BEFORE INSERT OR UPDATE ON BOO_Input
+FOR EACH ROW
 DECLARE
-    v_next_operation_id NUMBER;
-    v_product_id VARCHAR2(255);
+    v_product_id BOO.Product_ID%TYPE;
 BEGIN
-    IF :NEW.Next_Operation_ID IS NOT NULL THEN
-        v_next_operation_id := :NEW.Next_Operation_ID;
-        v_product_id := :NEW.Product_ID;
+    -- Retrieve the Product_ID associated with the Operation_ID and Product_ID in BOO
+    SELECT Product_ID INTO v_product_id
+    FROM BOO
+    WHERE Operation_ID = :NEW.Operation_ID
+      AND Product_ID = :NEW.Product_ID;
 
-        LOOP
-            IF v_next_operation_id = :NEW.Operation_ID THEN
-                RAISE_APPLICATION_ERROR(-20001, 'Circular reference detected in BOO table.');
-            END IF;
-            SELECT Next_Operation_ID
-            INTO v_next_operation_id
-            FROM BOO
-            WHERE Operation_ID = v_next_operation_id
-              AND Product_ID = v_product_id;
-
-            EXIT WHEN v_next_operation_id IS NULL;
-        END LOOP;
+    -- Check if the Part_ID being added as an input matches the Product_ID
+    IF :NEW.Part_ID = v_product_id THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Circular reference detected: A product cannot be an input in its own BOO.');
     END IF;
 END;
 /
 
 
-INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (115, 'AS12946S22', 120);
+-- Tests
+
+INSERT INTO Part (Part_ID, Part_Description) VALUES ('TEST123', 'Test Product Description');
+INSERT INTO Part (Part_ID, Part_Description) VALUES ('IP123', 'Test Part Description');
+
+INSERT INTO Internal_Part (Part_ID) VALUES ('TEST123');
+INSERT INTO Internal_Part (Part_ID) VALUES ('IP123');
+
+INSERT INTO Intermediate_Product (Part_ID) VALUES ('IP123');
+INSERT INTO Product (Product_ID, Product_Name, Factory_Plant_ID, Family_ID) VALUES ('TEST123', 'Test Product', 1, 125);
+
+INSERT INTO Operation (Operation_ID, Operation_Type_ID, Expected_Estimated_Time) VALUES (101, 5647, 120);
+INSERT INTO Operation (Operation_ID, Operation_Type_ID, Expected_Estimated_Time) VALUES (102, 5649, 90);
+
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (101, 'TEST123', 102);
+INSERT INTO BOO (Operation_ID, Product_ID, Next_Operation_ID) VALUES (102, 'TEST123', 103);
+
+
+-- Test 1: Successful insertion (no circular reference)
+DECLARE
+    v_success BOOLEAN := TRUE;
+BEGIN
+    INSERT INTO BOO_INPUT (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+    VALUES ('TEST123', 101, 'IP123', 1, 'unit');
+
+    DBMS_OUTPUT.PUT_LINE('Test 1 Passed: Insertion successful with no circular reference.');
+EXCEPTION
+    WHEN OTHERS THEN
+        v_success := FALSE;
+        DBMS_OUTPUT.PUT_LINE('Test 1 Failed: ' || SQLERRM);
+END;
+/
+
+-- Test 2: Unsuccessful insertion (circular reference detected)
+DECLARE
+    v_error_caught BOOLEAN := FALSE;
+BEGIN
+    INSERT INTO BOO_INPUT (Product_ID, Operation_ID, Part_ID, Quantity, Unit)
+    VALUES ('TEST123', 102, 'TEST123', 1, 'unit');
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE = -20001 THEN
+            v_error_caught := TRUE;
+            DBMS_OUTPUT.PUT_LINE('Test 2 Passed: Circular reference error raised.');
+            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Test 2 Failed: Unexpected error');
+        END IF;
+END;
+/
+
+-- Test 3: Successful update (no circular reference)
+DECLARE
+    v_success BOOLEAN := TRUE;
+BEGIN
+    UPDATE BOO_INPUT
+    SET Part_ID = 'IP123'
+    WHERE Operation_ID = 102 AND Product_ID = 'TEST123';
+    DBMS_OUTPUT.PUT_LINE('Test 3 Passed: Update successful with no circular reference.');
+EXCEPTION
+    WHEN OTHERS THEN
+        v_success := FALSE;
+        DBMS_OUTPUT.PUT_LINE('Test 3 Failed: ' || SQLERRM);
+END;
+/
+
+-- Test 4: Unsuccessful update (circular reference detected)
+DECLARE
+    v_error_caught BOOLEAN := FALSE;
+BEGIN
+    UPDATE BOO_INPUT
+    SET Part_ID = 'TEST123'
+    WHERE Operation_ID = 101 AND Product_ID = 'TEST123';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE = -20001 THEN
+            v_error_caught := TRUE;
+            DBMS_OUTPUT.PUT_LINE('Test 4 Passed: Circular reference error raised.');
+            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Test 4 Failed: Unexpected error');
+        END IF;
+END;
+/
+
+-- Cleanup
+
+DELETE FROM BOO_INPUT WHERE Product_ID = 'TEST123';
+DELETE FROM BOO WHERE Product_ID = 'TEST123';
+
+DELETE FROM Intermediate_Product WHERE Part_ID = 'IP123';
+DELETE FROM Product WHERE Product_ID = 'TEST123';
+
+DELETE FROM Internal_Part WHERE Part_ID = 'TEST123';
+DELETE FROM Internal_Part WHERE Part_ID = 'IP123';
+
+DELETE FROM Part WHERE Part_ID = 'TEST123';
+DELETE FROM Part WHERE Part_ID = 'IP123';
+
+DELETE FROM Operation WHERE Operation_ID = 101;
+DELETE FROM Operation WHERE Operation_ID = 102;

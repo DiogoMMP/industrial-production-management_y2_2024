@@ -81,8 +81,13 @@ public class US27UI implements Runnable {
 
             callableStatement.execute();
 
-            callableStatement.getString(1);
+            result = callableStatement.getString(1);
 
+            if (result.contains("Error")) {
+                System.out.println(Utils.RED + "\nFailed to reserve materials for Customer Order ID: " + customerOrderId +
+                        " - " + result + Utils.RESET);
+                return;
+            }
             System.out.println(Utils.GREEN + "\nMaterials reserved successfully for Customer Order ID: " + customerOrderId + Utils.RESET);
 
         } catch (SQLException e) {

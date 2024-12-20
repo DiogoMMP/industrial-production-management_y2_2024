@@ -42,7 +42,7 @@ public class US25UI implements Runnable {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
-            String query = "SELECT PRODUCT_ID FROM PRODUCT";
+            String query = "SELECT DISTINCT p.Product_ID FROM Product p JOIN BOO b ON p.Product_ID = b.Product_ID";
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
