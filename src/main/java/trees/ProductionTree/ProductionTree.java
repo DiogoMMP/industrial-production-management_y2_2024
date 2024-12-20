@@ -7,6 +7,8 @@ import repository.Instances;
 import repository.ItemsRepository;
 import repository.OperationsMapRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 import trees.heap.Entry;
@@ -717,9 +719,10 @@ public class ProductionTree {
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String childName = value.substring(0, startIndex).trim();
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-                double oldQuantity = Double.parseDouble(quantityStr);
-                double newQuantity = oldQuantity * parentNewQuantity; // Adjust the quantity based on the parent's new quantity
-                value = childName + " (Quantity: " + newQuantity + ")";
+                BigDecimal oldQuantity = new BigDecimal(quantityStr);
+                BigDecimal newQuantity = oldQuantity.multiply(BigDecimal.valueOf(parentNewQuantity));
+                newQuantity = newQuantity.setScale(2, RoundingMode.HALF_UP); // Set scale to 2 decimal places
+                value = childName + " (Quantity: " + newQuantity.toString() + ")";
                 child.setValue(value);
 
                 // Recursively update the quantities of the child's children

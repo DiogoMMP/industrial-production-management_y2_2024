@@ -28,6 +28,7 @@ int machine_capacity = 0;        // Current capacity of the machines array
 void free_machine(struct machine *m);
 int format_command(char *op, int n, char *cmd);
 int run_machine_interface();
+int setup_machines_from_file(const char *filename);
 
 int main() {
     int option;
@@ -49,14 +50,16 @@ int main() {
 
         switch (option) {
             case 1:
+
                 printf("Want to use the default setup file? (y/n): ");
                 char answer;
+                getchar(); // Clear the newline character left by the previous input
                 scanf("%c", &answer);
-                if(answer == 'n'){
+                if (answer == 'n' || answer == 'N') {
                     printf("Enter the setup file name: ");
                     scanf("%99s", filename);
                 } else {
-                    filename = "Files/machines.csv";
+                    strcpy(filename, "Files/machines.csv"); // Use strcpy to copy the string
                 }
                 if (setup_machines_from_file(filename) == 0) {
                     printf("Machines setup successfully.\n");
