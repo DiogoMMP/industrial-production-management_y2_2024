@@ -643,11 +643,10 @@ public class Simulator {
             }
             ordersTimes.put(orderItems, timeOperationsOrder);
         }
-        exportToFile();
         return ordersTimes;
     }
 
-    private void exportToFile() {
+    public void exportToFile() {
         try (FileWriter writer = new FileWriter("machineSupervisor/ARQCP/SPRINT3/UI/Files/simulation.csv")) {
             writer.append("OrderID;ItemID;Operation\n");
             for (Map.Entry<LinkedHashMap<Order, String>, List<LinkedHashMap<String, Double>>> entry : ordersTimes.entrySet()) {
