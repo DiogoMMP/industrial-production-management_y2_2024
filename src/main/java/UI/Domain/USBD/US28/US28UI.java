@@ -10,12 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class US28UI implements Runnable {
+
+    /**
+     * This method displays a list of reserved materials.
+     */
     @Override
     public void run() {
         getReservedMaterials();
         Utils.goBackAndWait();
     }
 
+    /**
+     * This method retrieves a list of reserved materials from the database.
+     */
     private void getReservedMaterials() {
         String function = "{? = call Get_Reserved_Materials()}"; // Adjust for function call
         try (Connection connection = getConnection();
@@ -38,6 +45,11 @@ public class US28UI implements Runnable {
         }
     }
 
+    /**
+     * This method prints the formatted table of reserved materials.
+     * @param resultSet The ResultSet containing the reserved materials.
+     * @throws SQLException If an error occurs while reading the ResultSet.
+     */
     private void printFormattedTable(ResultSet resultSet) throws SQLException {
         // Create a list to store rows of formatted data
         List<String[]> rows = new ArrayList<>();
@@ -83,13 +95,5 @@ public class US28UI implements Runnable {
      */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
-    }
-
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

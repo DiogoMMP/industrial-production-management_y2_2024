@@ -11,6 +11,9 @@ import java.util.List;
 
 public class US27UI implements Runnable {
 
+    /**
+     * This method displays a list of customer orders and allows the user to select one to reserve materials for.
+     */
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<>();
@@ -61,7 +64,11 @@ public class US27UI implements Runnable {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
     }
 
-
+    /**
+     * This method reserves materials for a customer order.
+     * @param customerOrderId The ID of the customer order.
+     * @throws SQLException If an error occurs while reserving materials.
+     */
     private void reserveMaterialsForOrder(int customerOrderId) throws SQLException {
         String call = "{ ? = call reserve_materials_for_order(?) }";
         String result;
