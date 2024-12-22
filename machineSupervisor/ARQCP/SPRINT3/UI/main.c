@@ -19,6 +19,7 @@ struct operation {
     char designation[20];    // Operation designation
     int number;              // Operation number (0-31)
     time_t timestamp;        // Timestamp of the beginning of the operation
+
 };
 
 struct machine {
@@ -50,9 +51,11 @@ int setup_machines_from_file(const char *filename);
 void add_to_buffer(struct machine *m, float temperature, float humidity);
 void print_buffer(struct machine *m);
 int assign_operation_to_machine(int machine_index, const char *designation, int number);
+void export_operations_to_csv(struct machine *m);
+void monitor_machine(struct machine *m);
 
 int main() {
-    int option;
+    int option = -1; // Initialize option to a default value
     char filename[100];
     do {
         printf("\nMachine Management System\n");
@@ -60,15 +63,16 @@ int main() {
         printf("2 - Export Machines Operations\n");
         printf("3 - Add Machine\n");
         printf("4 - Remove Machine\n");
-        printf("5 - Check Machine Status\n");
-        printf("6 - Assign Operation to Machine\n");
-        printf("7 - Display Machine State\n");
-        printf("8 - Import List of Instructions\n");
-        printf("9 - Notify if a Machine broke one of the limiters\n");
-        printf("10 - List Machines\n");
+        printf("5 - Import List of Instructions\n");
+        printf("6 - Monitor Machine\n");
         printf("0 - Exit\n");
         printf("Choose an option: ");
-        scanf("%d", &option);
+
+        char input[10];
+        if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {
+            printf("Invalid input. Please enter a number.\n");
+            continue;
+        }
 
         switch (option) {
             case 1:
@@ -88,12 +92,58 @@ int main() {
                     printf("Error setting up machines.\n");
                 }
                 break;
-            case 2:
+            case 2: {
+                while (1) {
+                    if (machine_count == 0) {
+                        printf("No machines available.\n");
+                        break;
+                    }
+
+                    printf("Available Machines:\n");
+                    for (int i = 0; i < machine_count; i++) {
+                        printf("%d - %s\n", i + 1, machines[i].id);
+                    }
+                    printf("%d - All\n", machine_count + 1);
+                    printf("0 - Back\n");
+                    printf("Enter the option you want: ");
+
+                    char input[10];
+                    int option;
+                    if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {
+                        printf("Invalid input. Please enter a number.\n");
+                        continue;
+                    }
+
+                    if (option == 0) {
+                        break;
+                    }
+                    if (option == machine_count + 1) {
+                        for (int i = 0; i < machine_count; i++) {
+                            export_operations_to_csv(&machines[i]);
+                        }
+                        break;
+                    }
+
+                    struct machine *selected_machine = NULL;
+                    if (option > 0 && option <= machine_count) {
+                        selected_machine = &machines[option - 1];
+                    }
+
+                    if (!selected_machine) {
+                        printf("Invalid machine selected. Please try again.\n");
+                        continue;
+                    }
+
+                    // Export operations to CSV for the selected machine
+                    export_operations_to_csv(selected_machine);
+                    break;
+                }
+                break;
+            }
+            case 3: {
                 printf("Not implemented yet.\n");
                 break;
-            case 3:
-                printf("Not implemented yet.\n");
-                break;
+            }
             case 4:
                 printf("Not implemented yet.\n");
                 break;
@@ -101,31 +151,44 @@ int main() {
                 printf("Not implemented yet.\n");
                 break;
             case 6:
-                printf("Not implemented yet.\n");
-                break;
-            case 7:
-                printf("Not implemented yet.\n");
-                break;
-            case 8:
-                printf("Not implemented yet.\n");
-                break;
-            case 9:
-                printf("Not implemented yet.\n");
-                break;
-            case 10:
-                for (int i = 0; i < machine_count; i++) {
-                    printf("\n");
-                    printf("Machine %d\n", i + 1);
-                    printf("Machine ID: %s\n", machines[i].id);
-                    printf("Machine Name: %s\n", machines[i].name);
-                    printf("Temperature Range: %.2f - %.2f\n", machines[i].temperature_min, machines[i].temperature_max);
-                    printf("Humidity Range: %.2f - %.2f\n", machines[i].humidity_min, machines[i].humidity_max);
-                    printf("Buffer Size: %d\n", machines[i].buffer_size);
-                    printf("Median Window: %d\n", machines[i].median_window);
-                    printf("State: %s\n", machines[i].state);
+            while (1) {
+                    if (machine_count == 0) {
+                        printf("No machines available.\n");
+                        break;
+                    }
+
+                    printf("Available Machines:\n");
+                    for (int i = 0; i < machine_count; i++) {
+                        printf("%d - %s\n", i + 1, machines[i].id);
+                    }
+                    printf("0 - Back\n");
+                    printf("Enter the option you want: ");
+
+                    char input[10];
+                    int option;
+                    if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {
+                        printf("Invalid input. Please enter a number.\n");
+                        continue;
+                    }
+
+                    if (option == 0) {
+                        break;
+                    }
+
+                    struct machine *selected_machine = NULL;
+                    if (option > 0 && option <= machine_count) {
+                        selected_machine = &machines[option - 1];
+                    }
+
+                    if (!selected_machine) {
+                        printf("Invalid machine selected. Please try again.\n");
+                        continue;
+                    }
+
+                    // Export operations to CSV for the selected machine
+                    monitor_machine(selected_machine);
+                    break;
                 }
-                printf("\n");
-                break;
             case 0:
                 printf("Exiting...\n");
                 break;
@@ -149,6 +212,7 @@ void free_machine(struct machine *m) {
     }
 }
 
+// This is not correct. It is not an interface.
 int run_machine_interface() {
     // Variables for user input
     char state[10];
@@ -369,4 +433,69 @@ void print_buffer(struct machine *m) {
     }
     printf("Temperature: %.2f, Humidity: %.2f\n", current->temperature, current->humidity); // Print the head element
 }
+
+
+void export_operations_to_csv(struct machine *m) {
+    if (!m) {
+        printf("Invalid machine provided.\n");
+        return;
+    }
+
+    // Construct the file path using the machine's ID
+    char filepath[150];
+    snprintf(filepath, sizeof(filepath), "Files/Machines_OP/%s_Operations.csv", m->id);
+
+    // Open the file for writing
+    FILE *file = fopen(filepath, "w");
+    if (!file) {
+        perror("Error opening file for writing");
+        return;
+    }
+
+    // Write CSV header
+    fprintf(file, "Number;Designation;Timestamp\n");
+
+    // Write operation details
+    for (int i = 0; i < m->operation_count; i++) {
+        struct operation *op = &m->operations[i];
+        char timestamp_str[30];
+        strftime(timestamp_str, sizeof(timestamp_str), "%Y-%m-%d %H:%M:%S", localtime(&op->timestamp));
+        fprintf(file, "%d;%s;%s\n", op->number, op->designation, timestamp_str);
+    }
+
+    fclose(file);
+
+    printf("Operations exported to %s successfully.\n", filepath);
+}
+
+void monitor_machine(struct machine *m) {
+    int option = -1; // Initialize option to a default value
+    do {
+        printf("\nManaging Machine: %s\n", m->id);
+        printf("1 - Assign Operation to Machine\n");
+        printf("2 - Display Machine State\n");
+        printf("0 - Exit\n");
+        printf("Choose an option: ");
+
+        char input[10];
+        if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {
+            printf("Invalid input. Please enter a number.\n");
+            continue;
+        }
+
+        switch (option) {
+            case 1:
+                printf("Not implemented yet.\n");
+                break;
+            case 2:
+                printf("Not implemented yet.\n");
+                break;
+            case 0:
+                break;
+            default:
+                printf("Invalid option. Please try again.\n");
+        }
+    } while (option != 0);
+}
+
 
