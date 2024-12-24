@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -g -Wall -Wextra -fanalyzer
 
 # Source files
-C_SRCS = main.c
+C_SRCS = ui.c
 ASM_SRCS = usac01.s usac02.s usac03.s usac04.s usac05.s usac06.s usac07.s usac08.s usac09.s usac10.s
 
 # Header files
