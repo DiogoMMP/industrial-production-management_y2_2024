@@ -92,4 +92,8 @@ public class HashMap_Items_Machines {
     public void setProdPlan(HashMap<Item, Workstation> prodPlan) {
         this.ProdPlan = prodPlan;
     }
+
+    public void addItemWorkstation(Item item, Workstation workstation) {
+        ProdPlan.put(item, workstation);
+    }
 }

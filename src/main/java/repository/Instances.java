@@ -115,4 +115,8 @@ public class Instances {
     public void clear() {
         instance = null;
     }
+
+    public void setHashMapItemsWorkstations(HashMap_Items_Machines hashMapItemsWorkstations) {
+        this.hashMapItemsWorkstations = hashMapItemsWorkstations;
+    }
 }

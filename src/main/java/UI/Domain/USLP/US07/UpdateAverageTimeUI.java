@@ -35,12 +35,15 @@ public class UpdateAverageTimeUI implements Runnable {
             String productId = scanner.nextLine();
 
             // Step 3: Use the selected product's information in the simulator
-            LinkedHashMap<String, Double> averageWaitingTimes = simulator.calculateAverageWaitingTimes(productId);
+            ProductionDataLoader loader = new ProductionDataLoader(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
 
-            // Step 4: Update the Oracle DB with the calculated average waiting times
-            updateAverageTimesInDB(connection, productId, averageWaitingTimes);
+            loader.initializeProductionSystem(productId);
 
-            System.out.println("Average waiting times updated successfully.");
+// Your simulator can now use the loaded data
+            Simulator simulator = new Simulator();
+            LinkedHashMap<String, Double> results = simulator.simulateProcessUS02();
+
+            System.out.println("Average waiting times updated successfully."+results);
         } catch (SQLException e) {
             e.printStackTrace();
         }
