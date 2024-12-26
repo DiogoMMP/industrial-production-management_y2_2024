@@ -1,5 +1,5 @@
-#ifndef USAC_H
-#define USAC_H
+#ifndef ASSEBLY_FUNCTIONS_H
+#define ASSEBLY_FUNCTIONS_H
 
 int extract_data(char* str, char* token, char* unit, int* value); //USAC01
 int get_number_binary(int n, char* bits); //USAC02
@@ -14,4 +14,4 @@ int median(int* vec, int length, int *me); //USAC10
 
 
 
-#endif // USAC_H
+#endif // ASSEBLY_FUNCTIONS_H

@@ -8,7 +8,7 @@
 #define LED_BIN_4 4 // Binary LED (bit 4)
 
 // DHT sensor setup
-#define DHT_PIN 5       // GPIO pin for DHT sensor
+#define DHT_PIN 16       // GPIO pin for DHT sensor
 #define DHT_TYPE DHT11   // Use DHT11 or DHT22 based on your sensor
 DHT dht(DHT_PIN, DHT_TYPE); // Initialize the DHT sensor
 
