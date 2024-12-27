@@ -647,7 +647,7 @@ public class Simulator {
     }
 
     public void exportToFile() {
-        try (FileWriter writer = new FileWriter("machineSupervisor/ARQCP/SPRINT3/UI/Files/simulation.csv")) {
+        try (FileWriter writer = new FileWriter("machineSupervisor/ARQCP/SPRINT3/src/data/simulation.csv")) {
             writer.append("OrderID;ItemID;Operation\n");
             for (Map.Entry<LinkedHashMap<Order, String>, List<LinkedHashMap<String, Double>>> entry : ordersTimes.entrySet()) {
                 LinkedHashMap<Order, String> orderItems = entry.getKey();

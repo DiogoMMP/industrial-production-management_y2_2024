@@ -21,3 +21,19 @@ op_id;op_name
 163;Lid handle screw
 164;Lid polishing
 170;Pot test and packaging
+5001;Disc cutting
+5002;Initial pot base pressing
+5003;Final pot base pressing
+5004;Pot base finishing
+5005;Lid pressing
+5006;Lid finishing
+5007;Pot handles riveting
+5008;Lid handle screw
+5009;Pot test and packaging
+5010;Handle welding
+5011;Lid polishing
+5012;Pot base polishing
+5013;Teflon painting
+5014;Packaging for large items
+5015;Circular glass cutting
+5016;Glass trimming
