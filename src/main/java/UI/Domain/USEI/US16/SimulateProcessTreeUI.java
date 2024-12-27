@@ -15,7 +15,11 @@ public class SimulateProcessTreeUI implements Runnable {
     @Override
     public void run() {
         LinkedHashMap<String, Double> timeOperations = simulator.simulateBOMBOO();
-
+        if (timeOperations.isEmpty()) {
+            System.out.println("No operations to simulate.");
+            Utils.goBackAndWait();
+            return;
+        }
         String operationName = extractOperationName(timeOperations.firstEntry().getKey());
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                 "--- Simulation Of The Process Tree ------------\n" + Utils.RESET);

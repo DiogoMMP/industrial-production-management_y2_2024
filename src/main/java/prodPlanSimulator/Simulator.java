@@ -607,6 +607,9 @@ public class Simulator {
     public LinkedHashMap<String, Double> simulateBOMBOO() {
         ProductionTree productionTree = Instances.getInstance().getProductionTree();
         TreeNode<String> root = productionTree.getRoot();
+        if (root == null || root.getValue().contains("Unknown Operation")) {
+            return new LinkedHashMap<>();
+        }
         bombooTree = new AVL<>();
         LinkedHashMap<Integer, BOO> materials = new LinkedHashMap<>();
         List<BOO> postOrderElements = createBOMBOOTree(root, materials);
@@ -637,9 +640,15 @@ public class Simulator {
                 orderItems.put(order, itemID);
                 productionTree = Instances.getInstance().getProductionTree();
                 productionTree.buildProductionTree(itemID);
-                productionTree.updateQuantities(itemID, order.getQuantity().get(index));
-                LinkedHashMap<String, Double> timeOperations = simulateBOMBOO();
-                timeOperationsOrder.add(timeOperations);
+                if (productionTree.getRoot().getValue().contains("Unknown Operation")) {
+                    LinkedHashMap<String, Double> timeOperations = simulateBOMBOO();
+                    timeOperationsOrder.add(timeOperations);
+                } else {
+                    productionTree.updateQuantities(itemID, order.getQuantity().get(index));
+                    LinkedHashMap<String, Double> timeOperations = simulateBOMBOO();
+                    timeOperationsOrder.add(timeOperations);
+                }
+
             }
             ordersTimes.put(orderItems, timeOperationsOrder);
         }
@@ -769,6 +778,8 @@ public class Simulator {
         if (startIndex != -1 && endIndex != -1) {
             String name = value.substring(0, startIndex).trim();
             String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+            String[] parts = quantityStr.split("(?<=\\d)(?=\\D)");
+            quantityStr = parts[0];
             double quantity = Double.parseDouble(quantityStr);
             if (node.getType() == NodeType.OPERATION) {
                 if (bombooTree.getLatestInsertedNode() != null) {

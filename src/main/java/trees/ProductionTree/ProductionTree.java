@@ -624,6 +624,8 @@ public class ProductionTree {
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String materialName = value.substring(0, startIndex).trim();
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+                String[] parts = quantityStr.split("(?<=\\d)(?=\\D)");
+                quantityStr = parts[0];
                 double quantity = Double.parseDouble(quantityStr);
                 materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, 0.0) + quantity);
             }
@@ -633,6 +635,8 @@ public class ProductionTree {
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String operationName = value.substring(0, startIndex).trim();
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+                String[] parts = quantityStr.split("(?<=\\d)(?=\\D)");
+                quantityStr = parts[0];
                 double quantity = Double.parseDouble(quantityStr);
                 operationQuantities.put(operationName, operationQuantities.getOrDefault(operationName, 0.0) + quantity);
             }
@@ -654,7 +658,9 @@ public class ProductionTree {
                 if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                     String materialID = entry.getKey();
                     String materialName = value.substring(0, startIndex).trim();
-                    String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+                    String quantityWithUnit = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+                    String[] parts = quantityWithUnit.split("(?<=\\d)(?=\\D)");
+                    String quantityStr = parts[0];
                     double quantity = Double.parseDouble(quantityStr);
                     Material material = new Material(materialID, materialName, quantityStr);
                     if (materialQuantityPairs.contains(material)) {
@@ -691,7 +697,9 @@ public class ProductionTree {
         if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
             String materialName = value.substring(0, startIndex).trim();
             String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-            double oldQuantity = Double.parseDouble(quantityStr);
+            String parts[] = quantityStr.split("(?<=\\d)(?=\\D)");
+            String oldQuantityStr = parts[0];
+            double oldQuantity = Double.parseDouble(oldQuantityStr);
             value = materialName + " (Quantity: " + newQuantity + ")";
             node.setValue(value);
             updateChildrenQuantities(materialID, newQuantity);
@@ -719,6 +727,8 @@ public class ProductionTree {
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String childName = value.substring(0, startIndex).trim();
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
+                String parts[] = quantityStr.split("(?<=\\d)(?=\\D)");
+                quantityStr = parts[0];
                 BigDecimal oldQuantity = new BigDecimal(quantityStr);
                 BigDecimal newQuantity = oldQuantity.multiply(BigDecimal.valueOf(parentNewQuantity));
                 newQuantity = newQuantity.setScale(2, RoundingMode.HALF_UP); // Set scale to 2 decimal places
