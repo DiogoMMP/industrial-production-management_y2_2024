@@ -7,9 +7,10 @@
 
 // MachManager Struct
 typedef struct {
-    struct Machine* machines;   // Pointer to an array of machines
-    int machine_count;          // Number of machines in the system
-    void* internal_data;        // Internal data (temporary information for control)
+    Machine* machines;       // Pointer to an array of machines
+    int machine_count;              // Number of machines in the system
+    int machine_capacity;           // Current capacity of the machines array
+    void* internal_data;            // Internal data (temporary information for control)
 } MachManager;
 
 // Structure for storing alert data
@@ -19,6 +20,10 @@ typedef struct {
 } Alert;
 
 // Functions for the `MachManager`:
+
+void create_machmanager(MachManager *machmanager, Machine *machines, int *machine_count, int *machine_capacity);
+
+int setup_machines_from_file(const char *filename, MachManager *machmanager);
 
 // Function to wait for instructions from the UI
 // Returns a pointer to the structure containing the instructions received

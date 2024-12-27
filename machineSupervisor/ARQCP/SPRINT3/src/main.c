@@ -11,15 +11,15 @@
 #include "operation.h"
 #include "machine.h"
 #include "assembly_functions.h"
+#include "utils.h"
 
+MachManager *machmanager;
 Machine *machines = NULL;           // Pointer to the array of machines
 int machine_count = 0;              // Current count of machines
 int machine_capacity = 0;           // Current capacity of the machines array
 
-void free_machine(Machine *m);
 int format_command(char *op, int n, char *cmd);
 int run_machine_interface();
-int setup_machines_from_file(const char *filename);
 void add_to_buffer(Machine *m, float temperature, float humidity);
 void print_buffer(Machine *m);
 int assign_operation_to_machine(int machine_index, const char *designation, int number, time_t timestamp);
@@ -27,10 +27,27 @@ void export_operations_to_csv(Machine *m);
 void monitor_machine(Machine *m);
 
 int main() {
+    // Aloca memória para o machmanager
+    machmanager = malloc(sizeof(MachManager));  // Aloca memória para a estrutura MachManager
+    if (!machmanager) {
+        perror("Error allocating memory for MachManager");
+        return 1; // Termina o programa em caso de erro de alocação
+    }
+
+    // Aloca memória para a array de máquinas, se necessário
+    machines = malloc(machine_capacity * sizeof(Machine));
+    if (!machines) {
+        perror("Error allocating memory for machines array");
+        free(machmanager);  // Libera a memória já alocada para machmanager
+        return 1;
+    }
+
+    create_machmanager(machmanager, machines, &machine_count, &machine_capacity);
+
     int option = -1; // Initialize option to a default value
     char filename[100];
     do {
-        printf("\nMachine Management System\n");
+        printf(BOLD CYAN "\n--- Machine Management System --------------------------\n\n" RESET);
         printf("1 - Setup Machines\n");
         printf("2 - Add Machine\n");
         printf("3 - Remove Machine\n");
@@ -41,7 +58,7 @@ int main() {
 
         char input[10];
         if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {
-            printf("Invalid input. Please enter a number.\n");
+            printf(RED "Invalid input. Please enter a number.\n" RESET);
             continue;
         }
 
@@ -55,10 +72,11 @@ int main() {
                     printf("Enter the setup file name: ");
                     scanf("%99s", filename);
                 } else {
-                    strcpy(filename, "Files/machines.csv"); // Use strcpy to copy the string
+                    strcpy(filename, "src/data/machines.csv"); // Use strcpy to copy the string
                 }
-                if (setup_machines_from_file(filename) == 0) {
+                if (setup_machines_from_file(filename, machmanager) == 0) {
                     printf("Machines setup successfully.\n");
+                    goBackAndWait();
                 } else {
                     printf("Error setting up machines.\n");
                 }
@@ -158,151 +176,15 @@ int main() {
                 printf("Exiting...\n");
                 break;
             default:
-                printf("Invalid option. Please try again.\n");
+                printf(RED "\nInvalid option. Please try again.\n" RESET);
         }
     } while (option != 0);
 
+    // Libera memória após o uso
+    free(machines);
+    free(machmanager);
+
     return 0;
-}
-
-
-// Free the allocated memory for the machine's buffer
-void free_machine(Machine *m) {
-    if (m->buffer) {
-        free(m->buffer);  // Free the dynamically allocated buffer
-        m->buffer = NULL; // Reset pointer to avoid dangling reference
-    }
-    if (m->operations) {
-        free(m->operations); // Free the dynamically allocated operations array
-        m->operations = NULL; // Reset pointer to avoid dangling reference
-    }
-}
-
-int setup_machines_from_file(const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        perror("Error opening file");
-        return -1;
-    }
-
-    // Free existing machines if any
-    if (machine_count > 0) {
-        for (int i = 0; i < machine_count; i++) {
-            free_machine(&machines[i]); // Free the buffer for each machine
-        }
-        free(machines);  // Free the array itself
-        machines = NULL; // Reset pointer to avoid dangling references
-        machine_count = 0;
-        machine_capacity = 0;
-    }
-
-    char header[256];
-    if (!fgets(header, sizeof(header), file)) {
-        fprintf(stderr, "Error reading file header\n");
-        fclose(file);
-        return -1;
-    }
-
-    // Check if the file has any lines after the header
-    char line[256];
-    if (!fgets(line, sizeof(line), file)) {
-        fprintf(stderr, "No data lines found in the file\n");
-        fclose(file);
-        return -1;
-    }
-
-    // Process the first line
-    do {
-        Machine new_machine = {0}; // Ensure it's zero-initialized
-        if (sscanf(line, "%9[^,],%19[^,],%f,%f,%f,%f",
-                   new_machine.id, new_machine.name,
-                   &new_machine.temperature_min, &new_machine.temperature_max,
-                   &new_machine.humidity_min, &new_machine.humidity_max) != 6) {
-            fprintf(stderr, "Invalid line format: %s", line);
-            continue;
-        }
-
-        // Validation checks
-        if (new_machine.temperature_min > new_machine.temperature_max ||
-            new_machine.humidity_min > new_machine.humidity_max) {
-            fprintf(stderr, "Validation failed for machine %s\n", new_machine.id);
-            continue;
-        }
-
-        // Initialize buffer size and median window to 0
-        new_machine.buffer_size = 0;
-        new_machine.median_window = 0;
-
-        // Initialize operations array
-        new_machine.operation_capacity = 31; // Initial capacity for operations
-        new_machine.operations = malloc(new_machine.operation_capacity * sizeof(Operation));
-        if (!new_machine.operations) {
-            perror("Error allocating operations array");
-            fclose(file);
-            return -1;
-        }
-        new_machine.operation_count = 0;
-
-        // Add initial operation with default values
-        Operation initial_operation = {"none", 0, 0};
-        new_machine.operations[new_machine.operation_count++] = initial_operation;
-
-        // Initialize assigned operation with default values
-        new_machine.assigned_operation = initial_operation;
-
-        // Check if resizing the machines array is needed
-        if (machine_count >= machine_capacity) {
-            machine_capacity = (machine_capacity == 0) ? 2 : machine_capacity * 2;
-            Machine *new_machines = realloc(machines, machine_capacity * sizeof(Machine));
-            if (!new_machines) {
-                perror("Error resizing machine array");
-                free(new_machine.buffer); // Clean up buffer before returning
-                free(new_machine.operations); // Clean up operations array before returning
-                fclose(file);
-                return -1;
-            }
-            machines = new_machines;
-            free(new_machine.buffer); // Clean up buffer before returning
-            free(new_machine.operations); // Clean up operations array before returning
-        }
-
-        // Add the new machine to the array
-        machines[machine_count++] = new_machine;
-    } while (fgets(line, sizeof(line), file));
-
-    fclose(file);
-    return 0;
-}
-
-void export_operations_to_csv(Machine *m) {
-    if (!m) {
-        printf("Invalid machine provided.\n");
-        return;
-    }
-
-    // Construct the file path using the machine's ID
-    char filepath[150];
-    snprintf(filepath, sizeof(filepath), "Files/Machines_OP/%s_Operations.csv", m->id);
-
-    // Open the file for writing
-    FILE *file = fopen(filepath, "w");
-    if (!file) {
-        perror("Error opening file for writing");
-        return;
-    }
-
-    // Write CSV header
-    fprintf(file, "Number;Designation;Timestamp\n");
-
-    // Write operation details
-    for (int i = 0; i < m->operation_count; i++) {
-        Operation *op = &m->operations[i];
-        fprintf(file, "%d;%s;%ld\n", op->number, op->designation, op->timestamp);
-    }
-
-    fclose(file);
-
-    printf("Operations exported to %s successfully.\n", filepath);
 }
 
 void monitor_machine(Machine *m) {
@@ -329,7 +211,7 @@ void monitor_machine(Machine *m) {
                 printf("Not implemented yet.\n");
                 break;
             case 3:
-                export_operations_to_csv(m);
+                //export_operations_to_csv(m);
                 break;
             case 0:
                 break;

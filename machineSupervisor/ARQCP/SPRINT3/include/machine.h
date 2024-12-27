@@ -23,4 +23,6 @@ typedef struct {
     Operation assigned_operation;           // The assigned operation
 } Machine;
 
+void free_machine(Machine *m);
+
 #endif // MACHINE_H

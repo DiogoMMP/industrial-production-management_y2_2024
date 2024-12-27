@@ -14,7 +14,8 @@ INCLUDE_DIR = include
 SRC_C = $(SRC_DIR)/main.c \
         $(SRC_DIR)/machine.c \
         $(SRC_DIR)/machmanager.c \
-        $(SRC_DIR)/operations.c
+        $(SRC_DIR)/operations.c \
+		$(SRC_DIR)/utils.c
 
 SRC_ASM = $(ASM_DIR)/usac01.s \
           $(ASM_DIR)/usac02.s \
@@ -58,7 +59,7 @@ run: all
 	./$(EXEC)
 
 # Analisar com Valgrind
-valgrind: all
+vg: all
 	valgrind --leak-check=full --track-origins=yes ./$(EXEC)
 
 # Limpeza dos arquivos compilados
