@@ -2,8 +2,12 @@ package repository;
 
 import domain.Workstation;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 public class WorkstationRepository {
     private Map<Integer, Workstation> workstations;
@@ -38,5 +42,29 @@ public class WorkstationRepository {
 
     public void removeWorkstation(int id) {
         workstations.remove(id);
+    }
+
+    public void exportMachineToCSV() {
+        String fileName = "machineSupervisor/ARQCP/SPRINT3/src/data/machines.csv";
+        try (FileWriter writer = new FileWriter(fileName)) {
+            writer.append("id,name,min_temp,max_temp,min_humidity,max_humidity\n");
+            Random random = new Random();
+            for (Map.Entry<Integer, Workstation> entry : workstations.entrySet()) {
+                Workstation workstation = entry.getValue();
+                double minTemp = 15 + (30 - 15) * random.nextDouble();
+                double maxTemp = minTemp + (30 - minTemp) * random.nextDouble();
+                double minHumidity = 0 + (100 - 0) * random.nextDouble();
+                double maxHumidity = minHumidity + (100 - minHumidity) * random.nextDouble();
+                writer.append(String.format(Locale.US, "%s,%s,%.1f,%.1f,%.1f,%.1f\n",
+                        workstation.getId(),
+                        workstation.getOperationName() + " machine", // Workstation name is not available
+                        minTemp,
+                        maxTemp,
+                        minHumidity,
+                        maxHumidity));
+            }
+        } catch (IOException e) {
+            System.out.println("Error exporting workstations to CSV: " + e.getMessage());
+        }
     }
 }
