@@ -10,10 +10,7 @@ import prodPlanSimulator.Simulator;
 import repository.Instances;
 import repository.OrdersRepository;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SimulateOrdersUI implements Runnable {
 
@@ -74,7 +71,7 @@ public class SimulateOrdersUI implements Runnable {
 
     private void ordersTitle(LinkedHashMap<LinkedHashMap<Order, String>, List<LinkedHashMap<String, Double>>> orders, LinkedHashMap<Order, String> order, Order currentOrder) {
         String operationName;
-        if (currentOrder.getPriority() == Priority.HIGH){
+        if (currentOrder.getPriority() == Priority.HIGH) {
             System.out.println("\n\n" + Utils.BOLD + Utils.RED + "--- Order: " + currentOrder.getId() +
                     " Priority: " + currentOrder.getPriority() + " ------------" + Utils.RESET); // Red
 
@@ -88,6 +85,7 @@ public class SimulateOrdersUI implements Runnable {
         }
 
         List<LinkedHashMap<String, Double>> operationsList = orders.get(order);
+        Set<String> displayedOperations = new HashSet<>(); // Track displayed operations
         int index = 0;
 
         for (String itemID : currentOrder.getItemsIdList()) {
@@ -99,14 +97,14 @@ public class SimulateOrdersUI implements Runnable {
                 for (Map.Entry<String, Double> entry : operation.entrySet()) {
                     operationName = extractOperationName(entry.getKey());
 
-                    if (!operationName.equalsIgnoreCase(extractOperationName(entry.getKey()))) {
-                        operationName = extractOperationName(entry.getKey());
+                    if (!displayedOperations.contains(operationName)) {
                         System.out.printf("%n");
                         System.out.println("Operation: " + operationName);
+                        displayedOperations.add(operationName); // Mark operation as displayed
                     }
 
                     String operationOutput = entry.getKey().replaceAll(" - Operation: " + operationName, "");
-                    System.out.println(operationOutput);
+                    System.out.println(operationOutput + " - Quantity: " + entry.getValue());
                 }
             }
             index++;

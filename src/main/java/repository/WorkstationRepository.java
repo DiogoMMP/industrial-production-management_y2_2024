@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class WorkstationRepository {
     private Map<Integer, Workstation> workstations;
@@ -49,7 +50,9 @@ public class WorkstationRepository {
         try (FileWriter writer = new FileWriter(fileName)) {
             writer.append("id,name,min_temp,max_temp,min_humidity,max_humidity\n");
             Random random = new Random();
-            for (Map.Entry<Integer, Workstation> entry : workstations.entrySet()) {
+            Map<Integer, Workstation> workstationsFiltered = getFilteredWorkstations();
+
+            for (Map.Entry<Integer, Workstation> entry : workstationsFiltered.entrySet()) {
                 Workstation workstation = entry.getValue();
                 double minTemp = 15 + (30 - 15) * random.nextDouble();
                 double maxTemp = minTemp + (30 - minTemp) * random.nextDouble();
@@ -57,7 +60,7 @@ public class WorkstationRepository {
                 double maxHumidity = minHumidity + (100 - minHumidity) * random.nextDouble();
                 writer.append(String.format(Locale.US, "%s,%s,%.1f,%.1f,%.1f,%.1f\n",
                         workstation.getId(),
-                        workstation.getOperationName() + " machine", // Workstation name is not available
+                        "M" + workstation.getId(), // Workstation name is not available
                         minTemp,
                         maxTemp,
                         minHumidity,
@@ -66,5 +69,15 @@ public class WorkstationRepository {
         } catch (IOException e) {
             System.out.println("Error exporting workstations to CSV: " + e.getMessage());
         }
+    }
+
+    public Map<Integer, Workstation> getFilteredWorkstations() {
+        Map<Integer, Workstation> filteredWorkstations = new TreeMap<>();
+        for (Map.Entry<Integer, Workstation> entry : workstations.entrySet()) {
+            Workstation workstation = entry.getValue();
+            int id = Integer.parseInt(workstation.getId());
+            filteredWorkstations.put(id, workstation);
+        }
+        return filteredWorkstations;
     }
 }
