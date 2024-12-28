@@ -21,9 +21,20 @@ typedef struct {
 
 // Functions for the `MachManager`:
 
-void create_machmanager(MachManager *machmanager, Machine *machines, int *machine_count, int *machine_capacity);
+void free_machine(Machine *m);
+
+void create_machmanager(MachManager *machmanager, Machine *machines, int machine_count, int machine_capacity);
 
 int setup_machines_from_file(const char *filename, MachManager *machmanager);
+
+void export_operations_to_csv(Machine *m);
+
+
+
+
+
+
+
 
 // Function to wait for instructions from the UI
 // Returns a pointer to the structure containing the instructions received

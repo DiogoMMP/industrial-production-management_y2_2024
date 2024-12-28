@@ -108,7 +108,7 @@ void goBackAndWait() {
         // Clear the input buffer
         while (getchar() != '\n'); // Clear any characters in the buffer
 
-        printf("Press \"0\" to go back: ");
+        printf("\nPress \"0\" to go back: ");
         fgets(input, sizeof(input), stdin); // Read the line from the console
 
         // Remove the '\n' that is added by fgets

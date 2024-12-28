@@ -15,8 +15,6 @@
 
 MachManager *machmanager;
 Machine *machines = NULL;           // Pointer to the array of machines
-int machine_count = 0;              // Current count of machines
-int machine_capacity = 0;           // Current capacity of the machines array
 
 int format_command(char *op, int n, char *cmd);
 int run_machine_interface();
@@ -27,34 +25,34 @@ void export_operations_to_csv(Machine *m);
 void monitor_machine(Machine *m);
 
 int main() {
-    // Aloca memória para o machmanager
-    machmanager = malloc(sizeof(MachManager));  // Aloca memória para a estrutura MachManager
+    // Allocates memory for machmanager
+    machmanager = malloc(sizeof(MachManager));  // Allocates memory for the MachManager structure
     if (!machmanager) {
         perror("Error allocating memory for MachManager");
-        return 1; // Termina o programa em caso de erro de alocação
+        return 1; // Terminate the programme in case of an allocation error
     }
 
-    // Aloca memória para a array de máquinas, se necessário
-    machines = malloc(machine_capacity * sizeof(Machine));
+    // Allocates memory for the machine array if necessary
+    machines = malloc(machmanager -> machine_capacity * sizeof(Machine));
     if (!machines) {
         perror("Error allocating memory for machines array");
-        free(machmanager);  // Libera a memória já alocada para machmanager
+        free(machmanager);  // Releases memory already allocated to machmanager
         return 1;
     }
 
-    create_machmanager(machmanager, machines, &machine_count, &machine_capacity);
+    create_machmanager(machmanager, machines, 0, 0);
 
     int option = -1; // Initialize option to a default value
     char filename[100];
     do {
-        printf(BOLD CYAN "\n--- Machine Management System --------------------------\n\n" RESET);
+        printf(BOLD CYAN "\n\n--- Machine Management System --------------------------\n\n" RESET);
         printf("1 - Setup Machines\n");
         printf("2 - Add Machine\n");
         printf("3 - Remove Machine\n");
         printf("4 - Import List of Instructions\n");
         printf("5 - Monitor Machine\n");
         printf("0 - Exit\n");
-        printf("Choose an option: ");
+        printf("\nChoose an option: ");
 
         char input[10];
         if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {
@@ -64,22 +62,26 @@ int main() {
 
         switch (option) {
             case 1:
-                printf("Want to use the default setup file? (y/n): ");
+                printf(BOLD "\nWant to use the default setup file? (Y/N): " RESET);
                 char answer;
+                
                 getchar(); // Clear the newline character left by the previous input
                 scanf("%c", &answer);
+                
                 if (answer == 'n' || answer == 'N') {
-                    printf("Enter the setup file name: ");
+                    printf("\nEnter the setup file name: ");
                     scanf("%99s", filename);
                 } else {
                     strcpy(filename, "src/data/machines.csv"); // Use strcpy to copy the string
                 }
+                
                 if (setup_machines_from_file(filename, machmanager) == 0) {
-                    printf("Machines setup successfully.\n");
+                    printf(GREEN "\nMachines setup successfully.\n" RESET);
                     goBackAndWait();
                 } else {
-                    printf("Error setting up machines.\n");
+                    printf(RED "\nError setting up machines.\n" RESET);
                 }
+
                 break;
             case 2:
                 printf("Not implemented yet.\n");
@@ -92,22 +94,24 @@ int main() {
                 break;
             case 5:
                 while (1) {
-                    if (machine_count == 0) {
-                        printf("No machines available.\n");
+                    if (machmanager -> machine_count == 0) {
+                        printf(RED "\nNo machines available.\n" RESET);
                         break;
                     }
 
-                    printf("Available Machines:\n");
-                    for (int i = 0; i < machine_count; i++) {
-                        printf("%d - %s\n", i + 1, machines[i].id);
+                    printf(BOLD CYAN "\n\n--- Available Machines --------------------------\n\n" RESET);
+                    
+                    for (int i = 0; i < machmanager -> machine_count; i++) {
+                        printf("%d - %s\n", i + 1, machmanager -> machines[i].id);
                     }
+                    
                     printf("0 - Back\n");
-                    printf("Enter the option you want: ");
+                    printf("\nChoose an option: ");
 
                     char input[10];
                     int sub_option;
                     if (scanf("%9s", input) != 1 || sscanf(input, "%d", &sub_option) != 1) {
-                        printf("Invalid input. Please enter a number.\n");
+                        printf(RED "\nInvalid input. Please enter a number.\n" RESET);
                         continue;
                     }
 
@@ -116,16 +120,16 @@ int main() {
                     }
 
                     Machine selected_machine = {0}; // Initialize selected_machine
-                    if (sub_option > 0 && sub_option <= machine_count) {
-                        selected_machine = machines[sub_option - 1];
+                    if (sub_option > 0 && sub_option <= machmanager -> machine_count) {
+                        selected_machine = machmanager -> machines[sub_option - 1];
                     }
 
                     // Ask the user for buffer size and median window
                     while (1) {
-                        printf("Enter buffer size (or type 'cancel' to go back): ");
+                        printf(BOLD "\nEnter buffer size (or type 'cancel' to go back): " RESET);
                         char buffer_input[10];
                         if (scanf("%9s", buffer_input) != 1) {
-                            printf("Invalid input. Please enter a positive number or 'cancel'.\n");
+                            printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
                             continue;
                         }
                         if (strcmp(buffer_input, "cancel") == 0) {
@@ -133,14 +137,14 @@ int main() {
                         }
                         int buffer_size;
                         if (sscanf(buffer_input, "%d", &buffer_size) != 1 || buffer_size <= 0) {
-                            printf("Invalid buffer size. Please enter a positive number.\n");
+                            printf(RED "\nInvalid buffer size. Please enter a positive number.\n" RESET);
                             continue;
                         }
 
-                        printf("Enter median window size (or type 'cancel' to go back): ");
+                        printf(BOLD "\nEnter median window size (or type 'cancel' to go back): " RESET);
                         char window_input[10];
                         if (scanf("%9s", window_input) != 1) {
-                            printf("Invalid input. Please enter a positive number or 'cancel'.\n");
+                            printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
                             continue;
                         }
                         if (strcmp(window_input, "cancel") == 0) {
@@ -148,7 +152,7 @@ int main() {
                         }
                         int median_window;
                         if (sscanf(window_input, "%d", &median_window) != 1 || median_window <= 0 || median_window > buffer_size) {
-                            printf("Invalid median window size. Please enter a positive number less than or equal to buffer size.\n");
+                            printf(RED "\nInvalid median window size. Please enter a positive number less than or equal to buffer size.\n" RESET);
                             continue;
                         }
 
@@ -158,7 +162,7 @@ int main() {
                         // Allocate buffer for the machine
                         selected_machine.buffer = malloc(selected_machine.buffer_size * sizeof(buffer_data));
                         if (!selected_machine.buffer) {
-                            perror("Error allocating buffer");
+                            perror(RED "\nError allocating buffer.\n" RESET);
                             continue;
                         }
                         selected_machine.head = selected_machine.buffer;
@@ -173,14 +177,13 @@ int main() {
                     break;
                 }
             case 0:
-                printf("Exiting...\n");
                 break;
             default:
                 printf(RED "\nInvalid option. Please try again.\n" RESET);
         }
     } while (option != 0);
 
-    // Libera memória após o uso
+    // Releases memory after use
     free(machines);
     free(machmanager);
 
@@ -190,7 +193,7 @@ int main() {
 void monitor_machine(Machine *m) {
     int option = -1; // Initialize option to a default value
     do {
-        printf("\nManaging Machine: %s\n", m->id);
+        printf(BOLD CYAN "\n\n--- Managing Machine: %s --------------------------\n\n" RESET, m->id);
         printf("1 - Assign Operation to Machine\n");
         printf("2 - Display Machine State\n");
         printf("3 - Export Operations to CSV\n");
@@ -199,7 +202,7 @@ void monitor_machine(Machine *m) {
 
         char input[10];
         if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {
-            printf("Invalid input. Please enter a number.\n");
+            printf(RED "\nInvalid input. Please enter a number.\n" RESET);
             continue;
         }
 
@@ -211,12 +214,12 @@ void monitor_machine(Machine *m) {
                 printf("Not implemented yet.\n");
                 break;
             case 3:
-                //export_operations_to_csv(m);
+                export_operations_to_csv(m);
                 break;
             case 0:
                 break;
             default:
-                printf("Invalid option. Please try again.\n");
+                printf(RED "\nInvalid option. Please try again.\n" RESET);
         }
     } while (option != 0);
 }
