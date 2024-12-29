@@ -147,3 +147,40 @@ void export_operations_to_csv(Machine *m) {
     fclose(file);
     printf(GREEN "\nOperations exported to %s successfully.\n" RESET, filepath);
 }
+
+void extract_data(char *str, char *data){
+    char *temp_ptr = strtok(str, "TEMP&unit:celsius&value:");
+    char *hum_ptr = strtok(str, "HUM&unit:percentage&value:");
+
+    if (temp_ptr != NULL && hum_ptr != NULL) {
+        //percorre o pointer para o inicio dos valores numéricos
+        temp_ptr += strlen("TEMP&unit:celsius&value:");
+        hum_ptr += strlen("HUM&unit:percentage&value:");
+
+        // encontra o final dos valores delimitados por # e \0
+        // TEMP&unit:celsius&value:temp#HUM&unit:percentage&value:hum 
+        char *temp_end = strchr(temp_ptr, '#');
+        char *hum_end = strchr(hum_ptr, '\0');
+
+        if (hum_end != NULL && temp_end != NULL) {
+           *hum_end = '\0';
+           *temp_end = '\0';
+           // Formata os valores extraídos na string data
+           snprintf(data, BUFSIZ, "Temperature:%s°C, Humidity:%s%%", temp_ptr, hum_ptr);
+        } else {
+            snprintf(data, BUFSIZ, "Error: Invalid data format");
+        }
+    }
+}
+
+void check_for_alerts(Machine *m) {
+    //head, aponta para o valor mais recente 
+    if (m->head) {
+         if (m->head->temperature < m->temperature_min || m->head->temperature > m->temperature_max) {
+            printf("ALERT: Machine %s has a temperature outside the range of values! (%.2f°C)\n", m->id, m->head->temperature);
+         }
+         if (m->head->humidity < m->humidity_min || m->head->humidity > m->humidity_max) {
+            printf("ALERT: Machine %s has a humidity outside the range of values! (%.2f%%)\n", m->id, m->head->humidity);
+         }
+    }
+}
