@@ -8,6 +8,7 @@ import repository.Instances;
 import trees.ProductionTree.ProductionTree;
 import trees.ProductionTree.TreeNode;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +44,10 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
         String choice;
         List<MenuItem> options = new ArrayList<>();
 
-        List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
+        List<Map.Entry<Material, BigDecimal>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
         for (int i = 0; i < materialQuantityPairs.size(); i++) {
-            Map.Entry<Material, Double> entry = materialQuantityPairs.get(i);
-            options.add(new MenuItem(entry.getKey().getName() + " (Quantity: " + entry.getValue() + ")", new UpdateMaterialQuantitiesUI()));
+            Map.Entry<Material, BigDecimal> entry = materialQuantityPairs.get(i);
+            options.add(new MenuItem(entry.getKey().getName() + " (Quantity: " + entry.getValue().doubleValue() + ")", new UpdateMaterialQuantitiesUI()));
         }
 
         int option = 0;

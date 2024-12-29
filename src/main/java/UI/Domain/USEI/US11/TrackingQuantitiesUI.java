@@ -7,6 +7,7 @@ import repository.Instances;
 import trees.MaterialsBST.MaterialsBST;
 import trees.ProductionTree.ProductionTree;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +54,12 @@ public class TrackingQuantitiesUI implements Runnable {
      */
     private void printMaterialQuantitiesInAscendingOrder() {
         MaterialsBST materialQuantityBST = new MaterialsBST();
-        List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
+        List<Map.Entry<Material, BigDecimal>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
 
-        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
+        for (Map.Entry<Material, BigDecimal> pair : materialQuantityPairs) {
             List<String> materialNames = new ArrayList<>();
             materialNames.add(pair.getKey().getName());
-            MaterialsBST.insert(materialNames, pair.getValue());
+            MaterialsBST.insert(materialNames, pair.getValue().doubleValue());
         }
 
         System.out.println("\n" + Utils.BOLD + Utils.CYAN + "--- Material Quantities in Ascending Order ---\n" + Utils.RESET);
@@ -72,12 +73,12 @@ public class TrackingQuantitiesUI implements Runnable {
      */
     private void printMaterialQuantitiesInDescendingOrder() {
         MaterialsBST materialQuantityBST = new MaterialsBST();
-        List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
+        List<Map.Entry<Material, BigDecimal>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
 
-        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
+        for (Map.Entry<Material, BigDecimal> pair : materialQuantityPairs) {
             List<String> materialNames = new ArrayList<>();
             materialNames.add(pair.getKey().getName());
-            MaterialsBST.insert(materialNames, pair.getValue());
+            MaterialsBST.insert(materialNames, pair.getValue().doubleValue());
         }
 
         System.out.println("\n" + Utils.BOLD + Utils.CYAN + "--- Material Quantities in Descending Order ---\n" + Utils.RESET);

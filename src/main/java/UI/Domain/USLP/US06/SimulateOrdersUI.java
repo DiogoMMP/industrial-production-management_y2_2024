@@ -10,7 +10,10 @@ import prodPlanSimulator.Simulator;
 import repository.Instances;
 import repository.OrdersRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SimulateOrdersUI implements Runnable {
 
@@ -47,6 +50,7 @@ public class SimulateOrdersUI implements Runnable {
 
     private void show(String choice) {
         Simulator simulator = Instances.getInstance().getSimulator();
+        simulator.getOrdersTimes().clear();
         LinkedHashMap<LinkedHashMap<Order, String>, List<LinkedHashMap<String, Double>>> orders = simulator.simulateOrders();
 
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Simulate Orders ------------" + Utils.RESET);
@@ -70,7 +74,7 @@ public class SimulateOrdersUI implements Runnable {
     }
 
     private void ordersTitle(LinkedHashMap<LinkedHashMap<Order, String>, List<LinkedHashMap<String, Double>>> orders, LinkedHashMap<Order, String> order, Order currentOrder) {
-        String operationName;
+        String operationName = "";
         if (currentOrder.getPriority() == Priority.HIGH) {
             System.out.println("\n\n" + Utils.BOLD + Utils.RED + "--- Order: " + currentOrder.getId() +
                     " Priority: " + currentOrder.getPriority() + " ------------" + Utils.RESET); // Red
@@ -85,7 +89,6 @@ public class SimulateOrdersUI implements Runnable {
         }
 
         List<LinkedHashMap<String, Double>> operationsList = orders.get(order);
-        Set<String> displayedOperations = new HashSet<>(); // Track displayed operations
         int index = 0;
 
         for (String itemID : currentOrder.getItemsIdList()) {
@@ -95,24 +98,25 @@ public class SimulateOrdersUI implements Runnable {
                 LinkedHashMap<String, Double> operation = operationsList.get(index);
 
                 for (Map.Entry<String, Double> entry : operation.entrySet()) {
-                    operationName = extractOperationName(entry.getKey());
+                    String currentOperationName = extractOperationName(entry);
 
-                    if (!displayedOperations.contains(operationName)) {
+                    if (!operationName.equals(currentOperationName)) {
+                        operationName = currentOperationName;
                         System.out.printf("%n");
                         System.out.println("Operation: " + operationName);
-                        displayedOperations.add(operationName); // Mark operation as displayed
                     }
 
-                    String operationOutput = entry.getKey().replaceAll(" - Operation: " + operationName, "");
-                    System.out.println(operationOutput + " - Quantity: " + entry.getValue());
+                    String operationOutput = entry.getKey().replaceAll(" - Operation: " + currentOperationName, "");
+                    System.out.println(operationOutput);
                 }
             }
             index++;
         }
     }
 
-    private String extractOperationName(String key) {
+    private String extractOperationName(Map.Entry<String, Double> entry) {
         // Assuming the operation name is the part after "Operation: " and before the next " - "
+        String key = entry.getKey();
         int startIndex = key.indexOf("Operation: ") + 11;
         int endIndex = key.indexOf(" - ", startIndex);
         if (startIndex != -1 && endIndex != -1) {

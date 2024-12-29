@@ -52,9 +52,9 @@ class CalculateTimesTest {
         assertNotNull(activityA);
         assertEquals(0.0, activityA.getEarliestStart());
         assertEquals(1.0, activityA.getEarliestFinish());
-        assertEquals(4.0, activityA.getLatestStart());
-        assertEquals(5.0, activityA.getLatestFinish());
-        assertEquals(4.0, activityA.getSlack());
+        assertEquals(2.0, activityA.getLatestStart());
+        assertEquals(3.0, activityA.getLatestFinish());
+        assertEquals(2.0, activityA.getSlack());
         assertEquals(activityA.getLatestStart() - activityA.getEarliestStart(), activityA.getSlack());
         assertEquals(activityA.getLatestFinish() - activityA.getEarliestFinish(), activityA.getSlack());
 

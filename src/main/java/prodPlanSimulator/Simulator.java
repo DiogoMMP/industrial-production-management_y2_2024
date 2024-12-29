@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Simulator {
@@ -640,15 +641,9 @@ public class Simulator {
                 orderItems.put(order, itemID);
                 productionTree = Instances.getInstance().getProductionTree();
                 productionTree.buildProductionTree(itemID);
-                if (productionTree.getRoot().getValue().contains("Unknown Operation")) {
-                    LinkedHashMap<String, Double> timeOperations = simulateBOMBOO();
-                    timeOperationsOrder.add(timeOperations);
-                } else {
-                    productionTree.updateQuantities(itemID, order.getQuantity().get(index));
-                    LinkedHashMap<String, Double> timeOperations = simulateBOMBOO();
-                    timeOperationsOrder.add(timeOperations);
-                }
-
+                productionTree.updateQuantities(itemID, order.getQuantity().get(index));
+                LinkedHashMap<String, Double> timeOperations = simulateBOMBOO();
+                timeOperationsOrder.add(timeOperations);
             }
             ordersTimes.put(orderItems, timeOperationsOrder);
         }
@@ -778,33 +773,26 @@ public class Simulator {
         if (startIndex != -1 && endIndex != -1) {
             String name = value.substring(0, startIndex).trim();
             String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-            String[] parts = quantityStr.split("(?<=\\d)(?=\\D)");
-            quantityStr = parts[0];
-            double quantity = Double.parseDouble(quantityStr);
+            String numericQuantityStr = quantityStr.replaceAll("[^\\d.]", ""); // Extract numeric part
+            BigDecimal quantity = new BigDecimal(numericQuantityStr);
+
             if (node.getType() == NodeType.OPERATION) {
-                if (bombooTree.getLatestInsertedNode() != null) {
-                    BOO operation = new BOO(quantity, name);
-                    bombooTree.insert(operation);
-                    BOO insertedOperation = bombooTree.search(operation);
-                    insertedOperation.setType(NodeType.OPERATION);
-                } else {
-                    BOO operation = new BOO(quantity, name);
-                    bombooTree.insert(operation);
-                    BOO insertedOperation = bombooTree.search(operation);
-                    insertedOperation.setType(NodeType.OPERATION);
+                BOO operation = new BOO(quantity.doubleValue(), name);
+                bombooTree.insert(operation);
+                BOO insertedOperation = bombooTree.search(operation);
+                insertedOperation.setType(NodeType.OPERATION);
+                if (bombooTree.getLatestInsertedNode() == null) {
                     insertedOperation.setItems(firstElement.getItems());
                     insertedOperation.setQuantityItems(firstElement.getQuantityItems());
                 }
             } else if (node.getType() == NodeType.PRODUCT || node.getType() == NodeType.COMPONENT || node.getType() == NodeType.RAW_MATERIAL) {
-                if (bombooTree.getLatestInsertedNode() != null) {
-                    BOO latestOperation = bombooTree.search(bombooTree.getElem(bombooTree.getLatestInsertedNode()));
-                    if (latestOperation != null) {
-                        latestOperation.addItems(name);
-                        latestOperation.addQuantity(quantity);
-                    }
+                BOO latestOperation = bombooTree.search(bombooTree.getElem(bombooTree.getLatestInsertedNode()));
+                if (latestOperation != null) {
+                    latestOperation.addItems(name);
+                    latestOperation.addQuantity(quantity.doubleValue());
                 } else {
                     firstElement.addItems(name);
-                    firstElement.addQuantity(quantity);
+                    firstElement.addQuantity(quantity.doubleValue());
                 }
             }
         }
@@ -847,6 +835,10 @@ public class Simulator {
      */
     public void setTimeOperations(LinkedHashMap<String, Double> timeOperations) {
         this.timeOperations = timeOperations;
+    }
+
+    public LinkedHashMap<LinkedHashMap<Order, String>, List<LinkedHashMap<String, Double>>> getOrdersTimes() {
+        return ordersTimes;
     }
 }
 

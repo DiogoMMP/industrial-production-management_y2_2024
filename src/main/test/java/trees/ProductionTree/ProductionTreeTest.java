@@ -11,6 +11,7 @@ import repository.OperationsMapRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +88,7 @@ class ProductionTreeTest {
 
         Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
 
-        Map<String, Double> materialQuantities = (Map<String, Double>) totals.get("materialQuantities");
+        Map<String, BigDecimal> materialQuantities = (Map<String, BigDecimal>) totals.get("materialQuantities");
 
         // Verify specific raw materials
         assertTrue(materialQuantities.containsKey("wood 3cm"), "Should contain wood 3cm");
@@ -95,9 +96,9 @@ class ProductionTreeTest {
         assertTrue(materialQuantities.containsKey("varnish"), "Should contain varnish");
 
         // Verify specific material quantities
-        assertEquals(0.0576, materialQuantities.get("wood 3cm"), 0.0001, "Wood 3cm quantity should match");
-        assertEquals(0.28, materialQuantities.get("wood pole 4cm"), 0.0001, "Wood pole 4cm quantity should match");
-        assertEquals(0.125, materialQuantities.get("varnish"), 0.0001, "Varnish quantity should match");
+        assertEquals(0.0576, materialQuantities.get("wood 3cm").doubleValue(), 0.0001, "Wood 3cm quantity should match");
+        assertEquals(0.28, materialQuantities.get("wood pole 4cm").doubleValue(), 0.0001, "Wood pole 4cm quantity should match");
+        assertEquals(0.125, materialQuantities.get("varnish").doubleValue(), 0.0001, "Varnish quantity should match");
     }
 
     @Test
@@ -105,11 +106,11 @@ class ProductionTreeTest {
         String mainObjectiveID = "1006";
         productionTree.buildProductionTree(mainObjectiveID);
 
-        List<Map.Entry<Material, Double>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
+        List<Map.Entry<Material, BigDecimal>> materialQuantityPairs = productionTree.getMaterialQuantityPairs();
 
         // Count specific raw materials
         long rawMaterialCount = materialQuantityPairs.stream()
-                .filter(pair -> pair.getValue() > 0)
+                .filter(pair -> pair.getValue().compareTo(BigDecimal.ZERO) > 0)
                 .count();
 
         assertTrue(rawMaterialCount > 5, "Should have multiple raw materials");
@@ -117,11 +118,11 @@ class ProductionTreeTest {
         // Verify specific materials are present
         boolean hasWood3cm = materialQuantityPairs.stream()
                 .anyMatch(pair -> pair.getKey().getName().equals("wood 3cm") &&
-                        Math.abs(pair.getValue() - 0.0576) < 0.0001);
+                        pair.getValue().subtract(new BigDecimal("0.0576")).abs().compareTo(new BigDecimal("0.0001")) < 0);
 
         boolean hasWoodPole4cm = materialQuantityPairs.stream()
                 .anyMatch(pair -> pair.getKey().getName().equals("wood pole 4cm") &&
-                        Math.abs(pair.getValue() - 0.28) < 0.0001);
+                        pair.getValue().subtract(new BigDecimal("0.28")).abs().compareTo(new BigDecimal("0.0001")) < 0);
 
         assertTrue(hasWood3cm, "Should have wood 3cm material");
         assertTrue(hasWoodPole4cm, "Should have wood pole 4cm material");

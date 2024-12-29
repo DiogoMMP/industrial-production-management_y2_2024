@@ -583,8 +583,8 @@ public class ProductionTree {
      * @return a map containing the total quantity of materials and time needed
      */
     public Map<String, Object> calculateTotalMaterialsAndOperations(TreeNode<String> root) {
-        Map<String, Double> materialQuantities = new HashMap<>();
-        Map<String, Double> operationTimes = new HashMap<>();
+        Map<String, BigDecimal> materialQuantities = new HashMap<>();
+        Map<String, BigDecimal> operationTimes = new HashMap<>();
         calculateTotals(materialQuantities, operationTimes, root);
 
         Map<String, Object> result = new HashMap<>();
@@ -600,7 +600,7 @@ public class ProductionTree {
      * @param operationQuantities the map to store the total time needed for operations
      * @param root                the root of the production tree
      */
-    public void calculateTotals(Map<String, Double> materialQuantities, Map<String, Double> operationQuantities, TreeNode<String> root) {
+    public void calculateTotals(Map<String, BigDecimal> materialQuantities, Map<String, BigDecimal> operationQuantities, TreeNode<String> root) {
         traverseTree(root, materialQuantities, operationQuantities);
     }
 
@@ -611,7 +611,7 @@ public class ProductionTree {
      * @param materialQuantities  the map to store the total quantity of materials
      * @param operationQuantities the map to store the total time needed for operations
      */
-    public void traverseTree(TreeNode<String> node, Map<String, Double> materialQuantities, Map<String, Double> operationQuantities) {
+    public void traverseTree(TreeNode<String> node, Map<String, BigDecimal> materialQuantities, Map<String, BigDecimal> operationQuantities) {
         if (node == null) {
             return;
         }
@@ -624,10 +624,9 @@ public class ProductionTree {
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String materialName = value.substring(0, startIndex).trim();
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-                String[] parts = quantityStr.split("(?<=\\d)(?=\\D)");
-                quantityStr = parts[0];
-                double quantity = Double.parseDouble(quantityStr);
-                materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, 0.0) + quantity);
+                String numericQuantityStr = quantityStr.replaceAll("[^\\d.]", ""); // Extract numeric part
+                BigDecimal quantity = new BigDecimal(numericQuantityStr);
+                materialQuantities.put(materialName, materialQuantities.getOrDefault(materialName, BigDecimal.ZERO).add(quantity));
             }
         } else if (node.getType().equals(NodeType.OPERATION)) {
             int startIndex = value.indexOf("(Quantity: ");
@@ -635,10 +634,9 @@ public class ProductionTree {
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String operationName = value.substring(0, startIndex).trim();
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-                String[] parts = quantityStr.split("(?<=\\d)(?=\\D)");
-                quantityStr = parts[0];
-                double quantity = Double.parseDouble(quantityStr);
-                operationQuantities.put(operationName, operationQuantities.getOrDefault(operationName, 0.0) + quantity);
+                String numericQuantityStr = quantityStr.replaceAll("[^\\d.]", ""); // Extract numeric part
+                BigDecimal quantity = new BigDecimal(numericQuantityStr);
+                operationQuantities.put(operationName, operationQuantities.getOrDefault(operationName, BigDecimal.ZERO).add(quantity));
             }
         }
 
@@ -647,8 +645,8 @@ public class ProductionTree {
         }
     }
 
-    public List<Map.Entry<Material, Double>> getMaterialQuantityPairs() {
-        List<Map.Entry<Material, Double>> materialQuantityPairs = new ArrayList<>();
+    public List<Map.Entry<Material, BigDecimal>> getMaterialQuantityPairs() {
+        List<Map.Entry<Material, BigDecimal>> materialQuantityPairs = new ArrayList<>();
         for (Map.Entry<String, TreeNode<String>> entry : nodesMap.entrySet()) {
             TreeNode<String> node = entry.getValue();
             if (node.getType() == NodeType.PRODUCT || node.getType() == NodeType.COMPONENT || node.getType() == NodeType.RAW_MATERIAL) {
@@ -659,17 +657,18 @@ public class ProductionTree {
                     String materialID = entry.getKey();
                     String materialName = value.substring(0, startIndex).trim();
                     String quantityWithUnit = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-                    String[] parts = quantityWithUnit.split("(?<=\\d)(?=\\D)");
-                    String quantityStr = parts[0];
-                    double quantity = Double.parseDouble(quantityStr);
-                    Material material = new Material(materialID, materialName, quantityStr);
-                    if (materialQuantityPairs.contains(material)) {
-                        for (Map.Entry<Material, Double> pair : materialQuantityPairs) {
-                            if (pair.getKey().equals(material)) {
-                                pair.setValue(pair.getValue() + quantity);
-                            }
+                    String numericQuantityStr = quantityWithUnit.replaceAll("[^\\d.]", ""); // Extract numeric part
+                    BigDecimal quantity = new BigDecimal(numericQuantityStr);
+                    Material material = new Material(materialID, materialName, numericQuantityStr);
+                    boolean found = false;
+                    for (Map.Entry<Material, BigDecimal> pair : materialQuantityPairs) {
+                        if (pair.getKey().equals(material)) {
+                            pair.setValue(pair.getValue().add(quantity));
+                            found = true;
+                            break;
                         }
-                    } else {
+                    }
+                    if (!found) {
                         materialQuantityPairs.add(new AbstractMap.SimpleEntry<>(material, quantity));
                     }
                 }
@@ -697,10 +696,9 @@ public class ProductionTree {
         if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
             String materialName = value.substring(0, startIndex).trim();
             String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-            String parts[] = quantityStr.split("(?<=\\d)(?=\\D)");
-            String oldQuantityStr = parts[0];
-            double oldQuantity = Double.parseDouble(oldQuantityStr);
-            value = materialName + " (Quantity: " + newQuantity + ")";
+            String numericQuantityStr = quantityStr.replaceAll("[^\\d.]", ""); // Extract numeric part
+            BigDecimal oldQuantity = new BigDecimal(numericQuantityStr);
+            value = materialName + " (Quantity: " + new BigDecimal(newQuantity).setScale(3, RoundingMode.HALF_UP).toString() + ")";
             node.setValue(value);
             updateChildrenQuantities(materialID, newQuantity);
         }
@@ -727,11 +725,10 @@ public class ProductionTree {
             if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                 String childName = value.substring(0, startIndex).trim();
                 String quantityStr = value.substring(startIndex + 11, endIndex).trim().replace(',', '.');
-                String parts[] = quantityStr.split("(?<=\\d)(?=\\D)");
-                quantityStr = parts[0];
-                BigDecimal oldQuantity = new BigDecimal(quantityStr);
+                String numericQuantityStr = quantityStr.replaceAll("[^\\d.]", ""); // Extract numeric part
+                BigDecimal oldQuantity = new BigDecimal(numericQuantityStr);
                 BigDecimal newQuantity = oldQuantity.multiply(BigDecimal.valueOf(parentNewQuantity));
-                newQuantity = newQuantity.setScale(2, RoundingMode.HALF_UP); // Set scale to 2 decimal places
+                newQuantity = newQuantity.setScale(3, RoundingMode.HALF_UP); // Set scale to 3 decimal places
                 value = childName + " (Quantity: " + newQuantity.toString() + ")";
                 child.setValue(value);
 

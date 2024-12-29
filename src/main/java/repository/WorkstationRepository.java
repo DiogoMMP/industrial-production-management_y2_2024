@@ -73,10 +73,36 @@ public class WorkstationRepository {
 
     public Map<Integer, Workstation> getFilteredWorkstations() {
         Map<Integer, Workstation> filteredWorkstations = new TreeMap<>();
+        int newId = 1;
         for (Map.Entry<Integer, Workstation> entry : workstations.entrySet()) {
             Workstation workstation = entry.getValue();
-            int id = Integer.parseInt(workstation.getId());
-            filteredWorkstations.put(id, workstation);
+            String id = workstation.getId();
+            if (id.matches("\\d+")) { // Check if the ID contains only digits
+                int numericId = Integer.parseInt(id);
+                if (!filteredWorkstations.containsKey(numericId)) {
+                    filteredWorkstations.put(numericId, workstation);
+                }
+            } else {
+                break;
+            }
+        }
+        for (Map.Entry<Integer, Workstation> entry : workstations.entrySet()) {
+            Workstation workstation = entry.getValue();
+            String id = workstation.getId();
+            if (!id.matches("\\d+")) { // Check if the ID contains only digits
+                boolean found = false;
+                for (Map.Entry<Integer, Workstation> entry2 : workstations.entrySet()) {
+                    Workstation workstation2 = entry2.getValue();
+                    String id2 = workstation2.getId();
+                    if (id2.equals(id)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    filteredWorkstations.put(newId++, workstation);
+                }
+            }
         }
         return filteredWorkstations;
     }
