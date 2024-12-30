@@ -5,8 +5,8 @@
 #include "operation.h"
 
 typedef struct {
-    char id[10];
-    char name[20];
+    char *id;
+    char *name;
     float temperature_min;
     float temperature_max;
     float humidity_min;
@@ -16,11 +16,13 @@ typedef struct {
     buffer_data *head;                      // Points to the newest element
     buffer_data *tail;                      // Points to the oldest element
     int median_window;                      // Moving median window length
-    char state[4];                          // State: "OP", "ON", or "OFF"
+    char *state;                            // State: "OP", "ON", or "OFF"
     Operation *operations;                  // Pointer to dynamically allocated array of operations
     int operation_count;                    // Current count of operations
     int operation_capacity;                 // Current capacity of the operations array
     Operation assigned_operation;           // The assigned operation
 } Machine;
+
+int update_machine(char* cmd);
 
 #endif // MACHINE_H

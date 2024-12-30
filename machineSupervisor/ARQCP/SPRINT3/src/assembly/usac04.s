@@ -4,6 +4,8 @@
 # int format_command(char* op, int n, char *cmd);
 # 1-> %rdi 2-> %esi 3-> %rdx
 
+.section .note.GNU-stack,"",@progbits
+
 .section .text
     .global format_command
     .extern get_number_binary

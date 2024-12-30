@@ -32,7 +32,7 @@ OBJ_C = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_C))
 OBJ_ASM = $(patsubst $(ASM_DIR)/%.asm, $(OBJ_DIR)/%.o, $(SRC_ASM))
 
 # Nome do executável
-EXEC = $(BIN_DIR)/system_manager
+EXEC = $(BIN_DIR)/machine_management_system
 
 # Regra principal
 all: setup $(EXEC)

@@ -1,3 +1,5 @@
+.section .note.GNU-stack,"",@progbits
+
 .section .text
     .global extract_data
 extract_data:

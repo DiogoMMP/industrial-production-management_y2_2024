@@ -19,6 +19,8 @@
 # 3-> %rdx -- tail
 # 4-> %rcx -- head
 
+.section .note.GNU-stack,"",@progbits
+
 .section .text
     .global move_n_to_array
     .extern get_n_element

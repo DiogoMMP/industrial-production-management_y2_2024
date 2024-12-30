@@ -1,5 +1,7 @@
+.section .note.GNU-stack,"",@progbits
+
 .section .text
-.globl get_number
+    .global get_number
 
 get_number:
     # RDI = char* str

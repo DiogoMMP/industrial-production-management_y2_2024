@@ -25,7 +25,7 @@ OrderID;ItemID;Operation
 4;1006;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 8.0
 4;1006;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 8.0
 4;1006;7 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 8.0
-4;1006;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.461
+4;1006;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.4608
 4;1006;9 - Operation: polish bench seat - Machine: ws43 - Item: polished bench seat - Time: 81 - Quantity: 8.0
 4;1006;10 - Operation: drill bench seat - Machine: ws22 - Item: bench seat w/holes - Time: 26 - Quantity: 8.0
 4;1006;11 - Operation: fix nut M16 21 - Machine: ws32 - Item: bench seat w/nut - Time: 74 - Quantity: 8.0
@@ -47,7 +47,7 @@ OrderID;ItemID;Operation
 4;1006;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 8.0
 4;1006;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 8.0
 4;1006;7 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 8.0
-4;1006;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.461
+4;1006;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.4608
 4;1006;9 - Operation: polish bench seat - Machine: ws43 - Item: polished bench seat - Time: 81 - Quantity: 8.0
 4;1006;10 - Operation: drill bench seat - Machine: ws22 - Item: bench seat w/holes - Time: 26 - Quantity: 8.0
 4;1006;11 - Operation: fix nut M16 21 - Machine: ws32 - Item: bench seat w/nut - Time: 74 - Quantity: 8.0
@@ -63,7 +63,7 @@ OrderID;ItemID;Operation
 7;1002;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 8.0
 7;1002;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 8.0
 2;1004;1 - Operation: cut bench leg - Machine: ws11 - Item: raw bench leg - Time: 21 - Quantity: 20.0
-2;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 5.6
+2;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 5.6000000000000005
 2;1004;3 - Operation: polish bench leg - Machine: ws44 - Item: polished bench leg - Time: 76 - Quantity: 20.0
 2;1004;4 - Operation: drill bench leg - Machine: ws21 - Item: bench leg  w/hole - Time: 36 - Quantity: 20.0
 2;1004;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 20.0
@@ -79,13 +79,13 @@ OrderID;ItemID;Operation
 2;1004;15 - Operation: varnish bench - Machine: ws54 - Item: finished bench - Time: 101 - Quantity: 20.0
 2;1004;16 - Operation: varnish bench - Machine: ws52 - Item: varnish - Time: 107 - Quantity: 2.5
 2;1004;1 - Operation: cut bench leg - Machine: ws11 - Item: raw bench leg - Time: 21 - Quantity: 20.0
-2;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 5.6
+2;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 5.6000000000000005
 2;1004;3 - Operation: polish bench leg - Machine: ws44 - Item: polished bench leg - Time: 76 - Quantity: 20.0
 2;1004;4 - Operation: drill bench leg - Machine: ws21 - Item: bench leg  w/hole - Time: 36 - Quantity: 20.0
 2;1004;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 20.0
 2;1004;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 20.0
 2;1004;1 - Operation: cut bench leg - Machine: ws11 - Item: raw bench leg - Time: 21 - Quantity: 20.0
-2;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 5.6
+2;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 5.6000000000000005
 2;1004;1 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 20.0
 2;1004;2 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 1.152
 2;1004;1 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 20.0
@@ -102,7 +102,7 @@ OrderID;ItemID;Operation
 5;1012;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 8.0
 5;1012;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 8.0
 5;1012;7 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 8.0
-5;1012;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.461
+5;1012;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.4608
 5;1012;9 - Operation: polish bench seat - Machine: ws43 - Item: polished bench seat - Time: 81 - Quantity: 8.0
 5;1012;10 - Operation: drill bench seat - Machine: ws22 - Item: bench seat w/holes - Time: 26 - Quantity: 8.0
 5;1012;11 - Operation: fix nut M16 21 - Machine: ws32 - Item: bench seat w/nut - Time: 74 - Quantity: 8.0
@@ -116,11 +116,11 @@ OrderID;ItemID;Operation
 5;1012;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 8.0
 5;1012;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 8.0
 5;1012;1 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 8.0
-5;1012;2 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.461
+5;1012;2 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.4608
 3;1004;1 - Operation: cut bench leg - Machine: ws11 - Item: raw bench leg - Time: 21 - Quantity: 10.0
-3;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 2.8
+3;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 2.8000000000000003
 3;1004;1 - Operation: cut bench leg - Machine: ws11 - Item: raw bench leg - Time: 21 - Quantity: 10.0
-3;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 2.8
+3;1004;2 - Operation: cut bench leg - Machine: ws12 - Item: wood pole 4cm - Time: 25 - Quantity: 2.8000000000000003
 3;1004;3 - Operation: polish bench leg - Machine: ws44 - Item: polished bench leg - Time: 76 - Quantity: 10.0
 3;1004;4 - Operation: drill bench leg - Machine: ws21 - Item: bench leg  w/hole - Time: 36 - Quantity: 10.0
 3;1004;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 10.0
@@ -143,7 +143,7 @@ OrderID;ItemID;Operation
 6;1011;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 16.0
 6;1011;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 16.0
 6;1011;7 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 16.0
-6;1011;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.922
+6;1011;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.9216
 6;1011;9 - Operation: polish bench seat - Machine: ws43 - Item: polished bench seat - Time: 81 - Quantity: 16.0
 6;1011;10 - Operation: drill bench seat - Machine: ws22 - Item: bench seat w/holes - Time: 26 - Quantity: 16.0
 6;1011;11 - Operation: fix nut M16 21 - Machine: ws32 - Item: bench seat w/nut - Time: 74 - Quantity: 16.0
@@ -159,7 +159,7 @@ OrderID;ItemID;Operation
 6;1011;5 - Operation: fix bolt M16 22 - Machine: ws31 - Item: bench leg w/bolt - Time: 50 - Quantity: 16.0
 6;1011;6 - Operation: fix bolt M16 22 - Machine: ws31 - Item: threaded rod M16 - Time: 50 - Quantity: 16.0
 6;1011;7 - Operation: cut bench seat - Machine: ws13 - Item: raw bench seat - Time: 25 - Quantity: 16.0
-6;1011;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.922
+6;1011;8 - Operation: cut bench seat - Machine: ws13 - Item: wood 3cm - Time: 25 - Quantity: 0.9216
 6;1011;9 - Operation: polish bench seat - Machine: ws43 - Item: polished bench seat - Time: 81 - Quantity: 16.0
 6;1011;10 - Operation: drill bench seat - Machine: ws22 - Item: bench seat w/holes - Time: 26 - Quantity: 16.0
 6;1011;11 - Operation: fix nut M16 21 - Machine: ws32 - Item: bench seat w/nut - Time: 74 - Quantity: 16.0

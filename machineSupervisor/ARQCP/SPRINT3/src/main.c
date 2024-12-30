@@ -16,12 +16,6 @@
 MachManager *machmanager;
 Machine *machines = NULL;           // Pointer to the array of machines
 
-int format_command(char *op, int n, char *cmd);
-int run_machine_interface();
-void add_to_buffer(Machine *m, float temperature, float humidity);
-void print_buffer(Machine *m);
-int assign_operation_to_machine(int machine_index, const char *designation, int number, time_t timestamp);
-void export_operations_to_csv(Machine *m);
 void monitor_machine(Machine *m);
 
 int main() {
@@ -44,6 +38,7 @@ int main() {
 
     int option = -1; // Initialize option to a default value
     char filename[100];
+    
     do {
         printf(BOLD CYAN "\n\n--- Machine Management System --------------------------\n\n" RESET);
         printf("1 - Setup Machines\n");
@@ -71,6 +66,12 @@ int main() {
                 if (answer == 'n' || answer == 'N') {
                     printf("\nEnter the setup file name: ");
                     scanf("%99s", filename);
+
+                    char temp_filename[200];
+                    snprintf(temp_filename, sizeof(temp_filename), "src/data/%s", filename);
+
+                    strcpy(filename, temp_filename);
+
                 } else {
                     strcpy(filename, "src/data/machines.csv"); // Use strcpy to copy the string
                 }
@@ -90,19 +91,38 @@ int main() {
                 printf("Not implemented yet.\n");
                 break;
             case 4:
-                printf("Not implemented yet.\n");
+
+                printf(BOLD "\nWant to use the default setup file? (Y/N): " RESET);
+                
+                getchar(); // Clear the newline character left by the previous input
+                scanf("%c", &answer);
+                
+                if (answer == 'n' || answer == 'N') {
+                    printf("\nEnter the setup file name: ");
+                    scanf("%99s", filename);
+
+                    char temp_filename[200];
+                    snprintf(temp_filename, sizeof(temp_filename), "src/data/%s", filename);
+
+                    strcpy(filename, temp_filename);
+
+                } else {
+                    strcpy(filename, "src/data/simulation.csv"); // Use strcpy to copy the string
+                }
+                
+                feed_system(filename, machmanager);
                 break;
             case 5:
                 while (1) {
-                    if (machmanager -> machine_count == 0) {
+                    if (machmanager->machine_count == 0) {
                         printf(RED "\nNo machines available.\n" RESET);
                         break;
                     }
 
                     printf(BOLD CYAN "\n\n--- Available Machines --------------------------\n\n" RESET);
                     
-                    for (int i = 0; i < machmanager -> machine_count; i++) {
-                        printf("%d - %s\n", i + 1, machmanager -> machines[i].id);
+                    for (int i = 0; i < machmanager->machine_count; i++) {
+                        printf("%d - %s\n", i + 1, machmanager->machines[i].id);
                     }
                     
                     printf("0 - Back\n");
@@ -119,10 +139,8 @@ int main() {
                         break;
                     }
 
-                    Machine selected_machine = {0}; // Initialize selected_machine
-                    if (sub_option > 0 && sub_option <= machmanager -> machine_count) {
-                        selected_machine = machmanager -> machines[sub_option - 1];
-                    }
+                    // Get the selected machine directly
+                    Machine *selected_machine = &machmanager->machines[sub_option - 1];
 
                     // Ask the user for buffer size and median window
                     while (1) {
@@ -156,26 +174,29 @@ int main() {
                             continue;
                         }
 
-                        selected_machine.buffer_size = buffer_size;
-                        selected_machine.median_window = median_window;
+                        // Modify the selected machine's buffer size and median window directly
+                        selected_machine->buffer_size = buffer_size;
+                        selected_machine->median_window = median_window;
 
                         // Allocate buffer for the machine
-                        selected_machine.buffer = malloc(selected_machine.buffer_size * sizeof(buffer_data));
-                        if (!selected_machine.buffer) {
+                        selected_machine->buffer = malloc(selected_machine->buffer_size * sizeof(buffer_data));
+                        if (!selected_machine->buffer) {
                             perror(RED "\nError allocating buffer.\n" RESET);
                             continue;
                         }
-                        selected_machine.head = selected_machine.buffer;
-                        selected_machine.tail = selected_machine.buffer;
+                        selected_machine->head = selected_machine->buffer;
+                        selected_machine->tail = selected_machine->buffer;
 
                         // Monitor the selected machine
-                        monitor_machine(&selected_machine);
+                        monitor_machine(selected_machine);
 
-                        free(selected_machine.buffer); // Free the buffer to avoid memory leak
+                        // Free the buffer to avoid memory leak after use
+                        free(selected_machine->buffer);
                         break;
                     }
                     break;
                 }
+
             case 0:
                 break;
             default:
@@ -185,6 +206,7 @@ int main() {
 
     // Releases memory after use
     free(machmanager);
+
     return 0;
 }
 
@@ -196,7 +218,7 @@ void monitor_machine(Machine *m) {
         printf("2 - Display Machine State\n");
         printf("3 - Export Operations to CSV\n");
         printf("0 - Exit\n");
-        printf("Choose an option: ");
+        printf("\nChoose an option: ");
 
         char input[10];
         if (scanf("%9s", input) != 1 || sscanf(input, "%d", &option) != 1) {

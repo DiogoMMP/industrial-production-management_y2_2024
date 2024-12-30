@@ -115,3 +115,11 @@ void goBackAndWait() {
         input[strcspn(input, "\n")] = '\0';
     } while (strcmp(input, "0") != 0); // Continue until the input is ‘0’
 }
+
+void trim_trailing_spaces(char* str) {
+    int len = strlen(str);
+    while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t' || str[len - 1] == '\n')) {
+        str[len - 1] = '\0';  // Substitui o último caractere por '\0'
+        len--;
+    }
+}

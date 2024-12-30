@@ -5,10 +5,12 @@
 
 // Define a structure to hold operation details
 typedef struct {
-    char designation[20];    // Operation designation
-    int number;              // Operation number (0-31)
-    time_t timestamp;        // Timestamp of the beginning of the operation
-
+    int number;                 // Operation number (0-31)
+    char *designation;          // Dynamic memory for operation designation
+    char *id;                   // Associated Machine ID
+    int time_duration;          // Time duration of operation
+    time_t timestamp;           // Timestamp of the beginning of the operation
+    
 } Operation;
 
 #endif // OPERATION_H

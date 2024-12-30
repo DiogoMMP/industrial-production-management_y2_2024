@@ -2,8 +2,8 @@
 #define INSTANCE_H
 
 typedef struct {
-    char machine_id[10];
-    char state[10];
+    char *machine_id;
+    char *state;
     int operation_id;
 } Instance;
 
