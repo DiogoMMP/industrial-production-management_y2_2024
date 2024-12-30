@@ -320,36 +320,28 @@ public class Utils {
         }
     }
 
-    /**
-     * Opens the specified file in Visual Studio Code.
-     *
-     * @param file The file to open.
-     * @author Diogo Pereira
-     */
-    public static void openInVSCode(File file) {
+    public static void openInWSL(String path) {
         try {
-            if (!file.exists()) {
-                System.err.println("File does not exist: " + file.getAbsolutePath());
+            // Resolve working directory dynamically
+            String projectDir = System.getProperty("user.dir");
+            File workingDir = new File(projectDir, path);
+            if (!workingDir.exists()) {
+                System.err.println("Directory does not exist: " + workingDir.getAbsolutePath());
                 return;
             }
+            String wslWorkingDir = workingDir.getCanonicalPath().replace("\\", "/").replace("C:", "/mnt/c");
 
-            String os = System.getProperty("os.name").toLowerCase();
-            String filePath = file.getAbsolutePath();
+            // Escape quotes within the WSL command for Windows Terminal
+            String command = String.format("bash -c \"cd '%s' && make run\"", wslWorkingDir);
 
-            if (os.contains("win")) {
-                // Windows: usa o comando 'code' para abrir o VS Code
-                Runtime.getRuntime().exec(new String[]{"cmd", "/c", "code", filePath});
-            } else if (os.contains("mac")) {
-                // MacOS: usa o comando 'code' para abrir o VS Code
-                Runtime.getRuntime().exec(new String[]{"code", filePath});
-            } else if (os.contains("nix") || os.contains("nux")) {
-                // Linux: usa o comando 'code' para abrir o VS Code
-                Runtime.getRuntime().exec(new String[]{"code", filePath});
-            } else {
-                System.err.println("Unsupported OS: " + os);
-            }
+            // Command to open Windows Terminal and execute the WSL command
+            String terminalCommand = String.format("wt wsl %s", command);
+
+            // Launch Windows Terminal with the command
+            ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", terminalCommand);
+            processBuilder.start();  // Start the process (opens a new terminal window with Windows Terminal)
+
         } catch (IOException e) {
-            System.err.println("Error opening file in Visual Studio Code: " + file.getAbsolutePath());
             e.printStackTrace();
         }
     }
