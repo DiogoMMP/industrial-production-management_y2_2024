@@ -320,6 +320,12 @@ public class Utils {
         }
     }
 
+    /**
+     * Opens the specified directory in the Windows Subsystem for Linux (WSL).
+     *
+     * @param path The path to the directory to open in WSL.
+     * @author Diogo Pereira
+     */
     public static void openInWSL(String path) {
         try {
             // Resolve working directory dynamically

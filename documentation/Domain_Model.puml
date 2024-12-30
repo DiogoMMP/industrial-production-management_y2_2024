@@ -29,6 +29,23 @@ class Product {
     Family_ID
 }
 
+class Intermediate_Product {
+    Part_ID
+}
+
+class Raw_Material {
+    Part_ID
+}
+
+class Component {
+    Part_ID
+}
+
+class Plant_Floor {
+    Plant_Floor_ID
+    Factory_Plant_ID
+}
+
 class Factory_Plant {
     Factory_Plant_ID
     Safety
@@ -76,6 +93,14 @@ class Part {
     Part_Description
 }
 
+class Internal_Part {
+    Part_ID
+}
+
+class External_Part {
+    Part_ID
+}
+
 class Supplier {
     Supplier_ID
     Supplier_Name
@@ -109,6 +134,26 @@ class Product_Family {
     Family_Description
 }
 
+class Workstation {
+    Workstation_ID
+    Workstation_Name
+    Workstation_Description
+    Workstation_Setup_Time
+    Workstation_Time
+    Plant_Floor_ID
+    Workstation_Type_ID
+    Min_Temp
+    Max_Temp
+    Min_Hum
+    Max_Hum
+}
+
+class Workstation_Type {
+    Workstation_Type_ID
+    Workstation_Type
+}
+
+
 Customer "1" -- "0..*" Customer_Order: has >
 Customer "1" -- "1" Type: has >
 Customer "1" -- "0..*" Country: has >
@@ -122,6 +167,7 @@ Product "1" -- "1" Factory_Plant: is produced in >
 Product "1" -- "1" Product_Family : belongs to >
 
 Factory_Plant "1" -- "0..*" Operation: has >
+Factory_Plant "1" -- "0..*" Plant_Floor: has >
 
 Operation "1" -- "0..*" BOO : belongs to >
 Operation "1" -- "1" Operation_Type : has >
@@ -133,5 +179,18 @@ Procurement "1" -- "0..*" Part : has >
 Reserved_Stock "1" --- "1" Part : has >
 Supplier "1" -- "0..*" Part : has >
 
+Plant_Floor "1" -- "0..*" Workstation: has >
+Workstation "1" -- "1" Workstation_Type: has >
+Workstation_Type "0..*" -- "0..*" Operation_Type: has >
+
+Internal_Part "1" -- "1" Part: is >
+External_Part "1" -- "1" Part: is >
+
+Product "1" -- "0..*" External_Part: has >
+Product "1" -- "0..*" Internal_Part: has >
+
+Intermediate_Product "1" -- "1" Internal_Part: is >
+Raw_Material "1" -- "1" External_Part: is >
+Component "1" -- "1" External_Part: is >
 
 @enduml
