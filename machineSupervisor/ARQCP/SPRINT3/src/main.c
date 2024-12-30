@@ -184,9 +184,7 @@ int main() {
     } while (option != 0);
 
     // Releases memory after use
-    free(machines);
     free(machmanager);
-
     return 0;
 }
 

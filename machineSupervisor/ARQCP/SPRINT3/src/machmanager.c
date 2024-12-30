@@ -7,6 +7,8 @@
 #include "machmanager.h"
 #include "operation.h"
 #include "utils.h"
+#include "assembly_functions.h"
+#include "instance.h"
 
 void create_machmanager(MachManager *machmanager, Machine *machines, int machine_count, int machine_capacity) {
     machmanager->machines = machines;
@@ -148,28 +150,26 @@ void export_operations_to_csv(Machine *m) {
     printf(GREEN "\nOperations exported to %s successfully.\n" RESET, filepath);
 }
 
-void extract_data(char *str, char *data){
-    char *temp_ptr = strtok(str, "TEMP&unit:celsius&value:");
-    char *hum_ptr = strtok(str, "HUM&unit:percentage&value:");
+void extract_data_machine(const char *str, void *data) {
+    int temp_value = 0;
+    int hum_value = 0;
+    char temp_unit[20] = {0};
+    char hum_unit[20] = {0};
 
-    if (temp_ptr != NULL && hum_ptr != NULL) {
-        //percorre o pointer para o inicio dos valores numéricos
-        temp_ptr += strlen("TEMP&unit:celsius&value:");
-        hum_ptr += strlen("HUM&unit:percentage&value:");
+    // Define tokens
+    char temp_token[] = "TEMP";
+    char hum_token[] = "HUM";
 
-        // encontra o final dos valores delimitados por # e \0
-        // TEMP&unit:celsius&value:temp#HUM&unit:percentage&value:hum 
-        char *temp_end = strchr(temp_ptr, '#');
-        char *hum_end = strchr(hum_ptr, '\0');
-
-        if (hum_end != NULL && temp_end != NULL) {
-           *hum_end = '\0';
-           *temp_end = '\0';
-           // Formata os valores extraídos na string data
-           snprintf(data, BUFSIZ, "Temperature:%s°C, Humidity:%s%%", temp_ptr, hum_ptr);
+    // Extract temperature data
+    if (extract_data((char *)str, temp_token, temp_unit, &temp_value) == 1) {
+        // Extract humidity data
+        if (extract_data((char *)str, hum_token, hum_unit, &hum_value) == 1) {
+            snprintf((char *)data, BUFSIZ, "Temperature:%d%s, Humidity:%d%s", temp_value, temp_unit, hum_value, hum_unit);
         } else {
-            snprintf(data, BUFSIZ, "Error: Invalid data format");
+            snprintf((char *)data, BUFSIZ, "Error: Humidity data not found");
         }
+    } else {
+        snprintf((char *)data, BUFSIZ, "Error: Temperature data not found");
     }
 }
 
@@ -182,5 +182,99 @@ void check_for_alerts(Machine *m) {
          if (m->head->humidity < m->humidity_min || m->head->humidity > m->humidity_max) {
             printf("ALERT: Machine %s has a humidity outside the range of values! (%.2f%%)\n", m->id, m->head->humidity);
          }
+    }
+}
+
+Instance* wait_for_instructions_from_ui(void) {
+    Instance *instr = malloc(sizeof(Instance));
+    if (!instr) {
+        perror("Error allocating memory for instruction");
+        return NULL;
+    }
+
+    return instr;
+}
+
+void update_internal_data(Machine *m) {
+    // Update the internal data of the machine based on the instruction
+    // This function needs to be implemented based on your specific requirements
+}
+
+void* get_cmd_from_internal_data() {
+    // Generate the command from the internal data
+    // This function needs to be implemented based on your specific requirements
+    return NULL;
+}
+
+void send_cmd_to_machine(char *cmd) {
+    // Send the command to the machine
+    // This function needs to be implemented based on your specific requirements
+}
+
+char* wait_for_data_from_machine() {
+    // Wait for data from the machine
+    // This function needs to be implemented based on your specific requirements
+    return NULL;
+}
+
+void update_internal_data_with_new_data(void *data) {
+    // Update the internal data with the new data
+    // This function needs to be implemented based on your specific requirements
+}
+
+void main_loop(MachManager *machmanager) {
+    char data[BUFSIZ];
+    while (1) {
+        // Wait for instructions from UI
+        Instance *instr = wait_for_instructions_from_ui();
+        if (!instr) {
+            perror("Error waiting for instructions from UI");
+            continue;
+        }
+
+        // Find the machine instance
+        Machine *machine = NULL;
+        for (int i = 0; i < machmanager->machine_count; i++) {
+            if (strcmp(machmanager->machines[i].id, instr->machine_id) == 0) {
+                machine = &machmanager->machines[i];
+                break;
+            }
+        }
+
+        if (!machine) {
+            fprintf(stderr, "Error: Machine with ID %s not found\n", instr->machine_id);
+            free(instr);
+            continue;
+        }
+
+        // Update internal data based on instruction
+        update_internal_data(machine);
+
+        // Get command from internal data
+        char cmd[256];
+        format_command(instr->state, instr->operation_id, cmd);
+
+        // Send command to machine
+        send_cmd_to_machine(cmd);
+
+        // Wait for data from machine
+        const char *str = wait_for_data_from_machine();
+        if (!str) {
+            perror("Error waiting for data from machine");
+            free(instr);
+            continue;
+        }
+
+        // Extract data
+        extract_data_machine(str, data);
+
+        // Update internal data based on extracted data
+        update_internal_data_with_new_data(data);
+
+        // Check for alerts
+        check_for_alerts(machine);
+
+        // Free the instruction structure
+        free(instr);
     }
 }
