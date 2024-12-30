@@ -91,17 +91,23 @@ public class WorkstationRepository {
             String id = workstation.getId();
             if (!id.matches("\\d+")) { // Check if the ID contains only digits
                 boolean found = false;
+                int quantity = 0;
                 for (Map.Entry<Integer, Workstation> entry2 : workstations.entrySet()) {
                     Workstation workstation2 = entry2.getValue();
                     String id2 = workstation2.getId();
                     if (id2.equals(id)) {
-                        found = true;
-                        break;
+                        quantity++;
+                        if (quantity > 1) {
+                            found = true;
+                            break;
+                        }
                     }
                 }
                 if (!found) {
                     filteredWorkstations.put(newId++, workstation);
                 }
+            } else {
+                break;
             }
         }
         return filteredWorkstations;
