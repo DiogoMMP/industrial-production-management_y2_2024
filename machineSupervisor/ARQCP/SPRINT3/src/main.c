@@ -212,6 +212,9 @@ int main() {
 
 void monitor_machine(Machine *m) {
     int option = -1; // Initialize option to a default value
+    MachManager machmanager;
+    create_machmanager(&machmanager, m, 1, 1); // Initialize MachManager with the single machine
+
     do {
         printf(BOLD CYAN "\n\n--- Managing Machine: %s --------------------------\n\n" RESET, m->id);
         printf("1 - Assign Operation to Machine\n");
@@ -228,21 +231,46 @@ void monitor_machine(Machine *m) {
 
         switch (option) {
             case 1:
-                printf("Not implemented yet.\n");
+                if (m->operation_count == 0) {
+                    printf(RED "\nNo operations available.\n" RESET);
+                    break;
+                }
+                if (m->exec_operation_count == m->operation_count) {
+                    printf(GREEN "\nAll operations have been executed.\n" RESET);
+                    break;
+                }
+                assign_operation_to_machine(&m->operations[m->exec_operation_count], m);
+                m->exec_operation_count++;
+                m->state = "OP"; // Change the state of the machine to "OP"
+                printf(GREEN "\nOperation %s assigned to machine %s successfully.\n" RESET, m->operations[m->exec_operation_count - 1].designation, m->id);
+                start_main_loop(m);
+                sleep(2);
                 break;
-            case 2:
-                printf("Not implemented yet.\n");
+            case 2: {
+                if (m->moving_median_count > 0) {
+                    printf(BOLD "\nMachine State:\n" RESET);
+                    printf("Temperature (Moving Median): %.2f\n", m->moving_median[m->moving_median_count - 1].temperature);
+                    printf("Humidity (Moving Median): %.2f\n", m->moving_median[m->moving_median_count - 1].humidity);
+                } else if (m->head) {
+                    printf(BOLD "\nMachine State:\n" RESET);
+                    printf("Temperature: %.2f\n", m->head->temperature);
+                    printf("Humidity: %.2f\n", m->head->humidity);
+                } else {
+                    printf(RED "\nNo data available.\n" RESET);
+                }
+
+                sleep(2);
                 break;
+            }
             case 3:
                 export_operations_to_csv(m);
                 break;
             case 0:
+                stop_program(&machmanager);
+                sleep(2);
                 break;
             default:
                 printf(RED "\nInvalid option. Please try again.\n" RESET);
         }
     } while (option != 0);
 }
-
-
-

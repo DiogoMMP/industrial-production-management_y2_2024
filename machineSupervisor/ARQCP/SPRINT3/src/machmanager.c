@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>    // For error handling
+#include <pthread.h>  // Include pthread for threading
 
 #include "machine.h"
 #include "machmanager.h"
@@ -169,6 +170,35 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
         }
         new_machine.operation_count = 0;
 
+        // Initialize executed operations array
+        new_machine.exec_operation_capacity = 10;
+        new_machine.exec_operation = malloc(new_machine.exec_operation_capacity * sizeof(Operation));
+        if (!new_machine.exec_operation) {
+            perror(RED "\nError allocating executed operations array\n" RESET);
+            free(new_machine.buffer);
+            free(new_machine.operations);
+            free(new_machine.id);
+            free(new_machine.name);
+            fclose(file);
+            return -1;
+        }
+        new_machine.exec_operation_count = 0;
+
+        // Initialize moving median array
+        new_machine.moving_median_capacity = new_machine.median_window;
+        new_machine.moving_median = malloc(new_machine.moving_median_capacity * sizeof(buffer_data));
+        if (!new_machine.moving_median) {
+            perror(RED "\nError allocating moving median array\n" RESET);
+            free(new_machine.buffer);
+            free(new_machine.operations);
+            free(new_machine.exec_operation);
+            free(new_machine.id);
+            free(new_machine.name);
+            fclose(file);
+            return -1;
+        }
+        new_machine.moving_median_count = 0;
+
         // Resize machine array if needed
         if (*machine_count >= *machine_capacity) {
             *machine_capacity = (*machine_capacity == 0) ? 2 : (*machine_capacity * 2);
@@ -177,6 +207,8 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
                 perror(RED "\nError resizing machine array\n" RESET);
                 free(new_machine.buffer);
                 free(new_machine.operations);
+                free(new_machine.exec_operation);
+                free(new_machine.moving_median);
                 free(new_machine.id);
                 free(new_machine.name);
                 fclose(file);
@@ -196,36 +228,35 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
 }
 
 void export_operations_to_csv(Machine *m) {
-    
     if (!m) {
         printf(RED "\nInvalid machine provided.\n" RESET);
         return;
     }
-    
+
     // Construct the file path using the machine's ID
     char filepath[150];
     snprintf(filepath, sizeof(filepath), "src/data/Machines_OP/%s_Operations.csv", m->id);
-    
+
     // Open the file for writing
     FILE *file = fopen(filepath, "w");
     if (!file) {
         perror(RED "\nError opening file for writing\n" RESET);
         return;
     }
-    
+
     // Write CSV header
     fprintf(file, "Number;Designation;Timestamp\n");
-    
-    // Write operation details
-    for (int i = 0; i < m->operation_count; i++) {
-        Operation *op = &m->operations[i];
+
+    // Write executed operation details
+    for (int i = 0; i < m->exec_operation_count; i++) {
+        Operation *op = &m->exec_operation[i];
         char timestamp_str[30];
         strftime(timestamp_str, sizeof(timestamp_str), "%Y-%m-%d %H:%M:%S", localtime(&op->timestamp));
         fprintf(file, "%d;%s;%s\n", op->number, op->designation, timestamp_str);
     }
-    
+
     fclose(file);
-    
+
     printf(GREEN "\nOperations exported to %s successfully.\n" RESET, filepath);
 }
 
@@ -377,23 +408,39 @@ void extract_data_machine(const char *str, void *data) {
 }
 
 void check_for_alerts(Machine *m) {
-    // head, points to the most recent value 
+    // Check the most recent value (head)
     if (m->head) {
-         if (m->head->temperature < m->temperature_min || m->head->temperature > m->temperature_max) {
+        if (m->head->temperature < m->temperature_min || m->head->temperature > m->temperature_max) {
             printf(RED "\nALERT: Machine %s has a temperature outside the range of values! (%.2f°C)\n" RESET, m->id, m->head->temperature);
-         }
-         if (m->head->humidity < m->humidity_min || m->head->humidity > m->humidity_max) {
+        }
+        if (m->head->humidity < m->humidity_min || m->head->humidity > m->humidity_max) {
             printf(RED "\nALERT: Machine %s has a humidity outside the range of values! (%.2f%%)\n" RESET, m->id, m->head->humidity);
-         }
+        }
+    }
+
+    // Check the moving median values
+    if (m->moving_median_count > 0) {
+        buffer_data median = m->moving_median[m->moving_median_count - 1];
+        if (median.temperature < m->temperature_min || median.temperature > m->temperature_max) {
+            printf(RED "\nALERT: Machine %s has a moving median temperature outside the range of values! (%.2f°C)\n" RESET, m->id, median.temperature);
+        }
+        if (median.humidity < m->humidity_min || median.humidity > m->humidity_max) {
+            printf(RED "\nALERT: Machine %s has a moving median humidity outside the range of values! (%.2f%%)\n" RESET, m->id, median.humidity);
+        }
     }
 }
 
-Instance* wait_for_instructions_from_ui(void) {
+Instance* wait_for_instructions_from_ui(MachManager *machmanager) {
     Instance *instr = malloc(sizeof(Instance));
     if (!instr) {
         perror("Error allocating memory for instruction");
         return NULL;
     }
+
+    Machine machine = machmanager->machines[0]; // Get the machine from the manager
+    instr->machine_id = strdup(machine.id); // Duplicate the machine ID string
+    instr->state = strdup(machine.state);   // Duplicate the machine state string
+    instr->operation_id = machine.assigned_operation.number; // Use the assigned operation number
 
     return instr;
 }
@@ -420,28 +467,37 @@ void update_internal_data_with_new_data(void *data) {
     // This function needs to be implemented based on your specific requirements
 }
 
-void main_loop(MachManager *machmanager) {
+
+void* main_loop_thread(void* arg) {
+    Machine *machine = (Machine*)arg;
+    MachManager machmanager;
+    create_machmanager(&machmanager, machine, 1, 1); // Initialize MachManager with the single machine
+    machmanager.running = 1; // Initialize the running flag
+    main_loop(&machmanager, machine);
+    return NULL;
+}
+
+void start_main_loop(Machine *machine) {
+    pthread_t thread_id;
+    if (pthread_create(&thread_id, NULL, main_loop_thread, (void*)machine) != 0) {
+        perror("Error creating thread for main loop");
+        return;
+    }
+    printf(BOLD "\nMachine Starting...\n" RESET);
+}
+
+void stop_program(MachManager *machmanager) {
+    printf(BOLD "\nStopping the machine...\n" RESET);
+    machmanager->running = 0;
+}
+
+void main_loop(MachManager *machmanager, Machine *machine) {
     char data[BUFSIZ];
-    while (1) {
+    while (machmanager->running) {
         // Wait for instructions from UI
-        Instance *instr = wait_for_instructions_from_ui();
+        Instance *instr = wait_for_instructions_from_ui(machmanager);
         if (!instr) {
             perror("Error waiting for instructions from UI");
-            continue;
-        }
-
-        // Find the machine instance
-        Machine *machine = NULL;
-        for (int i = 0; i < machmanager->machine_count; i++) {
-            if (strcmp(machmanager->machines[i].id, instr->machine_id) == 0) {
-                machine = &machmanager->machines[i];
-                break;
-            }
-        }
-
-        if (!machine) {
-            fprintf(stderr, "Error: Machine with ID %s not found\n", instr->machine_id);
-            free(instr);
             continue;
         }
 
@@ -473,6 +529,8 @@ void main_loop(MachManager *machmanager) {
         check_for_alerts(machine);
 
         // Free the instruction structure
+        free(instr->machine_id);
+        free(instr->state);
         free(instr);
     }
 }
