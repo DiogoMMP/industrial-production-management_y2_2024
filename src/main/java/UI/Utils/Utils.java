@@ -326,29 +326,78 @@ public class Utils {
      * @param path The path to the directory to open in WSL.
      * @author Diogo Pereira
      */
-    public static void openInWSL(String path) {
-        try {
-            // Resolve working directory dynamically
-            String projectDir = System.getProperty("user.dir");
-            File workingDir = new File(projectDir, path);
-            if (!workingDir.exists()) {
-                System.err.println("Directory does not exist: " + workingDir.getAbsolutePath());
-                return;
+    public static void openCodeInC(String path) {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+            // Windows: try to open with WSL
+            try {
+                // Resolve working directory dynamically
+                String projectDir = System.getProperty("user.dir");
+                File workingDir = new File(projectDir, path);
+                if (!workingDir.exists()) {
+                    System.err.println("Directory does not exist: " + workingDir.getAbsolutePath());
+                    return;
+                }
+                String wslWorkingDir = workingDir.getCanonicalPath().replace("\\", "/").replace("C:", "/mnt/c");
+
+                // Escape quotes within the WSL command for Windows Terminal
+                String command = String.format("bash -c \"cd '%s' && make run\"", wslWorkingDir);
+
+                // Command to open Windows Terminal and execute the WSL command
+                String terminalCommand = String.format("wt wsl %s", command);
+
+                // Launch Windows Terminal with the command
+                ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", terminalCommand);
+                processBuilder.start();  // Start the process (opens a new terminal window with Windows Terminal)
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            String wslWorkingDir = workingDir.getCanonicalPath().replace("\\", "/").replace("C:", "/mnt/c");
+        } else if (os.contains("mac")) {
+            // MacOS: try to open with terminal
+            try {
+                String projectDir = System.getProperty("user.dir");
+                File workingDir = new File(projectDir, path);
+                if (!workingDir.exists()) {
+                    System.err.println("Directory does not exist: " + workingDir.getAbsolutePath());
+                    return;
+                }
 
-            // Escape quotes within the WSL command for Windows Terminal
-            String command = String.format("bash -c \"cd '%s' && make run\"", wslWorkingDir);
+                String command = String.format("cd '%s' && make run", workingDir.getCanonicalPath());
 
-            // Command to open Windows Terminal and execute the WSL command
-            String terminalCommand = String.format("wt wsl %s", command);
+                // Command to open Terminal and execute the make command
+                String[] terminalCommand = { "osascript", "-e",
+                        String.format("tell application \"Terminal\" to do script \"%s\"", command) };
+                ProcessBuilder processBuilder = new ProcessBuilder(terminalCommand);
+                processBuilder.start();
 
-            // Launch Windows Terminal with the command
-            ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", terminalCommand);
-            processBuilder.start();  // Start the process (opens a new terminal window with Windows Terminal)
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (os.contains("nix") || os.contains("nux")) {
+            // Linux: try to open with gnome-terminal
+            try {
+                String projectDir = System.getProperty("user.dir");
+                File workingDir = new File(projectDir, path);
+                if (!workingDir.exists()) {
+                    System.err.println("Directory does not exist: " + workingDir.getAbsolutePath());
+                    return;
+                }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                String command = String.format("cd '%s' && make run", workingDir.getCanonicalPath());
+
+                // Command to open gnome-terminal and execute the make command
+                String[] terminalCommand = { "gnome-terminal", "--", "bash", "-c", command };
+                ProcessBuilder processBuilder = new ProcessBuilder(terminalCommand);
+                processBuilder.start();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            System.err.println("Unsupported OS: " + os);
         }
     }
 

@@ -9,6 +9,6 @@ public class MachineMonitoringAndControlMenuUI implements Runnable {
 
     @Override
     public void run() {
-        Utils.openInWSL(PATH);
+        Utils.openCodeInC(PATH);
     }
 }
