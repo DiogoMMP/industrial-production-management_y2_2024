@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <errno.h>    // For error handling
 #include <pthread.h>  // Include pthread for threading
+#include <time.h>
 
 #include "machine.h"
 #include "machmanager.h"
@@ -64,7 +65,6 @@ void assign_operation_to_machine(Operation *op, Machine *m) {
     m->state = "OP";
 }
 
-// Free the allocated memory for the machine's buffer
 void free_machine(Machine *m) {
     if (m->buffer) {
         free(m->buffer);  // Free the dynamically allocated buffer
@@ -73,6 +73,23 @@ void free_machine(Machine *m) {
     if (m->operations) {
         free(m->operations); // Free the dynamically allocated operations array
         m->operations = NULL; // Reset pointer to avoid dangling reference
+    }
+    if (m->exec_operation) {
+        free(m->exec_operation); // Free the dynamically allocated executed operations array
+        m->exec_operation = NULL; // Reset pointer to avoid dangling reference
+    }
+    if (m->moving_median) {
+        free(m->moving_median); // Free the dynamically allocated moving median array
+        m->moving_median = NULL; // Reset pointer to avoid dangling reference
+    }
+    // Ensure id and name are freed only once
+    if (m->id) {
+        free(m->id); // Free dynamically allocated id
+        m->id = NULL; // Reset pointer to avoid dangling reference
+    }
+    if (m->name) {
+        free(m->name); // Free dynamically allocated name
+        m->name = NULL; // Reset pointer to avoid dangling reference
     }
 }
 
@@ -143,6 +160,7 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
 
         // Set default values
         new_machine.buffer_size = 100; // For example
+        new_machine.buffer_count = 0;  // Initialize buffer count
         new_machine.median_window = 10; // For example
 
         // Validate the data
@@ -202,8 +220,8 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
         // Resize machine array if needed
         if (*machine_count >= *machine_capacity) {
             *machine_capacity = (*machine_capacity == 0) ? 2 : (*machine_capacity * 2);
-            machines = realloc(machines, *machine_capacity * sizeof(Machine));
-            if (!machines) {
+            Machine *new_machines = realloc(machines, *machine_capacity * sizeof(Machine));
+            if (!new_machines) {
                 perror(RED "\nError resizing machine array\n" RESET);
                 free(new_machine.buffer);
                 free(new_machine.operations);
@@ -214,6 +232,7 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
                 fclose(file);
                 return -1;
             }
+            machines = new_machines;
             machmanager->machines = machines; // Update the MachManager pointer
         }
 
@@ -322,12 +341,12 @@ void feed_system(const char* filename, MachManager* manager) {
         printf("  - Operation %d: %s\n", operation_number, operation_description);
         printf("  - Estimated time: %d seconds\n\n", time_duration);
 
-        // Simulate updating the machine
-
         // Dynamically allocate memory for the command
         char* cmd = (char*)malloc(256 * sizeof(char)); // Allocate space for the formatted command
         if (!cmd) {
             printf(RED "\nError: Memory allocation failed for cmd.\n" RESET);
+            free(operation_description);
+            free(machine_id);
             return; // Handle the error appropriately, exit the function if necessary
         }
 
@@ -335,6 +354,8 @@ void feed_system(const char* filename, MachManager* manager) {
         if (format_command("OP", operation_number, cmd) != 1) {
             printf(RED "\nError: Failed to format the command.\n" RESET);
             free(cmd); // Free allocated memory in case of error
+            free(operation_description);
+            free(machine_id);
             return;
         }
 
@@ -350,6 +371,8 @@ void feed_system(const char* filename, MachManager* manager) {
         if (format_command("ON", operation_number, cmd) != 1) {
             printf(RED "\nError: Failed to format the command.\n" RESET);
             free(cmd); // Free allocated memory in case of error
+            free(operation_description);
+            free(machine_id);
             return;
         }
 
@@ -374,6 +397,7 @@ void feed_system(const char* filename, MachManager* manager) {
         // Free dynamically allocated memory
         free(operation_description);
         free(machine_id);
+        free(cmd); // Free the command memory
     }
 
     fclose(file);
@@ -384,7 +408,7 @@ void feed_system(const char* filename, MachManager* manager) {
     }
 }
 
-void extract_data_machine(const char *str, void *data) {
+void extract_data_machine(const char *str, buffer_data *data) {
     int temp_value = 0;
     int hum_value = 0;
     char temp_unit[20] = {0};
@@ -398,12 +422,13 @@ void extract_data_machine(const char *str, void *data) {
     if (extract_data((char *)str, temp_token, temp_unit, &temp_value) == 1) {
         // Extract humidity data
         if (extract_data((char *)str, hum_token, hum_unit, &hum_value) == 1) {
-            snprintf((char *)data, BUFSIZ, "Temperature:%d%s, Humidity:%d%s", temp_value, temp_unit, hum_value, hum_unit);
+            data->temperature = temp_value;
+            data->humidity = hum_value;
         } else {
-            snprintf((char *)data, BUFSIZ, "Error: Humidity data not found");
+            fprintf(stderr, "Error: Humidity data not found\n");
         }
     } else {
-        snprintf((char *)data, BUFSIZ, "Error: Temperature data not found");
+        fprintf(stderr, "Error: Temperature data not found\n");
     }
 }
 
@@ -445,26 +470,172 @@ Instance* wait_for_instructions_from_ui(MachManager *machmanager) {
     return instr;
 }
 
-void update_internal_data(Machine *m) {
-    // Update the internal data of the machine based on the instruction
-    // This function needs to be implemented based on your specific requirements
+void update_internal_data(Machine *m, buffer_data *new_data) {
+    // Add the new data to the circular buffer
+    if (m->buffer_count == 0) {
+        // Initialize the buffer
+        m->buffer = new_data;
+        m->head = new_data;
+        m->tail = new_data;
+        m->buffer_count = 1;
+    } else if (m->buffer_count < m->buffer_capacity) {
+        // Add the new data to the buffer
+        m->head = (m->head + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->head + 1;
+        *m->head = *new_data;
+        m->buffer_count++;
+    } else {
+        // Buffer is full, overwrite the oldest data
+        *m->tail = *new_data;
+        m->tail = (m->tail + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->tail + 1;
+        m->head = (m->head + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->head + 1;
+    }
+
+    // Check if the moving median can start being used
+    if (m->buffer_count >= m->median_window) {
+        // Initialize the moving median array if not already initialized
+        if (m->moving_median == NULL) {
+            m->moving_median = malloc(m->median_window * sizeof(buffer_data));
+            if (!m->moving_median) {
+                perror("Error allocating memory for moving median");
+                return;
+            }
+            m->moving_median_capacity = m->median_window;
+            m->moving_median_count = 0;
+        }
+
+        // Add the new data to the moving median array
+        if (m->moving_median_count < m->moving_median_capacity) {
+            m->moving_median[m->moving_median_count++] = *new_data;
+        } else {
+            // Shift the array to make room for the new data
+            memmove(m->moving_median, m->moving_median + 1, (m->moving_median_capacity - 1) * sizeof(buffer_data));
+            m->moving_median[m->moving_median_capacity - 1] = *new_data;
+        }
+    }
 }
 
-void* get_cmd_from_internal_data() {
-    // Generate the command from the internal data
-    // This function needs to be implemented based on your specific requirements
-    return NULL;
+void enqueue_buffer_data(Machine *m, buffer_data *new_data) {
+    // Convert buffer_data to an integer array for the assembly function
+    int buffer[m->buffer_capacity];
+    int head = 0;
+    int tail = 0;
+    int value;
+
+    buffer[head] = new_data->temperature; // Assuming temperature is the value to enqueue
+
+    // Check if the buffer is full by attempting to enqueue the value
+    int result = enqueue_value(buffer, m->buffer_capacity, &tail, &head, new_data->temperature);
+
+    if (result == 1) {
+        // Buffer was full, so we need to dequeue the oldest element
+        dequeue_value(buffer, m->buffer_capacity, &tail, &head, &value);
+        // Try to enqueue the value again
+        result = enqueue_value(buffer, m->buffer_capacity, &tail, &head, new_data->temperature);
+        if (result != 0) {
+            fprintf(stderr, "Error enqueuing value after dequeuing\n");
+            return;
+        }
+    } else if (result != 0) {
+        // Print an error message if there was a failure enqueuing the value
+        fprintf(stderr, "Error enqueuing value\n");
+        return;
+    }
+
+    // Update the buffer count
+    m->buffer_count = (m->buffer_count < m->buffer_capacity) ? m->buffer_count + 1 : m->buffer_capacity;
 }
 
-char* wait_for_data_from_machine() {
-    // Wait for data from the machine
-    // This function needs to be implemented based on your specific requirements
-    return NULL;
+void* get_cmd_from_internal_data(const char* state, int operation_id) {
+    // Allocate memory for the command
+    char* cmd = malloc(256 * sizeof(char));
+    if (!cmd) {
+        perror("Error allocating memory for command");
+        return NULL;
+    }
+
+    // Format the command using the provided state and operation ID
+    if (format_command((char*)state, operation_id, cmd) != 1) {
+        fprintf(stderr, "Error formatting command\n");
+        free(cmd);
+        return NULL;
+    }
+
+    return cmd;
 }
 
-void update_internal_data_with_new_data(void *data) {
-    // Update the internal data with the new data
-    // This function needs to be implemented based on your specific requirements
+
+#include <stdlib.h>
+#include <time.h>
+
+char* wait_for_data_from_machine(Instance *instr, Machine *machine) {
+    // Allocate memory for the data string
+    char *data = malloc(256 * sizeof(char));
+    if (!data) {
+        perror("Error allocating memory for data");
+        return NULL;
+    }
+
+    // Simulate reading temperature and humidity values
+    srand(time(NULL)); // Seed the random number generator
+
+    // Randomly add or subtract 0.1 to/from the last temperature
+    float temp_change = (rand() % 2 == 0) ? 0.1 : -0.1;
+    instr->last_temperature += temp_change;
+
+    // Randomly add or subtract 1 to/from the last humidity
+    int hum_change = (rand() % 2 == 0) ? 1 : -1;
+    instr->last_humidity += hum_change;
+
+    // Format the data string
+    snprintf(data, 256, "TEMP&unit:celsius&value:%.1f#HUM&unit:percentage&value:%.1f",
+             instr->last_temperature, instr->last_humidity);
+
+    return data;
+}
+
+
+void calculate_moving_median(Machine *machine) {
+    int count = 0;
+    buffer_data *current = machine->tail;
+
+    // Collect the most recent values up to the median window size
+    while (count < machine->median_window && current != machine->head) {
+        machine->moving_median[count++] = *current;
+        current = (current + 1 == machine->buffer + machine->buffer_size) ? machine->buffer : current + 1;
+    }
+    machine->moving_median[count++] = *machine->head;
+
+    // Calculate the median for temperature
+    int temperature_values[count];
+    for (int i = 0; i < count; i++) {
+        temperature_values[i] = machine->moving_median[i].temperature;
+    }
+    int median_temperature;
+    median(temperature_values, count, &median_temperature);
+
+    // Calculate the median for humidity
+    int humidity_values[count];
+    for (int i = 0; i < count; i++) {
+        humidity_values[i] = machine->moving_median[i].humidity;
+    }
+    int median_humidity;
+    median(humidity_values, count, &median_humidity);
+
+    // Update the machine's state with the new median values
+    snprintf(machine->state, 256, "TEMP: %d, HUM: %d", median_temperature, median_humidity);
+}
+
+void update_internal_data_with_new_data(MachManager *machmanager, buffer_data *data) {
+    // Get the machine instance from the MachManager
+    Machine *machine = &machmanager->machines[0];
+
+    // Update the machine's buffer with the new data
+    update_internal_data(machine, data);
+
+    // Update the moving median array
+    if (machine->buffer_count >= machine->median_window) {
+        calculate_moving_median(machine);
+    }
 }
 
 
@@ -473,7 +644,7 @@ void* main_loop_thread(void* arg) {
     MachManager machmanager;
     create_machmanager(&machmanager, machine, 1, 1); // Initialize MachManager with the single machine
     machmanager.running = 1; // Initialize the running flag
-    main_loop(&machmanager, machine);
+    main_loop(&machmanager);
     return NULL;
 }
 
@@ -491,8 +662,8 @@ void stop_program(MachManager *machmanager) {
     machmanager->running = 0;
 }
 
-void main_loop(MachManager *machmanager, Machine *machine) {
-    char data[BUFSIZ];
+void main_loop(MachManager *machmanager) {
+    buffer_data data;
     while (machmanager->running) {
         // Wait for instructions from UI
         Instance *instr = wait_for_instructions_from_ui(machmanager);
@@ -501,18 +672,25 @@ void main_loop(MachManager *machmanager, Machine *machine) {
             continue;
         }
 
+        Machine *machine = &machmanager->machines[0]; // Get the machine from the manager
         // Update internal data based on instruction
-        update_internal_data(machine);
+        buffer_data new_data = {0};
+        update_internal_data(machine, &new_data);
 
         // Get command from internal data
-        char cmd[256];
-        format_command(instr->state, instr->operation_id, cmd);
+        char* cmd = get_cmd_from_internal_data(instr->state, instr->operation_id);
+        if (!cmd) {
+            perror("Error getting command from internal data");
+            free(instr);
+            continue;
+        }
 
         // Send command to machine
         send_cmd_to_machine(cmd);
+        free(cmd);
 
         // Wait for data from machine
-        const char *str = wait_for_data_from_machine();
+        const char *str = wait_for_data_from_machine(instr, machine);
         if (!str) {
             perror("Error waiting for data from machine");
             free(instr);
@@ -520,10 +698,10 @@ void main_loop(MachManager *machmanager, Machine *machine) {
         }
 
         // Extract data
-        extract_data_machine(str, data);
+        extract_data_machine(str, &data);
 
         // Update internal data based on extracted data
-        update_internal_data_with_new_data(data);
+        update_internal_data_with_new_data(machmanager, &data);
 
         // Check for alerts
         check_for_alerts(machine);

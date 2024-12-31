@@ -12,7 +12,9 @@ typedef struct {
     float humidity_min;
     float humidity_max;
     buffer_data *buffer;                    // Pointer to dynamically allocated circular buffer
-    int buffer_size;                        // Circular buffer length
+    int buffer_size;                        // Circular buffer maximum size
+    int buffer_count;                       // Current number of elements in the buffer
+    int buffer_capacity;                    // Circular buffer capacity
     buffer_data *head;                      // Points to the newest element
     buffer_data *tail;                      // Points to the oldest element
     int median_window;                      // Moving median window length

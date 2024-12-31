@@ -26,15 +26,18 @@ int main() {
         return 1; // Terminate the programme in case of an allocation error
     }
 
+    // Initialize machine_capacity before using it
+    machmanager->machine_capacity = 10; // Set a default capacity
+
     // Allocates memory for the machine array if necessary
-    machines = malloc(machmanager -> machine_capacity * sizeof(Machine));
+    machines = malloc(machmanager->machine_capacity * sizeof(Machine));
     if (!machines) {
         perror("Error allocating memory for machines array");
         free(machmanager);  // Releases memory already allocated to machmanager
         return 1;
     }
 
-    create_machmanager(machmanager, machines, 0, 0);
+    create_machmanager(machmanager, machines, 0, machmanager->machine_capacity);
 
     int option = -1; // Initialize option to a default value
     char filename[100];
@@ -187,6 +190,12 @@ int main() {
                         selected_machine->head = selected_machine->buffer;
                         selected_machine->tail = selected_machine->buffer;
 
+                        // Initialize buffer data to zero
+                        for (int i = 0; i < selected_machine->buffer_size; i++) {
+                            selected_machine->buffer[i].temperature = 0.0;
+                            selected_machine->buffer[i].humidity = 0.0;
+                        }
+
                         // Monitor the selected machine
                         monitor_machine(selected_machine);
 
@@ -203,6 +212,14 @@ int main() {
                 printf(RED "\nInvalid option. Please try again.\n" RESET);
         }
     } while (option != 0);
+
+    // Free all dynamically allocated memory for each machine
+    for (int i = 0; i < machmanager->machine_count; i++) {
+        free_machine(&machmanager->machines[i]);
+    }
+
+    // Free the machines array
+    free(machmanager->machines);
 
     // Releases memory after use
     free(machmanager);
