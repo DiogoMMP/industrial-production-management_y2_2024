@@ -540,8 +540,6 @@ public class PERT_CPM {
                 }else if(newDuration < 0){
                     throw new IllegalArgumentException("Activity duration must be positive or zero.\n" +
                             "Activity ID: " + actId + "\n" + "Current Duration: " + activity.getDuration() + "\n");
-                }else {
-                    removeActivityAndRecalculate(actId);
                 }
             }
         }
@@ -572,36 +570,5 @@ public class PERT_CPM {
         }
 
         return maxFinishTime + " " + unit;
-    }
-
-    public void removeActivityAndRecalculate(String actId) {
-        // Remove the activity and its connections
-        Activity activity = activities.get(actId);
-        if (activity != null) {
-            String nodeLabel = actId + " (" + activity.getDurationWithUnit() + ")";
-            activities.remove(actId);
-            pert_CPM.removeVertex(nodeLabel);
-            activitiesPERT_CPM.remove(actId);
-
-            // Remove connections from other activities
-            for (Activity otherActivity : activities.values()) {
-                otherActivity.getPrevActIds().remove(actId);
-                String otherNodeLabel = otherActivity.getActId() + " (" + otherActivity.getDurationWithUnit() + ")";
-                pert_CPM.removeEdge(nodeLabel, otherNodeLabel);
-            }
-
-            // Recalculate times
-            CalculateTimes calculateTimes = new CalculateTimes();
-            calculateTimes.calculateTimes();
-
-            // Recalculate Slack times
-            for (Activity remainingActivity : activities.values()) {
-                remainingActivity.calculateSlack();
-            }
-
-            // Update the repository
-            ActivitiesMapRepository activitiesMapRepository = Instances.getInstance().getActivitiesMapRepository();
-            activitiesMapRepository.setActivitiesMapRepository(activities);
-        }
     }
 }

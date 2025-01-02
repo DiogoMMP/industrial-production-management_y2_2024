@@ -12,12 +12,16 @@ public class SimulateProjDelaysUI implements Runnable {
 
     PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();
     Map<String, Activity> activities = pertCpm.getActivitiesPERT_CPM();
+    Map<String, Double[]> originalTimes = new HashMap<>();
 
     /**
      * This method is responsible for running the UI.
      */
     @Override
     public void run() {
+        // Store original times
+        storeOriginalTimes();
+
         LinkedHashMap<String, Integer> delays = new LinkedHashMap<>();
 
         String choice;
@@ -36,10 +40,12 @@ public class SimulateProjDelaysUI implements Runnable {
                     new SimulateProjDelaysUI()));
         }
 
+        options.add(new MenuItem("Show New Start and Finish Times", new SimulateProjDelaysUI()));
+
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
-                    "--- Choose an Activity to Add a Delay ------------\n" + Utils.RESET);
+                    "--- Choose an Activity to Add a Delay or Show Times------------\n" + Utils.RESET);
 
             if (option == -2) {
                 break;
@@ -47,7 +53,9 @@ public class SimulateProjDelaysUI implements Runnable {
 
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
-                if (!choice.equals("Back")) {
+                if (choice.equals("Show New Start and Finish Times")) {
+                    showNewTimes();
+                } else if (!choice.equals("Back")) {
                     clearConsole();
 
                     String actId = options.get(option).toString().split(" ")[1];
@@ -66,6 +74,9 @@ public class SimulateProjDelaysUI implements Runnable {
                 }
             }
         } while (option != -1 && !options.get(option).toString().equals("Back"));
+
+        // Restore original times
+        restoreOriginalTimes();
 
     }
 
@@ -105,6 +116,51 @@ public class SimulateProjDelaysUI implements Runnable {
                 + Utils.RESET);
 
         Utils.goBackAndWait();
+    }
+
+    private void showNewTimes() {
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Show New Start and Finish Times ------------\n" + Utils.RESET);
+
+        for (String activity : activities.keySet()) {
+            System.out.println("\n\n" + Utils.BOLD + "--- Activity: " + activity + " ------------" + Utils.RESET);
+            System.out.println("ES: " + activities.get(activity).getEarliestStart());
+            System.out.println("LF: " + activities.get(activity).getLatestFinish());
+        }
+
+        Utils.goBackAndWait();
+    }
+
+    /**
+     * This method is responsible for storing the original times of the activities.
+     */
+    private void storeOriginalTimes() {
+        for (Map.Entry<String, Activity> entry : activities.entrySet()) {
+            Activity activity = entry.getValue();
+            originalTimes.put(entry.getKey(), new Double[]{
+                    (double) activity.getDuration(),
+                    activity.getEarliestStart(),
+                    activity.getEarliestFinish(),
+                    activity.getLatestStart(),
+                    activity.getLatestFinish(),
+                    activity.getSlack()
+            });
+        }
+    }
+
+    /**
+     * This method is responsible for restoring the original times of the activities.
+     */
+    private void restoreOriginalTimes() {
+        for (Map.Entry<String, Double[]> entry : originalTimes.entrySet()) {
+            Activity activity = activities.get(entry.getKey());
+            Double[] times = entry.getValue();
+            activity.setDuration(times[0].intValue());
+            activity.setEarliestStart(times[1]);
+            activity.setEarliestFinish(times[2]);
+            activity.setLatestStart(times[3]);
+            activity.setLatestFinish(times[4]);
+            activity.setSlack(times[5]);
+        }
     }
 
     /**
