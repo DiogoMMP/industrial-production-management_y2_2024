@@ -101,14 +101,15 @@ CREATE TABLE Procurement (
   Part_ID,
   Supplier_ID));
 CREATE TABLE Product (
-  Product_ID       varchar2(255) NOT NULL,
-  Product_Name     varchar2(255) NOT NULL,
-  Factory_Plant_ID number(10) NOT NULL,
-  Market_Demand    number(10) CHECK(Market_Demand > 0),
-  Optimization     number(10) CHECK(Optimization > 0),
-  Production_Cost  number(10) CHECK(Production_Cost > 0),
-  Flexibility      number(10) CHECK(Flexibility > 0),
-  Family_ID        number(10) NOT NULL,
+  Product_ID              varchar2(255) NOT NULL,
+  Product_Name            varchar2(255) NOT NULL,
+  Factory_Plant_ID        number(10) NOT NULL,
+  Market_Demand           number(10) CHECK(Market_Demand > 0),
+  Optimization            number(10) CHECK(Optimization > 0),
+  Production_Cost         number(10) CHECK(Production_Cost > 0),
+  Flexibility             number(10) CHECK(Flexibility > 0),
+  Production_Average_Time number(20),
+  Family_ID               number(10) NOT NULL,
   PRIMARY KEY (Product_ID));
 CREATE TABLE Product_Family (
   Family_ID          number(10) NOT NULL,
