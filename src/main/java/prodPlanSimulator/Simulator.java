@@ -1,5 +1,6 @@
 package prodPlanSimulator;
 
+import UI.Utils.Utils;
 import domain.*;
 import repository.HashMap_Items_Machines;
 import repository.Instances;
@@ -839,6 +840,61 @@ public class Simulator {
 
     public LinkedHashMap<LinkedHashMap<Order, String>, List<LinkedHashMap<String, Double>>> getOrdersTimes() {
         return ordersTimes;
+    }
+
+    /**
+     * Calculate the average production time considering the waiting time
+     *
+     * @param productId Product ID
+     * @return Average production time considering the waiting time
+     */
+    public double CalculateAverageProductionTimeConsideringWaitingTime(String productId) {
+        double totalAverageTime = 0.0;
+        double averageTime = 0.0;
+        double waitingTime = 0.0;
+        double totalWaitingTime = 0.0;
+        int quantityOfItems = 0;
+        int quantityOfTimesItemAppears = 0;
+        for (LinkedHashMap<Order, String> order : ordersTimes.keySet()) {
+            int index = 0;
+            List<LinkedHashMap<String, Double>> operationsList = ordersTimes.get(order);
+            Order currentOrder = order.keySet().iterator().next();
+            for (String itemID : currentOrder.getItemsIdList()) {
+                if (itemID.equals(productId)) {
+                    quantityOfItems++;
+                }
+                LinkedHashMap<String, Double> operations = operationsList.get(index);
+                for (Map.Entry<String, Double> entry : operations.entrySet()) {
+                    if (itemID.equals(productId)) {
+                        averageTime += entry.getValue();
+                        totalWaitingTime += waitingTime;
+                        waitingTime = 0.0;
+                    } else {
+                        waitingTime += entry.getValue();
+                    }
+                }
+
+                index++;
+                if (quantityOfItems > 0) {
+                    averageTime = averageTime + totalWaitingTime;
+                    averageTime = averageTime / quantityOfItems;
+                    quantityOfTimesItemAppears++;
+                    waitingTime = 0.0;
+                    totalWaitingTime = 0.0;
+                    totalAverageTime += averageTime;
+                    averageTime = 0.0;
+                } else {
+                    totalWaitingTime = 0.0;
+                    waitingTime = 0.0;
+                }
+            }
+            quantityOfItems = 0;
+        }
+        if (quantityOfTimesItemAppears > 0) {
+            totalAverageTime = totalAverageTime / quantityOfTimesItemAppears;
+        }
+
+        return totalAverageTime;
     }
 }
 

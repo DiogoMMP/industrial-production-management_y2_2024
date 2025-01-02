@@ -1,5 +1,4 @@
 workstation;name_oper;time
-100;Disc cutting;10
 4123;Lid polishing;14
 4123;Pot base polishing;14
 4124;Lid polishing;12
@@ -17,7 +16,6 @@ workstation;name_oper;time
 6816;Pot test and packaging;16
 6821;Pan test and packaging;13
 6821;Pot test and packaging;13
-6822;Packaging for large items;12
 7235;Lid handle screw;21
 7236;Lid handle screw;20
 7238;Lid handle screw;19
