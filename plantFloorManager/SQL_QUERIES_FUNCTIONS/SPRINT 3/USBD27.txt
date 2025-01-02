@@ -17,7 +17,7 @@ CREATE OR REPLACE FUNCTION reserve_materials_for_order(
     -- Variables for checking stock status
     v_is_stock_sufficient BOOLEAN := TRUE;
 
-    -- Cursor to retrieve required parts and their stock status
+    -- Cursor to retrieve required parts and their stock status (external parts only)
     CURSOR c_order_parts IS
         SELECT
             cip.Part_ID,
@@ -28,6 +28,8 @@ CREATE OR REPLACE FUNCTION reserve_materials_for_order(
             Customer_Order_Product cop
                 JOIN
             BOO_Input cip ON cop.Product_ID = cip.Product_ID
+                JOIN
+            External_Part ep ON cip.Part_ID = ep.Part_ID  -- Filter to external parts
                 LEFT JOIN
             Stock s ON cip.Part_ID = s.Part_ID
         WHERE
@@ -36,7 +38,7 @@ CREATE OR REPLACE FUNCTION reserve_materials_for_order(
             cip.Part_ID, s.Stock, s.Unit;
 
 BEGIN
-    -- Call GetOrderStockStatus function to check if there is enough stock
+    -- Call get_order_stock_status function to check if there is enough stock
     v_stock_status := get_order_stock_status(p_customer_order_id);
 
     -- Iterate through the stock status results
@@ -61,22 +63,22 @@ BEGIN
 
     -- If stock is sufficient, proceed with reservation
     FOR part_record IN c_order_parts LOOP
-            -- Generate a new reserved ID
-            SELECT NVL(MAX(Reserved_ID), 0) + 1 INTO v_reserved_id FROM Reserved_Stock;
+        -- Generate a new reserved ID
+        SELECT NVL(MAX(Reserved_ID), 0) + 1 INTO v_reserved_id FROM Reserved_Stock;
 
-            -- Insert into Reserved_Stock table
-            INSERT INTO Reserved_Stock (
-                Reserved_ID,
-                Part_ID,
-                Quantity,
-                Unit
-            ) VALUES (
-                         v_reserved_id,
-                         part_record.Part_ID,
-                         part_record.Total_Required_Quantity,
-                         part_record.Unit
-                     );
-        END LOOP;
+        -- Insert into Reserved_Stock table
+        INSERT INTO Reserved_Stock (
+            Reserved_ID,
+            Part_ID,
+            Quantity,
+            Unit
+        ) VALUES (
+            v_reserved_id,
+            part_record.Part_ID,
+            part_record.Total_Required_Quantity,
+            part_record.Unit
+        );
+    END LOOP;
 
     -- Return success message
     RETURN 'Reservation Successful';
@@ -123,6 +125,3 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 /
-
-
-select * from reserved_stock
