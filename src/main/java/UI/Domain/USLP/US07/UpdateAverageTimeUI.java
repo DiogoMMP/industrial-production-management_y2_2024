@@ -35,7 +35,7 @@ public class UpdateAverageTimeUI implements Runnable {
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
-                        "--- Choose the product to be Visualized ------------" + Utils.RESET);
+                        "--- Choose the product to be Visualized ------------\n" + Utils.RESET);
 
                 if (option == -2) {
                     new OrdersMenu().run();
@@ -73,6 +73,10 @@ public class UpdateAverageTimeUI implements Runnable {
     }
 
     private void show(String choice, Connection connection) throws SQLException {
+
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
+                "--- Average Production Time Management ------------" + Utils.RESET);
+
         if (choice.equals("All")) {
             // Retrieve all products
             String selectAllQuery = "SELECT Product_ID FROM Product";
@@ -106,7 +110,8 @@ public class UpdateAverageTimeUI implements Runnable {
         double newAverageTime = simulator.CalculateAverageProductionTimeConsideringWaitingTime(productId);
 
         // Display the old and new average times
-        System.out.printf("Product ID: %s\nOld Average Time: %.2f\nNew Average Time: %.2f\n", productId, oldAverageTime, newAverageTime);
+        System.out.println(Utils.BOLD + "\nProduct Average Time Update for Product: " + productId + Utils.RESET);
+        System.out.printf("Old Average Time: %.2f\nNew Average Time: %.2f\n", oldAverageTime, newAverageTime);
 
         // Update the average times in the database
         ProductionDataLoader loader = new ProductionDataLoader(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
