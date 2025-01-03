@@ -80,10 +80,22 @@ public class US16UI implements Runnable {
                 }
             }
 
+            double production_average_time = 0;
+            while (true) {
+                try {
+                    String input = Utils.readLineFromConsole(Utils.BOLD + "Enter Production Average Time: " + Utils.RESET);
+                    assert input != null;
+                    production_average_time = Double.parseDouble(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid Production Average Time. Please enter a valid double.\n");
+                }
+            }
+
             int familyId = chooseFamilyID();
 
             String result = addProduct(productId, productName, partDescription, factoryPlantId,
-                    marketDemand, optimization, productionCost, flexibility, familyId);
+                    marketDemand, optimization, productionCost, flexibility, production_average_time, familyId);
 
             if (result.contains("Error")) {
                 System.err.println(result + "\n");  // Print the error message
@@ -253,11 +265,11 @@ public class US16UI implements Runnable {
      */
     private String addProduct(String productId, String productName, String partDescription,
                               int factoryPlantId, Integer marketDemand, Integer optimization,
-                              Integer productionCost, Integer flexibility, int familyId) {
+                              Integer productionCost, Integer flexibility, Double production_average_time, int familyId) {
         String result = "Unknown error";  // Default result in case of failure
 
         // The PL/SQL function call format (using ? for output parameter)
-        String call = "{ ? = call add_product(?, ?, ?, ?, ?, ?, ?, ?, ?) }";
+        String call = "{ ? = call add_product(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }";
 
         try (Connection connection = getConnection();
              CallableStatement callableStatement = connection.prepareCall(call)) {
@@ -276,8 +288,9 @@ public class US16UI implements Runnable {
             callableStatement.setInt(7, optimization != null ? optimization : 0); // Optional parameter (index 7)
             callableStatement.setInt(8, productionCost != null ? productionCost : 0); // Optional parameter (index 8)
             callableStatement.setInt(9, flexibility != null ? flexibility : 0); // Optional parameter (index 9)
+            callableStatement.setDouble(10, production_average_time);  // production_average_time (index 10)
 
-            callableStatement.setInt(10, familyId);  // familyId (index 10)
+            callableStatement.setInt(11, familyId);  // familyId (index 11)
 
             // Execute the function call
             callableStatement.execute();
