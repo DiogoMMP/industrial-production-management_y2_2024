@@ -290,13 +290,15 @@ void feed_system(const char* filename, MachManager* manager) {
     int first_line = 1; // Ignore the header line.
     int completed_all_operations = 1; // Flag to track if all operations were completed.
 
+    int operation_id_counter = 1; // Counter for operation ID (1 to 31)
+
     while (fgets(line, sizeof(line), file)) {
         if (first_line) {
             first_line = 0;
             continue; // Ignore the header line.
         }
 
-        int operation_number = 0, time_duration = 0;
+        int time_duration = 0;
         char *operation_description = NULL, *machine_id = NULL;
 
         // Allocate dynamic memory for operation_description and machine_id
@@ -311,8 +313,8 @@ void feed_system(const char* filename, MachManager* manager) {
         }
 
         // Parse the line
-        if (sscanf(line, "%d;%*d;%*d - Operation: %99[^-] - Machine: %19[^-] - Item: %*[^-] - Time: %d", 
-                   &operation_number, operation_description, machine_id, &time_duration) != 4) {
+        if (sscanf(line, "%*d;%*[^;];%*d - Operation: %99[^-] - Machine: %19[^-] - Item: %*[^-] - Time: %d - Quantity: %*f", 
+           operation_description, machine_id, &time_duration) != 3) {
             fprintf(stderr, RED "\nInvalid line or parsing error: %s\n" RESET, line);
             free(operation_description);
             free(machine_id);
@@ -328,9 +330,9 @@ void feed_system(const char* filename, MachManager* manager) {
             continue; // Skip to the next line
         }
 
-        // Add timestamp to operation
+        // Create a new operation with the sequential ID
         Operation new_operation;
-        new_operation.number = operation_number;
+        new_operation.number = operation_id_counter;  // Use the sequential ID
         new_operation.designation = operation_description;
         new_operation.id = machine_id;
         new_operation.time_duration = time_duration;
@@ -338,7 +340,7 @@ void feed_system(const char* filename, MachManager* manager) {
 
         // Process the operation
         printf(BOLD BLUE "\nProcessing operation for machine %s:\n" RESET, machine_id);
-        printf("  - Operation %d: %s\n", operation_number, operation_description);
+        printf("  - Operation %d: %s\n", new_operation.number, operation_description);
         printf("  - Estimated time: %d seconds\n\n", time_duration);
 
         // Dynamically allocate memory for the command
@@ -351,7 +353,7 @@ void feed_system(const char* filename, MachManager* manager) {
         }
 
         // Format the command using format_command
-        if (format_command("OP", operation_number, cmd) != 1) {
+        if (format_command("OP", new_operation.number, cmd) != 1) {
             printf(RED "\nError: Failed to format the command.\n" RESET);
             free(cmd); // Free allocated memory in case of error
             free(operation_description);
@@ -362,13 +364,13 @@ void feed_system(const char* filename, MachManager* manager) {
         // Send the command to the machine
         send_cmd_to_machine(cmd);
 
-        // Assign Operation to Machine
+        // Assign operation to machine
         assign_operation_to_machine(&new_operation, machine);
 
         sleep(2); // Simulate operation execution
 
         // Format the command using format_command
-        if (format_command("ON", operation_number, cmd) != 1) {
+        if (format_command("ON", new_operation.number, cmd) != 1) {
             printf(RED "\nError: Failed to format the command.\n" RESET);
             free(cmd); // Free allocated memory in case of error
             free(operation_description);
@@ -378,9 +380,9 @@ void feed_system(const char* filename, MachManager* manager) {
 
         // Send the command to the machine
         send_cmd_to_machine(cmd);
-        machine -> state = "ON";
+        machine->state = "ON";
 
-        printf(GREEN "\nOperation %d completed for machine %s.\n" RESET, operation_number, machine_id);
+        printf(GREEN "\nOperation %d completed for machine %s.\n" RESET, new_operation.number, machine_id);
 
         // Ask user if they want to continue
         char continue_response;
@@ -398,6 +400,12 @@ void feed_system(const char* filename, MachManager* manager) {
         free(operation_description);
         free(machine_id);
         free(cmd); // Free the command memory
+
+        // Update operation ID counter
+        operation_id_counter++;
+        if (operation_id_counter > 31) {
+            operation_id_counter = 1; // Reset to 1 after 31
+        }
     }
 
     fclose(file);
@@ -407,6 +415,7 @@ void feed_system(const char* filename, MachManager* manager) {
         printf(GREEN "\nAll operations from the file %s have been processed.\n" RESET, filename);
     }
 }
+
 
 void extract_data_machine(const char *str, buffer_data *data) {
     int temp_value = 0;

@@ -30,6 +30,11 @@ public class ListExecutionTimeOneOpUI implements Runnable  {
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
                     "--- Choose the Operation to be visualized ------------\n" + Utils.RESET);
+
+            if (option == -2) {
+                break;
+            }
+
             if ((option >= 0) && (option < options.size())) {
 
                 choice = options.get(option).toString();

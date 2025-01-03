@@ -148,48 +148,48 @@ int main() {
                     // Ask the user for buffer size and median window
                     while (1) {
                         int buffer_size = 0, median_window = 0;
-
+                        
                         // Loop to get a valid buffer size
                         while (1) {
                             printf(BOLD "\nEnter buffer size (or type 'cancel' to go back): " RESET);
-
+                            
                             char buffer_input[10];
                             if (scanf("%9s", buffer_input) != 1) {
                                 printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
                                 continue;
                             }
-
+                            
                             if (strcmp(buffer_input, "cancel") == 0) {
                                 break; // Exit the function or handle going back
                             }
-
+                            
                             if (sscanf(buffer_input, "%d", &buffer_size) != 1 || buffer_size <= 0) {
                                 printf(RED "\nInvalid buffer size. Please enter a positive number.\n" RESET);
                                 continue;
                             }
-
+                            
                             break; // Valid buffer size
                         }
-
+                        
                         // Loop to get a valid median window size
                         while (1) {
                             printf(BOLD "\nEnter median window size (or type 'cancel' to go back): " RESET);
-
+                            
                             char window_input[10];
                             if (scanf("%9s", window_input) != 1) {
                                 printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
                                 continue;
                             }
-
+                            
                             if (strcmp(window_input, "cancel") == 0) {
                                 break; // Go back to asking buffer size
                             }
-
+                            
                             if (sscanf(window_input, "%d", &median_window) != 1 || median_window <= 0 || median_window > buffer_size) {
                                 printf(RED "\nInvalid median window size. Please enter a positive number less than or equal to buffer size.\n" RESET);
                                 continue;
                             }
-
+                            
                             break; // Valid median window size
                         }
 

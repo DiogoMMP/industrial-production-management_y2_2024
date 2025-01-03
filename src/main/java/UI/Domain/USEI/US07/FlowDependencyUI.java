@@ -15,8 +15,8 @@ public class FlowDependencyUI implements Runnable {
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                 "--- Workstation Flow Dependencies ------------------------\n" + Utils.RESET);
 
-        System.out.println("Workstation     | Dependencies");
-        System.out.println("------------------------------------------------------------------------------------------------------------");
+        System.out.printf(Utils.BOLD + "%-20s %-100s%n", "Operation", "Dependencies");
+        System.out.println("-".repeat(120) + Utils.RESET);
 
         for (Map.Entry<String, List<Map.Entry<String, Integer>>> entry : flowDependency.entrySet()) {
             String workstation = entry.getKey();
@@ -26,9 +26,8 @@ public class FlowDependencyUI implements Runnable {
 
             StringBuilder sb = new StringBuilder();
 
-            sb.append(String.format("%-15s", workstation));
+            sb.append(String.format("%-20s", workstation));
 
-            sb.append(" | ");
             for (int i = 0; i < dependencies.size(); i++) {
                 Map.Entry<String, Integer> subEntry = dependencies.get(i);
                 sb.append(String.format("(%s, %d)", subEntry.getKey(), subEntry.getValue()));
