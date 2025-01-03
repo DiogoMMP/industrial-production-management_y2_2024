@@ -330,17 +330,27 @@ void feed_system(const char* filename, MachManager* manager) {
             continue; // Skip to the next line
         }
 
-        // Create a new operation with the sequential ID
-        Operation new_operation;
-        new_operation.number = operation_id_counter;  // Use the sequential ID
-        new_operation.designation = operation_description;
-        new_operation.id = machine_id;
-        new_operation.time_duration = time_duration;
-        new_operation.timestamp = time(NULL);
+        // Check if the operation already exists in the machine's operations array
+        int operation_id = -1;
+        for (int i = 0; i < machine->operation_count; i++) {
+            if (strcmp(machine->operations[i].designation, operation_description) == 0) {
+                operation_id = machine->operations[i].number; // Reuse the existing operation ID
+                break;
+            }
+        }
 
-        // Process the operation
+        // If operation does not exist, assign a new sequential ID
+        if (operation_id == -1) {
+            operation_id = operation_id_counter++;
+            if (operation_id_counter > 31) {
+                operation_id_counter = 1; // Reset to 1 after 31
+            }
+        }
+
+        // Process the operation (always show information)
         printf(BOLD BLUE "\nProcessing operation for machine %s:\n" RESET, machine_id);
-        printf("  - Operation %d: %s\n", new_operation.number, operation_description);
+        printf("  - Operation ID: %d\n", operation_id);
+        printf("  - Description: %s\n", operation_description);
         printf("  - Estimated time: %d seconds\n\n", time_duration);
 
         // Dynamically allocate memory for the command
@@ -353,7 +363,7 @@ void feed_system(const char* filename, MachManager* manager) {
         }
 
         // Format the command using format_command
-        if (format_command("OP", new_operation.number, cmd) != 1) {
+        if (format_command("OP", operation_id, cmd) != 1) {
             printf(RED "\nError: Failed to format the command.\n" RESET);
             free(cmd); // Free allocated memory in case of error
             free(operation_description);
@@ -364,13 +374,21 @@ void feed_system(const char* filename, MachManager* manager) {
         // Send the command to the machine
         send_cmd_to_machine(cmd);
 
+        // Create a new operation structure
+        Operation new_operation;
+        new_operation.number = operation_id;  // Use the assigned or reused ID
+        new_operation.designation = operation_description;
+        new_operation.id = machine_id;
+        new_operation.time_duration = time_duration;
+        new_operation.timestamp = time(NULL);
+
         // Assign operation to machine
         assign_operation_to_machine(&new_operation, machine);
 
         sleep(2); // Simulate operation execution
 
         // Format the command using format_command
-        if (format_command("ON", new_operation.number, cmd) != 1) {
+        if (format_command("ON", operation_id, cmd) != 1) {
             printf(RED "\nError: Failed to format the command.\n" RESET);
             free(cmd); // Free allocated memory in case of error
             free(operation_description);
@@ -382,7 +400,7 @@ void feed_system(const char* filename, MachManager* manager) {
         send_cmd_to_machine(cmd);
         machine->state = "ON";
 
-        printf(GREEN "\nOperation %d completed for machine %s.\n" RESET, new_operation.number, machine_id);
+        printf(GREEN "\nOperation %d completed for machine %s.\n" RESET, operation_id, machine_id);
 
         // Ask user if they want to continue
         char continue_response;
@@ -400,12 +418,6 @@ void feed_system(const char* filename, MachManager* manager) {
         free(operation_description);
         free(machine_id);
         free(cmd); // Free the command memory
-
-        // Update operation ID counter
-        operation_id_counter++;
-        if (operation_id_counter > 31) {
-            operation_id_counter = 1; // Reset to 1 after 31
-        }
     }
 
     fclose(file);
