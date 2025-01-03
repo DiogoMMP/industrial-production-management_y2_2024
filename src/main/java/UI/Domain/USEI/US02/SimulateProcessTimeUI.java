@@ -32,7 +32,7 @@ public class SimulateProcessTimeUI implements Runnable {
                     "--- Choose the Item to be Visualized ------------\n" + Utils.RESET);
 
             if (option == -2) {
-                new ChooseSimulatorUI().run();
+                break;
             }
 
             if ((option >= 0) && (option < options.size())) {
@@ -191,22 +191,15 @@ public class SimulateProcessTimeUI implements Runnable {
      * @return The sorted and unique items.
      */
     private ArrayList<Item> sortAndRemoveDuplicates(ArrayList<Item> items) {
-        HashSet<String> seenIds = new HashSet<>();
-        ArrayList<Item> uniqueItems = new ArrayList<>();
-
-        for (Item item : items) {
-            if (!seenIds.contains(item.getId())) {
-                seenIds.add(item.getId());
-                uniqueItems.add(item);
-            }
-        }
-
-        uniqueItems.sort(new Comparator<Item>() {
+        TreeSet<Item> sortedUniqueItems = new TreeSet<>(new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
-                return o1.getId().compareTo(o2.getId());
+                return Integer.compare(Integer.parseInt(o1.getId()), Integer.parseInt(o2.getId()));
             }
         });
-        return uniqueItems;
+
+        sortedUniqueItems.addAll(items);
+        return new ArrayList<>(sortedUniqueItems);
     }
+
 }

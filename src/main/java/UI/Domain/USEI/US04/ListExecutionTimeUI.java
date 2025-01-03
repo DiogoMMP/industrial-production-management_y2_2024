@@ -10,8 +10,8 @@ public class ListExecutionTimeUI implements Runnable {
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<>();
-        options.add(new MenuItem("List Execution Time of one Operation", new ListExecutionTimeOneOpUI()));
-        options.add(new MenuItem("List Execution Time of all Operations", new ListExecutionTimeAllOpUI()));
+        options.add(new MenuItem("List Execution Time of One Operation", new ListExecutionTimeOneOpUI()));
+        options.add(new MenuItem("List Execution Time of All Operations", new ListExecutionTimeAllOpUI()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +

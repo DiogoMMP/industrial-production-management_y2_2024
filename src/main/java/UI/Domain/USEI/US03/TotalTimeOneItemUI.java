@@ -28,7 +28,12 @@ public class TotalTimeOneItemUI implements Runnable {
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
-                    "--- Choose the Item to be visualized ------------" + Utils.RESET);
+                    "--- Choose the Item to be Visualized ------------\n" + Utils.RESET);
+
+            if (option == -2) {
+                break;
+            }
+
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
@@ -37,7 +42,7 @@ public class TotalTimeOneItemUI implements Runnable {
                     Utils.goBackAndWait();
                 }
             }
-        } while (option != -1 && !options.get(option).toString().equals("Back"));
+        } while (option != -1);
     }
 
     /**
@@ -47,23 +52,15 @@ public class TotalTimeOneItemUI implements Runnable {
      * @return the sorted list of items without duplicates
      */
     private ArrayList<Item> sortAndRemoveDuplicates(ArrayList<Item> items) {
-        HashSet<String> seenIds = new HashSet<>();
-        ArrayList<Item> uniqueItems = new ArrayList<>();
-
-        for (Item item : items) {
-            if (!seenIds.contains(item.getId())) {
-                seenIds.add(item.getId());
-                uniqueItems.add(item);
-            }
-        }
-
-        uniqueItems.sort(new Comparator<Item>() {
+        TreeSet<Item> sortedUniqueItems = new TreeSet<>(new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
-                return o1.getId().compareTo(o2.getId());
+                return Integer.compare(Integer.parseInt(o1.getId()), Integer.parseInt(o2.getId()));
             }
         });
-        return uniqueItems;
+
+        sortedUniqueItems.addAll(items);
+        return new ArrayList<>(sortedUniqueItems);
     }
 
     /**
