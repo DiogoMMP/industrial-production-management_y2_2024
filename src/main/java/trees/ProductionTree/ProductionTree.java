@@ -582,12 +582,12 @@ public class ProductionTree {
      *
      * @return a map containing the total quantity of materials and time needed
      */
-    public Map<String, Object> calculateTotalMaterialsAndOperations(TreeNode<String> root) {
+    public Map<String, Map<String,BigDecimal>> calculateTotalMaterialsAndOperations(TreeNode<String> root) {
         Map<String, BigDecimal> materialQuantities = new HashMap<>();
         Map<String, BigDecimal> operationTimes = new HashMap<>();
         calculateTotals(materialQuantities, operationTimes, root);
 
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Map<String,BigDecimal>> result = new HashMap<>();
         result.put("materialQuantities", materialQuantities);
         result.put("operationTimes", operationTimes);
         return result;

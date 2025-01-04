@@ -86,9 +86,9 @@ class ProductionTreeTest {
         String mainObjectiveID = "1006";
         productionTree.buildProductionTree(mainObjectiveID);
 
-        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
+        Map<String, Map<String, BigDecimal>> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
 
-        Map<String, BigDecimal> materialQuantities = (Map<String, BigDecimal>) totals.get("materialQuantities");
+        Map<String, BigDecimal> materialQuantities = totals.get("materialQuantities");
 
         // Verify specific raw materials
         assertTrue(materialQuantities.containsKey("wood 3cm"), "Should contain wood 3cm");

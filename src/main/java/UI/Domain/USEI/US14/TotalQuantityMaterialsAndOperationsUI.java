@@ -42,11 +42,11 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
      * Method to show the total quantity of materials and operations.
      */
     private void showTotalQuantityMaterialsAndOperations() {
-        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
+        Map<String, Map<String,BigDecimal>> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
         BigDecimal totalMaterialQuantity = BigDecimal.ZERO;
         BigDecimal totalOperationQuantity = BigDecimal.ZERO;
 
-        for (Map.Entry<String, Object> entry : totals.entrySet()) {
+        for (Map.Entry<String, Map<String,BigDecimal>> entry : totals.entrySet()) {
             if (entry.getKey().equals("materialQuantities")) {
 
                 System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
@@ -55,11 +55,11 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
                 System.out.printf(Utils.BOLD + "%-30s | %-10s%n", "Material", "Quantity");
                 System.out.println("--------------------------------------------" + Utils.RESET);
 
-                Map<String, Double> materialQuantities = (Map<String, Double>) entry.getValue();
+                Map<String, BigDecimal> materialQuantities =  entry.getValue();
 
-                for (Map.Entry<String, Double> materialEntry : materialQuantities.entrySet()) {
+                for (Map.Entry<String, BigDecimal> materialEntry : materialQuantities.entrySet()) {
                     System.out.printf("%-30s  %.4f%n", materialEntry.getKey(), materialEntry.getValue());
-                    totalMaterialQuantity = totalMaterialQuantity.add(BigDecimal.valueOf(materialEntry.getValue()));
+                    totalMaterialQuantity = totalMaterialQuantity.add(materialEntry.getValue());
                 }
 
                 System.out.println("--------------------------------------------");
@@ -73,11 +73,11 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
                 System.out.printf(Utils.BOLD + "%-30s | %-10s%n", "Operation", "Quantity");
                 System.out.println("--------------------------------------------" + Utils.RESET);
 
-                Map<String, Double> operationTimes = (Map<String, Double>) entry.getValue();
+                Map<String, BigDecimal> operationTimes = entry.getValue();
 
-                for (Map.Entry<String, Double> operationEntry : operationTimes.entrySet()) {
+                for (Map.Entry<String, BigDecimal> operationEntry : operationTimes.entrySet()) {
                     System.out.printf("%-30s  %.4f%n", operationEntry.getKey(), operationEntry.getValue());
-                    totalOperationQuantity = totalOperationQuantity.add(BigDecimal.valueOf(operationEntry.getValue()));
+                    totalOperationQuantity = totalOperationQuantity.add(operationEntry.getValue());
                 }
 
                 System.out.println("--------------------------------------------");
@@ -90,7 +90,7 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
      * Method to show the total quantity of operations.
      */
     private void showTotalQuantityOperations() {
-        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
+        Map<String, Map<String,BigDecimal>> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
         BigDecimal totalOperationQuantity = BigDecimal.ZERO;
 
         // Cabeçalho da tabela
@@ -100,12 +100,12 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
         System.out.printf(Utils.BOLD + "%-30s | %-10s%n", "Operation", "Quantity");
         System.out.println("--------------------------------------------" + Utils.RESET);
 
-        for (Map.Entry<String, Object> entry : totals.entrySet()) {
+        for (Map.Entry<String, Map<String, BigDecimal>> entry : totals.entrySet()) {
             if (entry.getKey().equals("operationTimes")) {
-                Map<String, Double> operationTimes = (Map<String, Double>) entry.getValue();
-                for (Map.Entry<String, Double> operationEntry : operationTimes.entrySet()) {
+                Map<String, BigDecimal> operationTimes = entry.getValue();
+                for (Map.Entry<String, BigDecimal> operationEntry : operationTimes.entrySet()) {
                     System.out.printf("%-30s  %.4f%n", operationEntry.getKey(), operationEntry.getValue());
-                    totalOperationQuantity = totalOperationQuantity.add(BigDecimal.valueOf(operationEntry.getValue()));
+                    totalOperationQuantity = totalOperationQuantity.add(operationEntry.getValue());
                 }
 
                 System.out.println("--------------------------------------------");
@@ -119,7 +119,7 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
      * Method to show the total quantity of materials.
      */
     private void showTotalQuantityMaterials() {
-        Map<String, Object> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
+        Map<String, Map<String,BigDecimal>> totals = productionTree.calculateTotalMaterialsAndOperations(productionTree.getRoot());
         BigDecimal totalMaterialQuantity = BigDecimal.ZERO;
 
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
@@ -128,12 +128,12 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
         System.out.printf(Utils.BOLD + "%-30s | %-10s%n", "Material", "Quantity");
         System.out.println("--------------------------------------------" + Utils.RESET);
 
-        for (Map.Entry<String, Object> entry : totals.entrySet()) {
+        for (Map.Entry<String, Map<String,BigDecimal>> entry : totals.entrySet()) {
             if (entry.getKey().equals("materialQuantities")) {
-                Map<String, Double> materialQuantities = (Map<String, Double>) entry.getValue();
-                for (Map.Entry<String, Double> materialEntry : materialQuantities.entrySet()) {
+                Map<String, BigDecimal> materialQuantities = entry.getValue();
+                for (Map.Entry<String, BigDecimal> materialEntry : materialQuantities.entrySet()) {
                     System.out.printf("%-30s  %.4f%n", materialEntry.getKey(), materialEntry.getValue());
-                    totalMaterialQuantity = totalMaterialQuantity.add(BigDecimal.valueOf(materialEntry.getValue()));
+                    totalMaterialQuantity = totalMaterialQuantity.add(materialEntry.getValue());
                 }
 
                 System.out.println("--------------------------------------------");
