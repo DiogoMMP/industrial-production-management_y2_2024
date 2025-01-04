@@ -159,6 +159,7 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
         strcpy(new_machine.name, name_buffer);
 
         // Set default values
+        new_machine.state = strdup("OFF"); // Set default state to "OFF"
         new_machine.buffer_size = 100; // For example
         new_machine.buffer_count = 0;  // Initialize buffer count
         new_machine.median_window = 10; // For example
