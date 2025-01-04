@@ -52,7 +52,7 @@ public class SearchOperationUI implements Runnable {
                     "--- Choose the Operation to Search ------------\n" + Utils.RESET);
 
             if (option == -2) {
-                break;
+                new SearchOperationUI().run();
             }
 
             if ((option >= 0) && (option < options.size())) {
@@ -68,8 +68,10 @@ public class SearchOperationUI implements Runnable {
     }
 
     private void searchByName() {
+        clearConsole();
         String name = Utils.readLineFromConsole("Enter the name of the operation: ");
         executeAndPrintSearchByName(name);
+        Utils.goBackAndWait();
     }
 
     private void clearConsole() {

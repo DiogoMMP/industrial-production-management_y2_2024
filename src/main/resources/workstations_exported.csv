@@ -16,6 +16,7 @@ workstation;name_oper;time
 6816;Pot test and packaging;16
 6821;Pan test and packaging;13
 6821;Pot test and packaging;13
+6822;Packaging for large items;12
 7235;Lid handle screw;21
 7236;Lid handle screw;20
 7238;Lid handle screw;19
@@ -41,3 +42,5 @@ workstation;name_oper;time
 9855;Lid pressing;25
 9875;Disc cutting;21
 9886;Disc cutting;20
+9919;Disc cutting;20
+9999;Disc cutting;20

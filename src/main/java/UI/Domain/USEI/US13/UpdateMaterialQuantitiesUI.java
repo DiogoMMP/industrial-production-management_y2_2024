@@ -35,7 +35,6 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
 
             if (option >= 0 && option < options.size()) {
                 options.get(option).run();
-                Utils.goBackAndWait();
             }
         } while (option != -1);
     }

@@ -1,199 +1,313 @@
-<svg width="1731px" height="487px"
- viewBox="0.00 0.00 1730.76 486.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 482.5)">
+<svg width="1081px" height="575px"
+ viewBox="0.00 0.00 1081.19 575.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0.0) translate(4.0 571.0)">
 <title>Operation Structure</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-482.5 1726.76,-482.5 1726.76,4 -4,4"/>
-<!-- Lid polishing -->
+<polygon fill="white" stroke="none" points="-4,4 -4,-571 1077.19,-571 1077.19,4 -4,4"/>
+<!-- varnish bench -->
 <g id="node1" class="node">
-<title>Lid polishing</title>
-<polygon fill="lightcoral" stroke="black" points="1260.14,-478.5 1171.39,-478.5 1171.39,-442.5 1260.14,-442.5 1260.14,-478.5"/>
-<text text-anchor="middle" x="1215.77" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">Lid polishing</text>
+<title>varnish bench</title>
+<polygon fill="lightcoral" stroke="black" points="371.68,-567 279.93,-567 279.93,-531 371.68,-531 371.68,-567"/>
+<text text-anchor="middle" x="325.8" y="-543.95" font-family="Times New Roman,serif" font-size="14.00">varnish bench</text>
 </g>
-<!-- Pro 20 lid -->
+<!-- finished bench -->
 <g id="node2" class="node">
-<title>Pro 20 lid</title>
-<ellipse fill="lightgreen" stroke="black" cx="1094.77" cy="-372" rx="47.77" ry="18"/>
-<text text-anchor="middle" x="1094.77" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">Pro 20 lid</text>
+<title>finished bench</title>
+<ellipse fill="lightgreen" stroke="black" cx="191.8" cy="-460.5" rx="65.17" ry="18"/>
+<text text-anchor="middle" x="191.8" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">finished bench</text>
 </g>
-<!-- Lid polishing&#45;&#45;Pro 20 lid -->
+<!-- varnish bench&#45;&#45;finished bench -->
 <g id="edge1" class="edge">
-<title>Lid polishing&#45;&#45;Pro 20 lid</title>
-<path fill="none" stroke="black" d="M1191.57,-442.2C1169.5,-426.43 1137.2,-403.34 1116.09,-388.24"/>
-<text text-anchor="middle" x="1179.98" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
+<title>varnish bench&#45;&#45;finished bench</title>
+<path fill="none" stroke="black" d="M299.01,-530.7C275.02,-515.22 240.14,-492.7 216.74,-477.6"/>
+<text text-anchor="middle" x="274.18" y="-499.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- Lid handle screw -->
+<!-- assemble bench -->
 <g id="node3" class="node">
-<title>Lid handle screw</title>
-<polygon fill="lightcoral" stroke="black" points="1270.64,-390 1160.89,-390 1160.89,-354 1270.64,-354 1270.64,-390"/>
-<text text-anchor="middle" x="1215.77" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">Lid handle screw</text>
+<title>assemble bench</title>
+<polygon fill="lightcoral" stroke="black" points="376.93,-478.5 274.68,-478.5 274.68,-442.5 376.93,-442.5 376.93,-478.5"/>
+<text text-anchor="middle" x="325.8" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">assemble bench</text>
 </g>
-<!-- Lid polishing&#45;&#45;Lid handle screw -->
+<!-- varnish bench&#45;&#45;assemble bench -->
 <g id="edge2" class="edge">
-<title>Lid polishing&#45;&#45;Lid handle screw</title>
-<path fill="none" stroke="black" d="M1215.77,-442.41C1215.77,-427.34 1215.77,-405.49 1215.77,-390.35"/>
-<text text-anchor="middle" x="1219.14" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>varnish bench&#45;&#45;assemble bench</title>
+<path fill="none" stroke="black" d="M325.8,-530.91C325.8,-515.84 325.8,-493.99 325.8,-478.85"/>
+<text text-anchor="middle" x="329.18" y="-499.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- 200 mm lid with handle -->
-<g id="node4" class="node">
-<title>200 mm lid with handle</title>
-<ellipse fill="lightblue" stroke="black" cx="1621.77" cy="-283.5" rx="101" ry="18"/>
-<text text-anchor="middle" x="1621.77" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">200 mm lid with handle</text>
+<!-- varnish -->
+<g id="node26" class="node">
+<title>varnish</title>
+<polygon fill="lightyellow" stroke="black" points="482.73,-460.5 460.77,-478.5 416.84,-478.5 394.87,-460.5 416.84,-442.5 460.77,-442.5 482.73,-460.5"/>
+<text text-anchor="middle" x="438.8" y="-455.45" font-family="Times New Roman,serif" font-size="14.00">varnish</text>
 </g>
-<!-- Lid polishing&#45;&#45;200 mm lid with handle -->
+<!-- varnish bench&#45;&#45;varnish -->
 <g id="edge3" class="edge">
-<title>Lid polishing&#45;&#45;200 mm lid with handle</title>
-<path fill="none" stroke="black" d="M1256.18,-442.08C1335,-408.1 1508.22,-333.44 1584.47,-300.57"/>
-<text text-anchor="middle" x="1473" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
+<title>varnish bench&#45;&#45;varnish</title>
+<path fill="none" stroke="black" d="M348.4,-530.7C368.23,-515.52 396.92,-493.56 416.63,-478.47"/>
+<text text-anchor="middle" x="407.8" y="-499.7" font-family="Times New Roman,serif" font-size="14.00">0,125</text>
 </g>
-<!-- Lid handle screw&#45;&#45;200 mm lid with handle -->
+<!-- raw bench -->
+<g id="node4" class="node">
+<title>raw bench</title>
+<ellipse fill="lightblue" stroke="black" cx="208.8" cy="-372" rx="49.3" ry="18"/>
+<text text-anchor="middle" x="208.8" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">raw bench</text>
+</g>
+<!-- assemble bench&#45;&#45;raw bench -->
 <g id="edge4" class="edge">
-<title>Lid handle screw&#45;&#45;200 mm lid with handle</title>
-<path fill="none" stroke="black" d="M1270.94,-359.24C1345.96,-343.26 1479.8,-314.75 1558.7,-297.94"/>
-<text text-anchor="middle" x="1469.01" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
+<title>assemble bench&#45;&#45;raw bench</title>
+<path fill="none" stroke="black" d="M302.4,-442.2C281.2,-426.53 250.23,-403.63 229.8,-388.52"/>
+<text text-anchor="middle" x="281.15" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- Lid finishing -->
+<!-- fix nut M16 21 -->
 <g id="node5" class="node">
-<title>Lid finishing</title>
-<polygon fill="lightcoral" stroke="black" points="895.02,-301.5 808.52,-301.5 808.52,-265.5 895.02,-265.5 895.02,-301.5"/>
-<text text-anchor="middle" x="851.77" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">Lid finishing</text>
+<title>fix nut M16 21</title>
+<polygon fill="lightcoral" stroke="black" points="375.43,-390 276.18,-390 276.18,-354 375.43,-354 375.43,-390"/>
+<text text-anchor="middle" x="325.8" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">fix nut M16 21</text>
 </g>
-<!-- Lid handle screw&#45;&#45;Lid finishing -->
+<!-- assemble bench&#45;&#45;fix nut M16 21 -->
 <g id="edge5" class="edge">
-<title>Lid handle screw&#45;&#45;Lid finishing</title>
-<path fill="none" stroke="black" d="M1160.4,-355.64C1157.49,-355.04 1154.6,-354.48 1151.77,-354 1051.68,-336.9 1019.43,-370.73 924.02,-336 903.61,-328.57 883.76,-313.7 870.05,-301.84"/>
-<text text-anchor="middle" x="927.39" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>assemble bench&#45;&#45;fix nut M16 21</title>
+<path fill="none" stroke="black" d="M325.8,-442.41C325.8,-427.34 325.8,-405.49 325.8,-390.35"/>
+<text text-anchor="middle" x="329.18" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- 200 mm lid polished -->
-<g id="node6" class="node">
-<title>200 mm lid polished</title>
-<ellipse fill="lightblue" stroke="black" cx="958.77" cy="-195" rx="88.71" ry="18"/>
-<text text-anchor="middle" x="958.77" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">200 mm lid polished</text>
+<!-- fix bolt M16 22 -->
+<g id="node16" class="node">
+<title>fix bolt M16 22</title>
+<polygon fill="lightcoral" stroke="black" points="670.3,-390 567.3,-390 567.3,-354 670.3,-354 670.3,-390"/>
+<text text-anchor="middle" x="618.8" y="-366.95" font-family="Times New Roman,serif" font-size="14.00">fix bolt M16 22</text>
 </g>
-<!-- Lid handle screw&#45;&#45;200 mm lid polished -->
+<!-- assemble bench&#45;&#45;fix bolt M16 22 -->
 <g id="edge6" class="edge">
-<title>Lid handle screw&#45;&#45;200 mm lid polished</title>
-<path fill="none" stroke="black" d="M1160.58,-356.35C1083.78,-335.96 954.02,-301.5 954.02,-301.5 934.45,-276.07 943.86,-236.11 951.77,-213.36"/>
-<text text-anchor="middle" x="967.89" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
+<title>assemble bench&#45;&#45;fix bolt M16 22</title>
+<path fill="none" stroke="black" d="M377.17,-444.33C430.51,-428.59 513.49,-404.09 566.99,-388.29"/>
+<text text-anchor="middle" x="501.92" y="-411.2" font-family="Times New Roman,serif" font-size="14.00">4</text>
 </g>
-<!-- Screw M6 35 mm -->
-<g id="node13" class="node">
-<title>Screw M6 35 mm</title>
-<polygon fill="lightyellow" stroke="black" points="1174.57,-283.5 1128.67,-301.5 1036.87,-301.5 990.97,-283.5 1036.87,-265.5 1128.67,-265.5 1174.57,-283.5"/>
-<text text-anchor="middle" x="1082.77" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">Screw M6 35 mm</text>
+<!-- bench seat wnut -->
+<g id="node6" class="node">
+<title>bench seat wnut</title>
+<ellipse fill="lightblue" stroke="black" cx="70.8" cy="-283.5" rx="70.8" ry="18"/>
+<text text-anchor="middle" x="70.8" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">bench seat wnut</text>
 </g>
-<!-- Lid handle screw&#45;&#45;Screw M6 35 mm -->
+<!-- fix nut M16 21&#45;&#45;bench seat wnut -->
 <g id="edge7" class="edge">
-<title>Lid handle screw&#45;&#45;Screw M6 35 mm</title>
-<path fill="none" stroke="black" d="M1189.17,-353.7C1165.97,-338.62 1132.5,-316.84 1109.32,-301.77"/>
-<text text-anchor="middle" x="1175.05" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">3unit</text>
+<title>fix nut M16 21&#45;&#45;bench seat wnut</title>
+<path fill="none" stroke="black" d="M275.72,-354.01C227.86,-337.78 156.57,-313.59 111.93,-298.45"/>
+<text text-anchor="middle" x="224.51" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- Stainless steel handle model R11 -->
-<g id="node14" class="node">
-<title>Stainless steel handle model R11</title>
-<polygon fill="lightyellow" stroke="black" points="1502.8,-283.5 1425.28,-301.5 1270.25,-301.5 1192.73,-283.5 1270.25,-265.5 1425.28,-265.5 1502.8,-283.5"/>
-<text text-anchor="middle" x="1347.77" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">Stainless steel handle model R11</text>
-</g>
-<!-- Lid handle screw&#45;&#45;Stainless steel handle model R11 -->
-<g id="edge8" class="edge">
-<title>Lid handle screw&#45;&#45;Stainless steel handle model R11</title>
-<path fill="none" stroke="black" d="M1242.16,-353.7C1265.18,-338.62 1298.41,-316.84 1321.42,-301.77"/>
-<text text-anchor="middle" x="1307.46" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
-</g>
-<!-- Lid finishing&#45;&#45;200 mm lid polished -->
-<g id="edge9" class="edge">
-<title>Lid finishing&#45;&#45;200 mm lid polished</title>
-<path fill="none" stroke="black" d="M867.04,-265.27C876.79,-254.76 890.01,-241.39 903.02,-231 911.32,-224.36 920.95,-217.93 929.84,-212.43"/>
-<text text-anchor="middle" x="916.89" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
-</g>
-<!-- Lid pressing -->
+<!-- drill bench seat -->
 <g id="node7" class="node">
-<title>Lid pressing</title>
-<polygon fill="lightcoral" stroke="black" points="633.52,-213 550.02,-213 550.02,-177 633.52,-177 633.52,-213"/>
-<text text-anchor="middle" x="591.77" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">Lid pressing</text>
+<title>drill bench seat</title>
+<polygon fill="lightcoral" stroke="black" points="258.43,-301.5 159.18,-301.5 159.18,-265.5 258.43,-265.5 258.43,-301.5"/>
+<text text-anchor="middle" x="208.8" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">drill bench seat</text>
 </g>
-<!-- Lid finishing&#45;&#45;Lid pressing -->
+<!-- fix nut M16 21&#45;&#45;drill bench seat -->
+<g id="edge8" class="edge">
+<title>fix nut M16 21&#45;&#45;drill bench seat</title>
+<path fill="none" stroke="black" d="M302.4,-353.7C282,-338.62 252.55,-316.84 232.16,-301.77"/>
+<text text-anchor="middle" x="281.15" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- nut M16 -->
+<g id="node14" class="node">
+<title>nut M16</title>
+<polygon fill="lightyellow" stroke="black" points="375.64,-283.5 350.72,-301.5 300.88,-301.5 275.96,-283.5 300.88,-265.5 350.72,-265.5 375.64,-283.5"/>
+<text text-anchor="middle" x="325.8" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">nut M16</text>
+</g>
+<!-- fix nut M16 21&#45;&#45;nut M16 -->
+<g id="edge9" class="edge">
+<title>fix nut M16 21&#45;&#45;nut M16</title>
+<path fill="none" stroke="black" d="M325.8,-353.91C325.8,-338.84 325.8,-316.99 325.8,-301.85"/>
+<text text-anchor="middle" x="329.18" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">4</text>
+</g>
+<!-- bolt M6 -->
+<g id="node15" class="node">
+<title>bolt M6</title>
+<polygon fill="lightyellow" stroke="black" points="488.28,-283.5 464.54,-301.5 417.06,-301.5 393.32,-283.5 417.06,-265.5 464.54,-265.5 488.28,-283.5"/>
+<text text-anchor="middle" x="440.8" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">bolt M6</text>
+</g>
+<!-- fix nut M16 21&#45;&#45;bolt M6 -->
 <g id="edge10" class="edge">
-<title>Lid finishing&#45;&#45;Lid pressing</title>
-<path fill="none" stroke="black" d="M808.25,-268.02C759.68,-251.86 681.62,-225.89 633.7,-209.95"/>
-<text text-anchor="middle" x="748.43" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<title>fix nut M16 21&#45;&#45;bolt M6</title>
+<path fill="none" stroke="black" d="M348.8,-353.7C368.85,-338.62 397.8,-316.84 417.84,-301.77"/>
+<text text-anchor="middle" x="400.35" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">12</text>
 </g>
-<!-- 200 mm lid pressed -->
+<!-- bench seat wholes -->
 <g id="node8" class="node">
-<title>200 mm lid pressed</title>
-<ellipse fill="lightblue" stroke="black" cx="851.77" cy="-106.5" rx="85.13" ry="18"/>
-<text text-anchor="middle" x="851.77" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">200 mm lid pressed</text>
+<title>bench seat wholes</title>
+<ellipse fill="lightblue" stroke="black" cx="163.8" cy="-195" rx="78.48" ry="18"/>
+<text text-anchor="middle" x="163.8" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">bench seat wholes</text>
 </g>
-<!-- Lid finishing&#45;&#45;200 mm lid pressed -->
+<!-- drill bench seat&#45;&#45;bench seat wholes -->
 <g id="edge11" class="edge">
-<title>Lid finishing&#45;&#45;200 mm lid pressed</title>
-<path fill="none" stroke="black" d="M845.68,-265.05C841.17,-251.15 835.41,-231.09 833.02,-213 830.91,-197.14 830.91,-192.86 833.02,-177 835.41,-158.91 841.17,-138.85 845.68,-124.95"/>
-<text text-anchor="middle" x="846.89" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
+<title>drill bench seat&#45;&#45;bench seat wholes</title>
+<path fill="none" stroke="black" d="M199.91,-265.41C192.07,-250.34 180.7,-228.49 172.83,-213.35"/>
+<text text-anchor="middle" x="193.71" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- Lid pressing&#45;&#45;200 mm lid pressed -->
-<g id="edge12" class="edge">
-<title>Lid pressing&#45;&#45;200 mm lid pressed</title>
-<path fill="none" stroke="black" d="M633.83,-180.01C681.54,-164.13 759.02,-138.36 807.59,-122.2"/>
-<text text-anchor="middle" x="758.93" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
-</g>
-<!-- Disc cutting -->
+<!-- polish bench seat -->
 <g id="node9" class="node">
-<title>Disc cutting</title>
-<polygon fill="lightcoral" stroke="black" points="487.77,-124.5 405.77,-124.5 405.77,-88.5 487.77,-88.5 487.77,-124.5"/>
-<text text-anchor="middle" x="446.77" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">Disc cutting</text>
+<title>polish bench seat</title>
+<polygon fill="lightcoral" stroke="black" points="369.68,-213 259.93,-213 259.93,-177 369.68,-177 369.68,-213"/>
+<text text-anchor="middle" x="314.8" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">polish bench seat</text>
 </g>
-<!-- Lid pressing&#45;&#45;Disc cutting -->
-<g id="edge13" class="edge">
-<title>Lid pressing&#45;&#45;Disc cutting</title>
-<path fill="none" stroke="black" d="M549.6,-191.58C523.01,-187.98 489.55,-179.36 467.02,-159 457.18,-150.11 452.06,-135.84 449.44,-124.57"/>
-<text text-anchor="middle" x="470.39" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+<!-- drill bench seat&#45;&#45;polish bench seat -->
+<g id="edge12" class="edge">
+<title>drill bench seat&#45;&#45;polish bench seat</title>
+<path fill="none" stroke="black" d="M230,-265.2C248.48,-250.12 275.16,-228.34 293.64,-213.27"/>
+<text text-anchor="middle" x="274.67" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- Lid pressing&#45;&#45;Disc cutting -->
-<g id="edge14" class="edge">
-<title>Lid pressing&#45;&#45;Disc cutting</title>
-<path fill="none" stroke="black" d="M549.61,-180.96C534.34,-175.33 517.34,-167.95 503.02,-159 487.75,-149.46 472.82,-135.52 462.19,-124.55"/>
-<text text-anchor="middle" x="506.39" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
-</g>
-<!-- 250 mm 1 mm stailess steel disc -->
+<!-- polished bench seat -->
 <g id="node10" class="node">
-<title>250 mm 1 mm stailess steel disc</title>
-<ellipse fill="lightblue" stroke="black" cx="523.77" cy="-18" rx="133.75" ry="18"/>
-<text text-anchor="middle" x="523.77" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">250 mm 1 mm stailess steel disc</text>
+<title>polished bench seat</title>
+<ellipse fill="lightblue" stroke="black" cx="269.8" cy="-106.5" rx="83.6" ry="18"/>
+<text text-anchor="middle" x="269.8" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">polished bench seat</text>
 </g>
-<!-- Lid pressing&#45;&#45;250 mm 1 mm stailess steel disc -->
-<g id="edge15" class="edge">
-<title>Lid pressing&#45;&#45;250 mm 1 mm stailess steel disc</title>
-<path fill="none" stroke="black" d="M571.75,-176.7C558.29,-163.79 541.52,-144.92 533.02,-124.5 520.86,-95.31 520.86,-57.72 522.17,-36.19"/>
-<text text-anchor="middle" x="546.89" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
+<!-- polish bench seat&#45;&#45;polished bench seat -->
+<g id="edge13" class="edge">
+<title>polish bench seat&#45;&#45;polished bench seat</title>
+<path fill="none" stroke="black" d="M305.91,-176.91C298.07,-161.84 286.7,-139.99 278.83,-124.85"/>
+<text text-anchor="middle" x="299.71" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
 </g>
-<!-- Coo lube 2210XP -->
-<g id="node12" class="node">
-<title>Coo lube 2210XP</title>
-<polygon fill="lightyellow" stroke="black" points="748.2,-106.5 703.48,-124.5 614.05,-124.5 569.33,-106.5 614.05,-88.5 703.48,-88.5 748.2,-106.5"/>
-<text text-anchor="middle" x="658.77" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">Coo lube 2210XP</text>
-</g>
-<!-- Lid pressing&#45;&#45;Coo lube 2210XP -->
-<g id="edge16" class="edge">
-<title>Lid pressing&#45;&#45;Coo lube 2210XP</title>
-<path fill="none" stroke="black" d="M605,-176.91C616.67,-161.84 633.6,-139.99 645.33,-124.85"/>
-<text text-anchor="middle" x="642.14" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">5ml</text>
-</g>
-<!-- Disc cutting&#45;&#45;250 mm 1 mm stailess steel disc -->
-<g id="edge17" class="edge">
-<title>Disc cutting&#45;&#45;250 mm 1 mm stailess steel disc</title>
-<path fill="none" stroke="black" d="M456.8,-88.41C463.34,-77.95 472.41,-64.59 482.02,-54 487.74,-47.69 494.59,-41.5 501.08,-36.11"/>
-<text text-anchor="middle" x="495.89" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
-</g>
-<!-- 300x300 mm 1 mm stainless steel sheet -->
+<!-- cut bench seat -->
 <g id="node11" class="node">
-<title>300x300 mm 1 mm stainless steel sheet</title>
-<polygon fill="lightyellow" stroke="black" points="371.53,-18 278.65,-36 92.88,-36 0,-18 92.88,0 278.65,0 371.53,-18"/>
-<text text-anchor="middle" x="185.77" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">300x300 mm 1 mm stainless steel sheet</text>
+<title>cut bench seat</title>
+<polygon fill="lightcoral" stroke="black" points="464.43,-124.5 371.18,-124.5 371.18,-88.5 464.43,-88.5 464.43,-124.5"/>
+<text text-anchor="middle" x="417.8" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">cut bench seat</text>
 </g>
-<!-- Disc cutting&#45;&#45;300x300 mm 1 mm stainless steel sheet -->
+<!-- polish bench seat&#45;&#45;cut bench seat -->
+<g id="edge14" class="edge">
+<title>polish bench seat&#45;&#45;cut bench seat</title>
+<path fill="none" stroke="black" d="M335.15,-176.91C353.09,-161.84 379.11,-139.99 397.14,-124.85"/>
+<text text-anchor="middle" x="378.9" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- raw bench seat -->
+<g id="node12" class="node">
+<title>raw bench seat</title>
+<ellipse fill="lightblue" stroke="black" cx="330.8" cy="-18" rx="66.19" ry="18"/>
+<text text-anchor="middle" x="330.8" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">raw bench seat</text>
+</g>
+<!-- cut bench seat&#45;&#45;raw bench seat -->
+<g id="edge15" class="edge">
+<title>cut bench seat&#45;&#45;raw bench seat</title>
+<path fill="none" stroke="black" d="M400.61,-88.41C385.26,-73.15 362.91,-50.92 347.66,-35.76"/>
+<text text-anchor="middle" x="385.47" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- wood 3cm -->
+<g id="node13" class="node">
+<title>wood 3cm</title>
+<polygon fill="lightyellow" stroke="black" points="530.91,-18 501.86,-36 443.74,-36 414.69,-18 443.74,0 501.86,0 530.91,-18"/>
+<text text-anchor="middle" x="472.8" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">wood 3cm</text>
+</g>
+<!-- cut bench seat&#45;&#45;wood 3cm -->
+<g id="edge16" class="edge">
+<title>cut bench seat&#45;&#45;wood 3cm</title>
+<path fill="none" stroke="black" d="M428.67,-88.41C438.25,-73.34 452.14,-51.49 461.77,-36.35"/>
+<text text-anchor="middle" x="468.98" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">0,0576</text>
+</g>
+<!-- bench leg wbolt -->
+<g id="node17" class="node">
+<title>bench leg wbolt</title>
+<ellipse fill="lightblue" stroke="black" cx="576.8" cy="-283.5" rx="70.29" ry="18"/>
+<text text-anchor="middle" x="576.8" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">bench leg wbolt</text>
+</g>
+<!-- fix bolt M16 22&#45;&#45;bench leg wbolt -->
+<g id="edge17" class="edge">
+<title>fix bolt M16 22&#45;&#45;bench leg wbolt</title>
+<path fill="none" stroke="black" d="M610.5,-353.91C603.19,-338.84 592.58,-316.99 585.22,-301.85"/>
+<text text-anchor="middle" x="604.94" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- drill bench leg -->
+<g id="node18" class="node">
+<title>drill bench leg</title>
+<polygon fill="lightcoral" stroke="black" points="760.18,-301.5 665.43,-301.5 665.43,-265.5 760.18,-265.5 760.18,-301.5"/>
+<text text-anchor="middle" x="712.8" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">drill bench leg</text>
+</g>
+<!-- fix bolt M16 22&#45;&#45;drill bench leg -->
 <g id="edge18" class="edge">
-<title>Disc cutting&#45;&#45;300x300 mm 1 mm stainless steel sheet</title>
-<path fill="none" stroke="black" d="M405.41,-91.79C360.13,-76.79 287.43,-52.69 238.19,-36.37"/>
-<text text-anchor="middle" x="353.52" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">1unit</text>
+<title>fix bolt M16 22&#45;&#45;drill bench leg</title>
+<path fill="none" stroke="black" d="M637.37,-353.91C653.74,-338.84 677.49,-316.99 693.95,-301.85"/>
+<text text-anchor="middle" x="677.59" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- threaded rod M16 -->
+<g id="node25" class="node">
+<title>threaded rod M16</title>
+<polygon fill="lightyellow" stroke="black" points="957.83,-283.5 912.81,-301.5 822.79,-301.5 777.77,-283.5 822.79,-265.5 912.81,-265.5 957.83,-283.5"/>
+<text text-anchor="middle" x="867.8" y="-278.45" font-family="Times New Roman,serif" font-size="14.00">threaded rod M16</text>
+</g>
+<!-- fix bolt M16 22&#45;&#45;threaded rod M16 -->
+<g id="edge19" class="edge">
+<title>fix bolt M16 22&#45;&#45;threaded rod M16</title>
+<path fill="none" stroke="black" d="M668.89,-353.6C713.06,-338.26 776.96,-316.06 820.32,-300.99"/>
+<text text-anchor="middle" x="768.98" y="-322.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- bench leg &#160;whole -->
+<g id="node19" class="node">
+<title>bench leg &#160;whole</title>
+<ellipse fill="lightblue" stroke="black" cx="668.8" cy="-195" rx="74.38" ry="18"/>
+<text text-anchor="middle" x="668.8" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">bench leg &#160;whole</text>
+</g>
+<!-- drill bench leg&#45;&#45;bench leg &#160;whole -->
+<g id="edge20" class="edge">
+<title>drill bench leg&#45;&#45;bench leg &#160;whole</title>
+<path fill="none" stroke="black" d="M704.11,-265.41C696.44,-250.34 685.33,-228.49 677.63,-213.35"/>
+<text text-anchor="middle" x="698.12" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- polish bench leg -->
+<g id="node20" class="node">
+<title>polish bench leg</title>
+<polygon fill="lightcoral" stroke="black" points="866.43,-213 761.18,-213 761.18,-177 866.43,-177 866.43,-213"/>
+<text text-anchor="middle" x="813.8" y="-189.95" font-family="Times New Roman,serif" font-size="14.00">polish bench leg</text>
+</g>
+<!-- drill bench leg&#45;&#45;polish bench leg -->
+<g id="edge21" class="edge">
+<title>drill bench leg&#45;&#45;polish bench leg</title>
+<path fill="none" stroke="black" d="M732.75,-265.41C750.35,-250.34 775.86,-228.49 793.54,-213.35"/>
+<text text-anchor="middle" x="775.72" y="-234.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- polished bench leg -->
+<g id="node21" class="node">
+<title>polished bench leg</title>
+<ellipse fill="lightblue" stroke="black" cx="770.8" cy="-106.5" rx="80.52" ry="18"/>
+<text text-anchor="middle" x="770.8" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">polished bench leg</text>
+</g>
+<!-- polish bench leg&#45;&#45;polished bench leg -->
+<g id="edge22" class="edge">
+<title>polish bench leg&#45;&#45;polished bench leg</title>
+<path fill="none" stroke="black" d="M805.3,-176.91C797.82,-161.84 786.95,-139.99 779.43,-124.85"/>
+<text text-anchor="middle" x="799.53" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- cut bench leg -->
+<g id="node22" class="node">
+<title>cut bench leg</title>
+<polygon fill="lightcoral" stroke="black" points="958.18,-124.5 869.43,-124.5 869.43,-88.5 958.18,-88.5 958.18,-124.5"/>
+<text text-anchor="middle" x="913.8" y="-101.45" font-family="Times New Roman,serif" font-size="14.00">cut bench leg</text>
+</g>
+<!-- polish bench leg&#45;&#45;cut bench leg -->
+<g id="edge23" class="edge">
+<title>polish bench leg&#45;&#45;cut bench leg</title>
+<path fill="none" stroke="black" d="M833.56,-176.91C850.97,-161.84 876.23,-139.99 893.74,-124.85"/>
+<text text-anchor="middle" x="876.13" y="-145.7" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- raw bench leg -->
+<g id="node23" class="node">
+<title>raw bench leg</title>
+<ellipse fill="lightblue" stroke="black" cx="832.8" cy="-18" rx="63.12" ry="18"/>
+<text text-anchor="middle" x="832.8" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">raw bench leg</text>
+</g>
+<!-- cut bench leg&#45;&#45;raw bench leg -->
+<g id="edge24" class="edge">
+<title>cut bench leg&#45;&#45;raw bench leg</title>
+<path fill="none" stroke="black" d="M897.8,-88.41C883.5,-73.15 862.69,-50.92 848.49,-35.76"/>
+<text text-anchor="middle" x="883.93" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">1</text>
+</g>
+<!-- wood pole 4cm -->
+<g id="node24" class="node">
+<title>wood pole 4cm</title>
+<polygon fill="lightyellow" stroke="black" points="1073.19,-18 1033.49,-36 954.11,-36 914.41,-18 954.11,0 1033.49,0 1073.19,-18"/>
+<text text-anchor="middle" x="993.8" y="-12.95" font-family="Times New Roman,serif" font-size="14.00">wood pole 4cm</text>
+</g>
+<!-- cut bench leg&#45;&#45;wood pole 4cm -->
+<g id="edge25" class="edge">
+<title>cut bench leg&#45;&#45;wood pole 4cm</title>
+<path fill="none" stroke="black" d="M929.61,-88.41C943.54,-73.34 963.75,-51.49 977.75,-36.35"/>
+<text text-anchor="middle" x="972.97" y="-57.2" font-family="Times New Roman,serif" font-size="14.00">0,28</text>
 </g>
 </g>
 </svg>

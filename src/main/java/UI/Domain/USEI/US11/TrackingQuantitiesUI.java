@@ -62,7 +62,7 @@ public class TrackingQuantitiesUI implements Runnable {
             MaterialsBST.insert(materialNames, pair.getValue().doubleValue());
         }
 
-        System.out.println("\n" + Utils.BOLD + Utils.CYAN + "--- Material Quantities in Ascending Order ---\n" + Utils.RESET);
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Material Quantities in Ascending Order ---\n" + Utils.RESET);
         System.out.printf(Utils.BOLD + "%-25s | %-15s%n", "Material", "Quantity");
         System.out.println("--------------------------------------------" + Utils.RESET);
         materialQuantityBST.inorder();
@@ -81,7 +81,7 @@ public class TrackingQuantitiesUI implements Runnable {
             MaterialsBST.insert(materialNames, pair.getValue().doubleValue());
         }
 
-        System.out.println("\n" + Utils.BOLD + Utils.CYAN + "--- Material Quantities in Descending Order ---\n" + Utils.RESET);
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Material Quantities in Descending Order ---\n" + Utils.RESET);
         System.out.printf(Utils.BOLD + "%-25s | %-15s%n", "Material", "Quantity");
         System.out.println("--------------------------------------------" + Utils.RESET);
         materialQuantityBST.reverseInorder();

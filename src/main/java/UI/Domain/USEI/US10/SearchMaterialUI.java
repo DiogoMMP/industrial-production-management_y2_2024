@@ -52,7 +52,7 @@ public class SearchMaterialUI implements Runnable {
                     "--- Choose the Material to Search ------------\n" + Utils.RESET);
 
             if (option == -2) {
-                break;
+                new SearchMaterialUI().run();
             }
 
             if ((option >= 0) && (option < options.size())) {
@@ -68,8 +68,10 @@ public class SearchMaterialUI implements Runnable {
     }
 
     private void searchByName() {
+        clearConsole();
         String name = Utils.readLineFromConsole("Enter the name of the material: ");
         executeAndPrintSearchByName(name);
+        Utils.goBackAndWait();
     }
 
     private void clearConsole() {
