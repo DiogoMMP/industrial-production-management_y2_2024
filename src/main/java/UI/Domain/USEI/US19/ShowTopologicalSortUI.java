@@ -15,7 +15,7 @@ public class ShowTopologicalSortUI implements Runnable {
     public void run() {
         // Retrieve the PERT/CPM instance
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();
-
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Topological Sort ------------\n" + Utils.RESET);
 
         try {

@@ -47,6 +47,7 @@ public class ShowESLFUI implements Runnable {
             if ((option >= 0) && (option < options.size())) {
                 String choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
+                    Utils.clearConsole();
                     show(choice, activitiesPERT_CPM);
                     Utils.goBackAndWait();
                 }

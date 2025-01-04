@@ -15,6 +15,7 @@ public class US24UI implements Runnable {
      */
     @Override
     public void run() {
+        Utils.clearConsole();
         System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Trigger Test UI: Avoid Circular References ---\n" + Utils.RESET);
 
         try (Connection connection = getConnection();

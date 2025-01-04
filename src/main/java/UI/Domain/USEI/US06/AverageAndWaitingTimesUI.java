@@ -12,6 +12,7 @@ public class AverageAndWaitingTimesUI implements Runnable {
     public void run() {
         HashMap<String, Double[]> averageTimes = Item.calculateAvgExecutionAndWaitingTimes();
 
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                 "--- Average Execution and Waiting Times for Each Operation ------------\n" + Utils.RESET);
 

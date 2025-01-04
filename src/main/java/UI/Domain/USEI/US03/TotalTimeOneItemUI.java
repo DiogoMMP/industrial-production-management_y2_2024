@@ -37,7 +37,7 @@ public class TotalTimeOneItemUI implements Runnable {
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
-                    clearConsole();
+                    Utils.clearConsole();
                     show(choice);
                     Utils.goBackAndWait();
                 }
@@ -61,14 +61,6 @@ public class TotalTimeOneItemUI implements Runnable {
 
         sortedUniqueItems.addAll(items);
         return new ArrayList<>(sortedUniqueItems);
-    }
-
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     /**

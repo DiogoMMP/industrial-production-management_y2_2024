@@ -16,6 +16,7 @@ public class US28UI implements Runnable {
      */
     @Override
     public void run() {
+        Utils.clearConsole();
         getReservedMaterials();
         Utils.goBackAndWait();
     }

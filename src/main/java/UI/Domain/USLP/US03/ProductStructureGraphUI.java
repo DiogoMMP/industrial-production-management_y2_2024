@@ -15,12 +15,14 @@ public class ProductStructureGraphUI implements Runnable{
     public void init() throws FileNotFoundException {
         productStructureGraph.generateGraph();
         Utils.openInBrowser(new File(OUTPUT_FILE_PATH));
+        Utils.goBackAndWait();
     }
     @Override
     public void run() {
         boolean success = false;
         while (!success) {
             try {
+                Utils.clearConsole();
                 System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Product Structure Graph ------------\n" + Utils.RESET);
                 init();

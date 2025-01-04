@@ -34,7 +34,7 @@ public class US18UI implements Runnable {
                 if ((option >= 0) && (option < options.size())) {
                     String choice = options.get(option).toString();
                     if (!choice.equals("Back")) {
-                        clearConsole();
+                        Utils.clearConsole();
                         int customerId = Integer.parseInt(choice.split(": ")[1]);
                         deactivateCustomer(customerId);
                         Utils.goBackAndWait();
@@ -69,14 +69,6 @@ public class US18UI implements Runnable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     /**

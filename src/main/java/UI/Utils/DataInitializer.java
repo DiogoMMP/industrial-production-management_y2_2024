@@ -50,6 +50,7 @@ public class DataInitializer implements Runnable {
             boolean success = false;
 
             while (!success) {
+                Utils.clearConsole();
                 System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Choose Your Files --------------------------\n" + Utils.RESET);
                 System.out.println("  1 - Use Default Files");

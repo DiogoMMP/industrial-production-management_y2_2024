@@ -97,6 +97,7 @@ public class US13UI implements Runnable {
                     rows.add(formattedRow);
                 }
 
+                Utils.clearConsole();
                 System.out.println(Utils.BOLD + Utils.CYAN +
                         "\n\n--- Operations Involved in Producing the Product " + productId + " ------------\n" + Utils.RESET);
 

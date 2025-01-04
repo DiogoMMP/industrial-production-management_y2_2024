@@ -21,7 +21,7 @@ public class SimulateProjDelaysUI implements Runnable {
     public void run() {
         // Store original times
         storeOriginalTimes();
-
+        Utils.clearConsole();
         LinkedHashMap<String, Integer> delays = new LinkedHashMap<>();
 
         String choice;

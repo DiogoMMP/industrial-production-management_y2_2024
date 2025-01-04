@@ -91,7 +91,7 @@ public class US6UI implements Runnable {
 
             preparedStatement.setInt(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
+                Utils.clearConsole();
                 System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Workstation Types for Order ID " + orderId + " ------------" + Utils.RESET);
 

@@ -17,7 +17,7 @@ public class US14UI implements Runnable {
      */
     @Override
     public void run() {
-
+        Utils.clearConsole();
         System.out.print(Utils.BOLD + Utils.CYAN +
                 "\n\n --- Product Using All Types of Machines ------------" + Utils.RESET);
 

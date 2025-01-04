@@ -27,6 +27,7 @@ public class US15UI implements Runnable {
             // Load existing IDs into Sets for validation
             Set<Integer> existingWorkstationIds = loadExistingIds(statement, "SELECT Workstation_ID FROM Workstation", "Workstation_ID");
 
+            Utils.clearConsole();
             System.out.println(Utils.BOLD + Utils.CYAN +
                     "\n\n--- Register a Workstation ---------------------------" + Utils.RESET);
 
@@ -165,7 +166,7 @@ public class US15UI implements Runnable {
                 if ((option >= 0) && (option < options.size())) {
                     String choice = options.get(option).toString();
                     if (!choice.equals("Back")) {
-                        clearConsole();
+                        Utils.clearConsole();
                         String plantFloorId = choice.split(": ")[1];
                         return Integer.parseInt(plantFloorId);
                     }
@@ -213,7 +214,7 @@ public class US15UI implements Runnable {
                     String choice = options.get(option).toString();
 
                     if (!choice.equals("Back")) {
-                        clearConsole();
+                        Utils.clearConsole();
                         String workstationTypeId = choice.split(": ")[1];
                         return workstationTypeId;
                     }
@@ -265,13 +266,5 @@ public class US15UI implements Runnable {
 
             callableStatement.execute();
         }
-    }
-
-    /**
-     * This method is used to clear the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

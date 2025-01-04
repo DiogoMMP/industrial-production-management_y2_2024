@@ -14,6 +14,7 @@ public class OperationStructureGraphUI implements Runnable {
     public void init() throws FileNotFoundException {
         operationStructureGraph.generateGraph();
         Utils.openInBrowser(new File(OUTPUT_FILE_PATH));
+        Utils.goBackAndWait();
     }
 
     @Override
@@ -21,6 +22,7 @@ public class OperationStructureGraphUI implements Runnable {
         boolean success = false;
         while (!success) {
             try {
+                Utils.clearConsole();
                 System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Operation Structure Graph ------------\n" + Utils.RESET);
                 init();

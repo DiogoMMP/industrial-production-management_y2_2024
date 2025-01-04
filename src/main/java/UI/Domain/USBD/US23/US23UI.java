@@ -15,6 +15,7 @@ public class US23UI implements Runnable {
      */
     @Override
     public void run() {
+        Utils.clearConsole();
         System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Trigger Test UI: Ensure Operation Time ---\n" + Utils.RESET);
 
         try (Connection connection = getConnection();

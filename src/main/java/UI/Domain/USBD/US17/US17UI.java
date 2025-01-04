@@ -16,6 +16,7 @@ public class US17UI implements Runnable {
      */
     @Override
     public void run() {
+        Utils.clearConsole();
         System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Register Customer Order ------------\n" + Utils.RESET);
 
         try (Connection connection = getConnection()) {
@@ -81,7 +82,7 @@ public class US17UI implements Runnable {
                     String choice = options.get(option).toString();
 
                     if (!choice.equals("Back")) {
-                        clearConsole();
+                        Utils.clearConsole();
                         String customerID = choice.split(": ")[1];
                         return Integer.parseInt(customerID);
                     }
@@ -272,14 +273,6 @@ public class US17UI implements Runnable {
                 System.err.println("Invalid date format. Please use DD-MM-YYYY.\n");
             }
         }
-    }
-
-    /**
-     * Utility method to clear the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
 }

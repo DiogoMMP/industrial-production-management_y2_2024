@@ -61,7 +61,7 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
-                    clearConsole();
+                    Utils.clearConsole();
                     double newQuantity = Utils.readDoubleFromConsole(Utils.BOLD + "Enter the new quantity for " +
                             materialQuantityPairs.get(option).getKey().getName() + ": " + Utils.RESET);
 
@@ -85,13 +85,5 @@ public class UpdateMaterialQuantitiesUI implements Runnable {
     private void showTree() {
         showTreeUI.toIndentedStringForObjective();
         Utils.goBackAndWait();
-    }
-
-    /**
-     * This method is responsible for clearing the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

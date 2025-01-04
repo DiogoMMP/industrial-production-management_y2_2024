@@ -39,20 +39,14 @@ public class ListExecutionTimeOneOpUI implements Runnable  {
 
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
-                    clearConsole();
+                    Utils.clearConsole();
                     show(choice);
                     Utils.goBackAndWait();
                 }
             }
         } while (option != -1 && !options.get(option).toString().equals("Back"));
     }
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
+
     /**
      * This method shows the total time of the operation.
      * @param choice the operation to be visualized.

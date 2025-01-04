@@ -32,6 +32,7 @@ public class TotalQuantityMaterialsAndOperationsUI implements Runnable {
             }
 
             if (option >= 0 && option < options.size()) {
+                Utils.clearConsole();
                 options.get(option).run();
                 Utils.goBackAndWait();
             }

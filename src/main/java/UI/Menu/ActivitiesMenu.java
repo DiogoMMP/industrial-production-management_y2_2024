@@ -29,6 +29,7 @@ public class ActivitiesMenu implements Runnable {
             boolean success = false;
 
             while (!success) {
+                Utils.clearConsole();
                 System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                         "--- Choose a File for the Activities --------------------------\n" + Utils.RESET);
 

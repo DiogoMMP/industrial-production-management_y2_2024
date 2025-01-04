@@ -36,7 +36,7 @@ public class US8UI implements Runnable {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
-
+            Utils.clearConsole();
             System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Supported Operations ---" + Utils.RESET);
 
             System.out.printf(Utils.BOLD + "%n%-20s %-20s %-30s %-25s %-40s%n",
@@ -68,13 +68,5 @@ public class US8UI implements Runnable {
      */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
-    }
-
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

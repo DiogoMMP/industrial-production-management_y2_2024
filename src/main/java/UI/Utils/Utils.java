@@ -148,6 +148,7 @@ public class Utils {
      * @return The index selected by the user
      */
     static public int showAndSelectIndex(List list, String header) {
+        clearConsole();
         showList(list, header);
         return selectsIndex(list);
     }

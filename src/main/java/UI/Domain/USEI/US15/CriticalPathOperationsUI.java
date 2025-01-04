@@ -14,7 +14,7 @@ public class CriticalPathOperationsUI implements Runnable {
      */
     @Override
     public void run() {
-
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                 "--- Critical Path Operations ------------\n" + Utils.RESET);
 

@@ -11,7 +11,7 @@ public class ShowBottleneckActivitiesUI implements Runnable{
     @Override
     public void run() {
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();  // Get the PERT_CPM instance
-
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Bottleneck Activities ------------\n" + Utils.RESET);
 
         if (pertCpm.hasCircularDependencies()) {

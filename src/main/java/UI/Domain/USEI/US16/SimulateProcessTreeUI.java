@@ -15,6 +15,7 @@ public class SimulateProcessTreeUI implements Runnable {
     @Override
     public void run() {
         LinkedHashMap<String, Double> timeOperations = simulator.simulateBOMBOO();
+        Utils.clearConsole();
         if (timeOperations.isEmpty()) {
             System.out.println("No operations to simulate.");
             Utils.goBackAndWait();

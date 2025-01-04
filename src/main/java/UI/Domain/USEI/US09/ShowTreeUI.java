@@ -42,21 +42,12 @@ public class ShowTreeUI implements Runnable {
             if ((option >= 0) && (option < options.size())) {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
-                    clearConsole();
+                    Utils.clearConsole();
                     showTree(options.get(option).toString().split(" ")[1]);
                     Utils.goBackAndWait();
                 }
             }
         } while (option != -1 && !options.get(option).toString().equals("Back"));
-    }
-
-
-    /**
-     * This method is responsible for clearing the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     public void showTree(String mainObjectiveID) {

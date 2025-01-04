@@ -14,7 +14,7 @@ public class US01UI implements Runnable {
      */
     @Override
     public void run() {
-
+        Utils.clearConsole();
         System.out.println("\n" + Utils.BOLD + Utils.CYAN +
                 "--- Search Glossary Terms ------------" + Utils.RESET);
 

@@ -18,7 +18,7 @@ public class US5UI implements Runnable {
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Date Range Selection ------------\n" + Utils.RESET);
 
         System.out.print(Utils.BOLD + "Enter start date (DD-MM-YYYY) or 'stop' to return: " + Utils.RESET);
@@ -80,7 +80,7 @@ public class US5UI implements Runnable {
             }
 
             // Print table header
-            clearConsole();
+            Utils.clearConsole();
             System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Orders from " + startDate + " to " + endDate + " ------------\n" + Utils.RESET);
             System.out.printf(Utils.BOLD + "%-30s %-30s %-10s %-15s%n", "Customer Name", "Product Name", "Quantity", "Delivery Date");
             System.out.println("-------------------------------------------------------------------------------------------" + Utils.RESET);
@@ -101,14 +101,6 @@ public class US5UI implements Runnable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     /**

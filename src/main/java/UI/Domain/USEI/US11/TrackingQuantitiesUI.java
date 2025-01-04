@@ -39,8 +39,10 @@ public class TrackingQuantitiesUI implements Runnable {
                 choice = options.get(option).toString();
                 if (!choice.equals("Back")) {
                     if (option == 0) {
+                        Utils.clearConsole();
                         printMaterialQuantitiesInAscendingOrder();
                     } else if (option == 1) {
+                        Utils.clearConsole();
                         printMaterialQuantitiesInDescendingOrder();
                     }
                     Utils.goBackAndWait();

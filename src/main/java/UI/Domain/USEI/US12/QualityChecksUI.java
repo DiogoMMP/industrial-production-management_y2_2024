@@ -13,6 +13,7 @@ public class QualityChecksUI implements Runnable {
     @Override
     public void run() {
 
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "-------- Quality Checks --------" + Utils.RESET);
 
         boolean interactive = Utils.confirm(Utils.BOLD + "Do You Want to Perform Quality Checks Interactively? (Y/N): " + Utils.RESET);

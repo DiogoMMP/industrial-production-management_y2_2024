@@ -49,7 +49,7 @@ public class US12UI implements Runnable {
      * This method is responsible for listing the parts of the selected product.
      */
     private void listParts(String productId) {
-
+        Utils.clearConsole();
         System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Parts of Product " + productId +
                 " -----------------------------------\n" + Utils.RESET);
 

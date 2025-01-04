@@ -20,6 +20,7 @@ public class US25UI implements Runnable {
     @Override
     public void run() {
         try (Connection connection = getConnection()) {
+            Utils.clearConsole();
             System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Choose the Product to be Visualized ------------\n" + Utils.RESET);
 
             // Step 1: Allow the user to choose a product
@@ -64,7 +65,7 @@ public class US25UI implements Runnable {
                     String choice = options.get(option).toString();
 
                     if (!choice.equals("Back")) {
-                        clearConsole();
+                        Utils.clearConsole();
                         return choice.split(": ")[1];
                     }
 
@@ -102,6 +103,7 @@ public class US25UI implements Runnable {
             }
 
             // Step 5: Print table header
+            Utils.clearConsole();
             System.out.println(Utils.BOLD + Utils.CYAN + "\n--- Operations of Product " + productId + " ------------\n" + Utils.RESET);
             System.out.printf(Utils.BOLD + "%-15s %-15s %-30s %-20s %-15s %-15s %-15s%n" + Utils.RESET,
                     "Product ID", "Operation ID", "Operation Description", "Execution Time", "Part Type", "Input Part", "Output Part");
@@ -133,13 +135,5 @@ public class US25UI implements Runnable {
      */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
-    }
-
-    /**
-     * Clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

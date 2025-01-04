@@ -133,17 +133,23 @@ class ProductionTreeTest {
         String mainObjectiveID = "1006";
         productionTree.buildProductionTree(mainObjectiveID);
 
-        // Test searching for specific nodes
+        // Test searching for specific nodes by ID
         Map<String, String> benchSeatNode = productionTree.searchNodeByID("1006");
         assertNotNull(benchSeatNode, "Should find finished bench node");
-        assertEquals("Product", benchSeatNode.get("Type"), "finished bench should be a product");
+        assertEquals("Product", benchSeatNode.get("Type"), "Finished bench should be a product");
 
         Map<String, String> rawBenchSeatNode = productionTree.searchNodeByID("1012");
         assertNotNull(rawBenchSeatNode, "Should find raw bench seat node");
         assertEquals("Component", rawBenchSeatNode.get("Type"), "Raw bench seat should be a component");
 
-        Map<String, String> woodMaterialNode = productionTree.searchNodeByName("cut bench leg");
-        assertNotNull(woodMaterialNode, "Should find cut bench leg node");
-        assertEquals("Operation", woodMaterialNode.get("Type"), "Cut bench leg should be a operation");
+        // Test searching for specific nodes by Name
+        List<Map<String, String>> woodMaterialNodes = productionTree.searchNodeByName("cut bench leg");
+        assertNotNull(woodMaterialNodes, "Should find cut bench leg node(s)");
+        assertFalse(woodMaterialNodes.isEmpty(), "Should return at least one result for 'cut bench leg'");
+
+        // Verify the details of the first node found (if needed)
+        Map<String, String> firstResult = woodMaterialNodes.get(0);
+        assertEquals("Operation", firstResult.get("Type"), "Cut bench leg should be an operation");
     }
+
 }

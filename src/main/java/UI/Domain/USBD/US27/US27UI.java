@@ -40,7 +40,7 @@ public class US27UI implements Runnable {
                     if ((option >= 0) && (option < options.size())) {
                         String choice = options.get(option).toString();
                         if (!choice.equals("Back")) {
-                            clearConsole();
+                            Utils.clearConsole();
                             int orderId = Integer.parseInt(choice.split(": ")[1]);
                             reserveMaterialsForOrder(orderId);
                             Utils.goBackAndWait();
@@ -94,13 +94,5 @@ public class US27UI implements Runnable {
             System.out.println(Utils.RED + "\nFailed to reserve materials for Customer Order ID: " + customerOrderId +
                     " - " + e.getMessage() + Utils.RESET);
         }
-    }
-
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

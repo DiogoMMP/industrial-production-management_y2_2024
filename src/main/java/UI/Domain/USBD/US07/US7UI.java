@@ -97,7 +97,7 @@ public class US7UI implements Runnable {
 
             preparedStatement.setInt(1, orderId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
+                Utils.clearConsole();
                 System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Materials Required for Production Order ID " + orderId + " ---" + Utils.RESET);
                 System.out.printf(Utils.BOLD + "%n%-15s %-30s %-15s %-50s %-20s%n",
                         "Product ID", "Product Name", "Part ID", "Part Description", "Quantity Required");

@@ -42,7 +42,7 @@ public class US26UI implements Runnable {
                     if ((option >= 0) && (option < options.size())) {
                         String choice = options.get(option).toString();
                         if (!choice.equals("Back")) {
-                            clearConsole();
+                            Utils.clearConsole();
                             int orderId = Integer.parseInt(choice.split(": ")[1]);
                             getOrderStockStatus(orderId);
                             Utils.goBackAndWait();
@@ -74,6 +74,7 @@ public class US26UI implements Runnable {
             ResultSet resultSet = (ResultSet) callableStatement.getObject(1);
 
             // Print the formatted table
+            Utils.clearConsole();
             System.out.println(Utils.BOLD + Utils.CYAN + "\n\n --- Check Stock for Order " + order_id + " ------------" + Utils.RESET);
             printFormattedTable(resultSet);
 
@@ -130,14 +131,6 @@ public class US26UI implements Runnable {
      */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
-    }
-
-    /**
-     * This method clears the console.
-     */
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
 

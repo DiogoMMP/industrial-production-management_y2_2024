@@ -22,6 +22,7 @@ public class US16UI implements Runnable {
             // Load existing IDs into Sets for validation
             Set<String> existingProductIds = loadExistingStrings(statement, "SELECT Product_ID FROM Product", "Product_ID");
 
+            Utils.clearConsole();
             System.out.println(Utils.BOLD + Utils.CYAN +
                     "\n\n--- Register a Product ---------------------------" + Utils.RESET);
 
@@ -111,23 +112,6 @@ public class US16UI implements Runnable {
     }
 
     /**
-     * This method loads existing IDs from the database into a Set for validation.
-     * @param statement The SQL statement object
-     * @param query The SQL query to execute
-     * @param columnLabel The column label to retrieve from the result set
-     * @return The Set of existing IDs
-     * @throws SQLException If a database access error occurs
-     */
-    private Set<Integer> loadExistingIds(Statement statement, String query, String columnLabel) throws SQLException {
-        Set<Integer> ids = new HashSet<>();
-        ResultSet resultSet = statement.executeQuery(query);
-        while (resultSet.next()) {
-            ids.add(resultSet.getInt(columnLabel));
-        }
-        return ids;
-    }
-
-    /**
      * This method loads existing strings from the database into a Set for validation.
      * @param statement The SQL statement object
      * @param query The SQL query to execute
@@ -190,7 +174,7 @@ public class US16UI implements Runnable {
                     String choice = options.get(option).toString();
 
                     if (!choice.equals("Back")) {
-                        clearConsole();
+                        Utils.clearConsole();
                         String factoryPlantId = choice.split(": ")[1];
                         return Integer.parseInt(factoryPlantId);
                     }
@@ -234,7 +218,7 @@ public class US16UI implements Runnable {
                     String choice = options.get(option).toString();
 
                     if (!choice.equals("Back")) {
-                        clearConsole();
+                        Utils.clearConsole();
                         String familyId = choice.split(": ")[1];
                         return Integer.parseInt(familyId);
                     }
@@ -317,10 +301,5 @@ public class US16UI implements Runnable {
      */
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(OracleDataExporter.DB_URL, OracleDataExporter.USER, OracleDataExporter.PASS);
-    }
-
-    private void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

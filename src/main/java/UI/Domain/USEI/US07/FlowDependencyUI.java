@@ -12,6 +12,7 @@ public class FlowDependencyUI implements Runnable {
     public void run() {
         HashMap<String, List<Map.Entry<String, Integer>>> flowDependency = Item.generateWorkstationFlowDependency();
 
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN +
                 "--- Workstation Flow Dependencies ------------------------\n" + Utils.RESET);
 

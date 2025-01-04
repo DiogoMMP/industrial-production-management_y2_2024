@@ -13,7 +13,7 @@ public class ShowCircularDependenciesUI implements Runnable {
     public void run() {
         // Retrieve the PERT_CPM instance
         PERT_CPM pertCpm = Instances.getInstance().getPERT_CPM();
-
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Circular Dependencies ------------\n" + Utils.RESET);
 
         // Check for circular dependencies

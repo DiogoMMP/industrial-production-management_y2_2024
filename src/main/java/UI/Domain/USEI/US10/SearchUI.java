@@ -1,5 +1,6 @@
 package UI.Domain.USEI.US10;
 
+import UI.Menu.MainMenuUITree;
 import UI.Menu.MenuItem;
 import UI.Utils.Utils;
 
@@ -22,7 +23,7 @@ public class SearchUI implements Runnable {
                         "--- Choose an option --------------------------\n" + Utils.RESET);
 
                 if (option == -2) {
-                    break;
+                    new MainMenuUITree().run();
                 }
 
                 if ((option >= 0) && (option < options.size())) {

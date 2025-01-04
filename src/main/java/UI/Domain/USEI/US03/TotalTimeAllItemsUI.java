@@ -12,6 +12,7 @@ public class TotalTimeAllItemsUI implements Runnable {
      */
     @Override
     public void run() {
+        Utils.clearConsole();
         System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Total Time for All Items ------------\n" + Utils.RESET);
 
         HashMap<String, Double> totalTimes = Item.calculateTotalProductionTimePerItem();

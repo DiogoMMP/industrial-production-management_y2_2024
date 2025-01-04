@@ -371,21 +371,30 @@ public class ProductionTree {
     }
 
     /**
-     * Searches for a node in the production tree by its ID or name.
+     * Searches for nodes in the production tree by their name.
      *
      * @param name the name of the operation or material to search for
-     * @return a map with details such as type, quantity (for materials), and parent operation if applicable
+     * @return a list of maps with details such as type, quantity (for materials), and parent operation if applicable
      */
-    public Map<String, String> searchNodeByName(String name) {
+    public List<Map<String, String>> searchNodeByName(String name) {
+        List<Map<String, String>> results = new ArrayList<>();
 
         for (Map.Entry<String, TreeNode<String>> entry : nodesMap.entrySet()) {
             TreeNode<String> node = entry.getValue();
-            if (node.getValue().contains(name)) {
+            if (node.getValue().contains(name)) { // Check if the node's value contains the name
                 String id = entry.getKey();
-                return searchNodeByID(id);
+                Map<String, String> nodeDetails = searchNodeByID(id); // Reuse searchNodeByID for details
+                results.add(nodeDetails);
             }
         }
-        return null;
+
+        if (results.isEmpty()) {
+            Map<String, String> error = new HashMap<>();
+            error.put("Error", "No matches found for the given name.");
+            results.add(error);
+        }
+
+        return results;
     }
 
     /**

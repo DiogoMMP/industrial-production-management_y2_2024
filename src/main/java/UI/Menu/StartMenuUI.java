@@ -49,7 +49,7 @@ public class StartMenuUI implements Runnable {
     @Override
     public void run() {
         // Clear screen (works on most terminals)
-        System.out.print("\033[H\033[2J");
+        Utils.clearConsole();
         System.out.flush();
 
         // Display title with a bit of flair
