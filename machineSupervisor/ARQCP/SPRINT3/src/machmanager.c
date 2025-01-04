@@ -734,3 +734,90 @@ void main_loop(MachManager *machmanager) {
     }
 }
 
+void add_machine(MachManager *machManager, const char *id, const char *name, float temp_min, float temp_max, float hum_min, float hum_max) {
+    Machine *machines = machManager->machines;
+    int machine_count = machManager->machine_count;
+    int machine_capacity = machManager->machine_capacity;
+    if (machine_count >= machine_capacity) {
+        machine_capacity = (machine_capacity == 0) ? 2 : (machine_capacity * 2);
+        Machine *new_machines = realloc(machines, machine_capacity * sizeof(Machine));
+        if (!new_machines) {
+            perror(RED "\nError reallocating memory for machines.\n" RESET);
+            return;
+        }
+        machines = new_machines;
+        machManager->machines = machines;
+        machManager->machine_capacity = machine_capacity;
+    }
+    machines[machine_count].id = strdup(id);
+    machines[machine_count].name = strdup(name);
+    machines[machine_count].state = strdup("OFF"); // Initially not operating
+    machines[machine_count].temperature_min = temp_min;
+    machines[machine_count].temperature_max = temp_max;
+    machines[machine_count].humidity_min = hum_min;
+    machines[machine_count].humidity_max = hum_max;
+    machines[machine_count].buffer_size = 100; // For example
+    machines[machine_count].buffer_count = 0;  // Initialize buffer count
+    machines[machine_count].median_window = 10; // For example
+    machines[machine_count].operation_capacity = 10;
+    machines[machine_count].operations = malloc(machines[machine_count].operation_capacity * sizeof(Operation));
+    machines[machine_count].operation_count = 0;
+    machines[machine_count].exec_operation_capacity = 10;
+    machines[machine_count].exec_operation = malloc(machines[machine_count].exec_operation_capacity * sizeof(Operation));
+    machines[machine_count].exec_operation_count = 0;
+    machines[machine_count].moving_median_capacity = machines[machine_count].median_window;
+    machines[machine_count].moving_median = malloc(machines[machine_count].moving_median_capacity * sizeof(buffer_data));
+    machines[machine_count].moving_median_count = 0;
+    machines[machine_count].buffer = NULL;
+    machines[machine_count].head = NULL;
+    machines[machine_count].tail = NULL;
+    machManager->machines = machines;
+    machManager->machine_count++; // Update the machine count in the MachManager structure
+    printf("Machine added: %s, %s\n", id, name);
+}
+
+void remove_machine(MachManager *machManager, const char *id) {
+    Machine *machines = machManager->machines;
+    int machine_count = machManager->machine_count;
+    for (int i = 0; i < machine_count; i++) {
+        if (strcmp(machines[i].id, id) == 0) {
+            if (strcmp(machines[i].state, "OFF") == 0) {
+                free(machines[i].state);
+                free_machine(&machines[i]);
+                free(machines[i].id);
+                free(machines[i].name);
+                free(machines[i].operations);
+                free(machines[i].exec_operation);
+                free(machines[i].moving_median);
+                free(machines[i].buffer);
+                free(machines[i].head);
+                free(machines[i].tail);
+                free(machines[i].moving_median);
+                for (int j = i; j < machine_count - 1; j++) {
+                    machines[j] = machines[j + 1];
+                }
+                machManager->machine_count--; // Update the machine count in the MachManager structure
+                printf("Machine removed: %s\n", id);
+                return;
+            } else {
+                printf(RED "\nError: Machine is currently operating.\n" RESET);
+                return;
+            }
+        }
+    }
+    printf("Machine with id %s not found.\n", id);
+}
+
+void read_status_machine(MachManager *machManager, const char *id) {
+    Machine *machine = find_machine(machManager, id);
+    if (machine) {
+        printf(BOLD "\nMachine Status:\n" RESET);
+        printf("ID: %s\n", machine->id);
+        printf("Name: %s\n", machine->name);
+        printf("State: %s\n", machine->state);
+        printf("Temperature Range: %.2f - %.2f\n", machine->temperature_min, machine->temperature_max);
+        printf("Humidity Range: %.2f - %.2f\n", machine->humidity_min, machine->humidity_max);
+    } else {
+        printf(RED "\nMachine not found.\n" RESET);
+    }
+}

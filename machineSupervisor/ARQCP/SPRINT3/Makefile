@@ -58,6 +58,9 @@ setup:
 run: all
 	./$(EXEC)
 
+debug: all
+	gdb ./$(EXEC)
+
 # Analisar com Valgrind
 vg: all
 	valgrind --leak-check=full --track-origins=yes ./$(EXEC)

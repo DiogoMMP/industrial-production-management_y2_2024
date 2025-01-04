@@ -70,6 +70,7 @@ public class SimulateProjDelaysUI implements Runnable {
 
                     if (!Utils.confirm(Utils.BOLD + "Do you want to add another delay? (Y/N)" + Utils.RESET)){
                         simulateDelays(delays);
+                        delays.clear();
                     }
                 }
             }
