@@ -47,8 +47,9 @@ int main() {
         printf("1 - Setup Machines\n");
         printf("2 - Add Machine\n");
         printf("3 - Remove Machine\n");
-        printf("4 - Import List of Instructions\n");
-        printf("5 - Monitor Machine\n");
+        printf("4 - Read status of machine\n");
+        printf("5 - Import List of Instructions\n");
+        printf("6 - Monitor Machine\n");
         printf("0 - Exit\n");
         printf("\nChoose an option: ");
 
@@ -62,10 +63,10 @@ int main() {
             case 1:
                 printf(BOLD "\nWant to use the default setup file? (Y/N): " RESET);
                 char answer;
-                
+
                 getchar(); // Clear the newline character left by the previous input
                 scanf("%c", &answer);
-                
+
                 if (answer == 'n' || answer == 'N') {
                     printf("\nEnter the setup file name: ");
                     scanf("%99s", filename);
@@ -78,7 +79,7 @@ int main() {
                 } else {
                     strcpy(filename, "src/data/machines.csv"); // Use strcpy to copy the string
                 }
-                
+
                 if (setup_machines_from_file(filename, machmanager) == 0) {
                     printf(GREEN "\nMachines setup successfully.\n" RESET);
                     goBackAndWait();
@@ -87,19 +88,53 @@ int main() {
                 }
 
                 break;
+
             case 2:
-                printf("Not implemented yet.\n");
+                printf(BOLD "\nAdd Machine\n" RESET);
+                printf("Enter the machine ID: ");
+                char id[100];
+                scanf("%99s", id);
+                printf("Enter the machine name: ");
+                char name[100];
+                scanf("%99s", name);
+                printf("Enter the minimum temperature: ");
+                float temp_min;
+                scanf("%f", &temp_min);
+                printf("Enter the maximum temperature: ");
+                float temp_max;
+                scanf("%f", &temp_max);
+                printf("Enter the minimum humidity: ");
+                float hum_min;
+                scanf("%f", &hum_min);
+                printf("Enter the maximum humidity: ");
+                float hum_max;
+                scanf("%f", &hum_max);
+                add_machine(machmanager, id, name, temp_min, temp_max, hum_min, hum_max);
                 break;
+
             case 3:
-                printf("Not implemented yet.\n");
+                printf(BOLD "\nRemove Machine\n" RESET);
+                printf("Enter the machine ID: ");
+                char machine_id[100];
+                scanf("%99s", machine_id);
+                remove_machine(machmanager, machine_id);
                 break;
+
             case 4:
+                printf(BOLD "\nRead status of machine\n" RESET);
+                printf("Enter the machine ID: ");
+                char machine_id_status[100];
+                scanf("%99s", machine_id_status);
+                read_status_machine(machmanager, machine_id_status);
+                break;
+
+            case 5:
 
                 printf(BOLD "\nWant to use the default setup file? (Y/N): " RESET);
-                
+
                 getchar(); // Clear the newline character left by the previous input
                 scanf("%c", &answer);
-                
+
                 if (answer == 'n' || answer == 'N') {
                     printf("\nEnter the setup file name: ");
                     scanf("%99s", filename);
@@ -112,10 +147,10 @@ int main() {
                 } else {
                     strcpy(filename, "src/data/simulation.csv"); // Use strcpy to copy the string
                 }
-                
+
                 feed_system(filename, machmanager);
                 break;
-            case 5:
+            case 6:
                 while (1) {
                     if (machmanager->machine_count == 0) {
                         printf(RED "\nNo machines available.\n" RESET);
