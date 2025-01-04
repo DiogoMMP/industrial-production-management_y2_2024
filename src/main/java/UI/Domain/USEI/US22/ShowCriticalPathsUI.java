@@ -21,7 +21,7 @@ public class ShowCriticalPathsUI implements Runnable {
         }
 
         LinkedHashMap<Integer, List<Activity>> criticalPaths = pertCpm.findCriticalPaths();
-        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Show Critical Paths ------------\n" + Utils.RESET);
+        System.out.println("\n\n" + Utils.BOLD + Utils.CYAN + "--- Show Critical Paths ------------" + Utils.RESET);
 
         if (criticalPaths.isEmpty()) {
             System.out.println(Utils.RED + "No critical paths found!" + Utils.RESET);
@@ -30,7 +30,7 @@ public class ShowCriticalPathsUI implements Runnable {
         }
 
         for (Integer i : criticalPaths.keySet()) {
-            System.out.println("\n" + Utils.BOLD + "--- Critical Path " + i + " ------------" + Utils.RESET);
+            System.out.println("\n\n" + Utils.BOLD + "--- Critical Path " + i + " ------------" + Utils.RESET);
             List<Activity> path = criticalPaths.get(i);
             for (Activity activity : path) {
                 if (activity.getActId().equals("END")) {

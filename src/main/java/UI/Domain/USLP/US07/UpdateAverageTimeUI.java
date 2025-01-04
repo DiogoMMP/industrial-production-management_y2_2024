@@ -35,7 +35,7 @@ public class UpdateAverageTimeUI implements Runnable {
             int option = 0;
             do {
                 option = Utils.showAndSelectIndex(options, "\n\n" + Utils.BOLD + Utils.CYAN +
-                        "--- Choose the product to be Visualized ------------\n" + Utils.RESET);
+                        "--- Choose the Product to be Visualized ------------\n" + Utils.RESET);
 
                 if (option == -2) {
                     new OrdersMenu().run();
