@@ -33,5 +33,8 @@ void* main_loop_thread(void* arg);
 void start_main_loop(Machine *machine);
 void stop_program(MachManager *machmanager);
 void main_loop(MachManager *machmanager);
+void add_machine(MachManager *machmanager, const char *id, const char *name, float temp_min, float temp_max, float hum_min, float hum_max);
+void remove_machine(MachManager *machmanager, const char *machine_id);
+void read_status_machine(MachManager *machmanager, const char *machine_id);
 
 #endif // MACHMANAGER_H
