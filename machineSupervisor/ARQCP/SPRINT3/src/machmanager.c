@@ -280,6 +280,25 @@ void export_operations_to_csv(Machine *m) {
     printf(GREEN "\nOperations exported to %s successfully.\n" RESET, filepath);
 }
 
+int find_operation_id_in_all_machines(MachManager* manager, char* operation_description) {
+    int operation_id = -1;
+
+    // Iterate over all machines in manager
+    for (int j = 0; j < manager->machine_count; j++) {
+        Machine* machine = &manager->machines[j]; // Get the current machine
+        
+        // Iterate over the operations of the current machine
+        for (int i = 0; i < machine->operation_count; i++) {
+            // Compare if the current operation matches the one we are looking for
+            if (strstr(machine->operations[i].designation, operation_description) != NULL) {
+                operation_id = machine->operations[i].number; // Found the operation
+                return operation_id; // Returns the ID of the operation found
+            }
+        }
+    }
+    return operation_id; // Return -1 if the operation was not found on any machine
+}
+
 void feed_system(const char* filename, MachManager* manager) {
     FILE* file = fopen(filename, "r");
     if (!file) {
@@ -331,14 +350,7 @@ void feed_system(const char* filename, MachManager* manager) {
             continue; // Skip to the next line
         }
 
-        // Check if the operation already exists in the machine's operations array
-        int operation_id = -1;
-        for (int i = 0; i < machine->operation_count; i++) {
-            if (strcmp(machine->operations[i].designation, operation_description) == 0) {
-                operation_id = machine->operations[i].number; // Reuse the existing operation ID
-                break;
-            }
-        }
+        int operation_id = find_operation_id_in_all_machines(manager, operation_description);
 
         // If operation does not exist, assign a new sequential ID
         if (operation_id == -1) {
@@ -378,8 +390,8 @@ void feed_system(const char* filename, MachManager* manager) {
         // Create a new operation structure
         Operation new_operation;
         new_operation.number = operation_id;  // Use the assigned or reused ID
-        new_operation.designation = operation_description;
-        new_operation.id = machine_id;
+        new_operation.designation = strdup(operation_description);
+        new_operation.id = strdup(machine_id);
         new_operation.time_duration = time_duration;
         new_operation.timestamp = time(NULL);
 

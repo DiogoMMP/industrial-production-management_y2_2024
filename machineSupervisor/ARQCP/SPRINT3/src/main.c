@@ -282,7 +282,7 @@ int main() {
                 // Releases memory after use
                 free(machmanager);
 
-                printf(GREEN "\nExiting the program.\n" RESET);
+                printf(GREEN "\nExiting the program.\n\n" RESET);
                 cleanup_and_exit();
                 return 0;
             default:

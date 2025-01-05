@@ -89,10 +89,6 @@ void update_machine(char* cmd) {
         // Null-terminate the string read from the serial port
         read_buffer[bytes_read] = '\0';
 
-        // Print the response from the Arduino
-        printf(BLUE "\nArduino response: %s\n" RESET, read_buffer);
-    } else {
-        printf(RED "\n\nNo serial port interaction required for this command.\n" RESET);
     }
 
     // Flush the serial port

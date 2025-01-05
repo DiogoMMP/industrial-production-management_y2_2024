@@ -119,7 +119,7 @@ void goBackAndWait() {
 void trim_trailing_spaces(char* str) {
     int len = strlen(str);
     while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t' || str[len - 1] == '\n')) {
-        str[len - 1] = '\0';  // Substitui o último caractere por '\0'
+        str[len - 1] = '\0';  // Replace the last character with '\0'
         len--;
     }
 }

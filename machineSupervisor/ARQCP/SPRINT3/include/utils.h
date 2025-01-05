@@ -26,5 +26,6 @@ void show_list(const char *list[], size_t size, const char *header);
 int select_index(const char *list[], size_t size, const char *header);
 void goBackAndWait();
 void trim_trailing_spaces(char* str);
+char* trim_whitespace(char* str);
 
 #endif
