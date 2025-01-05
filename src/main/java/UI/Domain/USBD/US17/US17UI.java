@@ -17,7 +17,7 @@ public class US17UI implements Runnable {
     @Override
     public void run() {
         Utils.clearConsole();
-        System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Register Customer Order ------------\n" + Utils.RESET);
+        System.out.println(Utils.BOLD + Utils.CYAN + "\n\n--- Register Customer Order ------------\n\n" + Utils.RESET);
 
         try (Connection connection = getConnection()) {
 

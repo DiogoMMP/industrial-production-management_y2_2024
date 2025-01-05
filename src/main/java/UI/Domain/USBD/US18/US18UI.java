@@ -1,6 +1,7 @@
 package UI.Domain.USBD.US18;
 
 import UI.Menu.MenuItem;
+import UI.Menu.Sprint2MenuUI;
 import UI.Utils.Utils;
 import importer_and_exporter.OracleDataExporter;
 
@@ -31,6 +32,11 @@ public class US18UI implements Runnable {
                 option = Utils.showAndSelectIndex(options,
                         "\n\n" + Utils.BOLD + Utils.CYAN +
                                 "--- Choose the Customer to be Visualized ------------\n" + Utils.RESET);
+
+                if (option == -2) {
+                    new Sprint2MenuUI().run();
+                }
+
                 if ((option >= 0) && (option < options.size())) {
                     String choice = options.get(option).toString();
                     if (!choice.equals("Back")) {
@@ -61,7 +67,7 @@ public class US18UI implements Runnable {
             String result = callableStatement.getString(1);
 
             if (result.contains("Error")) {
-                System.err.println(result + "\n");
+                System.out.println("\n" + Utils.RED + result + Utils.RESET);
             } else {
                 System.out.println("\n" + Utils.GREEN + result + Utils.RESET + "\n");
             }

@@ -76,13 +76,13 @@ public class US28UI implements Runnable {
             rows.add(formattedRow); // Add the formatted row to the list
         }
 
-        System.out.printf(Utils.BOLD + "%-15s %-50s %-10s %-10s %-30s%n",
+        System.out.printf(Utils.BOLD + "%-15s %-50s %-10s %-10s %-50s%n",
                 "Part ID", "Description", "Quantity", "Unit", "Supplier Details");
-        System.out.println("-".repeat(115) + Utils.RESET); // Horizontal divider
+        System.out.println("-".repeat(135) + Utils.RESET); // Horizontal divider
 
         // Print the rows
         for (String[] row : rows) {
-            System.out.printf("%-15s %-50s %-10s %-10s %-30s%n",
+            System.out.printf("%-15s %-50s %-10s %-10s %-50s%n",
                     row[0], row[1], row[2], row[3], row[4]);
         }
     }

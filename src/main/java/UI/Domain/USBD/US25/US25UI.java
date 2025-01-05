@@ -80,12 +80,6 @@ public class US25UI implements Runnable {
         return null;
     }
 
-    /**
-     * Executes the Get_Product_Operations function and prints the operations for the selected product in a table format.
-     *
-     * @param connection The database connection.
-     * @param productId The selected Product ID.
-     */
     private void printProductOperations(Connection connection, String productId) {
         try {
             // Step 3: Call the Get_Product_Operations function
@@ -102,31 +96,80 @@ public class US25UI implements Runnable {
                 return;
             }
 
-            // Step 5: Print table header
+            // Step 5: Initialize variables for dynamic column widths
+            int maxInputLength = "Input Components".length();
+            int maxOutputLength = "Output Components".length();
+
+            // Step 6: Process each operation to calculate max column widths
+            List<String[]> rows = new ArrayList<>();
+            while (resultSet.next()) {
+                String operationData = resultSet.getString("OPERATION_DATA");
+
+                // Parse the operationData string into separate fields
+                String[] lines = operationData.split("\n");
+                String productID = extractField(lines, "Product ID");
+                String operationID = extractField(lines, "Manufacturing Operation ID");
+                String operationDescription = extractField(lines, "Operation Description");
+                String executionTime = extractField(lines, "Execution Time");
+                String partType = extractField(lines, "Workstation Type");
+
+                // Handle input and output components
+                String inputPart = cleanID(extractField(lines, "Input Components"));
+                String outputPart = cleanID(extractField(lines, "Output Components"));
+
+                // Update max column lengths
+                maxInputLength = Math.max(maxInputLength, inputPart.length()) + 10;
+                maxOutputLength = Math.max(maxOutputLength, outputPart.length()) + 10;
+
+                // Store the row data
+                rows.add(new String[]{productID, operationID, operationDescription, executionTime, partType, inputPart, outputPart});
+            }
+
+            // Step 7: Print table header with dynamic widths
             Utils.clearConsole();
             System.out.println(Utils.BOLD + Utils.CYAN + "\n--- Operations of Product " + productId + " ------------\n" + Utils.RESET);
-            System.out.printf(Utils.BOLD + "%-15s %-15s %-30s %-20s %-15s %-15s %-15s%n" + Utils.RESET,
-                    "Product ID", "Operation ID", "Operation Description", "Execution Time", "Part Type", "Input Part", "Output Part");
-            System.out.println("-".repeat(130) + Utils.RESET); // Table divider
 
-            // Step 6: Print table rows
-            while (resultSet.next()) {
-                String productID = resultSet.getString("Product_ID");
-                int operationID = resultSet.getInt("Operation_ID");
-                String operationDescription = resultSet.getString("Operation_Description");
-                int executionTime = resultSet.getInt("Execution_Time");
-                String partType = resultSet.getString("Part_Type");
-                String inputPart = resultSet.getString("Input_Part");
-                String outputPart = resultSet.getString("Output_Part");
+            System.out.printf(Utils.BOLD + "%-15s %-15s %-30s %-20s %-20s %-" + maxInputLength + "s %-" + maxOutputLength + "s%n" + Utils.RESET,
+                    "Product ID", "Operation ID", "Operation Description", "Execution Time", "Part Type", "Input Components", "Output Components");
+            System.out.println("-".repeat(130 + maxInputLength + maxOutputLength) + Utils.RESET); // Table divider
 
-                System.out.printf("%-15s %-15d %-30s %-20d %-15s %-15s %-15s%n",
-                        productID, operationID, operationDescription, executionTime, partType, inputPart, outputPart);
+            // Step 8: Print each row with dynamic widths
+            for (String[] row : rows) {
+                System.out.printf("%-15s %-15s %-30s %-20s %-20s %-" + maxInputLength + "s %-" + maxOutputLength + "s%n",
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
             }
 
         } catch (SQLException e) {
             System.err.println("Error retrieving product operations: " + e.getMessage());
         }
     }
+
+    /**
+     * Removes the text inside parentheses and trims the result.
+     *
+     * @param value The original string containing the ID and additional data in parentheses.
+     * @return The cleaned string with only the ID.
+     */
+    private String cleanID(String value) {
+        return value.replaceAll("\\s*\\(.*?\\)", "").trim(); // Removes text inside parentheses
+    }
+
+    /**
+     * Extracts a specific field value from the operation data.
+     *
+     * @param lines The array of lines from the operation data.
+     * @param fieldName The field name to search for.
+     * @return The value of the field, or an empty string if not found.
+     */
+    private String extractField(String[] lines, String fieldName) {
+        for (String line : lines) {
+            if (line.startsWith(fieldName + ":")) {
+                return line.split(": ", 2)[1].trim();
+            }
+        }
+        return ""; // Return empty string if the field is not found
+    }
+
 
     /**
      * Establishes a connection to the database.

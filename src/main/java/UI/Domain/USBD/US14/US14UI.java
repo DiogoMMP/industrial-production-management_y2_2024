@@ -25,7 +25,12 @@ public class US14UI implements Runnable {
              Statement statement = connection.createStatement()) {
 
             if (Utils.confirm(Utils.BOLD + "Do you want to insert test data? (Y/N)" + Utils.RESET)) {
-                insertTestData(statement);
+
+                try{
+                    insertTestData(statement);
+                } catch (SQLException e) {
+                    System.out.println(Utils.RED + "\nThe test data has already been entered!\nSkipping..." + Utils.RESET);
+                }
             }
 
             executeQuery(statement);
