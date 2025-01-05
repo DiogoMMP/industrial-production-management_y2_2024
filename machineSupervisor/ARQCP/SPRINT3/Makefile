@@ -63,7 +63,7 @@ debug: all
 
 # Analisar com Valgrind
 vg: all
-	valgrind --leak-check=full --track-origins=yes ./$(EXEC)
+	valgrind --leak-check=full --track-origins=yes -s ./$(EXEC)
 
 # Limpeza dos arquivos compilados
 clean:

@@ -1,17 +1,19 @@
 #ifndef MACHMANAGER_H
 #define MACHMANAGER_H
 
-#include "instance.h"
-#include "machine.h"
+#include "instance.h"  // Include instance.h to define the Instance type
+#include "machine.h"   // Include machine.h to define the Machine type
 
 typedef struct {
-    Machine *machines;
-    int machine_count;
-    int machine_capacity;
-    int running;
+    Machine* machines;       // Pointer to an array of machines
+    int machine_count;              // Number of machines in the system
+    int machine_capacity;           // Current capacity of the machines array
+    void* internal_data;            // Internal data (temporary information for control)
+    int running;                    // Flag to control the main loop
 } MachManager;
 
 void create_machmanager(MachManager *machmanager, Machine *machines, int machine_count, int machine_capacity);
+void free_operation(Operation *op);
 void send_cmd_to_machine(char *cmd);
 void send_cmd_to_machine_No_UI(char *cmd);
 Machine* find_machine(MachManager *machmanager, const char* machine_id);

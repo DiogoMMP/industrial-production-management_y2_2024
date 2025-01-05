@@ -13,10 +13,26 @@
 #include "assembly_functions.h"
 #include "instance.h"
 
+int last_processed_line = 0; // Global variable to track the last processed line
+
 void create_machmanager(MachManager *machmanager, Machine *machines, int machine_count, int machine_capacity) {
     machmanager->machines = machines;
     machmanager->machine_count = machine_count;
     machmanager->machine_capacity = machine_capacity;
+}
+
+void free_operation(Operation *op) {
+    if (!op) return;
+
+    if (op->designation) {
+        free(op->designation);
+        op->designation = NULL;
+    }
+
+    if (op->id) {
+        free(op->id);
+        op->id = NULL;
+    }
 }
 
 void send_cmd_to_machine(char *cmd) {
@@ -55,49 +71,97 @@ Machine* find_machine(MachManager *machmanager, const char* machine_id) {
 }
 
 void assign_operation_to_machine(Operation *op, Machine *m) {
-    // Expand the operation array if necessary
-    if (m->operation_count == m->operation_capacity) {
-        m->operation_capacity *= 2; // Double the capacity
-        m->operations = realloc(m->operations, m->operation_capacity * sizeof(Operation));
-        if (!m->operations) {
-            fprintf(stderr, RED "Error reallocating memory for operations.\n" RESET);
-            exit(EXIT_FAILURE); // Exit on memory allocation failure
-        }
+    // Release the currently assigned operation
+    free_operation(&m->assigned_operation);
+
+    // Duplicate the values from `op` to `m->assigned_operation`
+    m->assigned_operation.number = op->number;
+    
+    // Avoiding memory leak for designation and id
+    if (m->assigned_operation.designation) {
+        free(m->assigned_operation.designation);
+    }
+    m->assigned_operation.designation = strdup(op->designation);
+    
+    if (m->assigned_operation.id) {
+        free(m->assigned_operation.id);
+    }
+    m->assigned_operation.id = strdup(op->id);
+    
+    m->assigned_operation.time_duration = op->time_duration;
+    m->assigned_operation.timestamp = op->timestamp;
+
+    // Verify successful allocation
+    if (!m->assigned_operation.designation || !m->assigned_operation.id) {
+        fprintf(stderr, "Error: Memory allocation failed while assigning operation.\n");
+        free_operation(&m->assigned_operation);
+        return; // Abort the assignment
     }
 
-    // Add the new operation to the operations array
-    m->operations[m->operation_count++] = *op;
+    // Update the machine state
+    if (m->state) {
+        free(m->state); // Free previously allocated state string
+    }
 
-    // Update machine's assigned operation
-    m->assigned_operation = *op;
-    m->state = "OP";
+    m->state = strdup("OP"); // Corrected to use a string literal
+    
+    if (!m->state) {
+        fprintf(stderr, "Error: Memory allocation failed for machine state.\n");
+    }
+    
+    free(m->state);
+
 }
 
 void free_machine(Machine *m) {
-    if (m->buffer) {
-        free(m->buffer);  // Free the dynamically allocated buffer
-        m->buffer = NULL; // Reset pointer to avoid dangling reference
-    }
-    if (m->operations) {
-        free(m->operations); // Free the dynamically allocated operations array
-        m->operations = NULL; // Reset pointer to avoid dangling reference
-    }
-    if (m->exec_operation) {
-        free(m->exec_operation); // Free the dynamically allocated executed operations array
-        m->exec_operation = NULL; // Reset pointer to avoid dangling reference
-    }
-    if (m->moving_median) {
-        free(m->moving_median); // Free the dynamically allocated moving median array
-        m->moving_median = NULL; // Reset pointer to avoid dangling reference
-    }
-    // Ensure id and name are freed only once
+    if (!m) return;
+
     if (m->id) {
-        free(m->id); // Free dynamically allocated id
-        m->id = NULL; // Reset pointer to avoid dangling reference
+        free(m->id);
+        m->id = NULL;
     }
+
     if (m->name) {
-        free(m->name); // Free dynamically allocated name
-        m->name = NULL; // Reset pointer to avoid dangling reference
+        free(m->name);
+        m->name = NULL;
+    }
+
+    if (m->state) {
+        free(m->state);
+        m->state = NULL;
+    }
+
+    // Free the buffer
+    if (m->buffer) {
+        free(m->buffer);
+        m->buffer = NULL;
+    }
+
+    // Free the array of moving medians
+    if (m->moving_median) {
+        free(m->moving_median);
+        m->moving_median = NULL;
+    }
+
+    // Free the array of operations
+    if (m->operations) {
+        for (int i = 0; i < m->operation_count; i++) {
+            free_operation(&m->operations[i]);
+        }
+        free(m->operations);
+        m->operations = NULL;
+    }
+
+    // Release the assigned operation
+    free_operation(&m->assigned_operation);
+
+    // Release the array of executed operations
+    if (m->exec_operation) {
+        for (int i = 0; i < m->exec_operation_count; i++) {
+            free_operation(&m->exec_operation[i]);
+        }
+        free(m->exec_operation);
+        m->exec_operation = NULL;
     }
 }
 
@@ -288,24 +352,26 @@ void export_operations_to_csv(Machine *m) {
     printf(GREEN "\nOperations exported to %s successfully.\n" RESET, filepath);
 }
 
-int find_operation_id_in_all_machines(MachManager* manager, char* operation_description) {
-    int operation_id = -1;
+int find_operation_id_in_all_machines(MachManager *manager, char *operation_description) {
+    if (!manager || !operation_description) {
+        fprintf(stderr, "Error: Invalid arguments passed to find_operation_id_in_all_machines.\n");
+        return -1;
+    }
 
-    // Iterate over all machines in manager
     for (int j = 0; j < manager->machine_count; j++) {
-        Machine* machine = &manager->machines[j]; // Get the current machine
-        
-        // Iterate over the operations of the current machine
+        Machine *machine = &manager->machines[j];
+
         for (int i = 0; i < machine->operation_count; i++) {
-            // Compare if the current operation matches the one we are looking for
-            if (strstr(machine->operations[i].designation, operation_description) != NULL) {
-                operation_id = machine->operations[i].number; // Found the operation
-                return operation_id; // Returns the ID of the operation found
+            if (machine->operations[i].designation &&
+                strstr(machine->operations[i].designation, operation_description)) {
+                return machine->operations[i].number; // Operation found
             }
         }
     }
-    return operation_id; // Return -1 if the operation was not found on any machine
+
+    return -1; //Operation not found
 }
+
 
 void feed_system(const char* filename, MachManager* manager) {
     FILE* file = fopen(filename, "r");
@@ -320,18 +386,28 @@ void feed_system(const char* filename, MachManager* manager) {
 
     int operation_id_counter = 1; // Counter for operation ID (1 to 31)
 
+    int current_line = 0;
+    
     while (fgets(line, sizeof(line), file)) {
+
+        current_line++;
+
         if (first_line) {
             first_line = 0;
             continue; // Ignore the header line.
         }
 
-        int time_duration = 0;
-        char *operation_description = NULL, *machine_id = NULL;
+        // Ignore lines already processed
+        if (current_line <= last_processed_line) {
+            continue;
+        }
 
-        // Allocate dynamic memory for operation_description and machine_id
-        operation_description = (char*)malloc(100 * sizeof(char)); // Assuming max 100 chars
-        machine_id = (char*)malloc(20 * sizeof(char));             // Assuming max 20 chars
+        last_processed_line = current_line; // Update the trace
+
+        int time_duration = 0;
+        char *operation_description = (char*)malloc(100 * sizeof(char));
+        char *machine_id = (char*)malloc(20 * sizeof(char));
+        char *cmd = NULL;
 
         if (!operation_description || !machine_id) {
             fprintf(stderr, RED "Memory allocation error.\n" RESET);
@@ -340,115 +416,116 @@ void feed_system(const char* filename, MachManager* manager) {
             continue;
         }
 
-        // Parse the line
         if (sscanf(line, "%*d;%*[^;];%*d - Operation: %99[^-] - Machine: %19[^-] - Item: %*[^-] - Time: %d - Quantity: %*f", 
-           operation_description, machine_id, &time_duration) != 3) {
+                   operation_description, machine_id, &time_duration) != 3) {
             fprintf(stderr, RED "\nInvalid line or parsing error: %s\n" RESET, line);
             free(operation_description);
             free(machine_id);
             continue;
         }
 
-        // Check if the machine already exists
         Machine *machine = find_machine(manager, machine_id);
-        if (machine == NULL) {
+        if (!machine) {
             fprintf(stderr, RED "\nError: Machine '%s' not found. Skipping operation.\n" RESET, machine_id);
             free(operation_description);
             free(machine_id);
-            continue; // Skip to the next line
+            continue;
         }
 
         int operation_id = find_operation_id_in_all_machines(manager, operation_description);
-
-        // If operation does not exist, assign a new sequential ID
         if (operation_id == -1) {
             operation_id = operation_id_counter++;
-            if (operation_id_counter > 31) {
-                operation_id_counter = 1; // Reset to 1 after 31
-            }
+            if (operation_id_counter > 31) operation_id_counter = 1;
         }
 
-        // Process the operation (always show information)
         printf(BOLD BLUE "\nProcessing operation for machine %s:\n" RESET, machine_id);
         printf("  - Operation ID: %d\n", operation_id);
         printf("  - Description: %s\n", operation_description);
         printf("  - Estimated time: %d seconds\n\n", time_duration);
 
-        // Dynamically allocate memory for the command
-        char* cmd = (char*)malloc(256 * sizeof(char)); // Allocate space for the formatted command
+        cmd = (char*)malloc(256 * sizeof(char));
         if (!cmd) {
             printf(RED "\nError: Memory allocation failed for cmd.\n" RESET);
             free(operation_description);
             free(machine_id);
-            return; // Handle the error appropriately, exit the function if necessary
+            continue;
         }
 
-        // Format the command using format_command
         if (format_command("OP", operation_id, cmd) != 1) {
             printf(RED "\nError: Failed to format the command.\n" RESET);
-            free(cmd); // Free allocated memory in case of error
+            free(cmd);
             free(operation_description);
             free(machine_id);
-            return;
+            continue;
         }
 
-        // Send the command to the machine
         send_cmd_to_machine(cmd);
 
-        // Create a new operation structure
         Operation new_operation;
-        new_operation.number = operation_id;  // Use the assigned or reused ID
+        new_operation.number = operation_id;
         new_operation.designation = strdup(operation_description);
         new_operation.id = strdup(machine_id);
         new_operation.time_duration = time_duration;
         new_operation.timestamp = time(NULL);
 
-        // Assign operation to machine
-        assign_operation_to_machine(&new_operation, machine);
-
-        sleep(2); // Simulate operation execution
-
-        // Format the command using format_command
-        if (format_command("ON", operation_id, cmd) != 1) {
-            printf(RED "\nError: Failed to format the command.\n" RESET);
-            free(cmd); // Free allocated memory in case of error
+        if (!new_operation.designation || !new_operation.id) {
+            fprintf(stderr, RED "\nError: Memory allocation failed for operation fields.\n" RESET);
+            free(cmd);
             free(operation_description);
             free(machine_id);
-            return;
+            free(new_operation.designation);
+            free(new_operation.id);
+            continue;
         }
 
-        // Send the command to the machine
+        assign_operation_to_machine(&new_operation, machine);
+
+        sleep(2);
+
+        if (format_command("ON", operation_id, cmd) != 1) {
+            printf(RED "\nError: Failed to format the command.\n" RESET);
+            free(cmd);
+            free(operation_description);
+            free(machine_id);
+            free(new_operation.designation);
+            free(new_operation.id);
+            continue;
+        }
+
         send_cmd_to_machine(cmd);
-        machine->state = "ON";
+        machine->state = strdup("ON");
 
         printf(GREEN "\nOperation %d completed for machine %s.\n" RESET, operation_id, machine_id);
 
-        // Ask user if they want to continue
         char continue_response;
         printf(BOLD "\nDo you want to continue to the next operation? (Y/N): " RESET);
-        scanf(" %c", &continue_response); // Adding a space before %c to consume any leftover newline character
+        scanf(" %c", &continue_response);
 
-        // If the user enters 'n' or 'N', exit the loop
         if (continue_response == 'N' || continue_response == 'n') {
             printf(GREEN "\nExiting operation feed.\n" RESET);
-            completed_all_operations = 0; // Mark that not all operations were completed
+            free(cmd);
+            free(operation_description);
+            free(machine_id);
+            free(new_operation.designation);
+            free(new_operation.id);
             break;
         }
 
-        // Free dynamically allocated memory
+        free(cmd);
         free(operation_description);
         free(machine_id);
-        free(cmd); // Free the command memory
+        free(new_operation.designation);
+        free(new_operation.id);
+        
+        last_processed_line = current_line;
     }
 
     fclose(file);
 
-    // Only display the "All operations completed" message if the user didn't exit early
     if (completed_all_operations) {
         printf(GREEN "\nAll operations from the file %s have been processed.\n" RESET, filename);
     }
 }
-
 
 void extract_data_machine(const char *str, buffer_data *data) {
     int temp_value = 0;
@@ -497,7 +574,6 @@ void check_for_alerts(Machine *m) {
     }
 }
 
-
 Instance* wait_for_instructions_from_ui(MachManager *machmanager) {
     Instance *instr = malloc(sizeof(Instance));
     if (!instr) {
@@ -509,8 +585,8 @@ Instance* wait_for_instructions_from_ui(MachManager *machmanager) {
     instr->machine_id = strdup(machine.id); // Duplicate the machine ID string
     instr->state = strdup(machine.state);   // Duplicate the machine state string
     instr->operation_id = machine.assigned_operation.number; // Use the assigned operation number
-    instr->last_temperature = machine.temperature_min; // Initialize last temperature with min value
-    instr->last_humidity = machine.humidity_min; // Initialize last humidity with min value
+    instr->last_temperature = machine.temperature_min; // Initialize last temperature
+    instr->last_humidity = machine.humidity_min; // Initialize last humidity
 
     return instr;
 }
@@ -606,8 +682,6 @@ char* get_cmd_from_internal_data(const char* state, int operation_id) {
     return cmd;
 }
 
-
-
 char* wait_for_data_from_machine(Instance *instr, Machine *machine) {
     char *data = malloc(256 * sizeof(char));
     if (!data) {
@@ -642,11 +716,11 @@ char* wait_for_data_from_machine(Instance *instr, Machine *machine) {
         instr->last_humidity = machine->humidity_max;
     }
 
-    snprintf(data, 256, "TEMP&unit:celsius&value:%d#HUM&unit:percentage&value:%d",
-             instr->last_temperature, instr->last_humidity);
-
+    snprintf(data, 256, "TEMP&unit:celsius&value:%d#HUM&unit:percentage&value:%d", instr->last_temperature, instr->last_humidity);
     return data;
+
 }
+
 
 void calculate_moving_median(Machine *machine) {
     int count = 0;

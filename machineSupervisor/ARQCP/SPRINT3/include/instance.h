@@ -5,8 +5,8 @@ typedef struct {
     char *machine_id;
     char *state;
     int operation_id;
-    int last_temperature; 
-    int last_humidity;    
+    int last_temperature; // Add this line
+    int last_humidity;    // Add this line
 } Instance;
 
 #endif // INSTANCE_H
