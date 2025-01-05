@@ -34,6 +34,14 @@ void send_cmd_to_machine(char *cmd) {
     }
 }
 
+void send_cmd_to_machine_No_UI(char *cmd) {
+    if (!cmd) {
+        return;
+    }
+    // Send the formatted command to the machine using update_machine
+    update_machine(cmd);
+}
+
 Machine* find_machine(MachManager *machmanager, const char* machine_id) {
     trim_trailing_spaces((char*) machine_id);
     // Search the machine by ID
@@ -500,25 +508,30 @@ Instance* wait_for_instructions_from_ui(MachManager *machmanager) {
     instr->machine_id = strdup(machine.id); // Duplicate the machine ID string
     instr->state = strdup(machine.state);   // Duplicate the machine state string
     instr->operation_id = machine.assigned_operation.number; // Use the assigned operation number
+    instr->last_temperature = 0.0; // Initialize last temperature
+    instr->last_humidity = 0; // Initialize last humidity
 
     return instr;
 }
 
 void update_internal_data(Machine *m, buffer_data *new_data) {
+    if (!m->buffer) {
+        m->buffer = malloc(m->buffer_capacity * sizeof(buffer_data));
+        if (!m->buffer) {
+            perror("Error allocating memory for buffer");
+            return;
+        }
+        m->head = m->buffer;
+        m->tail = m->buffer;
+        m->buffer_count = 0;
+    }
+
     // Add the new data to the circular buffer
-    if (m->buffer_count == 0) {
-        // Initialize the buffer
-        m->buffer = new_data;
-        m->head = new_data;
-        m->tail = new_data;
-        m->buffer_count = 1;
-    } else if (m->buffer_count < m->buffer_capacity) {
-        // Add the new data to the buffer
+    if (m->buffer_count < m->buffer_capacity) {
         m->head = (m->head + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->head + 1;
         *m->head = *new_data;
         m->buffer_count++;
     } else {
-        // Buffer is full, overwrite the oldest data
         *m->tail = *new_data;
         m->tail = (m->tail + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->tail + 1;
         m->head = (m->head + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->head + 1;
@@ -526,8 +539,7 @@ void update_internal_data(Machine *m, buffer_data *new_data) {
 
     // Check if the moving median can start being used
     if (m->buffer_count >= m->median_window) {
-        // Initialize the moving median array if not already initialized
-        if (m->moving_median == NULL) {
+        if (!m->moving_median) {
             m->moving_median = malloc(m->median_window * sizeof(buffer_data));
             if (!m->moving_median) {
                 perror("Error allocating memory for moving median");
@@ -537,11 +549,9 @@ void update_internal_data(Machine *m, buffer_data *new_data) {
             m->moving_median_count = 0;
         }
 
-        // Add the new data to the moving median array
         if (m->moving_median_count < m->moving_median_capacity) {
             m->moving_median[m->moving_median_count++] = *new_data;
         } else {
-            // Shift the array to make room for the new data
             memmove(m->moving_median, m->moving_median + 1, (m->moving_median_capacity - 1) * sizeof(buffer_data));
             m->moving_median[m->moving_median_capacity - 1] = *new_data;
         }
@@ -579,15 +589,13 @@ void enqueue_buffer_data(Machine *m, buffer_data *new_data) {
     m->buffer_count = (m->buffer_count < m->buffer_capacity) ? m->buffer_count + 1 : m->buffer_capacity;
 }
 
-void* get_cmd_from_internal_data(const char* state, int operation_id) {
-    // Allocate memory for the command
+char* get_cmd_from_internal_data(const char* state, int operation_id) {
     char* cmd = malloc(256 * sizeof(char));
     if (!cmd) {
         perror("Error allocating memory for command");
         return NULL;
     }
 
-    // Format the command using the provided state and operation ID
     if (format_command((char*)state, operation_id, cmd) != 1) {
         fprintf(stderr, "Error formatting command\n");
         free(cmd);
@@ -598,29 +606,22 @@ void* get_cmd_from_internal_data(const char* state, int operation_id) {
 }
 
 
-#include <stdlib.h>
-#include <time.h>
 
 char* wait_for_data_from_machine(Instance *instr, Machine *machine) {
-    // Allocate memory for the data string
     char *data = malloc(256 * sizeof(char));
     if (!data) {
         perror("Error allocating memory for data");
         return NULL;
     }
 
-    // Simulate reading temperature and humidity values
     srand(time(NULL)); // Seed the random number generator
 
-    // Randomly add or subtract 0.1 to/from the last temperature
     float temp_change = (rand() % 2 == 0) ? 0.1 : -0.1;
     instr->last_temperature += temp_change;
 
-    // Randomly add or subtract 1 to/from the last humidity
     int hum_change = (rand() % 2 == 0) ? 1 : -1;
     instr->last_humidity += hum_change;
 
-    // Format the data string
     snprintf(data, 256, "TEMP&unit:celsius&value:%.1f#HUM&unit:percentage&value:%.1f",
              instr->last_temperature, instr->last_humidity);
 
@@ -697,7 +698,6 @@ void stop_program(MachManager *machmanager) {
 }
 
 void main_loop(MachManager *machmanager) {
-    buffer_data data;
     while (machmanager->running) {
         // Wait for instructions from UI
         Instance *instr = wait_for_instructions_from_ui(machmanager);
@@ -707,6 +707,7 @@ void main_loop(MachManager *machmanager) {
         }
 
         Machine *machine = &machmanager->machines[0]; // Get the machine from the manager
+
         // Update internal data based on instruction
         buffer_data new_data = {0};
         update_internal_data(machine, &new_data);
@@ -715,24 +716,31 @@ void main_loop(MachManager *machmanager) {
         char* cmd = get_cmd_from_internal_data(instr->state, instr->operation_id);
         if (!cmd) {
             perror("Error getting command from internal data");
+            free(instr->machine_id);
+            free(instr->state);
             free(instr);
             continue;
         }
 
         // Send command to machine
-        send_cmd_to_machine(cmd);
+        send_cmd_to_machine_No_UI(cmd);
         free(cmd);
+        sleep(2); // Simulate the time taken to send the command
 
         // Wait for data from machine
-        const char *str = wait_for_data_from_machine(instr, machine);
+        char *str = wait_for_data_from_machine(instr, machine);
         if (!str) {
             perror("Error waiting for data from machine");
+            free(instr->machine_id);
+            free(instr->state);
             free(instr);
             continue;
         }
 
         // Extract data
+        buffer_data data = {0};
         extract_data_machine(str, &data);
+        free(str); // Free the data string
 
         // Update internal data based on extracted data
         update_internal_data_with_new_data(machmanager, &data);
