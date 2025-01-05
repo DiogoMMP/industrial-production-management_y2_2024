@@ -54,11 +54,11 @@ public class WorkstationRepository {
 
             for (Map.Entry<Integer, Workstation> entry : workstationsFiltered.entrySet()) {
                 Workstation workstation = entry.getValue();
-                double minTemp = 15 + (30 - 15) * random.nextDouble();
-                double maxTemp = minTemp + (30 - minTemp) * random.nextDouble();
-                double minHumidity = 0 + (100 - 0) * random.nextDouble();
-                double maxHumidity = minHumidity + (100 - minHumidity) * random.nextDouble();
-                writer.append(String.format(Locale.US, "%s,%s,%.1f,%.1f,%.1f,%.1f\n",
+                int minTemp = 15 + random.nextInt(16); // Generate integer between 15 and 30
+                int maxTemp = minTemp + random.nextInt(31 - minTemp); // Generate integer between minTemp and 30
+                int minHumidity = random.nextInt(101); // Generate integer between 0 and 100
+                int maxHumidity = minHumidity + random.nextInt(101 - minHumidity); // Generate integer between minHumidity and 100
+                writer.append(String.format(Locale.US, "%s,%s,%d,%d,%d,%d\n",
                         workstation.getId(),
                         "M" + workstation.getId(), // Workstation name is not available
                         minTemp,

@@ -7,10 +7,10 @@
 typedef struct {
     char *id;
     char *name;
-    float temperature_min;
-    float temperature_max;
-    float humidity_min;
-    float humidity_max;
+    int temperature_min;
+    int temperature_max;
+    int humidity_min;
+    int humidity_max;
     buffer_data *buffer;                    // Pointer to dynamically allocated circular buffer
     int buffer_size;                        // Circular buffer maximum size
     int buffer_count;                       // Current number of elements in the buffer

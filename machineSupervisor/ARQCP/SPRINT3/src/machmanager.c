@@ -144,7 +144,7 @@ int setup_machines_from_file(const char *filename, MachManager *machmanager) {
         char id_buffer[10], name_buffer[20];
 
         // Parse the machine data
-        if (sscanf(line, "%9[^,],%19[^,],%f,%f,%f,%f",
+        if (sscanf(line, "%9[^,],%19[^,],%d,%d,%d,%d",
                    id_buffer, name_buffer,
                    &new_machine.temperature_min, &new_machine.temperature_max,
                    &new_machine.humidity_min, &new_machine.humidity_max) != 6) {
@@ -478,10 +478,10 @@ void check_for_alerts(Machine *m) {
     // Check the most recent value (head)
     if (m->head) {
         if (m->head->temperature < m->temperature_min || m->head->temperature > m->temperature_max) {
-            printf(RED "\nALERT: Machine %s has a temperature outside the range of values! (%.2f°C)\n" RESET, m->id, m->head->temperature);
+            printf(RED "\nALERT: Machine %s has a temperature outside the range of values! (%d°C)\n It should be between (%d°C - %d°C)\n" RESET, m->id, m->head->temperature, m->temperature_min, m->temperature_max);
         }
         if (m->head->humidity < m->humidity_min || m->head->humidity > m->humidity_max) {
-            printf(RED "\nALERT: Machine %s has a humidity outside the range of values! (%.2f%%)\n" RESET, m->id, m->head->humidity);
+            printf(RED "\nALERT: Machine %s has a humidity outside the range of values! (%d%%)\n It should be between (%d%% - %d%%)\n" RESET, m->id, m->head->humidity, m->humidity_min, m->humidity_max);
         }
     }
 
@@ -489,13 +489,14 @@ void check_for_alerts(Machine *m) {
     if (m->moving_median_count > 0) {
         buffer_data median = m->moving_median[m->moving_median_count - 1];
         if (median.temperature < m->temperature_min || median.temperature > m->temperature_max) {
-            printf(RED "\nALERT: Machine %s has a moving median temperature outside the range of values! (%.2f°C)\n" RESET, m->id, median.temperature);
+            printf(RED "\nALERT: Machine %s has a moving median temperature outside the range of values! (%d°C)\n It should be between (%d°C - %d°C)\n" RESET, m->id, median.temperature, m->temperature_min, m->temperature_max);
         }
         if (median.humidity < m->humidity_min || median.humidity > m->humidity_max) {
-            printf(RED "\nALERT: Machine %s has a moving median humidity outside the range of values! (%.2f%%)\n" RESET, m->id, median.humidity);
+            printf(RED "\nALERT: Machine %s has a moving median humidity outside the range of values! (%d%%)\n It should be between (%d%% - %d%%)\n" RESET, m->id, median.humidity, m->humidity_min, m->humidity_max);
         }
     }
 }
+
 
 Instance* wait_for_instructions_from_ui(MachManager *machmanager) {
     Instance *instr = malloc(sizeof(Instance));
@@ -508,15 +509,15 @@ Instance* wait_for_instructions_from_ui(MachManager *machmanager) {
     instr->machine_id = strdup(machine.id); // Duplicate the machine ID string
     instr->state = strdup(machine.state);   // Duplicate the machine state string
     instr->operation_id = machine.assigned_operation.number; // Use the assigned operation number
-    instr->last_temperature = 0.0; // Initialize last temperature
-    instr->last_humidity = 0; // Initialize last humidity
+    instr->last_temperature = machine.temperature_min; // Initialize last temperature with min value
+    instr->last_humidity = machine.humidity_min; // Initialize last humidity with min value
 
     return instr;
 }
 
 void update_internal_data(Machine *m, buffer_data *new_data) {
     if (!m->buffer) {
-        m->buffer = malloc(m->buffer_capacity * sizeof(buffer_data));
+        m->buffer = malloc(m->buffer_size * sizeof(buffer_data));
         if (!m->buffer) {
             perror("Error allocating memory for buffer");
             return;
@@ -527,14 +528,14 @@ void update_internal_data(Machine *m, buffer_data *new_data) {
     }
 
     // Add the new data to the circular buffer
-    if (m->buffer_count < m->buffer_capacity) {
-        m->head = (m->head + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->head + 1;
+    if (m->buffer_count < m->buffer_size) {
+        m->head = (m->head + 1 == m->buffer + m->buffer_size) ? m->buffer : m->head + 1;
         *m->head = *new_data;
         m->buffer_count++;
     } else {
         *m->tail = *new_data;
-        m->tail = (m->tail + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->tail + 1;
-        m->head = (m->head + 1 == m->buffer + m->buffer_capacity) ? m->buffer : m->head + 1;
+        m->tail = (m->tail + 1 == m->buffer + m->buffer_size) ? m->buffer : m->tail + 1;
+        m->head = (m->head + 1 == m->buffer + m->buffer_size) ? m->buffer : m->head + 1;
     }
 
     // Check if the moving median can start being used
@@ -616,18 +617,36 @@ char* wait_for_data_from_machine(Instance *instr, Machine *machine) {
 
     srand(time(NULL)); // Seed the random number generator
 
-    float temp_change = (rand() % 2 == 0) ? 0.1 : -0.1;
+    // Initialize the temperature and humidity if they are zero
+    if (instr->last_temperature == 0) {
+        instr->last_temperature = machine->temperature_min;
+    }
+    if (instr->last_humidity == 0) {
+        instr->last_humidity = machine->humidity_min;
+    }
+
+    // Generate random changes within the range -1, 0, 1
+    int temp_change = (rand() % 3) - 1; // -1, 0, or 1
     instr->last_temperature += temp_change;
+    if (instr->last_temperature < machine->temperature_min) {
+        instr->last_temperature = machine->temperature_min;
+    } else if (instr->last_temperature > machine->temperature_max) {
+        instr->last_temperature = machine->temperature_max;
+    }
 
-    int hum_change = (rand() % 2 == 0) ? 1 : -1;
+    int hum_change = (rand() % 3) - 1; // -1, 0, or 1
     instr->last_humidity += hum_change;
+    if (instr->last_humidity < machine->humidity_min) {
+        instr->last_humidity = machine->humidity_min;
+    } else if (instr->last_humidity > machine->humidity_max) {
+        instr->last_humidity = machine->humidity_max;
+    }
 
-    snprintf(data, 256, "TEMP&unit:celsius&value:%.1f#HUM&unit:percentage&value:%.1f",
+    snprintf(data, 256, "TEMP&unit:celsius&value:%d#HUM&unit:percentage&value:%d",
              instr->last_temperature, instr->last_humidity);
 
     return data;
 }
-
 
 void calculate_moving_median(Machine *machine) {
     int count = 0;
@@ -755,7 +774,7 @@ void main_loop(MachManager *machmanager) {
     }
 }
 
-void add_machine(MachManager *machManager, const char *id, const char *name, float temp_min, float temp_max, float hum_min, float hum_max) {
+void add_machine(MachManager *machManager, const char *id, const char *name, int temp_min, int temp_max, int hum_min, int hum_max) {
     Machine *machines = machManager->machines;
     int machine_count = machManager->machine_count;
     int machine_capacity = machManager->machine_capacity;
@@ -829,15 +848,15 @@ void remove_machine(MachManager *machManager, const char *id) {
     printf("Machine with id %s not found.\n", id);
 }
 
-void read_status_machine(MachManager *machManager, const char *id) {
-    Machine *machine = find_machine(machManager, id);
+void read_status_machine(MachManager *machmanager, const char *id) {
+    Machine *machine = find_machine(machmanager, id);
     if (machine) {
         printf(BOLD "\nMachine Status:\n" RESET);
         printf("ID: %s\n", machine->id);
         printf("Name: %s\n", machine->name);
         printf("State: %s\n", machine->state);
-        printf("Temperature Range: %.2f - %.2f\n", machine->temperature_min, machine->temperature_max);
-        printf("Humidity Range: %.2f - %.2f\n", machine->humidity_min, machine->humidity_max);
+        printf("Temperature Range: %d - %d\n", machine->temperature_min, machine->temperature_max);
+        printf("Humidity Range: %d - %d\n", machine->humidity_min, machine->humidity_max);
     } else {
         printf(RED "\nMachine not found.\n" RESET);
     }

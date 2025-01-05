@@ -2,8 +2,8 @@
 #define BUFFER_DATA_H
 
 typedef struct buffer_data {
-    float temperature;
-    float humidity;
+    int temperature; 
+    int humidity;    
     struct buffer_data *next; // Add this line if it doesn't exist
 } buffer_data;
 

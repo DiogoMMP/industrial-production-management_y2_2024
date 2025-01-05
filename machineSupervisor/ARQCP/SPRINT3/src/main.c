@@ -102,17 +102,17 @@ int main() {
                 char name[100];
                 scanf("%99s", name);
                 printf("Enter the minimum temperature: ");
-                float temp_min;
-                scanf("%f", &temp_min);
+                int temp_min;
+                scanf("%d", &temp_min);
                 printf("Enter the maximum temperature: ");
-                float temp_max;
-                scanf("%f", &temp_max);
+                int temp_max;
+                scanf("%d", &temp_max);
                 printf("Enter the minimum humidity: ");
-                float hum_min;
-                scanf("%f", &hum_min);
+                int hum_min;
+                scanf("%d", &hum_min);
                 printf("Enter the maximum humidity: ");
-                float hum_max;
-                scanf("%f", &hum_max);
+                int hum_max;
+                scanf("%d", &hum_max);
                 add_machine(machmanager, id, name, temp_min, temp_max, hum_min, hum_max);
                 break;
 
@@ -155,118 +155,118 @@ int main() {
                 feed_system(filename, machmanager);
                 break;
             case 6:
-    while (1) {
-        if (machmanager->machine_count == 0) {
-            printf(RED "\nNo machines available.\n" RESET);
-            break;
-        }
+                while (1) {
+                    if (machmanager->machine_count == 0) {
+                        printf(RED "\nNo machines available.\n" RESET);
+                        break;
+                    }
 
-        printf(BOLD CYAN "\n\n--- Available Machines --------------------------\n\n" RESET);
-        
-        for (int i = 0; i < machmanager->machine_count; i++) {
-            printf("%d - %s\n", i + 1, machmanager->machines[i].id);
-        }
-        
-        printf("0 - Back\n");
-        printf("\nChoose an option: ");
+                    printf(BOLD CYAN "\n\n--- Available Machines --------------------------\n\n" RESET);
+                    
+                    for (int i = 0; i < machmanager->machine_count; i++) {
+                        printf("%d - %s\n", i + 1, machmanager->machines[i].id);
+                    }
+                    
+                    printf("0 - Back\n");
+                    printf("\nChoose an option: ");
 
-        char input[10];
-        int sub_option;
-        if (scanf("%9s", input) != 1 || sscanf(input, "%d", &sub_option) != 1) {
-            printf(RED "\nInvalid input. Please enter a number.\n" RESET);
-            continue;
-        }
+                    char input[10];
+                    int sub_option;
+                    if (scanf("%9s", input) != 1 || sscanf(input, "%d", &sub_option) != 1) {
+                        printf(RED "\nInvalid input. Please enter a number.\n" RESET);
+                        continue;
+                    }
 
-        if (sub_option == 0) {
-            break; // Return to the main menu
-        }
+                    if (sub_option == 0) {
+                        break; // Return to the main menu
+                    }
 
-        // Get the selected machine directly
-        Machine *selected_machine = &machmanager->machines[sub_option - 1];
+                    // Get the selected machine directly
+                    Machine *selected_machine = &machmanager->machines[sub_option - 1];
 
-        // Ask the user for buffer size and median window
-        while (1) {
-            int buffer_size = 0, median_window = 0;
-            
-            // Loop to get a valid buffer size
-            while (1) {
-                printf(BOLD "\nEnter buffer size (or type 'cancel' to go back): " RESET);
-                
-                char buffer_input[10];
-                if (scanf("%9s", buffer_input) != 1) {
-                    printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
-                    continue;
+                    // Ask the user for buffer size and median window
+                    while (1) {
+                        int buffer_size = 0, median_window = 0;
+                        
+                        // Loop to get a valid buffer size
+                        while (1) {
+                            printf(BOLD "\nEnter buffer size (or type 'cancel' to go back): " RESET);
+                            
+                            char buffer_input[10];
+                            if (scanf("%9s", buffer_input) != 1) {
+                                printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
+                                continue;
+                            }
+                            
+                            if (strcmp(buffer_input, "cancel") == 0) {
+                                break; // Exit the function or handle going back
+                            }
+                            
+                            if (sscanf(buffer_input, "%d", &buffer_size) != 1 || buffer_size <= 0) {
+                                printf(RED "\nInvalid buffer size. Please enter a positive number.\n" RESET);
+                                continue;
+                            }
+                            
+                            break; // Valid buffer size
+                        }
+                        
+                        // Loop to get a valid median window size
+                        while (1) {
+                            printf(BOLD "\nEnter median window size (or type 'cancel' to go back): " RESET);
+                            
+                            char window_input[10];
+                            if (scanf("%9s", window_input) != 1) {
+                                printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
+                                continue;
+                            }
+                            
+                            if (strcmp(window_input, "cancel") == 0) {
+                                break; // Go back to asking buffer size
+                            }
+                            
+                            if (sscanf(window_input, "%d", &median_window) != 1 || median_window <= 0 || median_window > buffer_size) {
+                                printf(RED "\nInvalid median window size. Please enter a positive number less than or equal to buffer size.\n" RESET);
+                                continue;
+                            }
+                            
+                            break; // Valid median window size
+                        }
+
+                        if (median_window > 0) {
+                            // Both buffer size and median window are valid
+                            printf(GREEN "\nBuffer size: %d, Median window size: %d\n" RESET, buffer_size, median_window);
+                            
+                        }
+
+                        // Modify the selected machine's buffer size and median window directly
+                        selected_machine->buffer_size = buffer_size;
+                        selected_machine->median_window = median_window;
+
+                        // Allocate buffer for the machine
+                        selected_machine->buffer = malloc(selected_machine->buffer_size * sizeof(buffer_data));
+                        if (!selected_machine->buffer) {
+                            perror(RED "\nError allocating buffer.\n" RESET);
+                            continue;
+                        }
+                        selected_machine->head = selected_machine->buffer;
+                        selected_machine->tail = selected_machine->buffer;
+
+                        // Initialize buffer data to zero
+                        for (int i = 0; i < selected_machine->buffer_size; i++) {
+                            selected_machine->buffer[i].temperature = 0;
+                            selected_machine->buffer[i].humidity = 0;
+                        }
+
+                        // Monitor the selected machine
+                        monitor_machine(selected_machine);
+
+                        // Free the buffer to avoid memory leak after use
+                        free(selected_machine->buffer);
+                        break;
+                    }
+                    break;
                 }
-                
-                if (strcmp(buffer_input, "cancel") == 0) {
-                    break; // Exit the function or handle going back
-                }
-                
-                if (sscanf(buffer_input, "%d", &buffer_size) != 1 || buffer_size <= 0) {
-                    printf(RED "\nInvalid buffer size. Please enter a positive number.\n" RESET);
-                    continue;
-                }
-                
-                break; // Valid buffer size
-            }
-            
-            // Loop to get a valid median window size
-            while (1) {
-                printf(BOLD "\nEnter median window size (or type 'cancel' to go back): " RESET);
-                
-                char window_input[10];
-                if (scanf("%9s", window_input) != 1) {
-                    printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
-                    continue;
-                }
-                
-                if (strcmp(window_input, "cancel") == 0) {
-                    break; // Go back to asking buffer size
-                }
-                
-                if (sscanf(window_input, "%d", &median_window) != 1 || median_window <= 0 || median_window > buffer_size) {
-                    printf(RED "\nInvalid median window size. Please enter a positive number less than or equal to buffer size.\n" RESET);
-                    continue;
-                }
-                
-                break; // Valid median window size
-            }
-
-            if (median_window > 0) {
-                // Both buffer size and median window are valid
-                printf(GREEN "\nBuffer size: %d, Median window size: %d\n" RESET, buffer_size, median_window);
-                
-            }
-
-            // Modify the selected machine's buffer size and median window directly
-            selected_machine->buffer_size = buffer_size;
-            selected_machine->median_window = median_window;
-
-            // Allocate buffer for the machine
-            selected_machine->buffer = malloc(selected_machine->buffer_size * sizeof(buffer_data));
-            if (!selected_machine->buffer) {
-                perror(RED "\nError allocating buffer.\n" RESET);
-                continue;
-            }
-            selected_machine->head = selected_machine->buffer;
-            selected_machine->tail = selected_machine->buffer;
-
-            // Initialize buffer data to zero
-            for (int i = 0; i < selected_machine->buffer_size; i++) {
-                selected_machine->buffer[i].temperature = 0.0;
-                selected_machine->buffer[i].humidity = 0.0;
-            }
-
-            // Monitor the selected machine
-            monitor_machine(selected_machine);
-
-            // Free the buffer to avoid memory leak after use
-            free(selected_machine->buffer);
-            break;
-        }
-        break;
-    }
-    break;
+                break;
             case 0:
                 // Disconnect the serial port
                 disconnect_serial_port();
@@ -347,12 +347,12 @@ void monitor_machine(Machine *m) {
             case 2: {
                 if (m->moving_median_count > 0) {
                     printf(BOLD "\nMachine State:\n" RESET);
-                    printf("Temperature (Moving Median): %.2f\n", m->moving_median[m->moving_median_count - 1].temperature);
-                    printf("Humidity (Moving Median): %.2f\n", m->moving_median[m->moving_median_count - 1].humidity);
+                    printf("Temperature (Moving Median): %d\n", m->moving_median[m->moving_median_count - 1].temperature);
+                    printf("Humidity (Moving Median): %d\n", m->moving_median[m->moving_median_count - 1].humidity);
                 } else if (m->head) {
                     printf(BOLD "\nMachine State:\n" RESET);
-                    printf("Temperature: %.2f\n", m->head->temperature);
-                    printf("Humidity: %.2f\n", m->head->humidity);
+                    printf("Temperature: %d\n", m->head->temperature);
+                    printf("Humidity: %d\n", m->head->humidity);
                 } else {
                     printf(RED "\nNo data available.\n" RESET);
                 }
