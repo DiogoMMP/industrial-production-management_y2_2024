@@ -71,47 +71,36 @@ Machine* find_machine(MachManager *machmanager, const char* machine_id) {
 }
 
 void assign_operation_to_machine(Operation *op, Machine *m) {
-    // Release the currently assigned operation
-    free_operation(&m->assigned_operation);
-
-    // Duplicate the values from `op` to `m->assigned_operation`
-    m->assigned_operation.number = op->number;
-    
-    // Avoiding memory leak for designation and id
-    if (m->assigned_operation.designation) {
-        free(m->assigned_operation.designation);
-    }
-    m->assigned_operation.designation = strdup(op->designation);
-    
-    if (m->assigned_operation.id) {
-        free(m->assigned_operation.id);
-    }
-    m->assigned_operation.id = strdup(op->id);
-    
-    m->assigned_operation.time_duration = op->time_duration;
-    m->assigned_operation.timestamp = op->timestamp;
-
-    // Verify successful allocation
-    if (!m->assigned_operation.designation || !m->assigned_operation.id) {
-        fprintf(stderr, "Error: Memory allocation failed while assigning operation.\n");
-        free_operation(&m->assigned_operation);
-        return; // Abort the assignment
+    // Check if there is enough space in the operation array to store a new one
+    if (m->operation_count >= m->operation_capacity) {
+        // Resize the operation array if necessary
+        m->operation_capacity *= 2;
+        m->operations = realloc(m->operations, m->operation_capacity * sizeof(Operation));
+        if (!m->operations) {
+            fprintf(stderr, "Error: Failed to allocate memory for the operations array.\n");
+            return; // Abort the function if the allocation fails
+        }
     }
 
-    // Update the machine state
+    // Assign the new operation to the operations array
+    m->operations[m->operation_count] = *op;
+    m->operation_count++;
+
+    // Now assign the machine state to ‘OP’
     if (m->state) {
-        free(m->state); // Free previously allocated state string
+        free(m->state); // Release the previously allocated state, if necessary
     }
-
-    m->state = strdup("OP"); // Corrected to use a string literal
+    
+    m->state = strdup("OP"); // Update the state to ‘OP’
     
     if (!m->state) {
-        fprintf(stderr, "Error: Memory allocation failed for machine state.\n");
+        fprintf(stderr, "Error: Failed to allocate memory for the state machine.\n");
+        return; // Abort if state allocation fails
     }
-    
-    free(m->state);
 
+    free(m->state);
 }
+
 
 void free_machine(Machine *m) {
     if (!m) return;
@@ -362,14 +351,19 @@ int find_operation_id_in_all_machines(MachManager *manager, char *operation_desc
         Machine *machine = &manager->machines[j];
 
         for (int i = 0; i < machine->operation_count; i++) {
-            if (machine->operations[i].designation &&
-                strstr(machine->operations[i].designation, operation_description)) {
-                return machine->operations[i].number; // Operation found
+            // Verifique se a operação tem 'designation' e se a alocação foi bem-sucedida
+            if (machine->operations[i].designation) {
+                if (strstr(machine->operations[i].designation, operation_description)) {
+                    return machine->operations[i].number; // Operation found
+                }
+            } else {
+                // Caso 'designation' não esteja alocada corretamente
+                fprintf(stderr, "Warning: Operation designation is NULL in machine %d, operation %d.\n", j, i);
             }
         }
     }
 
-    return -1; //Operation not found
+    return -1; // Operation not found
 }
 
 
@@ -487,8 +481,6 @@ void feed_system(const char* filename, MachManager* manager) {
             free(cmd);
             free(operation_description);
             free(machine_id);
-            free(new_operation.designation);
-            free(new_operation.id);
             continue;
         }
 
@@ -506,16 +498,12 @@ void feed_system(const char* filename, MachManager* manager) {
             free(cmd);
             free(operation_description);
             free(machine_id);
-            free(new_operation.designation);
-            free(new_operation.id);
             break;
         }
 
         free(cmd);
         free(operation_description);
         free(machine_id);
-        free(new_operation.designation);
-        free(new_operation.id);
         
         last_processed_line = current_line;
     }
