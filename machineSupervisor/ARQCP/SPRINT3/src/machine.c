@@ -4,52 +4,39 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <termios.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/ioctl.h> // Include this header for ioctl
 
 #include "utils.h"
+#include "serial_port.h" // Include the new header file
 
 // Function to send the command to the machine
-int update_machine(char* cmd) {
+void update_machine(char* cmd) {
     if (!cmd) {
         printf(RED "\nError: Invalid command.\n" RESET);
-        return -1;
+        return;
     }
 
-    // Variables for the system command and serial port reading
-    char *system_command = (char*)malloc(200 * sizeof(char));
+    // Variables for the reading buffer
     char *read_buffer = (char*)malloc(256 * sizeof(char));
-    int serial_port;
     ssize_t bytes_read;
 
     // Validate memory allocation
-    if (!system_command || !read_buffer) {
+    if (!read_buffer) {
         printf(RED "\nError: Memory allocation failed.\n" RESET);
-        free(system_command);
-        free(read_buffer);
-        return -1;
+        return;
     }
 
-    // Build the system command
-    snprintf(system_command, 200, "echo \"%s\" > /dev/ttyUSB0", cmd);
-
-    // Execute the command using system()
-    int result = system(system_command);
-    if (result == -1) {
-        printf(RED "\nError: Failed to execute the command using system().\n" RESET);
-        free(system_command);
-        free(read_buffer);
-        return -1;
-    }
-
-    // Check if the command contains "OP" (case-sensitive)
-    if (strstr(cmd, "OP") != NULL) {
-        // Open the serial port for reading
-        serial_port = open("/dev/ttyUSB0", O_RDONLY);
+    // Open the serial port for writing if not already open
+    if (serial_port == -1) {
+        serial_port = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_SYNC);
         if (serial_port == -1) {
             perror(RED "\nError: Failed to open the serial port");
             printf(RESET);
-            free(system_command);
             free(read_buffer);
-            return -1;
+            return;
         }
 
         // Configure the serial port
@@ -57,9 +44,8 @@ int update_machine(char* cmd) {
         if (tcgetattr(serial_port, &tty) != 0) {
             perror(RED "\nError: Failed to get serial port attributes." RESET);
             close(serial_port);
-            free(system_command);
             free(read_buffer);
-            return -1;
+            return;
         }
 
         // Set the serial port configuration (9600 baud, 8 data bits, no parity, 1 stop bit)
@@ -76,19 +62,28 @@ int update_machine(char* cmd) {
         if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
             perror(RED "\nError: Failed to apply serial port settings.\n" RESET);
             close(serial_port);
-            free(system_command);
             free(read_buffer);
-            return -1;
+            return;
         }
+    }
 
+    // Write the command to the serial port
+    if (write(serial_port, cmd, strlen(cmd)) == -1) {
+        perror(RED "\nError: Failed to write to the serial port.\n" RESET);
+        close(serial_port);
+        free(read_buffer);
+        return;
+    }
+
+    // Check if the command contains "OP" (case-sensitive)
+    if (strstr(cmd, "OP") != NULL) {
         // Read from the serial port
         bytes_read = read(serial_port, read_buffer, 255);
         if (bytes_read == -1) {
             perror(RED "\nError: Failed to read from the serial port.\n" RESET);
             close(serial_port);
-            free(system_command);
             free(read_buffer);
-            return -1;
+            return;
         }
 
         // Null-terminate the string read from the serial port
@@ -96,16 +91,20 @@ int update_machine(char* cmd) {
 
         // Print the response from the Arduino
         printf(BLUE "\nArduino response: %s\n" RESET, read_buffer);
-
-        // Close the serial port
-        close(serial_port);
     } else {
         printf(RED "\n\nNo serial port interaction required for this command.\n" RESET);
     }
 
-    // Free dynamically allocated memory
-    free(system_command);
-    free(read_buffer);
+    // Flush the serial port
+    if (tcflush(serial_port, TCIOFLUSH) == -1) {
+        perror(RED "\nError: Failed to flush the serial port.\n" RESET);
+    }
 
-    return 0;
+    // Drain the serial port
+    if (tcdrain(serial_port) == -1) {
+        perror(RED "\nError: Failed to drain the serial port.\n" RESET);
+    }
+
+    // Free the read buffer
+    free(read_buffer);
 }

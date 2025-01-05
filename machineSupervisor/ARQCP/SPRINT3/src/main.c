@@ -12,11 +12,15 @@
 #include "machine.h"
 #include "assembly_functions.h"
 #include "utils.h"
+#include "serial_port.h" // Include the new header file
 
 MachManager *machmanager;
 Machine *machines = NULL;           // Pointer to the array of machines
+int serial_port = -1;               // Define the global variable for the serial port
 
 void monitor_machine(Machine *m);
+void disconnect_serial_port();
+void cleanup_and_exit();
 
 int main() {
     // Allocates memory for machmanager
@@ -151,124 +155,143 @@ int main() {
                 feed_system(filename, machmanager);
                 break;
             case 6:
-                while (1) {
-                    if (machmanager->machine_count == 0) {
-                        printf(RED "\nNo machines available.\n" RESET);
-                        break;
-                    }
+    while (1) {
+        if (machmanager->machine_count == 0) {
+            printf(RED "\nNo machines available.\n" RESET);
+            break;
+        }
 
-                    printf(BOLD CYAN "\n\n--- Available Machines --------------------------\n\n" RESET);
-                    
-                    for (int i = 0; i < machmanager->machine_count; i++) {
-                        printf("%d - %s\n", i + 1, machmanager->machines[i].id);
-                    }
-                    
-                    printf("0 - Back\n");
-                    printf("\nChoose an option: ");
+        printf(BOLD CYAN "\n\n--- Available Machines --------------------------\n\n" RESET);
+        
+        for (int i = 0; i < machmanager->machine_count; i++) {
+            printf("%d - %s\n", i + 1, machmanager->machines[i].id);
+        }
+        
+        printf("0 - Back\n");
+        printf("\nChoose an option: ");
 
-                    char input[10];
-                    int sub_option;
-                    if (scanf("%9s", input) != 1 || sscanf(input, "%d", &sub_option) != 1) {
-                        printf(RED "\nInvalid input. Please enter a number.\n" RESET);
-                        continue;
-                    }
+        char input[10];
+        int sub_option;
+        if (scanf("%9s", input) != 1 || sscanf(input, "%d", &sub_option) != 1) {
+            printf(RED "\nInvalid input. Please enter a number.\n" RESET);
+            continue;
+        }
 
-                    if (sub_option == 0) {
-                        break;
-                    }
+        if (sub_option == 0) {
+            break; // Return to the main menu
+        }
 
-                    // Get the selected machine directly
-                    Machine *selected_machine = &machmanager->machines[sub_option - 1];
+        // Get the selected machine directly
+        Machine *selected_machine = &machmanager->machines[sub_option - 1];
 
-                    // Ask the user for buffer size and median window
-                    while (1) {
-                        int buffer_size = 0, median_window = 0;
-                        
-                        // Loop to get a valid buffer size
-                        while (1) {
-                            printf(BOLD "\nEnter buffer size (or type 'cancel' to go back): " RESET);
-                            
-                            char buffer_input[10];
-                            if (scanf("%9s", buffer_input) != 1) {
-                                printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
-                                continue;
-                            }
-                            
-                            if (strcmp(buffer_input, "cancel") == 0) {
-                                break; // Exit the function or handle going back
-                            }
-                            
-                            if (sscanf(buffer_input, "%d", &buffer_size) != 1 || buffer_size <= 0) {
-                                printf(RED "\nInvalid buffer size. Please enter a positive number.\n" RESET);
-                                continue;
-                            }
-                            
-                            break; // Valid buffer size
-                        }
-                        
-                        // Loop to get a valid median window size
-                        while (1) {
-                            printf(BOLD "\nEnter median window size (or type 'cancel' to go back): " RESET);
-                            
-                            char window_input[10];
-                            if (scanf("%9s", window_input) != 1) {
-                                printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
-                                continue;
-                            }
-                            
-                            if (strcmp(window_input, "cancel") == 0) {
-                                break; // Go back to asking buffer size
-                            }
-                            
-                            if (sscanf(window_input, "%d", &median_window) != 1 || median_window <= 0 || median_window > buffer_size) {
-                                printf(RED "\nInvalid median window size. Please enter a positive number less than or equal to buffer size.\n" RESET);
-                                continue;
-                            }
-                            
-                            break; // Valid median window size
-                        }
+        // Ask the user for buffer size and median window
+        while (1) {
+            int buffer_size = 0, median_window = 0;
+            
+            // Loop to get a valid buffer size
+            while (1) {
+                printf(BOLD "\nEnter buffer size (or type 'cancel' to go back): " RESET);
+                
+                char buffer_input[10];
+                if (scanf("%9s", buffer_input) != 1) {
+                    printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
+                    continue;
+                }
+                
+                if (strcmp(buffer_input, "cancel") == 0) {
+                    break; // Exit the function or handle going back
+                }
+                
+                if (sscanf(buffer_input, "%d", &buffer_size) != 1 || buffer_size <= 0) {
+                    printf(RED "\nInvalid buffer size. Please enter a positive number.\n" RESET);
+                    continue;
+                }
+                
+                break; // Valid buffer size
+            }
+            
+            // Loop to get a valid median window size
+            while (1) {
+                printf(BOLD "\nEnter median window size (or type 'cancel' to go back): " RESET);
+                
+                char window_input[10];
+                if (scanf("%9s", window_input) != 1) {
+                    printf(RED "\nInvalid input. Please enter a positive number or 'cancel'.\n" RESET);
+                    continue;
+                }
+                
+                if (strcmp(window_input, "cancel") == 0) {
+                    break; // Go back to asking buffer size
+                }
+                
+                if (sscanf(window_input, "%d", &median_window) != 1 || median_window <= 0 || median_window > buffer_size) {
+                    printf(RED "\nInvalid median window size. Please enter a positive number less than or equal to buffer size.\n" RESET);
+                    continue;
+                }
+                
+                break; // Valid median window size
+            }
 
-                        if (median_window > 0) {
-                            // Both buffer size and median window are valid
-                            printf(GREEN "\nBuffer size: %d, Median window size: %d\n" RESET, buffer_size, median_window);
-                            break;
-                        }
+            if (median_window > 0) {
+                // Both buffer size and median window are valid
+                printf(GREEN "\nBuffer size: %d, Median window size: %d\n" RESET, buffer_size, median_window);
+                
+            }
 
-                        // Modify the selected machine's buffer size and median window directly
-                        selected_machine->buffer_size = buffer_size;
-                        selected_machine->median_window = median_window;
+            // Modify the selected machine's buffer size and median window directly
+            selected_machine->buffer_size = buffer_size;
+            selected_machine->median_window = median_window;
 
-                        // Allocate buffer for the machine
-                        selected_machine->buffer = malloc(selected_machine->buffer_size * sizeof(buffer_data));
-                        if (!selected_machine->buffer) {
-                            perror(RED "\nError allocating buffer.\n" RESET);
-                            continue;
-                        }
-                        selected_machine->head = selected_machine->buffer;
-                        selected_machine->tail = selected_machine->buffer;
+            // Allocate buffer for the machine
+            selected_machine->buffer = malloc(selected_machine->buffer_size * sizeof(buffer_data));
+            if (!selected_machine->buffer) {
+                perror(RED "\nError allocating buffer.\n" RESET);
+                continue;
+            }
+            selected_machine->head = selected_machine->buffer;
+            selected_machine->tail = selected_machine->buffer;
 
-                        // Initialize buffer data to zero
-                        for (int i = 0; i < selected_machine->buffer_size; i++) {
-                            selected_machine->buffer[i].temperature = 0.0;
-                            selected_machine->buffer[i].humidity = 0.0;
-                        }
+            // Initialize buffer data to zero
+            for (int i = 0; i < selected_machine->buffer_size; i++) {
+                selected_machine->buffer[i].temperature = 0.0;
+                selected_machine->buffer[i].humidity = 0.0;
+            }
 
-                        // Monitor the selected machine
-                        monitor_machine(selected_machine);
+            // Monitor the selected machine
+            monitor_machine(selected_machine);
 
-                        // Free the buffer to avoid memory leak after use
-                        free(selected_machine->buffer);
-                        break;
-                    }
-                    break;
+            // Free the buffer to avoid memory leak after use
+            free(selected_machine->buffer);
+            break;
+        }
+        break;
+    }
+    break;
+            case 0:
+                // Disconnect the serial port
+                disconnect_serial_port();
+
+                // Free all dynamically allocated memory for each machine
+                for (int i = 0; i < machmanager->machine_count; i++) {
+                    free_machine(&machmanager->machines[i]);
                 }
 
-            case 0:
-                break;
+                // Free the machines array
+                free(machmanager->machines);
+
+                // Releases memory after use
+                free(machmanager);
+
+                printf(GREEN "\nExiting the program.\n" RESET);
+                cleanup_and_exit();
+                return 0;
             default:
                 printf(RED "\nInvalid option. Please try again.\n" RESET);
         }
     } while (option != 0);
+
+    // Disconnect the serial port
+    disconnect_serial_port();
 
     // Free all dynamically allocated memory for each machine
     for (int i = 0; i < machmanager->machine_count; i++) {
@@ -281,6 +304,7 @@ int main() {
     // Releases memory after use
     free(machmanager);
 
+    cleanup_and_exit();
     return 0;
 }
 
@@ -342,9 +366,22 @@ void monitor_machine(Machine *m) {
             case 0:
                 stop_program(&machmanager);
                 sleep(2);
-                break;
+                return; // Exit the function to stop monitoring
             default:
                 printf(RED "\nInvalid option. Please try again.\n" RESET);
         }
     } while (option != 0);
+}
+
+void disconnect_serial_port() {
+    if (serial_port != -1) {
+        // Reset the serial port variable to disconnect it
+        serial_port = -1;
+        printf(GREEN "\nSerial port disconnected successfully.\n" RESET);
+    }
+}
+
+void cleanup_and_exit() {
+    // Exit the program
+    exit(0);
 }
