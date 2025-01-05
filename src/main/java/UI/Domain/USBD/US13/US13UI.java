@@ -82,6 +82,10 @@ public class US13UI implements Runnable {
                 // Iterate over the result set and format the data
                 while (resultSet.next()) {
                     String data = resultSet.getString("OPERATION_DATA");
+                    if (data == null || data.trim().isEmpty()) {
+                        System.out.println("No data available for this operation.");
+                        continue;
+                    }
                     String[] parts = data.split("\\n");
                     String[] formattedRow = new String[8]; // Adjusted to 8 columns as expected
 
