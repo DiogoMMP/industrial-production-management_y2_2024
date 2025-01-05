@@ -306,6 +306,7 @@ int main() {
 
     cleanup_and_exit();
     return 0;
+    
 }
 
 void monitor_machine(Machine *m) {

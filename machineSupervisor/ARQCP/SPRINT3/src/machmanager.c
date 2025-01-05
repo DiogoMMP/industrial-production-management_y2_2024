@@ -660,7 +660,6 @@ char* get_cmd_from_internal_data(const char* state, int operation_id) {
         perror("Error allocating memory for command");
         return NULL;
     }
-
     if (format_command((char*)state, operation_id, cmd) != 1) {
         fprintf(stderr, "Error formatting command\n");
         free(cmd);
@@ -703,7 +702,7 @@ char* wait_for_data_from_machine(Instance *instr, Machine *machine) {
     } else if (instr->last_humidity > machine->humidity_max) {
         instr->last_humidity = machine->humidity_max;
     }
-
+    
     snprintf(data, 256, "TEMP&unit:celsius&value:%d#HUM&unit:percentage&value:%d", instr->last_temperature, instr->last_humidity);
     return data;
 
@@ -711,47 +710,92 @@ char* wait_for_data_from_machine(Instance *instr, Machine *machine) {
 
 
 void calculate_moving_median(Machine *machine) {
+    if (!machine || !machine->buffer || !machine->moving_median) {
+        fprintf(stderr, "Error: Invalid machine or uninitialized buffer/moving_median.\n");
+        return;
+    }
+
     int count = 0;
     buffer_data *current = machine->tail;
 
     // Collect the most recent values up to the median window size
-    while (count < machine->median_window && current != machine->head) {
+    while (count < machine->median_window && current) {
         machine->moving_median[count++] = *current;
         current = (current + 1 == machine->buffer + machine->buffer_size) ? machine->buffer : current + 1;
-    }
-    machine->moving_median[count++] = *machine->head;
 
-    // Calculate the median for temperature
-    int temperature_values[count];
+        // Break if we loop back to the head
+        if (current == machine->head) break;
+    }
+
+    // Include the head element explicitly
+    if (count < machine->median_window && machine->head) {
+        machine->moving_median[count++] = *machine->head;
+    }
+
+    // Allocate memory for temperature and humidity values
+    int *temperature_values = malloc(count * sizeof(int));
+    int *humidity_values = malloc(count * sizeof(int));
+    if (!temperature_values || !humidity_values) {
+        perror("Error allocating memory for temperature or humidity values");
+        free(temperature_values);
+        free(humidity_values);
+        return;
+    }
+
+    // Extract temperature and humidity values
     for (int i = 0; i < count; i++) {
         temperature_values[i] = machine->moving_median[i].temperature;
-    }
-    int median_temperature;
-    median(temperature_values, count, &median_temperature);
-
-    // Calculate the median for humidity
-    int humidity_values[count];
-    for (int i = 0; i < count; i++) {
         humidity_values[i] = machine->moving_median[i].humidity;
     }
-    int median_humidity;
+
+    // Calculate the median
+    int median_temperature, median_humidity;
+    median(temperature_values, count, &median_temperature);
     median(humidity_values, count, &median_humidity);
 
-    // Update the machine's state with the new median values
+    free(temperature_values);
+    free(humidity_values);
+
+    // Update the machine's state
+    if (machine->state) {
+        free(machine->state);
+    }
+    machine->state = malloc(256 * sizeof(char));
+    if (!machine->state) {
+        fprintf(stderr, "Error: Memory allocation for machine->state failed.\n");
+        return;
+    }
     snprintf(machine->state, 256, "TEMP: %d, HUM: %d", median_temperature, median_humidity);
 }
 
+
 void update_internal_data_with_new_data(MachManager *machmanager, buffer_data *data) {
-    // Get the machine instance from the MachManager
+    // Verifica a validade do MachManager e das máquinas
+    if (!machmanager || !machmanager->machines) {
+        fprintf(stderr, "Error: Invalid MachManager or machines array.\n");
+        return;
+    }
+
+    // Obtém a instância da máquina
     Machine *machine = &machmanager->machines[0];
+    if (!machine || !machine->buffer) {
+        fprintf(stderr, "Error: Invalid machine or uninitialized buffer.\n");
+        return;
+    }
+
+    // Verifica a validade dos dados
+    if (!data) {
+        fprintf(stderr, "Error: Null data provided.\n");
+        return;
+    }
 
     // Update the machine's buffer with the new data
     update_internal_data(machine, data);
 
     // Update the moving median array
-    if (machine->buffer_count >= machine->median_window) {
-        calculate_moving_median(machine);
-    }
+    // if (machine->buffer_count >= machine->median_window) {
+    //    calculate_moving_median(machine);
+    // }
 }
 
 
@@ -780,11 +824,16 @@ void stop_program(MachManager *machmanager) {
 
 void main_loop(MachManager *machmanager) {
     while (machmanager->running) {
+        if (machmanager->running == 0) {
+            printf(RED "\nShutting Down Machine\n" RESET);
+            break;
+        }
         // Wait for instructions from UI
         Instance *instr = wait_for_instructions_from_ui(machmanager);
         if (!instr) {
             perror("Error waiting for instructions from UI");
-            continue;
+            printf(RED "\nShutting Down Machine\n" RESET);
+            break;
         }
 
         Machine *machine = &machmanager->machines[0]; // Get the machine from the manager
@@ -800,7 +849,8 @@ void main_loop(MachManager *machmanager) {
             free(instr->machine_id);
             free(instr->state);
             free(instr);
-            continue;
+            printf(RED "\nShutting Down Machine\n" RESET);
+            break;
         }
 
         // Send command to machine
@@ -815,7 +865,8 @@ void main_loop(MachManager *machmanager) {
             free(instr->machine_id);
             free(instr->state);
             free(instr);
-            continue;
+            printf(RED "\nShutting Down Machine\n" RESET);
+            break;
         }
 
         // Extract data
