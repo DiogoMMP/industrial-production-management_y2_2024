@@ -2,36 +2,16 @@ CREATE OR REPLACE FUNCTION Get_Reserved_Materials
 RETURN SYS_REFCURSOR
 IS
     reserved_materials SYS_REFCURSOR;
-    rs_cursor SYS_REFCURSOR;  -- cursor for iterating over Reserved_Stock
-    part_id Reserved_Stock.Part_ID%TYPE;
-    quantity Reserved_Stock.Quantity%TYPE;
-    unit Reserved_Stock.Unit%TYPE;
-    description Part.Part_Description%TYPE;
-    supplier_details VARCHAR2(4000);  -- string to hold aggregated supplier details
 BEGIN
-    -- Open a cursor for the Reserved_Stock data
-    OPEN rs_cursor FOR
-        SELECT
-            rs.Part_ID,
-            rs.Quantity,
-            rs.Unit,
-            pt.Part_Description
-        FROM
-            Reserved_Stock rs
-        JOIN
-            Part pt ON rs.Part_ID = pt.Part_ID
-        WHERE
-            rs.Part_ID IN (SELECT Part_ID FROM External_Part);
-
-    -- Loop through the cursor to construct the final output
+    -- Open the cursor with aggregated supplier details
     OPEN reserved_materials FOR
         SELECT
             rs.Part_ID,
             rs.Quantity,
             rs.Unit,
             pt.Part_Description,
-            -- Aggregating distinct supplier IDs and names for each part
-            (SELECT DISTINCT s.Supplier_ID || ' - ' || su.Supplier_Name
+            -- Use LISTAGG to aggregate multiple supplier details into one string
+            (SELECT LISTAGG(s.Supplier_ID || ' - ' || su.Supplier_Name, ', ') WITHIN GROUP (ORDER BY s.Supplier_ID)
              FROM Procurement s
              JOIN Supplier su ON s.Supplier_ID = su.Supplier_ID
              WHERE s.Part_ID = rs.Part_ID) AS Supplier_Details
@@ -44,7 +24,6 @@ BEGIN
 
     RETURN reserved_materials;
 END Get_Reserved_Materials;
-
 
 
 DECLARE
